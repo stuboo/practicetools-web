@@ -1,11 +1,14 @@
-import React from 'react'
+import { TherapistType } from './types'
+interface PhysicalTherapyCardProps {
+  therapist: TherapistType
+}
 
-export default function PhysicalTherapyCard() {
+export default function PhysicalTherapyCard({
+  therapist,
+}: PhysicalTherapyCardProps) {
   return (
     <div className="border-2 border-gray-300 rounded-md bg-white p-4 transition-[border] hover:border-gray-600">
-      <h2 className="text-2xl text-gray-900 font-bold">
-        Community Health Network
-      </h2>
+      <h2 className="text-2xl text-gray-900 font-bold">{therapist.name}</h2>
       <div className="flex text-lg">
         <svg
           xmlns="http://www.w3.org/2000/svg"
