@@ -1,37 +1,40 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import PhysicalTherapyCard from './PhysicalTherapyCard'
 import { useQuery, useQueryClient } from 'react-query'
 import PhysicalTherapist from '../../api/physicaltherapist'
+import Loading from './Loading'
+import { useDebounce } from '../../hooks/useDebounce'
+import { TherapistType } from './types'
 
 export default function Home() {
   const [zipCode, setZipCode] = useState('')
-  const [canSearch, setCanSearch] = useState(false)
+  const debouncedValue = useDebounce<string>(zipCode, 1000)
 
-  const queryClient = useQueryClient()
-  const { data: therapists, isLoading } = useQuery(
-    ['therapists', zipCode],
-    () => PhysicalTherapist.searchTherapistsByZipCode(zipCode),
-    {
-      enabled: canSearch,
+  const [isSuccessful, setIsSuccessful] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isTyping, setIsTyping] = useState(false)
+  const [therapists, setTherapists] = useState<TherapistType[]>([])
+
+  useEffect(() => {
+    const search = async () => {
+      setIsLoading(true)
+
+      const data = await PhysicalTherapist.searchTherapistsByZipCode(
+        debouncedValue
+      )
+      setTherapists(data)
+      setIsLoading(false)
+      setIsSuccessful(true)
     }
-  )
 
-  const handleZipCodeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newZipCode = event.target.value
-
-    if (!newZipCode) {
-      // invalidate query
-      setCanSearch(false)
-      queryClient.invalidateQueries(['therapists'])
+    setIsTyping(false)
+    if (debouncedValue.length >= 5) {
+      search()
+    } else {
+      setTherapists([])
+      setIsSuccessful(false)
     }
-
-    // Check if the entered ZIP code is valid
-    if (/^\d{5}$/.test(newZipCode)) {
-      // Perform the search based on the valid ZIP code
-      setZipCode(newZipCode)
-      setCanSearch(true)
-    }
-  }
+  }, [debouncedValue])
 
   return (
     <div className="flex flex-col bg-red">
@@ -40,19 +43,30 @@ export default function Home() {
           type="text"
           placeholder="Enter Zip"
           className="px-8 py-4 text-gray-900 text-2xl font-bold outline-4 transition-[outline] duration-200 outline-gray-600/20 focus:outline focus:rounded-md "
-          onChange={handleZipCodeChange}
+          onChange={(event) => {
+            setIsTyping(true)
+            setZipCode(event.target.value)
+          }}
         />
       </div>
 
-      {isLoading && <p>Searching...</p>}
+      {(isLoading || isTyping) && (
+        <div className="px-10 py-12 grid md:grid-cols-2 gap-4 overflow-auto">
+          {Array.from('00000000').map((_, index) => (
+            <Loading key={index.toString()} />
+          ))}
+        </div>
+      )}
 
-      <div className="px-10 py-12 grid grid-cols-2 gap-4 overflow-auto">
-        {therapists?.map((therapist, index) => (
-          <PhysicalTherapyCard therapist={therapist} key={index.toString()} />
-        ))}
+      <div className="px-10 py-12 grid md:grid-cols-2 gap-4 overflow-auto">
+        {!isLoading &&
+          !isTyping &&
+          therapists?.map((therapist, index) => (
+            <PhysicalTherapyCard therapist={therapist} key={index.toString()} />
+          ))}
       </div>
 
-      {therapists?.length == 0 && (
+      {isSuccessful && therapists?.length == 0 && (
         <div className="flex justify-center items-center h-80">
           <p className="text-2xl">Not Found!</p>
         </div>

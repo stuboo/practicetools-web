@@ -9,14 +9,14 @@ export default function PhysicalTherapyCard({
   return (
     <div className="border-2 border-gray-300 rounded-md bg-white p-4 transition-[border] hover:border-gray-600">
       <h2 className="text-2xl text-gray-900 font-bold">{therapist.name}</h2>
-      <div className="flex text-lg">
+      <div className="flex text-lg items-center gap-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-4 h-4"
         >
           <path
             strokeLinecap="round"
@@ -31,16 +31,18 @@ export default function PhysicalTherapyCard({
         </svg>
 
         <p>
-          3125 S. Scatterfield Road{' '}
-          <span className="text-sm text-gray-500">Anderson, IN</span>{' '}
+          {therapist.address}
+          <span className="text-sm text-gray-500 ml-2">
+            {therapist.city}, {therapist.state}
+          </span>{' '}
         </p>
         <span className="bg-gray-800 text-white rounded-lg px-2 ml-3 text-sm flex justify-center items-center">
-          46013
+          {therapist.zip}
         </span>
       </div>
-      <div className="flex text-sm gap-4 text-gray-600 lowercase">
-        <p>PatientExperience@eCommunity.com</p>
-        <p>317-621-7000</p>
+      <div className="text-sm gap-4 text-gray-600">
+        <p>Email: {therapist.email}</p>
+        <p>Tel: 317-621-7000</p>
       </div>
 
       <div className="flex gap-6 mt-8">
@@ -69,10 +71,9 @@ export default function PhysicalTherapyCard({
             https://www.ecommunity.com/
           </span>
         </a>
-
-        <span>(317) 860-7668</span>
       </div>
-      <p className="italic text-gray-500">Notes: Multiple locations</p>
+      {/* <p className="italic text-gray-500">Fax: {therapist.fax}</p>
+      <p className="italic text-gray-500">Notes: {therapist.notes}</p> */}
     </div>
   )
 }
