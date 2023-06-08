@@ -15,11 +15,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-
-            {/* Route for physical therapists */}
-            <Route path="/physical-therapists" element={<AdminShell />}>
-              <Route index element={<PhysicalTherapistLists />} />
-            </Route>
+          </Route>
+          {/* Route for physical therapists */}
+          <Route path="/physical-therapists" element={<AdminShell />}>
+            <Route index element={<PhysicalTherapistLists />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
