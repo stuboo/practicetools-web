@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react'
 import PhysicalTherapyCard from './PhysicalTherapyCard'
-import { useQuery, useQueryClient } from 'react-query'
-import PhysicalTherapist from '../../api/physicaltherapist'
 import Loading from './Loading'
 import { useDebounce } from '../../hooks/useDebounce'
 import { TherapistType } from './types'
+import PhysicalTherapistAPI from '../../api/physicaltherapist'
 
 export default function Home() {
   const [zipCode, setZipCode] = useState('')
@@ -19,7 +18,7 @@ export default function Home() {
     const search = async () => {
       setIsLoading(true)
 
-      const data = await PhysicalTherapist.searchTherapistsByZipCode(
+      const data = await PhysicalTherapistAPI.searchTherapistsByZipCode(
         debouncedValue
       )
       setTherapists(data)

@@ -3,21 +3,11 @@ import Layout from './layout'
 import Home from './pages/home'
 import NotFound from './pages/not-found'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import PhysicalTherapistLists from './pages/physical-therapists'
+import AdminShell from './admin-shell'
 
 const queryClient = new QueryClient()
 
-// const queryClient = new QueryClient({
-//   defaultOptions: {
-//     queries: {
-//       refetchOnWindowFocus: false,
-//       refetchOnMount: false,
-//       refetchOnReconnect: false,
-//       retry: 3,
-//       staleTime: 5 * 60 * 1000,
-//       refetchInterval: 3 * 60 * 1000,
-//     },
-//   },
-// });
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -25,6 +15,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
+
+            {/* Route for physical therapists */}
+            <Route path="/physical-therapists" element={<AdminShell />}>
+              <Route index element={<PhysicalTherapistLists />} />
+            </Route>
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>
