@@ -38,11 +38,9 @@ export default function AdminShell() {
                     <div className="flex-shrink-0">
                       <Link to={'/'}>
                         {' '}
-                        <img
-                          className="h-8 w-8"
-                          src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                          alt="Your Company"
-                        />
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap text-white dark:text-dark">
+                          Urogy.in
+                        </span>
                       </Link>
                     </div>
                     <div className="hidden md:block">
