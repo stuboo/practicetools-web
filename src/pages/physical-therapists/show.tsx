@@ -1,4 +1,3 @@
-import React from 'react'
 import { TherapistType } from '../home/types'
 
 interface ShowTherapistProps {

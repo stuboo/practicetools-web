@@ -6,6 +6,11 @@ import Button from '../../components/button'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { useState } from 'react'
+import {
+  MdOutlineSave,
+  MdOutlineSaveAlt,
+  MdOutlineUpload,
+} from 'react-icons/md'
 
 interface EditTherapistProps {
   therapist: TherapistType
@@ -57,6 +62,8 @@ export default function Edit({
           }
           isLoading={isLoading}
           disabled={isLoading}
+          colorScheme="green"
+          iconLeft={<MdOutlineUpload size={24} />}
         />
       </div>
 
