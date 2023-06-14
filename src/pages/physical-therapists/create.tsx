@@ -4,21 +4,19 @@ import TextArea from '../../components/textarea'
 import ToggleSwitch from '../../components/toggle-switch'
 import Button from '../../components/button'
 
-interface EditTherapistProps {
+interface CreateTherapistProps {
   therapist: TherapistType
   onCancel: () => void
-  onUpdate: (key: string, value: any) => void
-  onSave: (id: number) => void
+  onSave: (therapist: TherapistType) => void
   isLoading?: boolean
 }
 
-export default function Edit({
+export default function Create({
   therapist,
   onCancel,
-  onUpdate,
   onSave,
   isLoading,
-}: EditTherapistProps) {
+}: CreateTherapistProps) {
   return (
     <div className="absolute inset-0 first-line:bg-red-500 overflow-y-auto bg-white z-10">
       <div className="h-24 bg-gray-200 flex gap-4 items-center justify-between px-8">

@@ -1,24 +1,56 @@
-import { useQuery } from 'react-query'
 import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { Dialog } from '@headlessui/react'
 import { useState } from 'react'
 import { TherapistType } from '../home/types'
 import Edit from './edit'
 import Show from './show'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 export default function PhysicalTherapistLists() {
+  const queryClient = useQueryClient()
   const [isSideBarOpen, setIsSideBarOpen] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [selectedTherapist, setSelectedTherapist] =
     useState<TherapistType | null>(null)
 
-  const { data: therapists } = useQuery('therapists', () =>
+  const { data: therapists } = useQuery(['therapists'], () =>
     PhysicalTherapistAPI.getAll()
+  )
+
+  const updaterMutator = useMutation<
+    TherapistType,
+    unknown,
+    { id: string; therapist: TherapistType }
+  >(({ id, therapist }) => PhysicalTherapistAPI.update(id, therapist), {
+    onSuccess(data, variables, context) {
+      queryClient.invalidateQueries(['therapists'])
+      setSelectedTherapist(data)
+    },
+  })
+
+  const creatorMutator = useMutation<TherapistType, unknown, TherapistType>(
+    (therapist) => PhysicalTherapistAPI.create(therapist),
+    {
+      onSuccess(data, variables, context) {
+        queryClient.invalidateQueries(['therapists'])
+        setSelectedTherapist(data)
+      },
+    }
   )
 
   const handleShowFullDetails = (therapist: TherapistType) => {
     setSelectedTherapist(therapist)
     setIsSideBarOpen(true)
+  }
+
+  const handleUpdateTherapist = (id: number) => {
+    if (!selectedTherapist) return
+
+    updaterMutator.mutate({ id: `${id}`, therapist: selectedTherapist })
+  }
+
+  const handleCreateTherapist = (therapist: TherapistType) => {
+    creatorMutator.mutate(therapist)
   }
 
   return (
@@ -172,6 +204,16 @@ export default function PhysicalTherapistLists() {
                       onCancel={() => {
                         setEditMode(false)
                       }}
+                      onUpdate={(key, value) => {
+                        if (selectedTherapist) {
+                          setSelectedTherapist({
+                            ...selectedTherapist,
+                            [key]: value,
+                          })
+                        }
+                      }}
+                      onSave={handleUpdateTherapist}
+                      isLoading={updaterMutator.isLoading}
                     />
                   )}
 
