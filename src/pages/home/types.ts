@@ -1,5 +1,5 @@
 export type TherapistType = {
-    id: number;
+    id?: number;
     name: string;
     address: string;
     address_two?: string;
