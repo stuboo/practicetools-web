@@ -7,6 +7,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
+import { toast } from 'react-hot-toast'
 
 interface CreateTherapistProps {
   onCancel?: () => void
@@ -71,6 +72,7 @@ export default function Create({ onCancel }: CreateTherapistProps) {
     onSuccess() {
       queryClient.invalidateQueries(['therapists'])
       onCancel && onCancel()
+      toast.success('Data added successfully!')
     },
   })
 

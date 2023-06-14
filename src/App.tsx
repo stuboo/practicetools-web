@@ -5,6 +5,7 @@ import NotFound from './pages/not-found'
 import PhysicalTherapistLists from './pages/physical-therapists'
 import AdminShell from './admin-shell'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { Toaster } from 'react-hot-toast'
 
 const queryClient = new QueryClient()
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
+      <Toaster />
     </QueryClientProvider>
   )
 }

@@ -11,6 +11,7 @@ import {
   MdOutlineSaveAlt,
   MdOutlineUpload,
 } from 'react-icons/md'
+import { toast } from 'react-hot-toast'
 
 interface EditTherapistProps {
   therapist: TherapistType
@@ -35,6 +36,7 @@ export default function Edit({
       queryClient.invalidateQueries(['therapists'])
       setUpdatedTherapist(data)
       onSave(data)
+      toast.success('Physical Therapy Data updated successfully!')
     },
   })
 
