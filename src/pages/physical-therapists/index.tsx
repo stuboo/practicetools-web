@@ -17,17 +17,6 @@ export default function PhysicalTherapistLists() {
     PhysicalTherapistAPI.getAll()
   )
 
-  const updaterMutator = useMutation<
-    TherapistType,
-    unknown,
-    { id: string; therapist: TherapistType }
-  >(({ id, therapist }) => PhysicalTherapistAPI.update(id, therapist), {
-    onSuccess(data, variables, context) {
-      queryClient.invalidateQueries(['therapists'])
-      setSelectedTherapist(data)
-    },
-  })
-
   const creatorMutator = useMutation<TherapistType, unknown, TherapistType>(
     (therapist) => PhysicalTherapistAPI.create(therapist),
     {
@@ -41,16 +30,6 @@ export default function PhysicalTherapistLists() {
   const handleShowFullDetails = (therapist: TherapistType) => {
     setSelectedTherapist(therapist)
     setIsSideBarOpen(true)
-  }
-
-  const handleUpdateTherapist = (id: number) => {
-    if (!selectedTherapist) return
-
-    updaterMutator.mutate({ id: `${id}`, therapist: selectedTherapist })
-  }
-
-  const handleCreateTherapist = (therapist: TherapistType) => {
-    creatorMutator.mutate(therapist)
   }
 
   return (
@@ -204,16 +183,7 @@ export default function PhysicalTherapistLists() {
                       onCancel={() => {
                         setEditMode(false)
                       }}
-                      onUpdate={(key, value) => {
-                        if (selectedTherapist) {
-                          setSelectedTherapist({
-                            ...selectedTherapist,
-                            [key]: value,
-                          })
-                        }
-                      }}
-                      onSave={handleUpdateTherapist}
-                      isLoading={updaterMutator.isLoading}
+                      onSave={(data) => setSelectedTherapist(data)}
                     />
                   )}
 

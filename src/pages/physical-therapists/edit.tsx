@@ -3,22 +3,43 @@ import Input from '../../components/input'
 import TextArea from '../../components/textarea'
 import ToggleSwitch from '../../components/toggle-switch'
 import Button from '../../components/button'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import PhysicalTherapistAPI from '../../api/physicaltherapist'
+import { useState } from 'react'
 
 interface EditTherapistProps {
   therapist: TherapistType
   onCancel: () => void
-  onUpdate: (key: string, value: any) => void
-  onSave: (id: number) => void
-  isLoading?: boolean
+  onSave: (therapist: TherapistType) => void
 }
 
 export default function Edit({
   therapist,
   onCancel,
-  onUpdate,
   onSave,
-  isLoading,
 }: EditTherapistProps) {
+  const [updatedTherapist, setUpdatedTherapist] = useState(therapist)
+
+  const queryClient = useQueryClient()
+  const { isLoading, mutate } = useMutation<
+    TherapistType,
+    unknown,
+    { id: string; therapist: TherapistType }
+  >(({ id, therapist }) => PhysicalTherapistAPI.update(id, therapist), {
+    onSuccess(data) {
+      queryClient.invalidateQueries(['therapists'])
+      setUpdatedTherapist(data)
+      onSave(data)
+    },
+  })
+
+  const handleInputChange = (name: string, value: any) => {
+    setUpdatedTherapist((prevTherapist) => ({
+      ...prevTherapist,
+      [name]: value,
+    }))
+  }
+
   return (
     <div className="absolute inset-0 first-line:bg-red-500 overflow-y-auto bg-white z-10">
       <div className="h-24 bg-gray-200 flex gap-4 items-center justify-between px-8">
@@ -31,7 +52,9 @@ export default function Edit({
         />
         <Button
           title="Save"
-          onClick={() => onSave(therapist.id)}
+          onClick={() =>
+            mutate({ id: `${therapist.id}`, therapist: updatedTherapist })
+          }
           isLoading={isLoading}
           disabled={isLoading}
         />
@@ -44,8 +67,8 @@ export default function Edit({
               <Input
                 label="Name"
                 name="therapy-name"
-                value={therapist.name}
-                onChange={(e) => onUpdate('name', e.target.value)}
+                value={updatedTherapist.name}
+                onChange={(e) => handleInputChange('name', e.target.value)}
               />
             </div>
 
@@ -53,8 +76,8 @@ export default function Edit({
               <Input
                 label="Email"
                 name="therapy-email"
-                value={therapist.email}
-                onChange={(e) => onUpdate('email', e.target.value)}
+                value={updatedTherapist.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
               />
             </div>
 
@@ -62,8 +85,8 @@ export default function Edit({
               <Input
                 label="Phone"
                 name="therapy-phone"
-                value={therapist.phone}
-                onChange={(e) => onUpdate('phone', e.target.value)}
+                value={updatedTherapist.phone}
+                onChange={(e) => handleInputChange('phone', e.target.value)}
               />
             </div>
 
@@ -71,8 +94,8 @@ export default function Edit({
               <Input
                 label="Address"
                 name="therapy-address"
-                value={therapist.address}
-                onChange={(e) => onUpdate('address', e.target.value)}
+                value={updatedTherapist.address}
+                onChange={(e) => handleInputChange('address', e.target.value)}
               />
             </div>
 
@@ -80,8 +103,10 @@ export default function Edit({
               <Input
                 label="Address 2"
                 name="therapy-address-two"
-                value={therapist.address_two}
-                onChange={(e) => onUpdate('address_two', e.target.value)}
+                value={updatedTherapist.address_two}
+                onChange={(e) =>
+                  handleInputChange('address_two', e.target.value)
+                }
               />
             </div>
 
@@ -89,8 +114,8 @@ export default function Edit({
               <Input
                 label="Zip Code"
                 name="therapy-zipcode"
-                value={therapist.zip}
-                onChange={(e) => onUpdate('zip', e.target.value)}
+                value={updatedTherapist.zip}
+                onChange={(e) => handleInputChange('zip', e.target.value)}
               />
             </div>
 
@@ -99,8 +124,8 @@ export default function Edit({
                 label="Website"
                 name="therapy-website"
                 type="url"
-                value={therapist.website}
-                onChange={(e) => onUpdate('website', e.target.value)}
+                value={updatedTherapist.website}
+                onChange={(e) => handleInputChange('website', e.target.value)}
               />
             </div>
 
@@ -108,8 +133,8 @@ export default function Edit({
               <Input
                 label="Fax"
                 name="therapy-fax"
-                value={therapist.fax}
-                onChange={(e) => onUpdate('fax', e.target.value)}
+                value={updatedTherapist.fax}
+                onChange={(e) => handleInputChange('fax', e.target.value)}
               />
             </div>
 
@@ -117,8 +142,10 @@ export default function Edit({
               <ToggleSwitch
                 label="Medicare Status"
                 name="therapy-medicare-status"
-                isChecked={therapist.medicare_status}
-                onChange={(checked) => onUpdate('medicare_status', checked)}
+                isChecked={updatedTherapist.medicare_status}
+                onChange={(checked) =>
+                  handleInputChange('medicare_status', checked)
+                }
               />
             </div>
 
@@ -126,8 +153,10 @@ export default function Edit({
               <ToggleSwitch
                 label="Medicare Status"
                 name="therapy-medicare-status"
-                isChecked={therapist.medicaid_status}
-                onChange={(checked) => onUpdate('medicaid_status', checked)}
+                isChecked={updatedTherapist.medicaid_status}
+                onChange={(checked) =>
+                  handleInputChange('medicaid_status', checked)
+                }
               />
             </div>
 
@@ -135,8 +164,8 @@ export default function Edit({
               <ToggleSwitch
                 label="Cash Only"
                 name="therapy-cash-only"
-                isChecked={therapist.cash_only}
-                onChange={(checked) => onUpdate('cash_only', checked)}
+                isChecked={updatedTherapist.cash_only}
+                onChange={(checked) => handleInputChange('cash_only', checked)}
               />
             </div>
 
@@ -144,10 +173,10 @@ export default function Edit({
               <Input
                 label="Referral From URL"
                 name="therapy-referral-url"
-                value={therapist.referral_form_url}
+                value={updatedTherapist.referral_form_url}
                 type="url"
                 onChange={(e) =>
-                  onUpdate('expectations_letter_url', e.target.value)
+                  handleInputChange('expectations_letter_url', e.target.value)
                 }
               />
             </div>
@@ -156,10 +185,10 @@ export default function Edit({
               <Input
                 label="Expection Letter URL"
                 name="therapy-expectation-url"
-                value={therapist.expectations_letter_url}
+                value={updatedTherapist.expectations_letter_url}
                 type="url"
                 onChange={(e) =>
-                  onUpdate('expectations_letter_url', e.target.value)
+                  handleInputChange('expectations_letter_url', e.target.value)
                 }
               />
             </div>
@@ -168,8 +197,8 @@ export default function Edit({
               <TextArea
                 label="Notes"
                 name="therapy-notes"
-                value={therapist.notes}
-                onChange={(e) => onUpdate('notes', e.target.value)}
+                value={updatedTherapist.notes}
+                onChange={(e) => handleInputChange('notes', e.target.value)}
               />
             </div>
           </div>
