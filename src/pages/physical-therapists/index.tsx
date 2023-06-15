@@ -4,14 +4,13 @@ import { useState } from 'react'
 import { TherapistType } from '../home/types'
 import Edit from './edit'
 import Show from './show'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import Button from '../../components/button'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Create from './create'
-import { MdOutlineAdb, MdOutlineAdd, MdSearch } from 'react-icons/md'
+import { MdOutlineAdd, MdSearch } from 'react-icons/md'
 
 export default function PhysicalTherapistLists() {
-  const queryClient = useQueryClient()
   const [isSideBarOpen, setIsSideBarOpen] = useState(false)
   const [createTherapySideBar, setCreateTherapySideBar] = useState(true)
   const [editMode, setEditMode] = useState(false)
@@ -20,16 +19,6 @@ export default function PhysicalTherapistLists() {
 
   const { data: therapists } = useQuery(['therapists'], () =>
     PhysicalTherapistAPI.getAll()
-  )
-
-  const creatorMutator = useMutation<TherapistType, unknown, TherapistType>(
-    (therapist) => PhysicalTherapistAPI.create(therapist),
-    {
-      onSuccess(data, variables, context) {
-        queryClient.invalidateQueries(['therapists'])
-        setSelectedTherapist(data)
-      },
-    }
   )
 
   const handleShowFullDetails = (therapist: TherapistType) => {

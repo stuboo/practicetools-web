@@ -6,11 +6,7 @@ import Button from '../../components/button'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { useState } from 'react'
-import {
-  MdOutlineSave,
-  MdOutlineSaveAlt,
-  MdOutlineUpload,
-} from 'react-icons/md'
+import { MdOutlineUpload } from 'react-icons/md';
 import { toast } from 'react-hot-toast'
 
 interface EditTherapistProps {
