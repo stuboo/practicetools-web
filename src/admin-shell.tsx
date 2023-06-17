@@ -39,7 +39,7 @@ export default function AdminShell() {
                       <Link to={'/'}>
                         {' '}
                         <span className="self-center text-2xl font-semibold whitespace-nowrap text-white dark:text-dark">
-                          Urogy.in
+                          urogy.in
                         </span>
                       </Link>
                     </div>
