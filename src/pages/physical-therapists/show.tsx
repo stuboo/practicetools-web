@@ -1,10 +1,19 @@
+import { MdOutlineContentCopy } from 'react-icons/md'
 import { TherapistType } from '../home/types'
+import { useCopyToClipboard } from '../../hooks/useCopyToClipboard'
+import { toast } from 'react-hot-toast'
 
 interface ShowTherapistProps {
   therapist: TherapistType
 }
 
 export default function Show({ therapist }: ShowTherapistProps) {
+  const [_, copy] = useCopyToClipboard()
+  const handleCopy = async (text: string) => {
+    await copy(text)
+    toast('Text Copied')
+  }
+
   return (
     <div className="mt-6 px-6 border-t border-gray-100">
       <dl className="divide-y divide-gray-100">
@@ -94,16 +103,32 @@ export default function Show({ therapist }: ShowTherapistProps) {
           <dt className="text-sm font-medium leading-6 text-gray-900">
             Referral From URL
           </dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            {therapist?.referral_form_url}
+          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center">
+            {therapist?.referral_form_url}{' '}
+            {therapist.referral_form_url && (
+              <button
+                onClick={() => handleCopy(therapist.referral_form_url ?? '')}
+              >
+                <MdOutlineContentCopy size={24} />
+              </button>
+            )}
           </dd>
         </div>
         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
           <dt className="text-sm font-medium leading-6 text-gray-900">
             Expectation Letter URL
           </dt>
-          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-            {therapist?.expectations_letter_url}
+          <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0 flex items-center">
+            {therapist?.expectations_letter_url}{' '}
+            {therapist?.expectations_letter_url && (
+              <button
+                onClick={() =>
+                  handleCopy(therapist.expectations_letter_url ?? '')
+                }
+              >
+                <MdOutlineContentCopy size={24} />
+              </button>
+            )}
           </dd>
         </div>
         <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
