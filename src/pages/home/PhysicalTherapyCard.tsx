@@ -1,3 +1,5 @@
+import { MdOutlineDownload } from 'react-icons/md'
+import Button from '../../components/button'
 import { TherapistType } from './types'
 interface PhysicalTherapyCardProps {
   therapist: TherapistType
@@ -31,6 +33,7 @@ export default function PhysicalTherapyCard({
         </svg>
 
         <p>
+          {/* TODO: clickable and open to google map address in another tab */}
           {therapist.address}
           <span className="text-sm text-gray-500 ml-2">
             {therapist.city}, {therapist.state}
@@ -39,13 +42,10 @@ export default function PhysicalTherapyCard({
         <span className="bg-gray-800 text-white rounded-lg px-2 ml-3 text-sm flex justify-center items-center">
           {therapist.zip}
         </span>
+        {/* Add another badge that show distance e.g 2.4 miles */}
       </div>
       <div className="text-sm gap-4 text-gray-600">
         <p>Email: {therapist.email}</p>
-        <p>Tel: 317-621-7000</p>
-      </div>
-
-      <div className="flex gap-6 mt-8">
         <a
           href="https://www.ecommunity.com/"
           target="_blank"
@@ -71,6 +71,16 @@ export default function PhysicalTherapyCard({
             https://www.ecommunity.com/
           </span>
         </a>
+        <p>Tel: {therapist.phone}</p>
+        <p>Fax: {therapist.fax}</p>
+      </div>
+
+      <div className="flex gap-6 mt-8">
+        {/* Button to download referral form */}
+        <Button
+          iconLeft={<MdOutlineDownload size={24} />}
+          title="Referral Form"
+        />
       </div>
       {/* <p className="italic text-gray-500">Fax: {therapist.fax}</p>
       <p className="italic text-gray-500">Notes: {therapist.notes}</p> */}
