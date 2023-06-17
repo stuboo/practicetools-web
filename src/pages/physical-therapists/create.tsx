@@ -1,4 +1,4 @@
-import { TherapistType } from '../home/types'
+import { CreateTherapistType, TherapistType } from '../home/types'
 import Input from '../../components/input'
 import TextArea from '../../components/textarea'
 import ToggleSwitch from '../../components/toggle-switch'
@@ -6,14 +6,14 @@ import Button from '../../components/button'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { Formik } from 'formik'
-import * as Yup from 'yup'
 import { toast } from 'react-hot-toast'
+import { CreateValidationSchema } from './validation-schema'
 
 interface CreateTherapistProps {
   onCancel?: () => void
 }
 
-const defaultTherapyData: TherapistType = {
+const defaultTherapyData: CreateTherapistType = {
   name: '',
   address: '',
   address_two: '',
@@ -28,46 +28,16 @@ const defaultTherapyData: TherapistType = {
   medicare_status: false,
   medicaid_status: false,
   cash_only: false,
-  referral_form_url: '',
-  expectations_letter_url: '',
 }
 
-const phoneRegExp =
-  /^(?:\+?1[-.\s]?)?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/
-const faxRegExp = /^(?:\+?1[-.\s]?)?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})$/
-const zipCodeRegExp = /(^\d{5}$)|(^\d{5}-\d{4}$)/
-
-const validationSchema = Yup.object().shape({
-  name: Yup.string().required('Name is required'),
-  address: Yup.string().required('Address is required'),
-  address_two: Yup.string(),
-  city: Yup.string().required('City is required'),
-  state: Yup.string().required('State is required'),
-  zip: Yup.string()
-    .matches(zipCodeRegExp, 'Invalid zip code')
-    .required('Zip Code is required'),
-  email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required'),
-  website: Yup.string().url('Invalid website URL'),
-  phone: Yup.string()
-    .matches(phoneRegExp, 'Invalid phone number')
-    .required('Phone is required'),
-  fax: Yup.string().matches(faxRegExp, 'Invalid fax number'),
-  notes: Yup.string(),
-  medicare_status: Yup.boolean(),
-  medicaid_status: Yup.boolean(),
-  cash_only: Yup.boolean(),
-  referral_form_url: Yup.string().url('Invalid referral form URL'),
-  expectations_letter_url: Yup.string().url('Invalid expectations letter URL'),
-})
+const validationSchema = CreateValidationSchema
 
 export default function Create({ onCancel }: CreateTherapistProps) {
   const queryClient = useQueryClient()
   const { isLoading, mutate } = useMutation<
     TherapistType,
     unknown,
-    TherapistType
+    CreateTherapistType
   >((therapist) => PhysicalTherapistAPI.create(therapist), {
     onSuccess() {
       queryClient.invalidateQueries(['therapists'])
@@ -80,6 +50,7 @@ export default function Create({ onCancel }: CreateTherapistProps) {
     <Formik
       initialValues={{ ...defaultTherapyData }}
       onSubmit={(values) => {
+        console.log('something happening here: ', values)
         mutate(values)
       }}
       validationSchema={validationSchema}
@@ -261,31 +232,39 @@ export default function Create({ onCancel }: CreateTherapistProps) {
 
                 <div className="sm:col-span-full">
                   <Input
-                    label="Referral From URL"
-                    name="referral_form_url"
-                    value={values.referral_form_url}
-                    type="url"
-                    onChange={handleChange}
+                    label="Referral From"
+                    name="referral_form"
+                    type="file"
+                    accept="application/pdf"
+                    onChange={(e) => {
+                      const file = e.currentTarget.files?.[0]
+                      if (file) {
+                        setFieldValue('referral_form', file)
+                      }
+                    }}
                     onBlur={handleBlur}
                     error={
-                      touched.referral_form_url
-                        ? errors.referral_form_url
-                        : undefined
+                      touched.referral_form ? errors.referral_form : undefined
                     }
                   />
                 </div>
 
                 <div className="sm:col-span-full">
                   <Input
-                    label="Expection Letter URL"
-                    name="expectations_letter_url"
-                    value={values.expectations_letter_url}
-                    type="url"
-                    onChange={handleChange}
+                    label="Expection Letter"
+                    name="expectations_letter"
+                    type="file"
+                    accept="application/pdf"
+                    onChange={(e) => {
+                      const file = e.currentTarget.files?.[0]
+                      if (file) {
+                        setFieldValue('expectations_letter', file)
+                      }
+                    }}
                     onBlur={handleBlur}
                     error={
-                      touched.expectations_letter_url
-                        ? errors.expectations_letter_url
+                      touched.expectations_letter
+                        ? errors.expectations_letter
                         : undefined
                     }
                   />

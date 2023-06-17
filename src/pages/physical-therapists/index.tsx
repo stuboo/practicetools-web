@@ -8,11 +8,11 @@ import { useQuery } from '@tanstack/react-query'
 import Button from '../../components/button'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Create from './create'
-import { MdOutlineAdd, MdSearch } from 'react-icons/md'
+import { MdOutlineAdd, MdOutlineLink, MdSearch } from 'react-icons/md'
 
 export default function PhysicalTherapistLists() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false)
-  const [createTherapySideBar, setCreateTherapySideBar] = useState(true)
+  const [createTherapySideBar, setCreateTherapySideBar] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [selectedTherapist, setSelectedTherapist] =
     useState<TherapistType | null>(null)
@@ -113,14 +113,26 @@ export default function PhysicalTherapistLists() {
                     scope="row"
                     className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                   >
-                    {therapist.name}
+                    <p>{therapist.name}</p>
+                    <p className="text-gray-500 text-xs">
+                      {therapist.city}, {therapist.state}
+                    </p>
                   </th>
                   <td className="px-6 py-4">{therapist.email}</td>
                   <td className="px-6 py-4">{therapist.address}</td>
                   <td className="px-6 py-4">
-                    <a href={`${therapist.website}`} target="_blank">
-                      {therapist.website?.substring(0, 30)}...
-                    </a>
+                    {therapist.website ? (
+                      <a
+                        href={`${therapist.website}`}
+                        className="flex gap-1 items-center hover:underline"
+                        target="_blank"
+                      >
+                        <MdOutlineLink /> {therapist.website?.substring(0, 30)}
+                        ...
+                      </a>
+                    ) : (
+                      ''
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     <button
@@ -143,7 +155,7 @@ export default function PhysicalTherapistLists() {
           className="relative z-50 h-full"
         >
           <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-          <div className="fixed inset-0 md:left-1/3  bg-white">
+          <div className="fixed inset-0 md:left-2/3  bg-white">
             <Dialog.Panel className={'h-full flex flex-col'}>
               <button
                 className="absolute right-4 top-4 rounded-full p-1 hover:bg-gray-300 z-10 cursor-pointer"
@@ -223,7 +235,7 @@ export default function PhysicalTherapistLists() {
           className="relative z-50 h-full"
         >
           <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-          <div className="fixed inset-0 md:left-1/3  bg-white">
+          <div className="fixed inset-0 md:left-2/3  bg-white">
             <Dialog.Panel className={'h-full flex flex-col'}>
               <button
                 className="absolute right-4 top-4 rounded-full p-1 hover:bg-gray-300 z-10 cursor-pointer"
