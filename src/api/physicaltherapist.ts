@@ -82,11 +82,21 @@ async function create(data: CreateTherapistType): Promise<TherapistType> {
     }
 }
 
+async function deleteData(id: string): Promise<any> {
+    try {
+        const response: AxiosResponse<{ data: TherapistType }> = await apiClient.delete(`/physicaltherapist/${id}`);
+        return response.data;
+    } catch (error) {
+        throw new Error('Failed to delete therapist.');
+    }
+}
+
 const PhysicalTherapistAPI = Object.freeze({
     getAll,
     searchTherapistsByZipCode,
     update,
-    create
+    create,
+    deleteData
 });
 
 export default PhysicalTherapistAPI;

@@ -1,21 +1,35 @@
 import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { Dialog } from '@headlessui/react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { TherapistType } from '../home/types'
 import Edit from './edit'
 import Show from './show'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Button from '../../components/button'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Create from './create'
 import { MdOutlineAdd, MdOutlineLink, MdSearch } from 'react-icons/md'
+import { toast } from 'react-hot-toast'
 
 export default function PhysicalTherapistLists() {
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false)
   const [isSideBarOpen, setIsSideBarOpen] = useState(false)
   const [createTherapySideBar, setCreateTherapySideBar] = useState(false)
   const [editMode, setEditMode] = useState(false)
   const [selectedTherapist, setSelectedTherapist] =
     useState<TherapistType | null>(null)
+  const cancelRef = useRef<HTMLButtonElement>(null)
+
+  const queryClient = useQueryClient()
+  const { isLoading, mutate } = useMutation<TherapistType, unknown, string>(
+    (id) => PhysicalTherapistAPI.deleteData(id),
+    {
+      onSuccess() {
+        queryClient.invalidateQueries(['therapists'])
+        toast.success('Physical Therapy Data deleted successfully!')
+      },
+    }
+  )
 
   const { data: therapists } = useQuery(['therapists'], () =>
     PhysicalTherapistAPI.getAll()
@@ -25,6 +39,18 @@ export default function PhysicalTherapistLists() {
     console.log('selected: ', therapist)
     setSelectedTherapist(therapist)
     setIsSideBarOpen(true)
+  }
+
+  const handleDelete = () => {
+    if (!selectedTherapist) return
+    setShowConfirmDialog(true)
+  }
+
+  const handleConfirmDelete = async () => {
+    if (selectedTherapist) {
+      await mutate(String(selectedTherapist.id))
+      setShowConfirmDialog(false)
+    }
   }
 
   return (
@@ -200,12 +226,14 @@ export default function PhysicalTherapistLists() {
                           onClick={() => setEditMode(true)}
                           iconLeft={<PencilSquareIcon />}
                           colorScheme="blue"
+                          isLoading={isLoading}
                         />
                         <Button
                           title="Delete"
-                          onClick={() => setEditMode(true)}
+                          onClick={handleDelete}
                           iconLeft={<TrashIcon />}
                           colorScheme="red"
+                          isLoading={isLoading}
                         />
                       </div>
                       <Dialog.Title
@@ -259,6 +287,47 @@ export default function PhysicalTherapistLists() {
               </button>
 
               <Create onCancel={() => setCreateTherapySideBar(false)} />
+            </Dialog.Panel>
+          </div>
+        </Dialog>
+
+        {/* Delete Dialog */}
+        <Dialog
+          open={showConfirmDialog}
+          onClose={() => setShowConfirmDialog(false)}
+          className="relative z-50"
+          initialFocus={cancelRef}
+        >
+          {/* The backdrop, rendered as a fixed sibling to the panel container */}
+          <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+
+          <div className="fixed inset-0 flex items-center justify-center p-4">
+            <Dialog.Panel className="w-full max-w-md rounded bg-white p-4">
+              <Dialog.Title
+                as="h3"
+                className="text-lg font-medium leading-6 text-gray-900"
+              >
+                Delete Physical Therapy Data?
+              </Dialog.Title>
+              <div className="mt-2">
+                <p className="text-sm text-gray-500">
+                  Are you sure you want to delete this physical therapy data?
+                  This action cannot be undone.
+                </p>
+              </div>
+
+              <div className="mt-8 flex justify-between">
+                <Button
+                  onClick={() => setShowConfirmDialog(false)}
+                  title="Cancel"
+                  ref={cancelRef}
+                />
+                <Button
+                  onClick={handleConfirmDelete}
+                  title="Continue"
+                  colorScheme="red"
+                />
+              </div>
             </Dialog.Panel>
           </div>
         </Dialog>

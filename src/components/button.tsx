@@ -1,4 +1,5 @@
 import classnames from 'classnames'
+import { forwardRef } from 'react'
 
 interface CustomButtonProps
   extends React.DetailedHTMLProps<
@@ -45,39 +46,55 @@ const generateClassName = (color: ColorScheme) => {
   }
 }
 
-export default function Button({
-  variant = 'solid',
-  iconLeft,
-  title,
-  disabled,
-  isLoading,
-  className,
-  colorScheme = 'indigo',
-  ...props
-}: CustomButtonProps) {
-  const bgClasses = generateClassName(colorScheme)
-  const buttonClasses = classnames('text-sm', 'flex', 'items-center', 'gap-2', {
-    'font-semibold': variant === 'ghost',
-    'leading-6': variant === 'ghost',
-    'text-gray-900': variant === 'ghost',
-    [`rounded-md h-9 px-3 py-2 font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${bgClasses}`]:
-      variant === 'solid',
-    'opacity-50 cursor-not-allowed': disabled,
-  })
+const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
+  (
+    {
+      variant = 'solid',
+      iconLeft,
+      title,
+      disabled,
+      isLoading,
+      className,
+      colorScheme = 'indigo',
+      ...props
+    },
+    ref
+  ) => {
+    const bgClasses = generateClassName(colorScheme)
+    const buttonClasses = classnames(
+      'text-sm',
+      'flex',
+      'items-center',
+      'gap-2',
+      {
+        'font-semibold': variant === 'ghost',
+        'leading-6': variant === 'ghost',
+        'text-gray-900': variant === 'ghost',
+        [`rounded-md h-9 px-3 py-2 font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${bgClasses}`]:
+          variant === 'solid',
+        'opacity-50 cursor-not-allowed': disabled,
+      }
+    )
 
-  return (
-    <button
-      type="submit"
-      className={classnames(buttonClasses, className)}
-      {...props}
-    >
-      {isLoading && <span className="mr-2">Loading...</span>}
-      {iconLeft && (
-        <span className="w-5 h-5 flex justify-center items-center">
-          {iconLeft}
-        </span>
-      )}
-      {title}
-    </button>
-  )
-}
+    return (
+      <button
+        type="submit"
+        ref={ref}
+        className={classnames(buttonClasses, className)}
+        {...props}
+      >
+        {isLoading && <span className="mr-2">Loading...</span>}
+        {iconLeft && (
+          <span className="w-5 h-5 flex justify-center items-center">
+            {iconLeft}
+          </span>
+        )}
+        {title}
+      </button>
+    )
+  }
+)
+
+export default Button
+
+Button.displayName = 'Button'
