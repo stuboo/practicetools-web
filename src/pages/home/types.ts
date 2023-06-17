@@ -22,3 +22,8 @@ export type CreateTherapistType = Omit<TherapistType, 'referral_form_url' & 'exp
     referral_form?: string | Blob;
     expectations_letter?: string | Blob;
 }
+
+export type UpdateTherapistType = Omit<TherapistType, 'referral_form_url' & 'expectations_letter_url'> & {
+    referral_form?: string | Blob;
+    expectations_letter?: string | Blob;
+}

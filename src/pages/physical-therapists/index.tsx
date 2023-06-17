@@ -22,6 +22,7 @@ export default function PhysicalTherapistLists() {
   )
 
   const handleShowFullDetails = (therapist: TherapistType) => {
+    console.log('selected: ', therapist)
     setSelectedTherapist(therapist)
     setIsSideBarOpen(true)
   }
