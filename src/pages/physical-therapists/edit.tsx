@@ -99,7 +99,7 @@ export default function Edit({
                   <Input
                     label="Email"
                     name="email"
-                    value={values.email}
+                    value={values.email ?? ''}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.email ? errors.email : undefined}
@@ -134,7 +134,7 @@ export default function Edit({
                   <Input
                     label="Address 2"
                     name="address_two"
-                    value={values.address_two}
+                    value={values.address_two ?? ''}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.address_two ? errors.address_two : undefined}
@@ -182,7 +182,7 @@ export default function Edit({
                     label="Website"
                     name="website"
                     type="url"
-                    value={values.website}
+                    value={values.website ?? ''}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.website ? errors.website : undefined}
@@ -193,7 +193,7 @@ export default function Edit({
                   <Input
                     label="Fax"
                     name="fax"
-                    value={values.fax}
+                    value={values.fax ?? ''}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.fax ? errors.fax : undefined}
@@ -277,7 +277,7 @@ export default function Edit({
                   <TextArea
                     label="Notes"
                     name="notes"
-                    value={values.notes}
+                    value={values.notes ?? ''}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.notes ? errors.notes : undefined}
