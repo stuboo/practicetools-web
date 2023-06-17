@@ -50,7 +50,7 @@ export const CreateValidationSchema = object().shape({
 export const UpdateValidationSchema = object().shape({
     name: string().required('Name is required'),
     address: string().required('Address is required'),
-    address_two: string(),
+    address_two: string().nullable(),
     city: string().required('City is required'),
     state: string().required('State is required'),
     zip: string()
@@ -58,13 +58,13 @@ export const UpdateValidationSchema = object().shape({
         .required('Zip Code is required'),
     email: string()
         .email('Invalid email address')
-        .required('Email is required'),
-    website: string().url('Invalid website URL'),
+        .required('Email is required').nullable(),
+    website: string().url('Invalid website URL').nullable(),
     phone: string()
         .matches(phoneRegExp, 'Invalid phone number')
         .required('Phone is required'),
-    fax: string().matches(faxRegExp, 'Invalid fax number'),
-    notes: string(),
+    fax: string().matches(faxRegExp, 'Invalid fax number').nullable(),
+    notes: string().nullable(),
     medicare_status: boolean(),
     medicaid_status: boolean(),
     cash_only: boolean(),

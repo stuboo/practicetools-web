@@ -23,6 +23,7 @@ export default function Edit({
   onCancel,
   onSave,
 }: EditTherapistProps) {
+  // TODO: find a way to make null values a string by default or update the validation to allow nnull
   const [updatedTherapist, setUpdatedTherapist] = useState(therapist)
 
   const queryClient = useQueryClient()
