@@ -1,6 +1,6 @@
 import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { Dialog } from '@headlessui/react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { TherapistType } from '../home/types'
 import Edit from './edit'
 import Show from './show'
@@ -19,6 +19,40 @@ export default function PhysicalTherapistLists() {
   const [selectedTherapist, setSelectedTherapist] =
     useState<TherapistType | null>(null)
   const cancelRef = useRef<HTMLButtonElement>(null)
+
+  // Selection Checkbox
+  const mainCheckBoxRef = useRef<HTMLInputElement | null>(null)
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState<number[]>([])
+
+  // Handle topmost checkbox (select all)
+  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked
+
+    if (isChecked && therapists) {
+      if (mainCheckBoxRef.current) mainCheckBoxRef.current.checked = true
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const allItemIds = therapists.map((t) => t.id!)
+      setSelectedCheckboxes(allItemIds)
+    } else {
+      setSelectedCheckboxes([])
+    }
+  }
+
+  const handleSinlgleSelection = (id: number, isChecked: boolean) => {
+    const updatedCheckboxes = isChecked
+      ? [...selectedCheckboxes, id]
+      : selectedCheckboxes.filter((i) => i !== id)
+
+    setSelectedCheckboxes(updatedCheckboxes)
+
+    if (mainCheckBoxRef.current) {
+      mainCheckBoxRef.current.checked =
+        updatedCheckboxes.length === therapists?.length
+      mainCheckBoxRef.current.indeterminate =
+        updatedCheckboxes.length > 0 &&
+        updatedCheckboxes.length < therapists?.length
+    }
+  }
 
   const queryClient = useQueryClient()
   const { isLoading, mutate } = useMutation<TherapistType, unknown, string>(
@@ -88,8 +122,10 @@ export default function PhysicalTherapistLists() {
               <th scope="col" className="p-4">
                 <div className="flex items-center">
                   <input
+                    ref={mainCheckBoxRef}
                     id="checkbox-all-search"
                     type="checkbox"
+                    onChange={handleSelectAll}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label htmlFor="checkbox-all-search" className="sr-only">
@@ -126,6 +162,13 @@ export default function PhysicalTherapistLists() {
                       <input
                         id="checkbox-table-search-1"
                         type="checkbox"
+                        checked={selectedCheckboxes.includes(therapist.id)}
+                        onChange={(event) =>
+                          handleSinlgleSelection(
+                            therapist.id,
+                            event.target.checked
+                          )
+                        }
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label

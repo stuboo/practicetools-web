@@ -1,5 +1,5 @@
 export type TherapistType = {
-    id?: number;
+    id: number;
     name: string;
     address: string;
     address_two?: string;
@@ -19,12 +19,13 @@ export type TherapistType = {
     distance?: string;
 };
 
-export type CreateTherapistType = Omit<TherapistType, 'referral_form_url' & 'expectations_letter_url'> & {
+export type CreateTherapistType = Omit<TherapistType, 'referral_form_url' | 'expectations_letter_url' | 'id'> & {
     referral_form?: string | Blob;
     expectations_letter?: string | Blob;
 }
 
-export type UpdateTherapistType = Omit<TherapistType, 'referral_form_url' & 'expectations_letter_url'> & {
+export type UpdateTherapistType = Omit<TherapistType, 'referral_form_url' | 'expectations_letter_url' | 'id'> & {
+    id?: number;
     referral_form?: string | Blob;
     expectations_letter?: string | Blob;
 }
