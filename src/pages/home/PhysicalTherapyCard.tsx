@@ -42,6 +42,9 @@ export default function PhysicalTherapyCard({
         <span className="bg-gray-800 text-white rounded-lg px-2 ml-3 text-sm flex justify-center items-center">
           {therapist.zip}
         </span>
+        <span className="bg-gray-800 text-white rounded-lg px-2 ml-3 text-sm flex justify-center items-center">
+          {therapist.distance}
+        </span>
         {/* Add another badge that show distance e.g 2.4 miles */}
       </div>
       <div className="text-sm gap-4 text-gray-600">

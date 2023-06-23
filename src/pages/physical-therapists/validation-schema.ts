@@ -16,8 +16,7 @@ export const CreateValidationSchema = object().shape({
         .matches(zipCodeRegExp, 'Invalid zip code')
         .required('Zip Code is required'),
     email: string()
-        .email('Invalid email address')
-        .required('Email is required'),
+        .email('Invalid email address'),
     website: string().url('Invalid website URL'),
     phone: string()
         .matches(phoneRegExp, 'Invalid phone number')
@@ -57,8 +56,7 @@ export const UpdateValidationSchema = object().shape({
         .matches(zipCodeRegExp, 'Invalid zip code')
         .required('Zip Code is required'),
     email: string()
-        .email('Invalid email address')
-        .required('Email is required').nullable(),
+        .email('Invalid email address').nullable(),
     website: string().url('Invalid website URL').nullable(),
     phone: string()
         .matches(phoneRegExp, 'Invalid phone number')

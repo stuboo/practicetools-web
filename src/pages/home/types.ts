@@ -16,6 +16,7 @@ export type TherapistType = {
     cash_only: boolean;
     referral_form_url?: string;
     expectations_letter_url?: string;
+    distance?: string;
 };
 
 export type CreateTherapistType = Omit<TherapistType, 'referral_form_url' & 'expectations_letter_url'> & {
