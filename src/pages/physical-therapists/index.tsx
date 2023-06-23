@@ -50,7 +50,7 @@ export default function PhysicalTherapistLists() {
         updatedCheckboxes.length === therapists?.length
       mainCheckBoxRef.current.indeterminate =
         updatedCheckboxes.length > 0 &&
-        updatedCheckboxes.length < therapists?.length
+        updatedCheckboxes.length < (therapists?.length ?? 0)
     }
   }
 
