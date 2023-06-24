@@ -8,7 +8,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import Button from '../../components/button'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Create from './create'
-import { MdOutlineAdd, MdOutlineLink, MdSearch } from 'react-icons/md'
+import {
+  MdOutlineAdd,
+  MdOutlineDelete,
+  MdOutlineLink,
+  MdSearch,
+} from 'react-icons/md'
 import { toast } from 'react-hot-toast'
 import Checkbox from '../../components/checkbox'
 
@@ -23,7 +28,7 @@ export default function PhysicalTherapistLists() {
 
   // Selection Checkbox
   const mainCheckBoxRef = useRef<HTMLInputElement | null>(null)
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState<number[]>([])
+  const [selectedData, setSelectedData] = useState<number[]>([])
 
   // Handle topmost checkbox (select all)
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,39 +38,60 @@ export default function PhysicalTherapistLists() {
       if (mainCheckBoxRef.current) mainCheckBoxRef.current.checked = true
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       const allItemIds = therapists.map((t) => t.id!)
-      setSelectedCheckboxes(allItemIds)
+      setSelectedData(allItemIds)
     } else {
-      setSelectedCheckboxes([])
+      setSelectedData([])
     }
   }
 
   const handleSinlgleSelection = (id: number, isChecked: boolean) => {
-    const updatedCheckboxes = isChecked
-      ? [...selectedCheckboxes, id]
-      : selectedCheckboxes.filter((i) => i !== id)
+    const updatedSelection = isChecked
+      ? [...selectedData, id]
+      : selectedData.filter((i) => i !== id)
 
-    setSelectedCheckboxes(updatedCheckboxes)
+    setSelectedData(updatedSelection)
 
     if (mainCheckBoxRef.current) {
       console.log(mainCheckBoxRef.current.indeterminate)
       mainCheckBoxRef.current.checked =
-        updatedCheckboxes.length === therapists?.length
+        updatedSelection.length === therapists?.length
       mainCheckBoxRef.current.indeterminate =
-        updatedCheckboxes.length > 0 &&
-        updatedCheckboxes.length < (therapists?.length ?? 0)
+        updatedSelection.length > 0 &&
+        updatedSelection.length < (therapists?.length ?? 0)
     }
   }
 
+  const handleDeleteSelected = () => {
+    deleteMultiple(selectedData)
+  }
+
   const queryClient = useQueryClient()
-  const { isLoading, mutate } = useMutation<TherapistType, unknown, string>(
+  const { isLoading, mutate } = useMutation<unknown, unknown, string>(
     (id) => PhysicalTherapistAPI.deleteData(id),
     {
       onSuccess() {
         queryClient.invalidateQueries(['therapists'])
         toast.success('Physical Therapy Data deleted successfully!')
       },
+      onError() {
+        toast.error('Could not delete the physical therapist data!')
+      },
     }
   )
+  const { isLoading: isDeletingMultiple, mutate: deleteMultiple } = useMutation<
+    unknown,
+    unknown,
+    number[]
+  >((ids) => PhysicalTherapistAPI.deleteMultiple(ids), {
+    onSuccess() {
+      queryClient.invalidateQueries(['therapists'])
+      setSelectedData([])
+      toast.success('Physical Therapy Data deleted successfully!')
+    },
+    onError() {
+      toast.error('Could not delete the selected data!')
+    },
+  })
 
   const { data: therapists } = useQuery(['therapists'], () =>
     PhysicalTherapistAPI.getAll()
@@ -84,10 +110,20 @@ export default function PhysicalTherapistLists() {
 
   const handleConfirmDelete = async () => {
     if (selectedTherapist) {
-      await mutate(String(selectedTherapist.id))
+      await String(selectedTherapist.id)
       setShowConfirmDialog(false)
     }
   }
+  useEffect(() => {
+    if (mainCheckBoxRef.current) {
+      mainCheckBoxRef.current.checked =
+        selectedData.length === therapists?.length && selectedData.length !== 0
+      mainCheckBoxRef.current.indeterminate =
+        selectedData.length > 0 &&
+        selectedData.length < (therapists?.length ?? 0) &&
+        selectedData.length !== 0
+    }
+  })
 
   return (
     <>
@@ -108,6 +144,16 @@ export default function PhysicalTherapistLists() {
                 placeholder="Search for physical therapists"
               />
             </div>
+
+            {selectedData.length > 0 && (
+              <Button
+                title="Delete Selected"
+                colorScheme="red"
+                iconLeft={<MdOutlineDelete size={24} />}
+                onClick={handleDeleteSelected}
+                isLoading={isDeletingMultiple}
+              />
+            )}
 
             <Button
               title="Add New Data"
@@ -161,7 +207,7 @@ export default function PhysicalTherapistLists() {
                     <div className="flex items-center">
                       <Checkbox
                         id={`checkbox-pt-${therapist.id}`}
-                        checked={selectedCheckboxes.includes(therapist.id)}
+                        checked={selectedData.includes(therapist.id)}
                         onChange={(event) =>
                           handleSinlgleSelection(
                             therapist.id,

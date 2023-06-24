@@ -82,12 +82,19 @@ async function create(data: CreateTherapistType): Promise<TherapistType> {
     }
 }
 
-async function deleteData(id: string): Promise<any> {
+async function deleteData(id: string): Promise<unknown> {
     try {
-        const response: AxiosResponse<{ data: TherapistType }> = await apiClient.delete(`/physicaltherapist/${id}`);
-        return response.data;
+        return await apiClient.delete(`/physicaltherapist/${id}`);
     } catch (error) {
         throw new Error('Failed to delete therapist.');
+    }
+}
+
+async function deleteMultiple(idsToBeDeleted: number[]): Promise<unknown> {
+    try {
+        return await apiClient.post(`/physicaltherapist/delete-multiple`, idsToBeDeleted);
+    } catch (error) {
+        throw new Error('Failed to delete therapists.');
     }
 }
 
@@ -96,7 +103,8 @@ const PhysicalTherapistAPI = Object.freeze({
     searchTherapistsByZipCode,
     update,
     create,
-    deleteData
+    deleteData,
+    deleteMultiple
 });
 
 export default PhysicalTherapistAPI;
