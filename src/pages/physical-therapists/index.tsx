@@ -10,6 +10,7 @@ import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Create from './create'
 import { MdOutlineAdd, MdOutlineLink, MdSearch } from 'react-icons/md'
 import { toast } from 'react-hot-toast'
+import Checkbox from '../../components/checkbox'
 
 export default function PhysicalTherapistLists() {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)
@@ -46,6 +47,7 @@ export default function PhysicalTherapistLists() {
     setSelectedCheckboxes(updatedCheckboxes)
 
     if (mainCheckBoxRef.current) {
+      console.log(mainCheckBoxRef.current.indeterminate)
       mainCheckBoxRef.current.checked =
         updatedCheckboxes.length === therapists?.length
       mainCheckBoxRef.current.indeterminate =
@@ -121,15 +123,13 @@ export default function PhysicalTherapistLists() {
             <tr>
               <th scope="col" className="p-4">
                 <div className="flex items-center">
-                  <input
+                  <Checkbox
                     ref={mainCheckBoxRef}
                     id="checkbox-all-search"
-                    type="checkbox"
                     onChange={handleSelectAll}
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                   />
                   <label htmlFor="checkbox-all-search" className="sr-only">
-                    checkbox
+                    select all
                   </label>
                 </div>
               </th>
@@ -159,9 +159,8 @@ export default function PhysicalTherapistLists() {
                 >
                   <td className="w-4 p-4">
                     <div className="flex items-center">
-                      <input
-                        id="checkbox-table-search-1"
-                        type="checkbox"
+                      <Checkbox
+                        id={`checkbox-pt-${therapist.id}`}
                         checked={selectedCheckboxes.includes(therapist.id)}
                         onChange={(event) =>
                           handleSinlgleSelection(
@@ -169,13 +168,12 @@ export default function PhysicalTherapistLists() {
                             event.target.checked
                           )
                         }
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
                       <label
-                        htmlFor="checkbox-table-search-1"
+                        htmlFor={`checkbox-pt-${therapist.id}`}
                         className="sr-only"
                       >
-                        checkbox
+                        select {therapist.name}
                       </label>
                     </div>
                   </td>
