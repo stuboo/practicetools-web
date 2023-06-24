@@ -29,6 +29,7 @@ export default function PhysicalTherapistLists() {
   // Selection Checkbox
   const mainCheckBoxRef = useRef<HTMLInputElement | null>(null)
   const [selectedData, setSelectedData] = useState<number[]>([])
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
   // Handle topmost checkbox (select all)
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -140,6 +141,8 @@ export default function PhysicalTherapistLists() {
               <input
                 type="text"
                 id="table-search"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.currentTarget.value)}
                 className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Search for physical therapists"
               />
@@ -198,67 +201,77 @@ export default function PhysicalTherapistLists() {
           </thead>
           <tbody>
             {therapists &&
-              therapists.map((therapist, index) => (
-                <tr
-                  key={index.toString()}
-                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-                >
-                  <td className="w-4 p-4">
-                    <div className="flex items-center">
-                      <Checkbox
-                        id={`checkbox-pt-${therapist.id}`}
-                        checked={selectedData.includes(therapist.id)}
-                        onChange={(event) =>
-                          handleSinlgleSelection(
-                            therapist.id,
-                            event.target.checked
-                          )
-                        }
-                      />
-                      <label
-                        htmlFor={`checkbox-pt-${therapist.id}`}
-                        className="sr-only"
-                      >
-                        select {therapist.name}
-                      </label>
-                    </div>
-                  </td>
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              therapists.map((therapist, index) => {
+                if (
+                  searchTerm &&
+                  !therapist.name
+                    .toLocaleLowerCase()
+                    .includes(searchTerm.toLocaleLowerCase())
+                )
+                  return null
+                return (
+                  <tr
+                    key={index.toString()}
+                    className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   >
-                    <p>{therapist.name}</p>
-                    <p className="text-gray-500 text-xs">
-                      {therapist.city}, {therapist.state}
-                    </p>
-                  </th>
-                  <td className="px-6 py-4">{therapist.email}</td>
-                  <td className="px-6 py-4">{therapist.address}</td>
-                  <td className="px-6 py-4">
-                    {therapist.website ? (
-                      <a
-                        href={`${therapist.website}`}
-                        className="flex gap-1 items-center hover:underline"
-                        target="_blank"
-                      >
-                        <MdOutlineLink /> {therapist.website?.substring(0, 30)}
-                        ...
-                      </a>
-                    ) : (
-                      ''
-                    )}
-                  </td>
-                  <td className="px-6 py-4">
-                    <button
-                      type="button"
-                      onClick={() => handleShowFullDetails(therapist)}
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                    <td className="w-4 p-4">
+                      <div className="flex items-center">
+                        <Checkbox
+                          id={`checkbox-pt-${therapist.id}`}
+                          checked={selectedData.includes(therapist.id)}
+                          onChange={(event) =>
+                            handleSinlgleSelection(
+                              therapist.id,
+                              event.target.checked
+                            )
+                          }
+                        />
+                        <label
+                          htmlFor={`checkbox-pt-${therapist.id}`}
+                          className="sr-only"
+                        >
+                          select {therapist.name}
+                        </label>
+                      </div>
+                    </td>
+                    <th
+                      scope="row"
+                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                     >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
+                      <p>{therapist.name}</p>
+                      <p className="text-gray-500 text-xs">
+                        {therapist.city}, {therapist.state}
+                      </p>
+                    </th>
+                    <td className="px-6 py-4">{therapist.email}</td>
+                    <td className="px-6 py-4">{therapist.address}</td>
+                    <td className="px-6 py-4">
+                      {therapist.website ? (
+                        <a
+                          href={`${therapist.website}`}
+                          className="flex gap-1 items-center hover:underline"
+                          target="_blank"
+                        >
+                          <MdOutlineLink />{' '}
+                          {therapist.website?.substring(0, 30)}
+                          ...
+                        </a>
+                      ) : (
+                        ''
+                      )}
+                    </td>
+                    <td className="px-6 py-4">
+                      <button
+                        type="button"
+                        onClick={() => handleShowFullDetails(therapist)}
+                        className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+                      >
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                )
+              })}
           </tbody>
         </table>
 
