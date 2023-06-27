@@ -6,6 +6,8 @@ import PhysicalTherapistLists from './pages/physical-therapists'
 import AdminShell from './admin-shell'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
+import SearchTherapists from './pages/search-therapists'
+import CombinePDF from './pages/combine-pdf'
 
 const queryClient = new QueryClient()
 
@@ -16,6 +18,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
+            <Route path="search-therapists" element={<SearchTherapists />} />
+            <Route path="combine-pdfs" element={<CombinePDF />} />
           </Route>
           {/* Route for physical therapists */}
           <Route path="/physical-therapists" element={<AdminShell />}>

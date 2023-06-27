@@ -1,7 +1,7 @@
 import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { Dialog } from '@headlessui/react'
 import { useEffect, useRef, useState } from 'react'
-import { TherapistType } from '../home/types'
+import { TherapistType } from '../search-therapists/types'
 import Edit from './edit'
 import Show from './show'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
