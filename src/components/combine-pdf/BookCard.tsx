@@ -1,4 +1,4 @@
-import { PDF } from '../types'
+import { PDF } from '../../pages/combine-pdf/types'
 
 type CardProps = {
   pdf: PDF

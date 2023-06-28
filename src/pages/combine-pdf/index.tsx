@@ -1,11 +1,10 @@
-import { CombinePDFContextProvider } from './CombinePDFContext'
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import Button from '../../components/button'
 import Container from '../../components/container'
-import ListFiles from './features/ListFiles'
+import ListFiles from './components/ListFiles'
 import { DndProvider } from 'react-dnd'
-import PDFSelections from './features/PDFCombine'
+import PDFSelections from './components/PDFCombine'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 export default function CombinePDF() {
@@ -13,20 +12,18 @@ export default function CombinePDF() {
 
   return (
     <Container className="h-full" bgColor="bg-gray-50">
-      <CombinePDFContextProvider>
-        <div className="md:container mx-auto h-full">
-          <div className="flex justify-between mt-6">
-            <h1 className="text-3xl">Patient Educational Materials</h1>
-            <Button title="About" onClick={() => setIsOpen(true)} />
-          </div>
-
-          <ListFiles />
-
-          <DndProvider backend={HTML5Backend}>
-            <PDFSelections />
-          </DndProvider>
+      <div className="md:container mx-auto h-full">
+        <div className="flex justify-between mt-6">
+          <h1 className="text-3xl">Patient Educational Materials</h1>
+          <Button title="About" onClick={() => setIsOpen(true)} />
         </div>
-      </CombinePDFContextProvider>
+
+        <ListFiles />
+
+        <DndProvider backend={HTML5Backend}>
+          <PDFSelections />
+        </DndProvider>
+      </div>
 
       <Dialog
         open={isOpen}

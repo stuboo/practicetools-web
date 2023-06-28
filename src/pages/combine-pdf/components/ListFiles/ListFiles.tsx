@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import BookCard from '../../components/BookCard'
+import BookCard from '../../../../components/combine-pdf/BookCard'
 import {
   fetchPDFs,
   selectPDF,
@@ -7,7 +7,7 @@ import {
   setSearchTerm,
   unSelectPDF,
 } from './pdfsSlice'
-import Skeleton from '../../components/Skeleton'
+import Skeleton from '../../../../components/combine-pdf/Skeleton'
 import { PDF } from '../../types'
 import Input from '../../../../components/input'
 import {
@@ -16,7 +16,7 @@ import {
   SelectOption,
   SelectTrigger,
 } from '../../../../components/select'
-import { useAppDispatch, useAppSelector } from '../../../../main/hooks'
+import { useAppDispatch, useAppSelector } from '../../../../libs/store'
 
 const DEFAULT_FILTER = 'All'
 

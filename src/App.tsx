@@ -9,7 +9,7 @@ import { Toaster } from 'react-hot-toast'
 import SearchTherapists from './pages/search-therapists'
 import CombinePDF from './pages/combine-pdf'
 import { Provider } from 'react-redux'
-import { store } from './main/store'
+import { store } from './libs/store'
 
 const queryClient = new QueryClient()
 

@@ -6,11 +6,11 @@ import {
 } from '../ListFiles/pdfsSlice'
 import PDFFileItem from './PDFFileItem'
 import { useCopyToClipboard } from '../../../../hooks/useCopyToClipboard'
-import { useAppDispatch, useAppSelector } from '../../../../main/hooks'
 import { PDF } from '../../types'
 import { toast } from 'react-hot-toast'
 import Button from '../../../../components/button'
 import { MdOutlineDownload } from 'react-icons/md'
+import { useAppDispatch, useAppSelector } from '../../../../libs/store'
 
 const PDFSelections = () => {
   const [showSelectedPDFs, setShowSelectedPDFs] = useState<boolean>(false)

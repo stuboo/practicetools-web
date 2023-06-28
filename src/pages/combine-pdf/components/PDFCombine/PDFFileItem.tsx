@@ -4,7 +4,7 @@ import { useDrag, useDrop, XYCoord } from 'react-dnd'
 import { ItemTypes } from './DragItemTypes'
 import type { Identifier } from 'dnd-core'
 import { PDF } from '../../types'
-import { useAppDispatch } from '../../../../main/hooks'
+import { useAppDispatch } from '../../../../libs/store'
 
 interface PDFFileItemProp {
   pdf: PDF

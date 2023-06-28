@@ -1,6 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
-import { PDF } from "./types";
+import { PDF } from "../pages/combine-pdf/types";
 
 function extractFileName(pdfFiles: PDF[]): string {
     let _file_name = "";
