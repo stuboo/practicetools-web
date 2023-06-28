@@ -12,9 +12,9 @@ export default function CombinePDF() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
 
   return (
-    <Container className="" bgColor="bg-gray-100">
+    <Container className="h-full" bgColor="bg-gray-50">
       <CombinePDFContextProvider>
-        <div className="md:container mx-auto">
+        <div className="md:container mx-auto h-full">
           <div className="flex justify-between mt-6">
             <h1 className="text-3xl">Patient Educational Materials</h1>
             <Button title="About" onClick={() => setIsOpen(true)} />

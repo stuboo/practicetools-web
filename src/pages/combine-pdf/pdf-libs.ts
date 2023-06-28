@@ -58,7 +58,7 @@ export default async function mergePDF(pdfFiles: PDF[]) {
             fileName ?? "pdf-lib_modification.pdf"
         );
     } catch (error) {
-        throw error;
-        // console.log(error)
+        // throw error;
+        console.log(error)
     }
 }

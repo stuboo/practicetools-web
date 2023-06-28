@@ -111,7 +111,7 @@ const ListFiles = () => {
         </Select>
       </form>
 
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4 m gap-6">
+      <div className="grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4 m gap-6 pb-10">
         {filteredPDFs.map((pdf: PDF) => (
           <BookCard
             key={pdf.filename}
