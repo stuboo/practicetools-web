@@ -1,5 +1,6 @@
 import classnames from 'classnames'
 import { forwardRef } from 'react'
+import { FaSpinner } from 'react-icons/fa'
 
 interface CustomButtonProps
   extends React.DetailedHTMLProps<
@@ -72,7 +73,7 @@ const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
         'text-gray-900': variant === 'ghost',
         [`rounded-md h-9 px-3 py-2 font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 ${bgClasses}`]:
           variant === 'solid',
-        'opacity-50 cursor-not-allowed': disabled,
+        'opacity-50 cursor-not-allowed': disabled || isLoading,
       }
     )
 
@@ -83,7 +84,7 @@ const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
         className={classnames(buttonClasses, className)}
         {...props}
       >
-        {isLoading && <span className="mr-2">Loading...</span>}
+        {isLoading && <FaSpinner className="animate-spin" />}
         {iconLeft && (
           <span className="w-5 h-5 flex justify-center items-center">
             {iconLeft}
