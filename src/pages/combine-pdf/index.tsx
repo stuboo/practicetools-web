@@ -6,6 +6,7 @@ import ListFiles from './modules/ListFiles'
 import { DndProvider } from 'react-dnd'
 import PDFSelections from './modules/PDFCombine'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { Link } from 'react-router-dom'
 
 export default function CombinePDF() {
   const [isOpen, setIsOpen] = useState<boolean>(false)
@@ -14,7 +15,29 @@ export default function CombinePDF() {
     <Container className="h-full" bgColor="bg-gray-50">
       <div className="md:container mx-auto h-full">
         <div className="flex justify-between items-center mt-6">
-          <h1 className="text-2xl font-light">Patient Educational Materials</h1>
+          {/* Header/Breadcrumb */}
+          <div className="flex items-center gap-4">
+            <Link to={'/'}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="w-6 h-6"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                />
+              </svg>
+            </Link>
+
+            <h1 className="text-2xl font-light">
+              Patient Educational Materials
+            </h1>
+          </div>
           <Button title="About" onClick={() => setIsOpen(true)} />
         </div>
 
