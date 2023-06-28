@@ -13,8 +13,8 @@ export default function CombinePDF() {
   return (
     <Container className="h-full" bgColor="bg-gray-50">
       <div className="md:container mx-auto h-full">
-        <div className="flex justify-between mt-6">
-          <h1 className="text-3xl">Patient Educational Materials</h1>
+        <div className="flex justify-between items-center mt-6">
+          <h1 className="text-2xl font-light">Patient Educational Materials</h1>
           <Button title="About" onClick={() => setIsOpen(true)} />
         </div>
 
