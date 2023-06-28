@@ -67,7 +67,7 @@ export default function PhysicalTherapistLists() {
   }
 
   const queryClient = useQueryClient()
-  const { isLoading, mutate } = useMutation<unknown, unknown, string>(
+  const { isLoading } = useMutation<unknown, unknown, string>(
     (id) => PhysicalTherapistAPI.deleteData(id),
     {
       onSuccess() {

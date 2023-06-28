@@ -121,10 +121,10 @@ export const pdfsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPDFs.pending, (state, { payload }) => {
+      .addCase(fetchPDFs.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchPDFs.rejected, (state, { payload }) => {
+      .addCase(fetchPDFs.rejected, (state) => {
         state.status = "failed";
         state.error = "An error occured!";
       })
@@ -140,13 +140,13 @@ export const pdfsSlice = createSlice({
 
         state.languages = languages;
       })
-      .addCase(combinePDFs.pending, (state, { payload }) => {
+      .addCase(combinePDFs.pending, (state) => {
         state.combinePDFStatus = "loading";
       })
-      .addCase(combinePDFs.rejected, (state, { payload }) => {
+      .addCase(combinePDFs.rejected, (state) => {
         state.combinePDFStatus = "failed";
       })
-      .addCase(combinePDFs.fulfilled, (state, { payload }) => {
+      .addCase(combinePDFs.fulfilled, (state) => {
         state.combinePDFStatus = "succeeded";
       });
   },

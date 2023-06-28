@@ -44,7 +44,7 @@ const PDFFileItem = ({ pdf, movePDF }: PDFFileItemProp) => {
     collect: (monitor) => ({
       handlerId: monitor.getHandlerId(),
     }),
-    hover: (item: DragItem, monitor) => {
+    hover: (item: DragItem) => {
       if (!ref.current) {
         return
       }

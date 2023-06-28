@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
-import { CreateTherapistType, TherapistType, UpdateTherapistType } from "../pages/home/types";
 import apiClient from "./client";
+import { CreateTherapistType, TherapistType, UpdateTherapistType } from "../pages/search-therapists/types";
 
 async function getAll(): Promise<TherapistType[]> {
     try {

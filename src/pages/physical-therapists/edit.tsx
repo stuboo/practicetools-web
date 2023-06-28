@@ -1,4 +1,4 @@
-import { TherapistType, UpdateTherapistType } from '../home/types'
+import { TherapistType, UpdateTherapistType } from '../search-therapists/types'
 import Input from '../../components/input'
 import TextArea from '../../components/textarea'
 import ToggleSwitch from '../../components/toggle-switch'
@@ -30,7 +30,7 @@ export default function Edit({
   const { isLoading, mutate } = useMutation<
     TherapistType,
     unknown,
-    { id: string; therapist: TherapistType }
+    { id: string; therapist: UpdateTherapistType }
   >(({ id, therapist }) => PhysicalTherapistAPI.update(id, therapist), {
     onSuccess(data) {
       queryClient.invalidateQueries(['therapists'])

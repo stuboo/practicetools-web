@@ -1,4 +1,3 @@
-import { CreateTherapistType, TherapistType } from '../home/types'
 import Input from '../../components/input'
 import TextArea from '../../components/textarea'
 import ToggleSwitch from '../../components/toggle-switch'
@@ -8,6 +7,7 @@ import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { Formik } from 'formik'
 import { toast } from 'react-hot-toast'
 import { CreateValidationSchema } from './validation-schema'
+import { CreateTherapistType, TherapistType } from '../search-therapists/types'
 
 interface CreateTherapistProps {
   onCancel?: () => void
@@ -50,7 +50,6 @@ export default function Create({ onCancel }: CreateTherapistProps) {
     <Formik
       initialValues={{ ...defaultTherapyData }}
       onSubmit={(values) => {
-        console.log('something happening here: ', values)
         mutate(values)
       }}
       validationSchema={validationSchema}

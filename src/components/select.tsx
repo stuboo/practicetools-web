@@ -22,7 +22,7 @@ const Select = ({ value, onChange, children, className }: SelectProps) => {
   }
 
   return (
-    <div className="flex relative w-72">
+    <div className={classNames('flex relative w-72', className)}>
       <Listbox value={selectedValue} onChange={handleSelectChange}>
         {children}
       </Listbox>
