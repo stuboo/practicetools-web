@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import pdfsReducer from '../pages/combine-pdf/components/ListFiles/pdfsSlice';
+import pdfsReducer from '../pages/combine-pdf/modules/ListFiles/pdfsSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 
 export const store = configureStore({

@@ -27,12 +27,12 @@ const PDFSelections = () => {
       .then(() => {
         // extract the filenames
         let textToBeCopied = ``
-        pdfFiles.forEach((pdfFile, index) => {
+        pdfFiles.forEach((pdfFile) => {
           textToBeCopied += `${pdfFile.description}\n`
         })
 
         copyTextToClipboard(textToBeCopied).then(() => {
-          toast('Combined file names copied to clipboard!')
+          toast.success('Combined file names copied to clipboard!')
         })
       })
   }

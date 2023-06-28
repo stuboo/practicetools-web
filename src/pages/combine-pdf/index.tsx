@@ -2,9 +2,9 @@ import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 import Button from '../../components/button'
 import Container from '../../components/container'
-import ListFiles from './components/ListFiles'
+import ListFiles from './modules/ListFiles'
 import { DndProvider } from 'react-dnd'
-import PDFSelections from './components/PDFCombine'
+import PDFSelections from './modules/PDFCombine'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 
 export default function CombinePDF() {

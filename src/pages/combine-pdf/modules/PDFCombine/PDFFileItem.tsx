@@ -1,6 +1,6 @@
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { unSelectPDF } from '../ListFiles/pdfsSlice'
-import { useDrag, useDrop, XYCoord } from 'react-dnd'
+import { useDrag, useDrop } from 'react-dnd'
 import { ItemTypes } from './DragItemTypes'
 import type { Identifier } from 'dnd-core'
 import { PDF } from '../../types'
