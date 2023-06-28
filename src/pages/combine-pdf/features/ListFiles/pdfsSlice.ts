@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { PDF } from "../../app/types";
-import mergePDF from "../../common/pdf-lib";
-import books from '../../app/books.json';
+import mergePDF from "../../pdf-libs";
+import books from '../../books.json';
+import { PDF } from "../../types";
 
 interface PDFState {
   pdfs: PDF[];
@@ -52,7 +52,7 @@ export const pdfsSlice = createSlice({
       state.selectedPdfs.push(selectedPDF);
       state.pdfs.map((pdf) => {
         if (pdf.filename === selectedPDF.filename) {
-          let newPDF = pdf;
+          const newPDF = pdf;
           newPDF.selected = true;
           return newPDF;
         }
@@ -66,7 +66,7 @@ export const pdfsSlice = createSlice({
       );
       state.pdfs.map((pdf) => {
         if (pdf.filename === unSelectedPDF.filename) {
-          let newPDF = pdf;
+          const newPDF = pdf;
           newPDF.selected = false;
           return newPDF;
         }
@@ -79,7 +79,7 @@ export const pdfsSlice = createSlice({
 
       state.pdfs.map((pdf) => {
         if (pdf.selected) {
-          let newPDF = pdf;
+          const newPDF = pdf;
           newPDF.selected = false;
           return newPDF;
         }
@@ -102,7 +102,7 @@ export const pdfsSlice = createSlice({
     },
 
     extractLanguages: (state) => {
-      let languages: string[] = [];
+      const languages: string[] = [];
 
       state.pdfs.forEach((pdf) => {
         if (!languages.includes(pdf.language)) languages.push(pdf.language);
@@ -132,7 +132,7 @@ export const pdfsSlice = createSlice({
         state.status = "succeeded";
         state.pdfs = payload;
 
-        let languages: string[] = [];
+        const languages: string[] = [];
 
         payload.forEach((pdf) => {
           if (!languages.includes(pdf.language)) languages.push(pdf.language);

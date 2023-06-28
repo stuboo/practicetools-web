@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import BookCard from '../../components/BookCard'
 import {
   fetchPDFs,
@@ -9,7 +9,6 @@ import {
 } from './pdfsSlice'
 import Skeleton from '../../components/Skeleton'
 import { PDF } from '../../types'
-import { CombinePDFContext } from '../../CombinePDFContext'
 import Input from '../../../../components/input'
 import {
   Select,
@@ -17,21 +16,21 @@ import {
   SelectOption,
   SelectTrigger,
 } from '../../../../components/select'
+import { useAppDispatch, useAppSelector } from '../../../../main/hooks'
 
-const DEFAULT_FILTER = 'any'
+const DEFAULT_FILTER = 'All'
 
 const searchFor = (needle: string, haystack: string) => {
   return haystack.toLowerCase().includes(needle.toLowerCase())
 }
 
 const ListFiles = () => {
-  const {
-    pdfs: pdfFiles,
-    languages,
-    filter,
-    searchterm,
-    status,
-  } = useContext(CombinePDFContext)
+  const pdfFiles = useAppSelector((state) => state.pdfs.pdfs)
+  const languages = useAppSelector((state) => state.pdfs.languages)
+  const filter = useAppSelector((state) => state.pdfs.filter)
+  const searchterm = useAppSelector((state) => state.pdfs.searchterm)
+  const status = useAppSelector((state) => state.pdfs.status)
+  const dispatch = useAppDispatch()
 
   const [filteredPDFs, setFilteredPDFs] = useState<PDF[]>([])
 
@@ -58,51 +57,61 @@ const ListFiles = () => {
     setFilteredPDFs(_filtered)
   }, [filter, pdfFiles, searchterm])
 
-  // useEffect(() => {
-  //   setFilteredPDFs(pdfFiles)
-  //   if (pdfFiles.length === 0) {
-  //     dispatch(fetchPDFs())
-  //   }
-  // }, [dispatch, pdfFiles])
+  useEffect(() => {
+    setFilteredPDFs(pdfFiles)
+    if (pdfFiles.length === 0) {
+      dispatch(fetchPDFs())
+    }
+  }, [dispatch, pdfFiles])
 
   useEffect(() => {
     filterSearch()
   }, [filterSearch])
 
   const onSelected = (pdf: PDF) => {
-    // dispatch(selectPDF(pdf))
+    dispatch(selectPDF(pdf))
   }
 
   const onRemoved = (toBeRemovedPDF: PDF) => {
-    // dispatch(unSelectPDF(toBeRemovedPDF))
+    dispatch(unSelectPDF(toBeRemovedPDF))
   }
 
   if (status === 'loading') return <Skeleton />
   return (
     <>
-      <form className="flex flex-col md:flex-row justify-between items-end mb-3 gap-6">
+      <form className="flex flex-col md:flex-row justify-between items-end mb-3 gap-6 py-6">
         <Input
           // label="Search PDFs"
           type="text"
           placeholder="Enter Search Keyword"
           value={searchterm}
           onChange={(e) => {
-            // dispatch(setSearchTerm(e.target.value))
+            dispatch(setSearchTerm(e.target.value))
           }}
         />
 
-        <Select value={filter} onChange={() => console.log('E choke')}>
+        <Select
+          value={filter}
+          onChange={(value) => {
+            const filter = value as string
+            dispatch(setFilter(filter))
+          }}
+        >
           <SelectTrigger>
             Language: <span className="font-bold">{filter}</span>
           </SelectTrigger>
           <SelectContent>
-            <SelectOption value={'yoruba'}>Yoruba</SelectOption>
-            <SelectOption value={'English'}>English</SelectOption>
+            <SelectOption value={DEFAULT_FILTER}>All</SelectOption>
+            {languages.map((language) => (
+              <SelectOption key={language} value={language}>
+                {language}
+              </SelectOption>
+            ))}
           </SelectContent>
         </Select>
       </form>
 
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4 m gap-5">
+      <div className="grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4 m gap-6">
         {filteredPDFs.map((pdf: PDF) => (
           <BookCard
             key={pdf.filename}

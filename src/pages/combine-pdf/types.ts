@@ -11,7 +11,7 @@ export type PDF = {
     selected?: boolean
 };
 
-export interface PDFState {
+export interface CombinePDFState {
     pdfs: PDF[];
     selectedPdfs: PDF[];
     languages: string[];

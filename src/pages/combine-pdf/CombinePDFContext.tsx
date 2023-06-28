@@ -1,7 +1,7 @@
 import { ReactNode, createContext } from 'react'
-import { PDFState } from './types'
+import { CombinePDFState } from './types'
 
-const initialState: PDFState = {
+const initialState: CombinePDFState = {
   pdfs: [],
   selectedPdfs: [],
   languages: [],
@@ -13,7 +13,7 @@ const initialState: PDFState = {
   combinedPDF: null,
 }
 
-export const CombinePDFContext = createContext<PDFState>(initialState)
+export const CombinePDFContext = createContext<CombinePDFState>(initialState)
 
 interface CombinePDFContextProps {
   children: ReactNode
