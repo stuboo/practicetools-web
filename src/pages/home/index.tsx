@@ -33,7 +33,7 @@ export default function Home() {
         {toolsList.map(({ title, description, href, action, icon }) => (
           <Link key={title} to={href ?? '#'}>
             <div
-              className="flex flex-col gap-4 items-center bg-teal-100 py-8 px-10 w-full rounded-2xl cursor-pointer transition-all duration-500 hover:shadow-xl hover:scale-105"
+              className="flex flex-col gap-4 items-center bg-blue-100 py-8 px-10 w-full rounded-2xl cursor-pointer transition-all duration-500 hover:shadow-xl hover:scale-105"
               onClick={() => {
                 action && action()
               }}
