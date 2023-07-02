@@ -1,11 +1,11 @@
-import PhysicalTherapistAPI from '../../api/physicaltherapist'
+import PhysicalTherapistAPI from '../../../api/physicaltherapist'
 import { Dialog } from '@headlessui/react'
 import { useEffect, useRef, useState } from 'react'
-import { TherapistType } from '../search-therapists/types'
+import { TherapistType } from '../../search-therapists/types'
 import Edit from './edit'
 import Show from './show'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import Button from '../../components/button'
+import Button from '../../../components/button'
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Create from './create'
 import {
@@ -15,7 +15,7 @@ import {
   MdSearch,
 } from 'react-icons/md'
 import { toast } from 'react-hot-toast'
-import Checkbox from '../../components/checkbox'
+import Checkbox from '../../../components/checkbox'
 
 export default function PhysicalTherapistLists() {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false)

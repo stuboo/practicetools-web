@@ -1,5 +1,9 @@
 import { Link } from 'react-router-dom'
-import { AiOutlineFilePdf, AiOutlineSearch } from 'react-icons/ai'
+import {
+  AiOutlineFilePdf,
+  AiOutlineForm,
+  AiOutlineSearch,
+} from 'react-icons/ai'
 
 interface Tools {
   title: string
@@ -23,6 +27,13 @@ const toolsList: Tools[] = [
     icon: <AiOutlineSearch size={58} />,
     href: '/search-therapists',
   },
+
+  {
+    title: 'Consent Form Generator',
+    description: 'Generate consent form dynamically',
+    icon: <AiOutlineForm size={58} />,
+    href: '/consent-form-generator',
+  },
 ]
 
 export default function Home() {
@@ -33,7 +44,7 @@ export default function Home() {
         {toolsList.map(({ title, description, href, action, icon }) => (
           <Link key={title} to={href ?? '#'}>
             <div
-              className="flex flex-col gap-4 items-center bg-blue-100 py-8 px-10 w-full rounded-2xl cursor-pointer transition-all duration-500 hover:shadow-xl hover:scale-105"
+              className="flex flex-col gap-4 items-center bg-blue-100 py-8 px-10 w-full rounded-2xl cursor-pointer transition-all duration-500 hover:shadow-xl hover:scale-105 h-full"
               onClick={() => {
                 action && action()
               }}
@@ -42,7 +53,9 @@ export default function Home() {
               <div>{icon}</div>
 
               {/* Title Section */}
-              <div className="text-xl font-bold">{title}</div>
+              <div className="text-xl font-bold text-center line-clamp-2">
+                {title}
+              </div>
 
               {/* Description Section */}
               <p className="font-light line-clamp-2 text-center">

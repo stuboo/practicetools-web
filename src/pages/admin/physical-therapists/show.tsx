@@ -1,7 +1,7 @@
 import { MdOutlineContentCopy } from 'react-icons/md'
-import { useCopyToClipboard } from '../../hooks/useCopyToClipboard'
+import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard'
 import { toast } from 'react-hot-toast'
-import { TherapistType } from '../search-therapists/types'
+import { TherapistType } from '../../search-therapists/types'
 
 interface ShowTherapistProps {
   therapist: TherapistType

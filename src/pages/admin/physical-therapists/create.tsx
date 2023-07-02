@@ -1,53 +1,59 @@
-import { TherapistType, UpdateTherapistType } from '../search-therapists/types'
-import Input from '../../components/input'
-import TextArea from '../../components/textarea'
-import ToggleSwitch from '../../components/toggle-switch'
-import Button from '../../components/button'
+import Input from '../../../components/input'
+import TextArea from '../../../components/textarea'
+import ToggleSwitch from '../../../components/toggle-switch'
+import Button from '../../../components/button'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import PhysicalTherapistAPI from '../../api/physicaltherapist'
-import { useState } from 'react'
-import { toast } from 'react-hot-toast'
+import PhysicalTherapistAPI from '../../../api/physicaltherapist'
 import { Formik } from 'formik'
-import { UpdateValidationSchema } from './validation-schema'
+import { toast } from 'react-hot-toast'
+import { CreateValidationSchema } from './validation-schema'
+import {
+  CreateTherapistType,
+  TherapistType,
+} from '../../search-therapists/types'
 
-interface EditTherapistProps {
-  therapist: TherapistType
-  onCancel: () => void
-  onSave: (therapist: TherapistType) => void
+interface CreateTherapistProps {
+  onCancel?: () => void
 }
 
-const validationSchema = UpdateValidationSchema
+const defaultTherapyData: CreateTherapistType = {
+  name: '',
+  address: '',
+  address_two: '',
+  city: '',
+  state: '',
+  zip: '',
+  email: '',
+  website: '',
+  phone: '',
+  fax: '',
+  notes: '',
+  medicare_status: false,
+  medicaid_status: false,
+  cash_only: false,
+}
 
-export default function Edit({
-  therapist,
-  onCancel,
-  onSave,
-}: EditTherapistProps) {
-  // TODO: find a way to make null values a string by default or update the validation to allow nnull
-  const [updatedTherapist, setUpdatedTherapist] = useState(therapist)
+const validationSchema = CreateValidationSchema
 
+export default function Create({ onCancel }: CreateTherapistProps) {
   const queryClient = useQueryClient()
   const { isLoading, mutate } = useMutation<
     TherapistType,
     unknown,
-    { id: string; therapist: UpdateTherapistType }
-  >(({ id, therapist }) => PhysicalTherapistAPI.update(id, therapist), {
-    onSuccess(data) {
+    CreateTherapistType
+  >((therapist) => PhysicalTherapistAPI.create(therapist), {
+    onSuccess() {
       queryClient.invalidateQueries(['therapists'])
-      setUpdatedTherapist(data)
-      onSave(data)
-      toast.success('Physical Therapy Data updated successfully!')
+      onCancel && onCancel()
+      toast.success('Data added successfully!')
     },
   })
 
   return (
     <Formik
-      initialValues={{ ...updatedTherapist } as UpdateTherapistType}
+      initialValues={{ ...defaultTherapyData }}
       onSubmit={(values) => {
-        console.log('something happening here: ', values)
-        if (updatedTherapist.id) {
-          mutate({ id: String(updatedTherapist.id), therapist: values })
-        }
+        mutate(values)
       }}
       validationSchema={validationSchema}
     >
@@ -74,10 +80,10 @@ export default function Edit({
             />
             <Button
               type="submit"
-              title="Update"
+              title="Create"
               isLoading={isLoading}
               disabled={isLoading}
-              colorScheme="blue"
+              colorScheme="green"
             />
           </div>
 
@@ -88,7 +94,6 @@ export default function Edit({
                   <Input
                     label="Name"
                     name="name"
-                    required
                     value={values.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -100,7 +105,7 @@ export default function Edit({
                   <Input
                     label="Email"
                     name="email"
-                    value={values.email ?? ''}
+                    value={values.email}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.email ? errors.email : undefined}
@@ -111,7 +116,6 @@ export default function Edit({
                   <Input
                     label="Phone"
                     name="phone"
-                    required
                     value={values.phone}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -123,7 +127,6 @@ export default function Edit({
                   <Input
                     label="Address"
                     name="address"
-                    required
                     value={values.address}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -135,7 +138,7 @@ export default function Edit({
                   <Input
                     label="Address 2"
                     name="address_two"
-                    value={values.address_two ?? ''}
+                    value={values.address_two}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.address_two ? errors.address_two : undefined}
@@ -146,7 +149,6 @@ export default function Edit({
                   <Input
                     label="City"
                     name="city"
-                    required
                     value={values.city}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -158,7 +160,6 @@ export default function Edit({
                   <Input
                     label="State"
                     name="state"
-                    required
                     value={values.state}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -170,7 +171,6 @@ export default function Edit({
                   <Input
                     label="Zip Code"
                     name="zip"
-                    required
                     value={values.zip}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -183,7 +183,7 @@ export default function Edit({
                     label="Website"
                     name="website"
                     type="url"
-                    value={values.website ?? ''}
+                    value={values.website}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.website ? errors.website : undefined}
@@ -194,7 +194,7 @@ export default function Edit({
                   <Input
                     label="Fax"
                     name="fax"
-                    value={values.fax ?? ''}
+                    value={values.fax}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.fax ? errors.fax : undefined}
@@ -238,7 +238,6 @@ export default function Edit({
                     name="referral_form"
                     type="file"
                     accept="application/pdf"
-                    tooltipText="Upload a new referral form if you want to change the current one."
                     onChange={(e) => {
                       const file = e.currentTarget.files?.[0]
                       if (file) {
@@ -258,7 +257,6 @@ export default function Edit({
                     name="expectations_letter"
                     type="file"
                     accept="application/pdf"
-                    tooltipText="Upload a new expectation form if you want to change the current one."
                     onChange={(e) => {
                       const file = e.currentTarget.files?.[0]
                       if (file) {
@@ -278,7 +276,7 @@ export default function Edit({
                   <TextArea
                     label="Notes"
                     name="notes"
-                    value={values.notes ?? ''}
+                    value={values.notes}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     error={touched.notes ? errors.notes : undefined}

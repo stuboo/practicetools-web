@@ -13,7 +13,7 @@ export default function Container({
 }: ContainerProps) {
   return (
     <div className={`flex justify-center ${bgColor} h-full`}>
-      <div className={`w-full max-w-7xl px-6 md:px-0 ${className}`}>
+      <div className={`w-full max-w-7xl px-6 lg:px-0 ${className}`}>
         {children}
       </div>
     </div>
