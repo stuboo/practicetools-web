@@ -4,16 +4,21 @@ import classNames from 'classnames'
 import { useState, ReactNode, Fragment } from 'react'
 import { MdOutlineCheck } from 'react-icons/md'
 
-type SelectValue = string | number
+type SelectValue = string | number | null
 
 interface SelectProps {
-  value: SelectValue
+  value?: SelectValue
   onChange: (value: SelectValue) => void
   children: ReactNode
   className?: string
 }
 
-const Select = ({ value, onChange, children, className }: SelectProps) => {
+const Select = ({
+  value = null,
+  onChange,
+  children,
+  className,
+}: SelectProps) => {
   const [selectedValue, setSelectedValue] = useState<SelectValue>(value)
 
   const handleSelectChange = (newValue: SelectValue) => {

@@ -7,13 +7,14 @@ import Button from '../../components/button'
 import { Dialog } from '@headlessui/react'
 import { useBoolean } from '../../hooks/useBoolean'
 import Input from '../../components/input'
-import IUHealthForm from './forms/iu_health'
 import {
   Select,
   SelectContent,
   SelectOption,
   SelectTrigger,
 } from '../../components/select'
+import consent_schemas from './consent_schema.json'
+import FormBuilder from './forms/form-builder'
 
 export default function ConsentFormGenerator() {
   const {
@@ -27,7 +28,7 @@ export default function ConsentFormGenerator() {
     'robotic hysterectomy',
     'mesh sacrocolpopexy',
     'cystoscopy',
-  ]
+  ] // will be fetched from an api
 
   const firstInputRef = useRef<HTMLInputElement>(null)
 
@@ -70,17 +71,20 @@ export default function ConsentFormGenerator() {
         {/* Consent Form : Select(Choose Form) */}
         <div className="flex items-center gap-4 mb-10">
           <h3 className="uppercase text-lg font-bold">Consent Form</h3>
-          <Select value={''} onChange={console.log}>
+          <Select onChange={console.log}>
             <SelectTrigger>Choose Form</SelectTrigger>
             <SelectContent>
-              <SelectOption value={'iu_health'}>IU Health</SelectOption>
-              <SelectOption value={'another'}>Another Therapist</SelectOption>
+              {consent_schemas.sources.map((source) => (
+                <SelectOption key={source.name} value={source.name}>
+                  {source.name}
+                </SelectOption>
+              ))}
             </SelectContent>
           </Select>
         </div>
 
         {/* Based on the selection above, a specific component is loaded */}
-        <IUHealthForm />
+        <FormBuilder name={null} />
 
         <Button
           type="submit"

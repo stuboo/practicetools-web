@@ -3,3 +3,5 @@ export type SelectedProcedureType = {
 }
 
 export type ProcedureStatus = 'planned' | 'possible'
+
+export type SourceType = 'oauthc' | 'uch' | 'iu health'
