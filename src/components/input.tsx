@@ -16,6 +16,7 @@ interface CustomInputProps
   label?: string
   error?: string
   tooltipText?: string
+  className?: string
 }
 export default function Input({
   label,
@@ -23,6 +24,7 @@ export default function Input({
   error,
   tooltipText,
   required,
+  className,
   ...props
 }: CustomInputProps) {
   const inputClass = classNames(
@@ -30,7 +32,7 @@ export default function Input({
     { 'ring-red-500': error }
   )
   return (
-    <div className="flex flex-col w-full">
+    <div className={`flex flex-col w-full ${className}`}>
       <div className="flex items-center gap-2">
         <label
           htmlFor={name}

@@ -11,9 +11,9 @@ async function getAll(): Promise<TherapistType[]> {
     }
 }
 
-async function searchTherapistsByZipCode(zipCode: string): Promise<TherapistType[]> {
+async function searchTherapistsByZipCode(zipCode: string, distance = 5): Promise<TherapistType[]> {
     try {
-        const response: AxiosResponse<{ data: TherapistType[] }> = await apiClient.get(`/physicaltherapist/distance/${zipCode}`);
+        const response: AxiosResponse<{ data: TherapistType[] }> = await apiClient.get(`/physicaltherapist/distance/${zipCode}?distance=${distance}`);
         return response.data.data;
     } catch (error) {
         throw new Error('Failed to fetch therapists.');

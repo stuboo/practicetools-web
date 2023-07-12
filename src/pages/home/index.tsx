@@ -32,7 +32,7 @@ const toolsList: Tools[] = [
     title: 'Consent Form Generator',
     description: 'Generate consent form dynamically',
     icon: <AiOutlineForm size={58} />,
-    href: '/consent-form-generator',
+    // href: '/consent-form-generator',
   },
 ]
 
