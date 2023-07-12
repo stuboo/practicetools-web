@@ -22,8 +22,7 @@ export default function ConsentFormGenerator() {
     setFalse: closeForm,
     setTrue: openForm,
   } = useBoolean(false)
-  const [selectedProcedures, setSelectedProcedures] =
-    useState<SelectedProcedureType>()
+  const [, setSelectedProcedures] = useState<SelectedProcedureType>()
   const procedures = [
     'robotic hysterectomy',
     'mesh sacrocolpopexy',
