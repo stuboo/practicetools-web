@@ -4,6 +4,8 @@ import {
   AiOutlineForm,
   AiOutlineSearch,
 } from 'react-icons/ai'
+import Input from '../../components/input'
+import Button from '../../components/button'
 
 interface Tools {
   title: string
@@ -65,6 +67,11 @@ export default function Home() {
           </Link>
         ))}
       </div>
+
+      <Button title="Test Button" size="sm" />
+      <Button title="Test Button" size="md" />
+      <Button title="Test Button" size="lg" />
+      <Button title="Test Button" size="xl" />
     </div>
   )
 }
