@@ -70,7 +70,7 @@ const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
     }
     const bgClasses = generateClassName(colorScheme)
     const buttonClasses = classnames(
-      'text-sm flex items-center justify-center gap-2',
+      'flex items-center justify-center gap-2',
       {
         'font-semibold': variant === 'ghost',
         'leading-6': variant === 'ghost',
