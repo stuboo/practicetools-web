@@ -4,7 +4,6 @@ import {
   AiOutlineForm,
   AiOutlineSearch,
 } from 'react-icons/ai'
-import Input from '../../components/input'
 
 interface Tools {
   title: string
