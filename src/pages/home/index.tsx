@@ -5,7 +5,6 @@ import {
   AiOutlineSearch,
 } from 'react-icons/ai'
 import Input from '../../components/input'
-import Button from '../../components/button'
 
 interface Tools {
   title: string
@@ -68,7 +67,29 @@ export default function Home() {
         ))}
       </div>
 
-      <div className="flex gap-4"></div>
+      <div className="flex flex-col gap-4">
+        <Input
+          label="Our Customer Small Input"
+          placeholder="Our Custom Input"
+          inputSize="sm"
+        />
+        <Input
+          label="Our Customer Medium Input"
+          placeholder="Our Custom Input"
+          inputSize="md"
+        />
+        <Input
+          label="Our Customer Large Input"
+          placeholder="Our Custom Input"
+          inputSize="lg"
+        />
+        <Input
+          label="Our Customer Very Small Input"
+          placeholder="Our Custom Input"
+          inputSize="xs"
+          error="Email is invalid"
+        />
+      </div>
     </div>
   )
 }
