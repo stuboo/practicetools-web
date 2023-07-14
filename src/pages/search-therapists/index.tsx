@@ -164,7 +164,6 @@ export default function SearchTherapists() {
                     <div className="flex justify-between">
                       <Button
                         title="Reset"
-                        size="lg"
                         onClick={() => setFilter(defaultFilter)}
                       />
                       {/* <Button title="Apply" colorScheme="blue" /> */}

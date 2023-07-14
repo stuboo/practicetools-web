@@ -26,10 +26,11 @@ type ColorScheme =
   | 'purple'
   | 'pink'
   | 'teal'
+  | 'default'
 
 const getColorClass = (
   variant: 'solid' | 'ghost' | 'outline' | 'link',
-  color: ColorScheme
+  color: ColorScheme = 'default'
 ) => {
   switch (variant) {
     case 'solid':
@@ -40,6 +41,9 @@ const getColorClass = (
       return generateGhostClasses(color)
     case 'link':
       return generateLinkClasses(color)
+
+    default:
+      return generateSolidClasses(color)
   }
 }
 
@@ -147,7 +151,7 @@ const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
       disabled,
       isLoading,
       className,
-      colorScheme = 'indigo',
+      colorScheme,
       size = 'md',
       ...props
     },
