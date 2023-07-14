@@ -27,7 +27,7 @@ const Slider = React.forwardRef<
     >
       <SliderPrimitive.Track
         className={classNames(
-          'relative h-2 w-full grow overflow-hidden rounded-full',
+          'relative h-1 w-full grow overflow-hidden rounded-full',
           componentStyle.trackBg
         )}
       >
@@ -37,7 +37,7 @@ const Slider = React.forwardRef<
       </SliderPrimitive.Track>
       <SliderPrimitive.Thumb
         className={classNames(
-          'block h-5 w-5 rounded-full border-2  transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-ew-resize',
+          'block h-5 w-5 rounded-full border-2  transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 cursor-ew-resize active:scale-125',
           componentStyle.thumbBg,
           componentStyle.thumbBorder,
           componentStyle.ringOffsetBg
