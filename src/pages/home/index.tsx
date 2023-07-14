@@ -68,10 +68,60 @@ export default function Home() {
         ))}
       </div>
 
-      <Button title="Test Button" size="sm" />
-      <Button title="Test Button" size="md" />
-      <Button title="Test Button" size="lg" />
-      <Button title="Test Button" size="xl" />
+      <div className="flex gap-4">
+        <Button colorScheme="blue" variant="solid" title="Solid Button" />
+        <Button colorScheme="blue" variant="outline" title="Outline Button" />
+        <Button colorScheme="blue" variant="ghost" title="Ghost Button" />
+        <Button colorScheme="blue" variant="link" title="Test Button" />
+      </div>
+
+      <div className="flex gap-4">
+        <Button colorScheme="yellow" variant="solid" title="Solid Button" />
+        <Button colorScheme="yellow" variant="outline" title="Outline Button" />
+        <Button colorScheme="yellow" variant="ghost" title="Ghost Button" />
+        <Button colorScheme="yellow" variant="link" title="Test Button" />
+      </div>
+
+      <div className="flex gap-4">
+        <Button
+          size="lg"
+          colorScheme="red"
+          variant="solid"
+          title="Solid Button"
+        />
+        <Button
+          size="lg"
+          colorScheme="red"
+          variant="outline"
+          title="Outline Button"
+        />
+        <Button
+          size="lg"
+          colorScheme="red"
+          variant="ghost"
+          title="Ghost Button"
+        />
+        <Button
+          size="lg"
+          colorScheme="red"
+          variant="link"
+          title="Test Button"
+        />
+      </div>
+
+      <div className="flex gap-4">
+        <Button colorScheme="teal" variant="solid" title="Solid Button" />
+        <Button colorScheme="teal" variant="outline" title="Outline Button" />
+        <Button colorScheme="teal" variant="ghost" title="Ghost Button" />
+        <Button colorScheme="teal" variant="link" title="Test Button" />
+      </div>
+
+      <div className="flex gap-4">
+        <Button colorScheme="pink" variant="solid" title="Solid Button" />
+        <Button colorScheme="pink" variant="outline" title="Outline Button" />
+        <Button colorScheme="pink" variant="ghost" title="Ghost Button" />
+        <Button colorScheme="pink" variant="link" title="Test Button" />
+      </div>
     </div>
   )
 }
