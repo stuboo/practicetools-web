@@ -38,11 +38,24 @@ const Select = ({
 interface SelectTriggerProps {
   children: ReactNode
   error?: string
+  size?: 'xs' | 'sm' | 'md' | 'lg'
 }
 
-const SelectTrigger = ({ children, error }: SelectTriggerProps) => {
+const SelectTrigger = ({
+  children,
+  error,
+  size = 'md',
+}: SelectTriggerProps) => {
+  const inputSizeClasses = {
+    xs: 'h-6 rounded-sm px-2 text-xs',
+    sm: 'h-8 rounded-sm px-3 text-sm',
+    md: 'h-10 rounded-md px-4 text-md',
+    lg: 'h-12 rounded-md px-4 text-lg',
+  }
+
   const inputClass = classNames(
-    'w-full rounded-md px-4 border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 h-12',
+    'w-full border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-500',
+    inputSizeClasses[size],
     { 'ring-red-500': error }
   )
 
