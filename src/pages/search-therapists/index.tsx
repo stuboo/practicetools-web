@@ -56,16 +56,19 @@ export default function SearchTherapists() {
   return (
     <div className="flex flex-col bg-red">
       <Container bgColor="bg-gray-100">
-        <div className="h-48 flex flex-col justify-center items-center bg-gray-100">
+        <div className="h-fit py-6 lg:py-0 lg:h-48 flex flex-col justify-center items-center bg-gray-100">
           <div className="flex justify-start w-full mb-4">
-            <Link to={'/'} className="flex items-center self-start gap-4">
+            <Link
+              to={'/'}
+              className="flex items-center self-start gap-2 lg:gap-4"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-6 h-6"
+                className="w-5 h-5 lg:w-6 lg:h-6"
               >
                 <path
                   strokeLinecap="round"
@@ -74,11 +77,11 @@ export default function SearchTherapists() {
                 />
               </svg>
 
-              <h1 className="text-2xl font-light">Go Back</h1>
+              <h1 className="text-md lg:text-2xl font-light">Go Back</h1>
             </Link>
           </div>
 
-          <div className="flex gap-8">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
             <input
               type="text"
               placeholder="Enter Zip"
@@ -91,7 +94,7 @@ export default function SearchTherapists() {
 
             <Popover className="relative">
               <Popover.Button
-                className={`px-8 py-4 flex gap-3 items-center  text-2xl font-bold outline-4 transition-all duration-200 outline-gray-600/20 focus:outline focus:rounded-md w-56 ${
+                className={`px-8 py-4 flex gap-3 items-center  text-2xl font-bold outline-4 transition-all duration-200 outline-gray-600/20 focus:outline focus:rounded-md w-full lg:w-56  ${
                   isFilterApplied
                     ? 'bg-blue-600 text-white'
                     : 'text-gray-900 bg-gray-200'

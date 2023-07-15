@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 import Container from '../../components/container'
 import ChooseProcedureForm from './choose-procedures'
-import { useRef, useState } from 'react'
+import { Fragment, useRef, useState } from 'react'
 import { SelectedProcedureType } from './types'
 import Button from '../../components/button'
-import { Dialog } from '@headlessui/react'
+import { Dialog, Transition } from '@headlessui/react'
 import { useBoolean } from '../../hooks/useBoolean'
 import Input from '../../components/input'
 import {
@@ -40,7 +40,7 @@ export default function ConsentFormGenerator() {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-6 h-6"
+          className="w-5 h-5 lg:w-6 lg:h-6"
         >
           <path
             strokeLinecap="round"
@@ -49,7 +49,9 @@ export default function ConsentFormGenerator() {
           />
         </svg>
 
-        <h1 className="text-2xl font-light">Consent Form Generator</h1>
+        <h1 className="text-md lg:text-2xl font-light">
+          Consent Form Generator
+        </h1>
       </Link>
 
       <div className="flex flex-col">
@@ -93,53 +95,79 @@ export default function ConsentFormGenerator() {
         />
       </div>
 
-      <Dialog
-        open={showAddNewProcedureForm}
-        onClose={() => {
-          return
-        }}
-        className="relative z-50"
-        // initialFocus={cancelRef}
-      >
-        {/* The backdrop, rendered as a fixed sibling to the panel container */}
-        <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+      <Transition appear show={showAddNewProcedureForm} as={Fragment}>
+        <Dialog
+          open={showAddNewProcedureForm}
+          onClose={() => {
+            return
+          }}
+          className="relative z-50"
+          // initialFocus={cancelRef}
+        >
+          <Transition.Child
+            as={Fragment}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            {/* The backdrop, rendered as a fixed sibling to the panel container */}
+            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
+          </Transition.Child>
 
-        <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="w-full max-w-md rounded bg-white p-4">
-            <Dialog.Title
-              as="h3"
-              className="text-lg font-medium leading-6 text-gray-900"
+          <div className="fixed inset-0 flex items-center justify-center p-4">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
             >
-              Add New Procedure Alias
-            </Dialog.Title>
+              <Dialog.Panel className="w-full max-w-md rounded bg-white p-4">
+                <Dialog.Title
+                  as="h3"
+                  className="text-lg font-medium leading-6 text-gray-900"
+                >
+                  Add New Procedure Alias
+                </Dialog.Title>
 
-            <div className="mt-4 flex flex-col gap-4">
-              <Input
-                placeholder="Alias"
-                label="Alias"
-                required
-                ref={firstInputRef}
-              />
-              <Input placeholder="Abbreviation" label="Abbreviation" />
-              <Input
-                label="Description"
-                name="simple_description"
-                placeholder="Short Description"
-              />
-              <Input
-                label="Glossay Definition"
-                name="glossary_definition"
-                placeholder="Glossary Definition"
-              />
-            </div>
+                <div className="mt-4 flex flex-col gap-4">
+                  <Input
+                    placeholder="Alias"
+                    label="Alias"
+                    required
+                    ref={firstInputRef}
+                  />
+                  <Input placeholder="Abbreviation" label="Abbreviation" />
+                  <Input
+                    label="Description"
+                    name="simple_description"
+                    placeholder="Short Description"
+                  />
+                  <Input
+                    label="Glossay Definition"
+                    name="glossary_definition"
+                    placeholder="Glossary Definition"
+                  />
+                </div>
 
-            <div className="mt-8 flex justify-between">
-              <Button onClick={closeForm} title="Cancel" colorScheme="red" />
-              <Button title="Add Procedure Alias" colorScheme="green" />
-            </div>
-          </Dialog.Panel>
-        </div>
-      </Dialog>
+                <div className="mt-8 flex justify-between">
+                  <Button
+                    onClick={closeForm}
+                    title="Cancel"
+                    colorScheme="red"
+                  />
+                  <Button title="Add Procedure Alias" colorScheme="green" />
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition>
     </Container>
   )
 }

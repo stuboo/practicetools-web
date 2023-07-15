@@ -16,7 +16,7 @@ export default function CombinePDF() {
       <div className="md:container mx-auto h-full">
         <div className="flex justify-between items-center mt-6">
           {/* Header/Breadcrumb */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 lg:gap-4">
             <Link to={'/'}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@ export default function CombinePDF() {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-6 h-6"
+                className="w-5 h-5 lg:w-6 lg:h-6"
               >
                 <path
                   strokeLinecap="round"
@@ -34,11 +34,11 @@ export default function CombinePDF() {
               </svg>
             </Link>
 
-            <h1 className="text-2xl font-light">
+            <h1 className="text-md lg:text-2xl font-light">
               Patient Educational Materials
             </h1>
           </div>
-          <Button title="About" onClick={() => setIsOpen(true)} />
+          <Button size="sm" title="About" onClick={() => setIsOpen(true)} />
         </div>
 
         <ListFiles />

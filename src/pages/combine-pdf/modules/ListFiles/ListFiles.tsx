@@ -79,7 +79,7 @@ const ListFiles = () => {
   if (status === 'loading') return <Skeleton />
   return (
     <>
-      <form className="flex flex-col md:flex-row justify-between items-end mb-3 gap-6 py-6">
+      <form className="flex flex-col md:flex-row justify-between items-end mb-3 gap-3 lg:gap-6 py-6">
         <Input
           // label="Search PDFs"
           type="text"
