@@ -104,16 +104,16 @@ export default function ChooseProcedureForm({
           </div>
         </div>
 
-        <p className="ml-8 mr-2 italic font-light">where</p>
+        <p className="ml-8 mr-2 italic font-light text-sm">where</p>
 
-        <div className="flex items-center gap-1 mr-4">
+        <div className="flex items-center gap-1 mr-2">
           <div className="w-5 h-5 border-2 border-gray-600/0 rounded-full flex items-center justify-center">
             <div
               className={`w-[75%] h-[75%] transition-opacity duration-200 rounded-full opacity-100 bg-green-500`}
             />
           </div>
 
-          <p>Planned</p>
+          <p className="text-sm">Planned</p>
         </div>
 
         <div className="flex items-center gap-1">
@@ -123,7 +123,7 @@ export default function ChooseProcedureForm({
             />
           </div>
 
-          <p>Possible</p>
+          <p className="text-sm">Possible</p>
         </div>
       </div>
 
