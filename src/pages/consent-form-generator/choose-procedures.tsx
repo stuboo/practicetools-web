@@ -2,25 +2,30 @@ import { RadioGroup } from '@headlessui/react'
 import { useState } from 'react'
 import { ProcedureStatus, SelectedProcedureType } from './types'
 import Button from '../../components/button'
+import { useQuery } from '@tanstack/react-query'
+import ProcedureAliasAPI from '../../api/alias'
+import { ProcedureAlias } from '../../types'
 
 interface ChooseProcedureFormProps {
-  procedures: string[]
   setChosenProcedures: (chosenProcedures: SelectedProcedureType) => void
 }
 
 interface ProcedureItemProps {
-  alias: string
+  alias: ProcedureAlias
   value: ProcedureStatus | null
-  onChange: (key: string, value: ProcedureStatus | null) => void
+  onChange: (id: number, key: string, value: ProcedureStatus | null) => void
 }
 
 function ProcedureItem({ alias, value, onChange }: ProcedureItemProps) {
+  // fetch procedure alias
   return (
     <RadioGroup
-      name={alias}
+      name={alias.alias}
       value={value ?? null}
-      onChange={(value) => onChange(alias, value as ProcedureStatus)}
-      className={`flex items-center gap-2 py-3 px-4 transition-colors ${
+      onChange={(value) =>
+        onChange(alias.id, alias.alias, value as ProcedureStatus)
+      }
+      className={`flex items-center gap-2 py-3 px-4 transition-all ${
         value === 'planned'
           ? 'bg-green-100'
           : value === 'possible'
@@ -52,14 +57,14 @@ function ProcedureItem({ alias, value, onChange }: ProcedureItemProps) {
         )}
       </RadioGroup.Option>
 
-      <RadioGroup.Label>{alias}</RadioGroup.Label>
+      <RadioGroup.Label>{alias.alias}</RadioGroup.Label>
 
       {value && (
         <Button
           variant="ghost"
           title="Remove"
           className="text-red-500 hover:underline text-xs"
-          onClick={() => onChange(alias, null)}
+          onClick={() => onChange(alias.id, alias.alias, null)}
         />
       )}
     </RadioGroup>
@@ -67,24 +72,30 @@ function ProcedureItem({ alias, value, onChange }: ProcedureItemProps) {
 }
 
 export default function ChooseProcedureForm({
-  procedures,
   setChosenProcedures,
 }: ChooseProcedureFormProps) {
   const [selectedProcedures, setSelectedProcedures] =
     useState<SelectedProcedureType>({})
 
+  const { data: procedures } = useQuery(['procedure-alias'], () =>
+    ProcedureAliasAPI.getAll()
+  )
+
   const handleProcedureSelection = (
+    id: number,
     key: string,
     value: ProcedureStatus | null
   ) => {
     const newSelectedProcedures = { ...selectedProcedures }
 
     if (!value) delete newSelectedProcedures[key]
-    else newSelectedProcedures[key] = value as ProcedureStatus
+    else newSelectedProcedures[key] = { status: value as ProcedureStatus, id }
 
     setSelectedProcedures(newSelectedProcedures)
     setChosenProcedures(newSelectedProcedures)
   }
+
+  if (!procedures) return <div>Hello</div>
 
   return (
     <div className="space-y-2 my-4">
@@ -127,14 +138,16 @@ export default function ChooseProcedureForm({
         </div>
       </div>
 
-      {procedures.map((alias, index) => (
-        <ProcedureItem
-          key={index}
-          alias={alias}
-          value={selectedProcedures[alias]}
-          onChange={handleProcedureSelection}
-        />
-      ))}
+      <div className="grid gap-x-4 gap-y-4 grid-cols-2 transition-all">
+        {procedures.map((alias, index) => (
+          <ProcedureItem
+            key={index}
+            alias={alias}
+            value={selectedProcedures[alias.alias]?.status}
+            onChange={handleProcedureSelection}
+          />
+        ))}
+      </div>
     </div>
   )
 }

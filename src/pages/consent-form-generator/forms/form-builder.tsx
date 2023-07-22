@@ -1,21 +1,16 @@
 import { MdOutlineInfo } from 'react-icons/md'
-import { SourceType } from '../types'
+import { SelectedProcedureType, SourceType } from '../types'
 import IUHealthForm from './iu_health'
-import IUHealthForm1 from './iu_health1'
-import IUHealthForm2 from './iu_health2'
 
 interface FormBuilderProps {
   name: SourceType | null
+  procedures: SelectedProcedureType
 }
 
-export default function FormBuilder({ name }: FormBuilderProps) {
+export default function FormBuilder({ name, procedures }: FormBuilderProps) {
   switch (name) {
-    case 'iu health':
-      return <IUHealthForm />
-    case 'oauthc':
-      return <IUHealthForm1 />
-    case 'uch':
-      return <IUHealthForm2 />
+    case 'IU Health':
+      return <IUHealthForm procedures={procedures} />
     default:
       return (
         <div className="py-0 text-gray-400 flex items-center gap-2">

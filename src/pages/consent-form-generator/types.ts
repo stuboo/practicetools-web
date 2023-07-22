@@ -1,7 +1,7 @@
 export type SelectedProcedureType = {
-    [key: string]: ProcedureStatus;
+    [key: string]: { status: ProcedureStatus, id: number };
 }
 
 export type ProcedureStatus = 'planned' | 'possible'
 
-export type SourceType = 'oauthc' | 'uch' | 'iu health'
+export type SourceType = 'IU Health';

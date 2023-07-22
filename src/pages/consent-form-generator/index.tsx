@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import Container from '../../components/container'
 import ChooseProcedureForm from './choose-procedures'
 import { Fragment, useRef, useState } from 'react'
-import { SelectedProcedureType } from './types'
+import { SelectedProcedureType, SourceType } from './types'
 import Button from '../../components/button'
 import { Dialog, Transition } from '@headlessui/react'
 import { useBoolean } from '../../hooks/useBoolean'
@@ -22,14 +22,11 @@ export default function ConsentFormGenerator() {
     setFalse: closeForm,
     setTrue: openForm,
   } = useBoolean(false)
-  const [, setSelectedProcedures] = useState<SelectedProcedureType>()
-  const procedures = [
-    'robotic hysterectomy',
-    'mesh sacrocolpopexy',
-    'cystoscopy',
-  ] // will be fetched from an api
+  const [selectedProcedures, setSelectedProcedures] =
+    useState<SelectedProcedureType>({})
 
   const firstInputRef = useRef<HTMLInputElement>(null)
+  const [consentForm, setConsentForm] = useState<SourceType | null>(null)
 
   return (
     <Container className="py-8">
@@ -57,10 +54,7 @@ export default function ConsentFormGenerator() {
       <div className="flex flex-col">
         <h3 className="uppercase text-lg mt-4 font-bold">Choose Procedures</h3>
 
-        <ChooseProcedureForm
-          procedures={procedures}
-          setChosenProcedures={setSelectedProcedures}
-        />
+        <ChooseProcedureForm setChosenProcedures={setSelectedProcedures} />
 
         <Button
           title="Add New Procedure"
@@ -72,8 +66,11 @@ export default function ConsentFormGenerator() {
         {/* Consent Form : Select(Choose Form) */}
         <div className="flex items-center gap-4 mb-10">
           <h3 className="uppercase text-lg font-bold">Consent Form</h3>
-          <Select onChange={console.log}>
-            <SelectTrigger>Choose Form</SelectTrigger>
+          <Select
+            value={consentForm}
+            onChange={(value) => setConsentForm(value as SourceType)}
+          >
+            <SelectTrigger>Choose Form: {consentForm}</SelectTrigger>
             <SelectContent>
               {consent_schemas.sources.map((source) => (
                 <SelectOption key={source.name} value={source.name}>
@@ -85,13 +82,14 @@ export default function ConsentFormGenerator() {
         </div>
 
         {/* Based on the selection above, a specific component is loaded */}
-        <FormBuilder name={null} />
+        <FormBuilder procedures={selectedProcedures} name={consentForm} />
 
         <Button
           type="submit"
           title="Create Form"
           colorScheme="blue"
           className="w-40 mt-8"
+          onClick={() => console.log(selectedProcedures)}
         />
       </div>
 
