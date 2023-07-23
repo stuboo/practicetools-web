@@ -63,7 +63,7 @@ function ProcedureItem({ alias, value, onChange }: ProcedureItemProps) {
         <Button
           variant="ghost"
           title="Remove"
-          className="text-red-500 hover:underline text-xs"
+          className="text-red-500 hover:underline text-xs h-4"
           onClick={() => onChange(alias.id, alias.alias, null)}
         />
       )}
