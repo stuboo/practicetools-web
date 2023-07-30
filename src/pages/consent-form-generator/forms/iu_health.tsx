@@ -76,6 +76,23 @@ export default function IUHealthForm({ procedures }: IUHealthFormProps) {
       // draw text in the required location
 
       let textValue = field.value
+
+      // Get the textValue from the form fields
+      switch (field.title) {
+        case 'Procedures':
+          textValue = proceduresInputRef.current?.value || field.value
+          break
+        case 'Other Risks':
+          textValue = riskInputRef.current?.value || field.value
+          break
+        case 'Alternatives':
+          textValue = alternativeInputRef.current?.value || field.value
+          break
+        case 'Date':
+          textValue = alternativeInputRef.current?.value || field.value
+          break
+      }
+
       field.params.parts.forEach((part) => {
         const currentText = textValue.substring(0, part.max_length)
         textValue = textValue.substring(part.max_length)
