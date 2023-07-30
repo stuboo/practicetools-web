@@ -1,4 +1,4 @@
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import apiClient from "./client";
 import { Alternative, CreateProcedureAliasType, ProcedureAlias, Risk } from "../types";
 

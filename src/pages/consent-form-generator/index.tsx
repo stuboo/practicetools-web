@@ -60,7 +60,7 @@ export default function ConsentFormGenerator() {
       closeForm()
       toast.success('Procedure Alias added successfully!')
     },
-    onError(error, variables, context) {
+    onError(error) {
       const e = error as AxiosError
       const message = e.response?.data as string
       toast.error(message || 'Could not create a new procedure alias')
@@ -184,7 +184,6 @@ export default function ConsentFormGenerator() {
                     handleSubmit,
                     handleChange,
                     handleBlur,
-                    setFieldValue,
                   }) => (
                     <form onSubmit={handleSubmit}>
                       <div className="mt-4 flex flex-col gap-4">
