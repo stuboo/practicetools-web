@@ -1,7 +1,7 @@
 export interface CreateProcedureAliasType {
     alias: string
     abbreviation?: string
-    simple_definition?: string
+    simple_description?: string
     glossary_definition?: string
     alternatives?: Alternative[]
     risks?: Risk[]

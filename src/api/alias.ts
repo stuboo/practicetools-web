@@ -1,6 +1,6 @@
-import { AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import apiClient from "./client";
-import { Alternative, ProcedureAlias, Risk } from "../types";
+import { Alternative, CreateProcedureAliasType, ProcedureAlias, Risk } from "../types";
 
 async function getAll(): Promise<ProcedureAlias[]> {
     try {
@@ -29,21 +29,23 @@ async function alternatives(alias_ids: number[]): Promise<Alternative[]> {
     }
 }
 
-// async function create(data: CreateProcedureAliasType): Promise<ProcedureAlias> {
-//     try {
-//         // const formData = new FormData();
-
-//         // const response: AxiosResponse<{ data: TherapistType }> = await apiClient.post(`/physicaltherapist`, formData);
-//         // return response.data.data;
-//     } catch (error) {
-//         throw new Error('Failed to create therapist.');
-//     }
-// }
+async function create(data: CreateProcedureAliasType): Promise<ProcedureAlias> {
+    // try {
+    const response: AxiosResponse<{ data: ProcedureAlias }> = await apiClient.post(`/procedure-alias`, data);
+    return response.data.data;
+    // } catch (error) {
+    // const e = error as AxiosError
+    // const message = e.response?.data as string;
+    // throw new Error(message || "Error occured while creating a new procedure alias");
+    // throw error;
+    // }
+}
 
 const ProcedureAliasAPI = Object.freeze({
     getAll,
     risks,
-    alternatives
+    alternatives,
+    create
 });
 
 export default ProcedureAliasAPI;

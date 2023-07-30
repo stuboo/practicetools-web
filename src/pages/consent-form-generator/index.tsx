@@ -15,6 +15,27 @@ import {
 } from '../../components/select'
 import consent_schemas from './consent_schema.json'
 import FormBuilder from './forms/form-builder'
+import { Formik } from 'formik'
+import { CreateProcedureAliasType, ProcedureAlias } from '../../types'
+import { object, string } from 'yup'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import ProcedureAliasAPI from '../../api/alias'
+import { toast } from 'react-hot-toast'
+import { AxiosError } from 'axios'
+
+const defaultProcedure: CreateProcedureAliasType = {
+  alias: '',
+  abbreviation: '',
+  glossary_definition: '',
+  simple_description: '',
+}
+
+const validationSchema = object().shape({
+  alias: string().required().min(3),
+  abbreviation: string(),
+  glossary_definition: string().min(5),
+  simple_description: string(),
+})
 
 export default function ConsentFormGenerator() {
   const {
@@ -27,6 +48,34 @@ export default function ConsentFormGenerator() {
 
   const firstInputRef = useRef<HTMLInputElement>(null)
   const [consentForm, setConsentForm] = useState<SourceType | null>(null)
+
+  const queryClient = useQueryClient()
+  const { isLoading, mutate } = useMutation<
+    ProcedureAlias,
+    unknown,
+    CreateProcedureAliasType
+  >((therapist) => ProcedureAliasAPI.create(therapist), {
+    onSuccess() {
+      queryClient.invalidateQueries(['procedure-alias'])
+      closeForm()
+      toast.success('Procedure Alias added successfully!')
+    },
+    onError(error, variables, context) {
+      const e = error as AxiosError
+      const message = e.response?.data as string
+      toast.error(message || 'Could not create a new procedure alias')
+    },
+  })
+
+  const handleCreateNewProcedure = (values: CreateProcedureAliasType) => {
+    mutate(values)
+  }
+
+  const handleCloseFormModal = () => {
+    if (isLoading) return
+
+    closeForm()
+  }
 
   return (
     <Container className="py-8">
@@ -88,9 +137,7 @@ export default function ConsentFormGenerator() {
       <Transition appear show={showAddNewProcedureForm} as={Fragment}>
         <Dialog
           open={showAddNewProcedureForm}
-          onClose={() => {
-            return
-          }}
+          onClose={handleCloseFormModal}
           className="relative z-50"
           // initialFocus={cancelRef}
         >
@@ -125,34 +172,90 @@ export default function ConsentFormGenerator() {
                   Add New Procedure Alias
                 </Dialog.Title>
 
-                <div className="mt-4 flex flex-col gap-4">
-                  <Input
-                    placeholder="Alias"
-                    label="Alias"
-                    required
-                    ref={firstInputRef}
-                  />
-                  <Input placeholder="Abbreviation" label="Abbreviation" />
-                  <Input
-                    label="Description"
-                    name="simple_description"
-                    placeholder="Short Description"
-                  />
-                  <Input
-                    label="Glossay Definition"
-                    name="glossary_definition"
-                    placeholder="Glossary Definition"
-                  />
-                </div>
+                <Formik
+                  onSubmit={handleCreateNewProcedure}
+                  validationSchema={validationSchema}
+                  initialValues={defaultProcedure}
+                >
+                  {({
+                    values,
+                    errors,
+                    touched,
+                    handleSubmit,
+                    handleChange,
+                    handleBlur,
+                    setFieldValue,
+                  }) => (
+                    <form onSubmit={handleSubmit}>
+                      <div className="mt-4 flex flex-col gap-4">
+                        <Input
+                          placeholder="Alias"
+                          label="Alias"
+                          required
+                          name="alias"
+                          ref={firstInputRef}
+                          value={values.alias}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={touched.alias ? errors.alias : undefined}
+                        />
+                        <Input
+                          placeholder="Abbreviation"
+                          label="Abbreviation"
+                          name="abbreviation"
+                          value={values.abbreviation}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={
+                            touched.abbreviation
+                              ? errors.abbreviation
+                              : undefined
+                          }
+                        />
+                        <Input
+                          label="Description"
+                          name="simple_description"
+                          placeholder="Short Description"
+                          value={values.simple_description}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={
+                            touched.simple_description
+                              ? errors.simple_description
+                              : undefined
+                          }
+                        />
+                        <Input
+                          label="Glossay Definition"
+                          name="glossary_definition"
+                          placeholder="Glossary Definition"
+                          value={values.glossary_definition}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          error={
+                            touched.glossary_definition
+                              ? errors.glossary_definition
+                              : undefined
+                          }
+                        />
+                      </div>
 
-                <div className="mt-8 flex justify-between">
-                  <Button
-                    onClick={closeForm}
-                    title="Cancel"
-                    colorScheme="red"
-                  />
-                  <Button title="Add Procedure Alias" colorScheme="green" />
-                </div>
+                      <div className="mt-8 flex justify-between">
+                        <Button
+                          onClick={handleCloseFormModal}
+                          title="Cancel"
+                          colorScheme="red"
+                          type="button"
+                        />
+                        <Button
+                          title="Add Procedure Alias"
+                          colorScheme="green"
+                          type="submit"
+                        />
+                      </div>
+                    </form>
+                  )}
+                </Formik>
               </Dialog.Panel>
             </Transition.Child>
           </div>
