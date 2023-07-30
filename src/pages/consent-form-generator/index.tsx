@@ -15,7 +15,6 @@ import {
 } from '../../components/select'
 import consent_schemas from './consent_schema.json'
 import FormBuilder from './forms/form-builder'
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
 
 export default function ConsentFormGenerator() {
   const {
@@ -28,70 +27,6 @@ export default function ConsentFormGenerator() {
 
   const firstInputRef = useRef<HTMLInputElement>(null)
   const [consentForm, setConsentForm] = useState<SourceType | null>(null)
-
-  const handleFormGeneration = async () => {
-    console.log('form generation')
-
-    const pdfDoc = await PDFDocument.create()
-    const page = pdfDoc.addPage([600, 800])
-
-    const font = await pdfDoc.embedFont(StandardFonts.Courier)
-    const fontSize = 8
-
-    consent_schemas.sources.forEach((source) => {
-      // if (source.file) {
-      //   const imageBytes = fetch(jsonData.sources[0].file).then((res) =>
-      //     res.arrayBuffer()
-      //   )
-      //   const image = await pdfDoc.embedJpg(imageBytes)
-
-      //   page.drawImage(image, {
-      //     x: 0,
-      //     y: 0,
-      //     width: 600,
-      //     height: 800,
-      //   })
-      // }
-
-      const pageHeight = page.getHeight()
-
-      source.form_fields.forEach((field) => {
-        // loop for number or parts
-        // in the loop, get the max length
-        // extract the substring of the value of that length and keep the remaining text
-        // draw text in the required location
-
-        let textValue = field.value
-        field.params.parts.forEach((part) => {
-          console.log('nice')
-
-          const currentText = textValue.substring(0, part.max_length)
-          textValue = textValue.substring(part.max_length)
-
-          const { x, y } = part.location
-          const adjustedY = pageHeight - y
-          page.drawText(currentText, {
-            x,
-            y: adjustedY,
-            size: fontSize,
-            font,
-            color: rgb(
-              source.style.color.r / 255,
-              source.style.color.g / 255,
-              source.style.color.b / 255
-            ),
-          })
-        })
-      })
-    })
-
-    const pdfBytes = await pdfDoc.save()
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' })
-    const url = URL.createObjectURL(blob)
-
-    // Optionally, you can open the PDF in a new tab
-    window.open(url, '_blank')
-  }
 
   return (
     <Container className="py-8">
@@ -137,7 +72,7 @@ export default function ConsentFormGenerator() {
           >
             <SelectTrigger>Choose Form: {consentForm}</SelectTrigger>
             <SelectContent>
-              {consent_schemas.sources.map((source) => (
+              {Object.values(consent_schemas.sources).map((source) => (
                 <SelectOption key={source.name} value={source.name}>
                   {source.name}
                 </SelectOption>
@@ -148,14 +83,6 @@ export default function ConsentFormGenerator() {
 
         {/* Based on the selection above, a specific component is loaded */}
         <FormBuilder procedures={selectedProcedures} name={consentForm} />
-
-        <Button
-          type="submit"
-          title="Create Form"
-          colorScheme="blue"
-          className="w-40 mt-8"
-          onClick={handleFormGeneration}
-        />
       </div>
 
       <Transition appear show={showAddNewProcedureForm} as={Fragment}>

@@ -153,6 +153,7 @@ const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
       className,
       colorScheme,
       size = 'md',
+      onClick,
       ...props
     },
     ref
@@ -174,11 +175,25 @@ const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
       sizeClasses[size]
     )
 
+    const handleClick = (
+      event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+      if (disabled) {
+        event.preventDefault()
+        return
+      }
+
+      if (onClick) {
+        onClick(event)
+      }
+    }
+
     return (
       <button
         type="submit"
         ref={ref}
         className={classnames(buttonClasses, className)}
+        onClick={handleClick}
         {...props}
       >
         {isLoading && <FaSpinner className="animate-spin" />}

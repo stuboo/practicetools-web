@@ -1,6 +1,6 @@
 {
-  "sources": [
-    {
+  "sources": {
+    "iuhealth": {
       "name": "IU Health",
       "file": "iuhealth_consent.png",
       "style": {
@@ -179,5 +179,5 @@
         }
       ]
     }
-  ]
+  }
 }

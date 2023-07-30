@@ -95,7 +95,12 @@ export default function ChooseProcedureForm({
     setChosenProcedures(newSelectedProcedures)
   }
 
-  if (!procedures) return <div>Hello</div>
+  if (!procedures)
+    return (
+      <div className="py-6">
+        <h1>No procedures found!</h1>
+      </div>
+    )
 
   return (
     <div className="space-y-2 my-4">
