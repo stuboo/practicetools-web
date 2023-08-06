@@ -1,16 +1,15 @@
 import TextArea from '../../../components/textarea'
 import Input from '../../../components/input'
 import { SelectedProcedureType } from '../types'
-import { useEffect, useRef } from 'react'
+import {useEffect, useRef, useState} from 'react'
 import ProcedureAliasAPI from '../../../api/alias'
 // import { useDebounce } from '../../../hooks/useDebounce'
-import { useQuery } from '@tanstack/react-query'
-// import { Risk } from '../../../types'
+import {useMutation, useQuery} from '@tanstack/react-query'
 import { FaSpinner } from 'react-icons/fa'
-import { Alternative, Risk } from '../../../types'
+import {Alternative, Risk} from '../../../types'
 import Button from '../../../components/button'
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib'
-import consent_schemas from '../consent_schema.json'
+import {toast} from "react-hot-toast";
+import {AxiosError} from "axios";
 
 interface IUHealthFormProps {
   procedures: SelectedProcedureType
@@ -24,6 +23,7 @@ export default function IUHealthForm({ procedures }: IUHealthFormProps) {
   const alternativeInputRef = useRef<HTMLInputElement>(null)
   const dateInputRef = useRef<HTMLInputElement>(null)
   const timeInputRef = useRef<HTMLInputElement>(null)
+  const [createdFormUrl, setCreatedFormUrl] = useState("");
 
   const ids = Object.values(procedures).map((val) => val.id)
   const { data: risks, isLoading: risksLoading } = useQuery({
@@ -46,80 +46,53 @@ export default function IUHealthForm({ procedures }: IUHealthFormProps) {
     },
   })
 
+  const { isLoading: generatingForm, mutate: generateForm } = useMutation((data: any) => ProcedureAliasAPI.generateConsentForm(data), {
+    onSuccess(data) {
+      toast.success('Consent form generated successfully!')
+      setCreatedFormUrl(data)
+    },
+    onError(error) {
+      const e = error as AxiosError
+      const message = e.response?.data
+      if (typeof(message) === "object") {
+        if (e.response?.status === 422) {
+          toast.error('Error occured. Please be sure the form is filled properly.')
+        } else toast.error(e.message || 'Error occurred while generating the consent form')
+      } else {
+        toast.error(message as string || 'Error occurred while generating the consent form')
+      }
+    },
+  })
+
+
+
   const handleFormGeneration = async () => {
-    const pdfDoc = await PDFDocument.create()
-    const page = pdfDoc.addPage([600, 800])
-
-    const font = await pdfDoc.embedFont(StandardFonts.Courier)
-    const fontSize = 8
-    const pageHeight = page.getHeight()
-
-    const source = consent_schemas.sources.iuhealth
-
-    if (source.file) {
-      const imageBytes = await fetch('/iuhealth_consent.png').then((res) =>
-        res.arrayBuffer()
-      )
-      const image = await pdfDoc.embedPng(imageBytes)
-      page.drawImage(image, {
-        x: 0,
-        y: 0,
-        width: 600,
-        height: 800,
-      })
+    const form_field_data = {
+      "Procedures": proceduresInputRef.current?.value ?? "",
+      "Other Risks": riskInputRef.current?.value ?? "",
+      "Alternatives": alternativeInputRef.current?.value ?? "",
+      "Date": dateInputRef.current?.value ?? "",
+      "Time": formatTime(timeInputRef.current?.value) ?? "",
     }
 
-    source.form_fields.forEach((field) => {
-      // loop for number or parts
-      // in the loop, get the max length
-      // extract the substring of the value of that length and keep the remaining text
-      // draw text in the required location
+    setCreatedFormUrl("")
 
-      let textValue = field.value
-
-      // Get the textValue from the form fields
-      switch (field.title) {
-        case 'Procedures':
-          textValue = proceduresInputRef.current?.value || field.value
-          break
-        case 'Other Risks':
-          textValue = riskInputRef.current?.value || field.value
-          break
-        case 'Alternatives':
-          textValue = alternativeInputRef.current?.value || field.value
-          break
-        case 'Date':
-          textValue = alternativeInputRef.current?.value || field.value
-          break
-      }
-
-      field.params.parts.forEach((part) => {
-        const currentText = textValue.substring(0, part.max_length)
-        textValue = textValue.substring(part.max_length)
-
-        const { x, y } = part.location
-        const adjustedY = pageHeight - y
-        page.drawText(currentText, {
-          x,
-          y: adjustedY,
-          size: fontSize,
-          font,
-          color: rgb(
-            source.style.color.r / 255,
-            source.style.color.g / 255,
-            source.style.color.b / 255
-          ),
-        })
-      })
-    })
-
-    const pdfBytes = await pdfDoc.save()
-    const blob = new Blob([pdfBytes], { type: 'application/pdf' })
-    const url = URL.createObjectURL(blob)
-
-    // Optionally, you can open the PDF in a new tab
-    window.open(url, '_blank')
+    generateForm({ source: "iuhealth", form_field_data})
   }
+
+  const formatTime = (timeInput: string|undefined) => {
+    if (!timeInput) {
+      return "";
+    }
+
+    const parsedTime = new Date(`1970-01-01T${timeInput}:00Z`);
+    return parsedTime.toLocaleString('en-US', {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    });
+  };
+
 
   useEffect(() => {
     if (proceduresInputRef && proceduresInputRef.current) {
@@ -179,14 +152,26 @@ export default function IUHealthForm({ procedures }: IUHealthFormProps) {
         <Input ref={timeInputRef} type="time" label="Time" />
       </div>
 
-      <Button
-        type="submit"
-        title="Create Form"
-        colorScheme="blue"
-        className="w-40 mt-8"
-        disabled={!procedures || alternativesLoading || risksLoading}
-        onClick={handleFormGeneration}
-      />
+      <div className={"flex items-center my-8 gap-10"}>
+        <Button
+            type="submit"
+            title="Create Form"
+            colorScheme="blue"
+            className="w-40"
+            disabled={!procedures || alternativesLoading || risksLoading || generatingForm}
+            onClick={handleFormGeneration}
+        />
+
+        {
+          !!createdFormUrl &&
+            <a href={createdFormUrl} target={"_blank"} className={"hover:italic hover:underline flex gap-1 items-end text-blue-700"}>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15M9 12l3 3m0 0l3-3m-3 3V2.25" />
+              </svg>
+              Download Generated Consent Form
+            </a>
+        }
+      </div>
     </div>
   )
 }

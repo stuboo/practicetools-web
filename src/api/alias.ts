@@ -41,11 +41,18 @@ async function create(data: CreateProcedureAliasType): Promise<ProcedureAlias> {
     // }
 }
 
+async function generateConsentForm(data: any): Promise<string> {
+    // try {
+    const response: AxiosResponse<string> = await apiClient.post(`/consent/generate-consent-form`, data);
+    return response.data
+}
+
 const ProcedureAliasAPI = Object.freeze({
     getAll,
     risks,
     alternatives,
-    create
+    create,
+    generateConsentForm
 });
 
 export default ProcedureAliasAPI;
