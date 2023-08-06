@@ -71,7 +71,7 @@ export default function IUHealthForm({ procedures }: IUHealthFormProps) {
       "Procedures": proceduresInputRef.current?.value ?? "",
       "Other Risks": riskInputRef.current?.value ?? "",
       "Alternatives": alternativeInputRef.current?.value ?? "",
-      "Date": dateInputRef.current?.value ?? "",
+      "Date": formatDate(dateInputRef.current?.value) ?? "",
       "Time": formatTime(timeInputRef.current?.value) ?? "",
     }
 
@@ -79,6 +79,16 @@ export default function IUHealthForm({ procedures }: IUHealthFormProps) {
 
     generateForm({ source: "iuhealth", form_field_data})
   }
+
+  const formatDate = (inputDate: string|undefined) => {
+    if (!inputDate) throw Error("Invalid date")
+
+    const date = new Date(inputDate);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${month}/${day}/${year}`;
+  };
 
   const formatTime = (timeInput: string|undefined) => {
     if (!timeInput) {

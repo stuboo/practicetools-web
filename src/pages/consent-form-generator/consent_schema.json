@@ -178,6 +178,24 @@
           }
         },
         {
+          "title": "Date",
+          "value": "06/11/2023",
+          "description": "this is where the second date is placed",
+          "params": {
+            "max_length": 10,
+            "parts": [
+              {
+                "name": "date_line_1",
+                "max_length": 10,
+                "location": {
+                  "x": 12,
+                  "y": 245
+                }
+              }
+            ]
+          }
+        },
+        {
           "title": "Time",
           "value": "06/11/2023",
           "description": "this is where the time is placed",
