@@ -6881,7 +6881,7 @@
     ],
     "description": "Bladder care pathway in Spanish",
     "author": "Internal",
-    "thumbnail": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/bladder_pathway_spanish.pdf",
+    "thumbnail": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/bladder_pathway_spanish.png",
     "updated": "2024-06-02 00:00:00",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/bladder_pathway_spanish.pdf"
   },
@@ -6892,8 +6892,8 @@
     "category": ["pop", "prolapse", "pathway", "care", "treatment"],
     "description": "Pelvic organ prolapse (POP) care pathway in Spanish",
     "author": "Internal",
-    "thumbnail": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/pop_pathway.png",
+    "thumbnail": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/pop_pathway_spanish.png",
     "updated": "2024-06-02 00:00:00",
-    "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/pop_pathway.pdf"
+    "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/pop_pathway_spanish.pdf"
   }
 ]
