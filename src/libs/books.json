@@ -6852,5 +6852,16 @@
     "thumbnail": "https://tools.ryanstewart.com/uploads/internal/bladder_pathway.png",
     "updated": "2023-04-07 00:00:00",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/bladder_pathway.pdf"
+  },
+  {
+    "title": "Preventing UTI: D-Mannose & PACs",
+    "filename": "uti_dmannose_pac.pdf",
+    "language": "English",
+    "category": ["uti", "ruti", "dmannose", "pac", "treatment"],
+    "description": "Preventing UTI: D-Mannose & PACs",
+    "author": "Internal",
+    "thumbnail": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/uti_dmannose_pac.png",
+    "updated": "2023-04-07 00:00:00",
+    "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/uti_dmannose_pac.pdf"
   }
 ]
