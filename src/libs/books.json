@@ -499,7 +499,7 @@
     "title": "Vaginal Estrogen Therapy",
     "filename": "Vaginal_Estrogen_Therapy.pdf",
     "language": "English",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy", "uti", "ruti"],
     "description": "AUGS handout on Vaginal Estrogen Therapy in English",
     "author": "AUGS",
     "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Pages_from_Vaginal_Estrogen_Therapy.jpg",
@@ -929,7 +929,7 @@
       "estrogen",
       "GSM",
       "atrophy",
-      "large print"
+      "large print", "uti", "ruti"
     ],
     "description": "AUGS handout on Vaginal Estrogen Therapy in English",
     "author": "AUGS",
@@ -2846,7 +2846,7 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "Low-Dose_Vaginal_Estrogen_Therapy.pdf",
     "language": "English",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy", "uti", "ruti"],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
