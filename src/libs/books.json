@@ -6863,5 +6863,37 @@
     "thumbnail": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/uti_dmannose_pac.png",
     "updated": "2023-04-07 00:00:00",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/uti_dmannose_pac.pdf"
+  },
+  {
+    "title": "Spanish Bladder Care Pathway",
+    "filename": "Spanish Bladder Care Pathway.pdf",
+    "language": "Spanish",
+    "category": [
+      "OAB",
+      "incontinence",
+      "sui",
+      "uui",
+      "nocturia",
+      "bladder",
+      "care",
+      "pathway",
+      "treatment"
+    ],
+    "description": "Bladder care pathway in Spanish",
+    "author": "Internal",
+    "thumbnail": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/bladder_pathway_spanish.pdf",
+    "updated": "2024-06-02 00:00:00",
+    "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/bladder_pathway_spanish.pdf"
+  },
+  {
+    "title": "Pelvic Organ Prolapse Care Pathway in Spanish",
+    "filename": "pop_pathway.pdf",
+    "language": "Spanish",
+    "category": ["pop", "prolapse", "pathway", "care", "treatment"],
+    "description": "Pelvic organ prolapse (POP) care pathway in Spanish",
+    "author": "Internal",
+    "thumbnail": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/pop_pathway.png",
+    "updated": "2024-06-02 00:00:00",
+    "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/pop_pathway.pdf"
   }
 ]
