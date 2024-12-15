@@ -79,7 +79,7 @@ const ListFiles = () => {
   if (status === 'loading') return <Skeleton />
   return (
     <>
-      <form className="flex flex-col md:flex-row justify-between items-end mb-3 gap-3 lg:gap-6 py-6">
+      <form className="flex flex-col items-end justify-between gap-3 py-6 mb-3 md:flex-row lg:gap-6">
         <Input
           // label="Search PDFs"
           type="text"
@@ -111,7 +111,7 @@ const ListFiles = () => {
         </Select>
       </form>
 
-      <div className="grid md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4 m gap-6 pb-10">
+      <div className="grid gap-6 pb-10 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4 m">
         {filteredPDFs.map((pdf: PDF) => (
           <BookCard
             key={pdf.filename}

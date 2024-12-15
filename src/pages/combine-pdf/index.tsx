@@ -13,8 +13,8 @@ export default function CombinePDF() {
 
   return (
     <Container className="h-full" bgColor="bg-gray-50">
-      <div className="md:container mx-auto h-full">
-        <div className="flex justify-between items-center mt-6">
+      <div className="h-full mx-auto md:container">
+        <div className="flex items-center justify-between mt-6">
           {/* Header/Breadcrumb */}
           <div className="flex items-center gap-2 lg:gap-4">
             <Link to={'/'}>
@@ -34,7 +34,7 @@ export default function CombinePDF() {
               </svg>
             </Link>
 
-            <h1 className="text-md lg:text-2xl font-light">
+            <h1 className="font-light text-md lg:text-2xl">
               Patient Educational Materials
             </h1>
           </div>
@@ -62,8 +62,8 @@ export default function CombinePDF() {
 
         {/* Full-screen container to center the panel */}
         <div className="fixed inset-0 flex items-center justify-center p-4">
-          <Dialog.Panel className="mx-auto max-w-3xl rounded bg-white px-6 py-6">
-            <Dialog.Description className="transition mt-2 mb-6">
+          <Dialog.Panel className="max-w-3xl px-6 py-6 mx-auto bg-white rounded">
+            <Dialog.Description className="mt-2 mb-6 transition">
               <p className="pb-4">
                 This app was created to help make it easier for you to share
                 patient education materials with your patients. With this app,
@@ -86,7 +86,7 @@ export default function CombinePDF() {
             </Dialog.Description>
 
             <button
-              className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+              className="inline-flex justify-center w-full px-3 py-2 mt-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
               onClick={() => setIsOpen(false)}
             >
               Ok
