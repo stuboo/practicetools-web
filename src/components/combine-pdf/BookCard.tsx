@@ -1,13 +1,19 @@
 import { QrCodeIcon } from '@heroicons/react/24/outline'
-import { PDF } from '../../pages/combine-pdf/types'
+import { PDF } from '@/pages/combine-pdf/types'
 
 type CardProps = {
   pdf: PDF
   onBookSelected?: (book: PDF) => void
   onBookRemoved?: (book: PDF) => void
+  onShowQRCode?: () => void
 }
 
-const BookCard = ({ pdf, onBookSelected, onBookRemoved }: CardProps) => {
+const BookCard = ({
+  pdf,
+  onBookSelected,
+  onBookRemoved,
+  onShowQRCode,
+}: CardProps) => {
   const canBeSelected = !(pdf.selected ? true : false)
 
   const toggleSelection = () => {
@@ -52,6 +58,7 @@ const BookCard = ({ pdf, onBookSelected, onBookRemoved }: CardProps) => {
               <button
                 type="button"
                 className={`p-3 w-12 text-base font-medium rounded-full text-white bg-white `}
+                onClick={() => onShowQRCode && onShowQRCode()}
               >
                 <QrCodeIcon className="w-6 h-6 text-black" />
               </button>

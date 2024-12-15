@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import BookCard from '../../../../components/combine-pdf/BookCard'
+import BookCard from '@/components/combine-pdf/BookCard'
 import {
   fetchPDFs,
   selectPDF,
@@ -7,16 +7,24 @@ import {
   setSearchTerm,
   unSelectPDF,
 } from './pdfsSlice'
-import Skeleton from '../../../../components/combine-pdf/Skeleton'
+import Skeleton from '@/components/combine-pdf/Skeleton'
 import { PDF } from '../../types'
-import Input from '../../../../components/input'
+import Input from '@/components/input'
 import {
   Select,
   SelectContent,
   SelectOption,
   SelectTrigger,
-} from '../../../../components/select'
-import { useAppDispatch, useAppSelector } from '../../../../libs/store'
+} from '@/components/select'
+import { useAppDispatch, useAppSelector } from '@/libs/store'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
 
 const DEFAULT_FILTER = 'All'
 
@@ -25,6 +33,7 @@ const searchFor = (needle: string, haystack: string) => {
 }
 
 const ListFiles = () => {
+  const [showQRCode, setShowQRCode] = useState(true)
   const pdfFiles = useAppSelector((state) => state.pdfs.pdfs)
   const languages = useAppSelector((state) => state.pdfs.languages)
   const filter = useAppSelector((state) => state.pdfs.filter)
@@ -76,6 +85,10 @@ const ListFiles = () => {
     dispatch(unSelectPDF(toBeRemovedPDF))
   }
 
+  const handleShowQRCode = () => {
+    setShowQRCode(true)
+  }
+
   if (status === 'loading') return <Skeleton />
   return (
     <>
@@ -118,9 +131,23 @@ const ListFiles = () => {
             pdf={pdf}
             onBookSelected={onSelected}
             onBookRemoved={onRemoved}
+            onShowQRCode={handleShowQRCode}
           />
         ))}
       </div>
+
+      <Dialog open={showQRCode} onOpenChange={setShowQRCode}>
+        <DialogTrigger>Open</DialogTrigger>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Are you absolutely sure?</DialogTitle>
+            <DialogDescription>
+              This action cannot be undone. This will permanently delete your
+              account and remove your data from our servers.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </>
   )
 }
