@@ -20,7 +20,6 @@ import { useAppDispatch, useAppSelector } from '@/libs/store'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import toast from 'react-hot-toast'
-import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 
 const DEFAULT_FILTER = 'All'
 
@@ -36,7 +35,6 @@ const ListFiles = () => {
   const searchterm = useAppSelector((state) => state.pdfs.searchterm)
   const status = useAppSelector((state) => state.pdfs.status)
   const dispatch = useAppDispatch()
-  const [copiedText, copy] = useCopyToClipboard()
   const [copying, setCopying] = useState(false)
 
   const [filteredPDFs, setFilteredPDFs] = useState<PDF[]>([])
