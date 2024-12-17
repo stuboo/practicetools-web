@@ -122,15 +122,14 @@ const ListFiles = () => {
     try {
       const response = await fetch(selectedPDF.short_url_qr)
       const blob = await response.blob()
+
       saveAs(
         blob,
         `${selectedPDF.title.replace(/[^a-z0-9]/gi, '_')}_QRCode.png`
       )
 
-      // Show success toast
       toast('QR code downloaded successfully.')
     } catch (err) {
-      console.error('Failed to download QR code:', err)
       toast.error('Failed to download QR code. Please try again.')
     }
   }
@@ -184,7 +183,6 @@ const ListFiles = () => {
       </div>
 
       <Dialog open={showQRCode} onOpenChange={setShowQRCode}>
-        <DialogTrigger>Open</DialogTrigger>
         <DialogContent className="flex flex-col items-center justify-center">
           <DialogTitle className="sr-only">
             QR Code for the PDF: {selectedPDF?.title}
@@ -207,15 +205,6 @@ const ListFiles = () => {
             <Button variant="outline" onClick={downloadQRCode}>
               <Download />
             </Button>
-            <a
-              href={selectedPDF?.short_url_qr}
-              download={`${selectedPDF?.title.replace(
-                /[^a-z0-9]/gi,
-                '_'
-              )}_QRCode.png`}
-            >
-              Download QRCode
-            </a>
           </div>
         </DialogContent>
       </Dialog>
