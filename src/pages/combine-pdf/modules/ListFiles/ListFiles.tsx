@@ -22,6 +22,7 @@ import { Button } from '@/components/ui/button'
 import toast from 'react-hot-toast'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
 import { Download } from 'lucide-react'
+import saveAs from 'file-saver'
 
 const DEFAULT_FILTER = 'All'
 
@@ -113,27 +114,18 @@ const ListFiles = () => {
     }
   }
 
-  const downloadQRCode = () => {
+  const downloadQRCode = async () => {
     if (!selectedPDF) {
       return toast.error('No QR code selected. Please try again.')
     }
 
     try {
-      // Create a temporary anchor element
-      const link = document.createElement('a')
-      link.href = selectedPDF.short_url_qr
-
-      // Generate a filename based on the PDF title
-      const filename = `${selectedPDF.title.replace(
-        /[^a-z0-9]/gi,
-        '_'
-      )}_QRCode.png`
-      link.download = filename
-
-      // Append to body, click, and remove
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+      const response = await fetch(selectedPDF.short_url_qr)
+      const blob = await response.blob()
+      saveAs(
+        blob,
+        `${selectedPDF.title.replace(/[^a-z0-9]/gi, '_')}_QRCode.png`
+      )
 
       // Show success toast
       toast('QR code downloaded successfully.')
