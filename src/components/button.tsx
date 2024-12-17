@@ -198,7 +198,7 @@ const Button = forwardRef<HTMLButtonElement, CustomButtonProps>(
       >
         {isLoading && <FaSpinner className="animate-spin" />}
         {iconLeft && (
-          <span className="w-5 h-5 flex justify-center items-center">
+          <span className="flex items-center justify-center w-5 h-5">
             {iconLeft}
           </span>
         )}

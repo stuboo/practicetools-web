@@ -5,7 +5,7 @@ type CardProps = {
   pdf: PDF
   onBookSelected?: (book: PDF) => void
   onBookRemoved?: (book: PDF) => void
-  onShowQRCode?: () => void
+  onShowQRCode?: (book: PDF) => void
 }
 
 const BookCard = ({
@@ -58,7 +58,7 @@ const BookCard = ({
               <button
                 type="button"
                 className={`p-3 w-12 text-base font-medium rounded-full text-white bg-white `}
-                onClick={() => onShowQRCode && onShowQRCode()}
+                onClick={() => onShowQRCode && onShowQRCode(pdf)}
               >
                 <QrCodeIcon className="w-6 h-6 text-black" />
               </button>

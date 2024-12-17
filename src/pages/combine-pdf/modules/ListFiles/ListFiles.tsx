@@ -17,14 +17,10 @@ import {
   SelectTrigger,
 } from '@/components/select'
 import { useAppDispatch, useAppSelector } from '@/libs/store'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import toast from 'react-hot-toast'
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 
 const DEFAULT_FILTER = 'All'
 
@@ -33,15 +29,18 @@ const searchFor = (needle: string, haystack: string) => {
 }
 
 const ListFiles = () => {
-  const [showQRCode, setShowQRCode] = useState(true)
+  const [showQRCode, setShowQRCode] = useState(false)
   const pdfFiles = useAppSelector((state) => state.pdfs.pdfs)
   const languages = useAppSelector((state) => state.pdfs.languages)
   const filter = useAppSelector((state) => state.pdfs.filter)
   const searchterm = useAppSelector((state) => state.pdfs.searchterm)
   const status = useAppSelector((state) => state.pdfs.status)
   const dispatch = useAppDispatch()
+  const [copiedText, copy] = useCopyToClipboard()
+  const [copying, setCopying] = useState(false)
 
   const [filteredPDFs, setFilteredPDFs] = useState<PDF[]>([])
+  const [selectedPDF, setSelectedPDF] = useState<PDF>()
 
   const filterSearch = useCallback(() => {
     let _filtered
@@ -85,8 +84,33 @@ const ListFiles = () => {
     dispatch(unSelectPDF(toBeRemovedPDF))
   }
 
-  const handleShowQRCode = () => {
+  const handleShowQRCode = (pdf: PDF) => {
+    setSelectedPDF(pdf)
+
     setShowQRCode(true)
+  }
+
+  const copyQRCodeToClipboard = async () => {
+    if (!selectedPDF) {
+      return toast.error('Failed to copy QR code. Please try again.')
+    }
+
+    try {
+      setCopying(true)
+      const response = await fetch(selectedPDF.short_url_qr)
+      const blob = await response.blob()
+      await navigator.clipboard.write([
+        new ClipboardItem({
+          [blob.type]: blob,
+        }),
+      ])
+      toast('The QR code has been copied to your clipboard.')
+    } catch (err) {
+      console.error('Failed to copy QR code:', err)
+      toast.error('Failed to copy QR code. Please try again.')
+    } finally {
+      setCopying(false)
+    }
   }
 
   if (status === 'loading') return <Skeleton />
@@ -124,7 +148,7 @@ const ListFiles = () => {
         </Select>
       </form>
 
-      <div className="grid gap-6 pb-10 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-4 m">
+      <div className="grid gap-6 pb-10 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-4 m">
         {filteredPDFs.map((pdf: PDF) => (
           <BookCard
             key={pdf.filename}
@@ -138,14 +162,16 @@ const ListFiles = () => {
 
       <Dialog open={showQRCode} onOpenChange={setShowQRCode}>
         <DialogTrigger>Open</DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
-            <DialogDescription>
-              This action cannot be undone. This will permanently delete your
-              account and remove your data from our servers.
-            </DialogDescription>
-          </DialogHeader>
+        <DialogContent className="flex flex-col items-center justify-center">
+          <img
+            src={selectedPDF?.short_url_qr}
+            alt={`QR Code for ${selectedPDF?.title}`}
+            width={300}
+            height={300}
+            className="cursor-pointer"
+            onClick={copyQRCodeToClipboard}
+          />
+          <Button disabled={copying}>Copy</Button>
         </DialogContent>
       </Dialog>
     </>

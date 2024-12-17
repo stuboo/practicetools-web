@@ -8,7 +8,9 @@ export type PDF = {
     thumbnail: string,
     updated: string,
     source: string,
-    selected?: boolean
+    selected?: boolean,
+    short_url: string,
+    short_url_qr: string,
 };
 
 export interface CombinePDFState {
