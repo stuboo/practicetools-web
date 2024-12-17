@@ -17,7 +17,7 @@ import {
   SelectTrigger,
 } from '@/components/select'
 import { useAppDispatch, useAppSelector } from '@/libs/store'
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import toast from 'react-hot-toast'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
