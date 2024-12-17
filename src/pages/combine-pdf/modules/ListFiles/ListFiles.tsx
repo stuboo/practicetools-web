@@ -20,6 +20,8 @@ import { useAppDispatch, useAppSelector } from '@/libs/store'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import toast from 'react-hot-toast'
+import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
+import { Download } from 'lucide-react'
 
 const DEFAULT_FILTER = 'All'
 
@@ -111,7 +113,38 @@ const ListFiles = () => {
     }
   }
 
+  const downloadQRCode = () => {
+    if (!selectedPDF) {
+      return toast.error('No QR code selected. Please try again.')
+    }
+
+    try {
+      // Create a temporary anchor element
+      const link = document.createElement('a')
+      link.href = selectedPDF.short_url_qr
+
+      // Generate a filename based on the PDF title
+      const filename = `${selectedPDF.title.replace(
+        /[^a-z0-9]/gi,
+        '_'
+      )}_QRCode.png`
+      link.download = filename
+
+      // Append to body, click, and remove
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+
+      // Show success toast
+      toast('QR code downloaded successfully.')
+    } catch (err) {
+      console.error('Failed to download QR code:', err)
+      toast.error('Failed to download QR code. Please try again.')
+    }
+  }
+
   if (status === 'loading') return <Skeleton />
+
   return (
     <>
       <form className="flex flex-col items-end justify-between gap-3 py-6 mb-3 md:flex-row lg:gap-6">
@@ -161,6 +194,12 @@ const ListFiles = () => {
       <Dialog open={showQRCode} onOpenChange={setShowQRCode}>
         <DialogTrigger>Open</DialogTrigger>
         <DialogContent className="flex flex-col items-center justify-center">
+          <DialogTitle className="sr-only">
+            QR Code for the PDF: {selectedPDF?.title}
+          </DialogTitle>
+          <DialogDescription className="sr-only">
+            {selectedPDF?.description}
+          </DialogDescription>
           <img
             src={selectedPDF?.short_url_qr}
             alt={`QR Code for ${selectedPDF?.title}`}
@@ -169,7 +208,23 @@ const ListFiles = () => {
             className="cursor-pointer"
             onClick={copyQRCodeToClipboard}
           />
-          <Button disabled={copying}>Copy</Button>
+          <div className="flex gap-3">
+            <Button disabled={copying} onClick={copyQRCodeToClipboard}>
+              Copy
+            </Button>
+            <Button variant="outline" onClick={downloadQRCode}>
+              <Download />
+            </Button>
+            <a
+              href={selectedPDF?.short_url_qr}
+              download={`${selectedPDF?.title.replace(
+                /[^a-z0-9]/gi,
+                '_'
+              )}_QRCode.png`}
+            >
+              Download QRCode
+            </a>
+          </div>
         </DialogContent>
       </Dialog>
     </>
