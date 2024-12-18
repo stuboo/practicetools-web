@@ -100,11 +100,14 @@ const ListFiles = () => {
       setCopying(true)
       const response = await fetch(selectedPDF.short_url_qr)
       const blob = await response.blob()
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          [blob.type]: blob,
-        }),
-      ])
+      setTimeout(async () => {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            [blob.type]: blob,
+          }),
+        ])
+      }, 0)
+
       toast('The QR code has been copied to your clipboard.')
     } catch (err) {
       console.error('Failed to copy QR code:', err)
