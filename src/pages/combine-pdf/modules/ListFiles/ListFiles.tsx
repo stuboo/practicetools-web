@@ -121,7 +121,7 @@ const ListFiles = () => {
         ])
       }, 0)
 
-      toast('The QR code has been copied to your clipboard.')
+      toast.success('The QR code has been copied to your clipboard.')
     } catch (err) {
       console.error('Failed to copy QR code:', err)
       toast.error('Failed to copy QR code. Please try again.')
@@ -144,7 +144,7 @@ const ListFiles = () => {
         `${selectedPDF.title.replace(/[^a-z0-9]/gi, '_')}_QRCode.png`
       )
 
-      toast('QR code downloaded successfully.')
+      toast.success('QR code downloaded successfully.')
     } catch (err) {
       toast.error('Failed to download QR code. Please try again.')
     }
