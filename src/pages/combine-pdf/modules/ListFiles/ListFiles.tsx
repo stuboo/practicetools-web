@@ -16,6 +16,17 @@ import {
   SelectOption,
   SelectTrigger,
 } from '@/components/select'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components/ui/drawer'
+
 import { useAppDispatch, useAppSelector } from '@/libs/store'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
@@ -23,6 +34,7 @@ import toast from 'react-hot-toast'
 import { DialogDescription, DialogTitle } from '@radix-ui/react-dialog'
 import { Download } from 'lucide-react'
 import saveAs from 'file-saver'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 const DEFAULT_FILTER = 'All'
 
@@ -32,6 +44,8 @@ const searchFor = (needle: string, haystack: string) => {
 
 const ListFiles = () => {
   const [showQRCode, setShowQRCode] = useState(false)
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
   const pdfFiles = useAppSelector((state) => state.pdfs.pdfs)
   const languages = useAppSelector((state) => state.pdfs.languages)
   const filter = useAppSelector((state) => state.pdfs.filter)
@@ -185,32 +199,65 @@ const ListFiles = () => {
         ))}
       </div>
 
-      <Dialog open={showQRCode} onOpenChange={setShowQRCode}>
-        <DialogContent className="flex flex-col items-center justify-center">
-          <DialogTitle className="sr-only">
-            QR Code for the PDF: {selectedPDF?.title}
-          </DialogTitle>
-          <DialogDescription className="sr-only">
-            {selectedPDF?.description}
-          </DialogDescription>
-          <img
-            src={selectedPDF?.short_url_qr}
-            alt={`QR Code for ${selectedPDF?.title}`}
-            width={300}
-            height={300}
-            className="cursor-pointer"
-            onClick={copyQRCodeToClipboard}
-          />
-          <div className="flex gap-3">
-            <Button disabled={copying} onClick={copyQRCodeToClipboard}>
-              Copy
-            </Button>
-            <Button variant="outline" onClick={downloadQRCode}>
-              <Download />
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {isDesktop ? (
+        <Dialog open={showQRCode} onOpenChange={setShowQRCode}>
+          <DialogContent className="flex flex-col items-center justify-center gap-0">
+            <DialogTitle className="font-medium ">
+              <span className="sr-only">QR Code for the PDF: </span>
+              {selectedPDF?.title}
+            </DialogTitle>
+            <DialogDescription className="text-gray-500">
+              {selectedPDF?.description}
+            </DialogDescription>
+            <img
+              src={selectedPDF?.short_url_qr}
+              alt={`QR Code for ${selectedPDF?.title}`}
+              width={300}
+              height={300}
+              className="mt-4 cursor-pointer"
+              onClick={copyQRCodeToClipboard}
+            />
+            <div className="flex gap-3 mt-4">
+              <Button disabled={copying} onClick={copyQRCodeToClipboard}>
+                Copy
+              </Button>
+              <Button variant="outline" onClick={downloadQRCode}>
+                <Download />
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      ) : (
+        <Drawer open={showQRCode} onOpenChange={setShowQRCode}>
+          <DrawerTrigger>Open</DrawerTrigger>
+          <DrawerContent className="flex flex-col items-center justify-center">
+            <DrawerHeader>
+              <DrawerTitle>
+                <span className="sr-only">QR Code for the PDF: </span>
+                {selectedPDF?.title}
+              </DrawerTitle>
+              <DrawerDescription>{selectedPDF?.description}</DrawerDescription>
+            </DrawerHeader>
+            <img
+              src={selectedPDF?.short_url_qr}
+              alt={`QR Code for ${selectedPDF?.title}`}
+              width={300}
+              height={300}
+              className="cursor-pointer"
+              onClick={copyQRCodeToClipboard}
+            />
+            <div className="flex gap-3">
+              <Button disabled={copying} onClick={copyQRCodeToClipboard}>
+                Copy
+              </Button>
+              <Button variant="outline" onClick={downloadQRCode}>
+                <Download />
+              </Button>
+            </div>
+            <DrawerFooter></DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      )}
     </>
   )
 }
