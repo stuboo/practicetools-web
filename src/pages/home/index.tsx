@@ -3,6 +3,7 @@ import {
   AiOutlineFilePdf,
   AiOutlineForm,
   AiOutlineSearch,
+  AiOutlineFileText,
 } from 'react-icons/ai'
 
 interface Tools {
@@ -33,6 +34,13 @@ const toolsList: Tools[] = [
     description: 'Generate consent form dynamically',
     icon: <AiOutlineForm className="w-8 h-8 lg:w-16 lg:h-16" />,
     href: '/consent-form-generator',
+  },
+
+  {
+    title: 'QUID-6',
+    description: 'Questionnaire for Urinary Incontinence Diagnosis',
+    icon: <AiOutlineFileText className="w-8 h-8 lg:w-16 lg:h-16" />,
+    href: '/quid6',
   },
 ]
 

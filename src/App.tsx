@@ -11,6 +11,7 @@ import CombinePDF from './pages/combine-pdf'
 import { Provider } from 'react-redux'
 import { store } from './libs/store'
 import ConsentFormGenerator from './pages/consent-form-generator'
+import Quid6 from './pages/quid6'
 
 const queryClient = new QueryClient()
 
@@ -28,6 +29,7 @@ function App() {
                 path="consent-form-generator"
                 element={<ConsentFormGenerator />}
               />
+              <Route path="quid6" element={<Quid6 />} />
             </Route>
 
             {/* Administration/Backend Routes */}
