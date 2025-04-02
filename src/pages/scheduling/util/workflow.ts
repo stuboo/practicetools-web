@@ -1,5 +1,5 @@
 // Define types for the scheduling workflow
-export type NodeType = 'start' | 'question' | 'action' | 'result';
+export type NodeType = 'start' | 'question' | 'action' | 'result' | 'quid6';
 export type ProviderType = 'APP' | 'Guanzon' | 'Stewart';
 
 export interface WorkflowNode {
@@ -8,7 +8,7 @@ export interface WorkflowNode {
   text: string;
   options?: WorkflowOption[];
   result?: ProviderType;
-  redirectToQuid6?: boolean;
+  isQuid6?: boolean;
 }
 
 export interface WorkflowOption {
@@ -40,7 +40,7 @@ export const workflowNodes: Record<string, WorkflowNode> = {
     options: [
       {
         text: 'Urinary Incontinence',
-        nextNodeId: 'quid6Questionnaire'
+        nextNodeId: 'quid6Start'
       },
       {
         text: 'Recurrent UTIs',
@@ -87,29 +87,11 @@ export const workflowNodes: Record<string, WorkflowNode> = {
       }
     ]
   },
-  quid6Questionnaire: {
-    id: 'quid6Questionnaire',
-    type: 'question',
-    text: 'QUID-6 Questionnaire - Please complete the QUID-6 assessment to determine the appropriate provider',
-    redirectToQuid6: true,
-    options: [
-      {
-        text: 'Stress Incontinence',
-        nextNodeId: 'likelySurgical'
-      },
-      {
-        text: 'Urge Incontinence',
-        nextNodeId: 'scheduleWithAPP'
-      },
-      {
-        text: 'Urge Predominant Mixed',
-        nextNodeId: 'scheduleWithAPP'
-      },
-      {
-        text: 'Stress Predominant Mixed',
-        nextNodeId: 'likelySurgical'
-      }
-    ]
+  quid6Start: {
+    id: 'quid6Start',
+    type: 'quid6',
+    text: 'QUID-6 Questionnaire',
+    isQuid6: true
   },
   likelySurgical: {
     id: 'likelySurgical',
