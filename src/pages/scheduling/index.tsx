@@ -9,9 +9,14 @@ import {
 } from './util/workflow';
 import Button from '../../components/button';
 
+interface PathStep {
+  node: WorkflowNode;
+  selectedOptionIndex?: number;
+}
+
 const Scheduling: React.FC = () => {
   const [currentNode, setCurrentNode] = useState<WorkflowNode>(getInitialNode());
-  const [path, setPath] = useState<WorkflowNode[]>([getInitialNode()]);
+  const [path, setPath] = useState<PathStep[]>([{ node: getInitialNode() }]);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const navigate = useNavigate();
 
@@ -28,10 +33,14 @@ const Scheduling: React.FC = () => {
       return;
     }
 
+    // Update the current step with the selected option
+    const updatedPath = [...path];
+    updatedPath[updatedPath.length - 1].selectedOptionIndex = selectedOption;
+
     const nextNode = getNextNode(currentNode.id, selectedOption);
     if (nextNode) {
       setCurrentNode(nextNode);
-      setPath([...path, nextNode]);
+      setPath([...updatedPath, { node: nextNode }]);
       setSelectedOption(null);
     }
   };
@@ -41,15 +50,15 @@ const Scheduling: React.FC = () => {
       const newPath = [...path];
       newPath.pop();
       setPath(newPath);
-      setCurrentNode(newPath[newPath.length - 1]);
-      setSelectedOption(null);
+      setCurrentNode(newPath[newPath.length - 1].node);
+      setSelectedOption(newPath[newPath.length - 1].selectedOptionIndex || null);
     }
   };
 
   const handleRestart = () => {
     const initialNode = getInitialNode();
     setCurrentNode(initialNode);
-    setPath([initialNode]);
+    setPath([{ node: initialNode }]);
     setSelectedOption(null);
   };
 
@@ -184,11 +193,11 @@ const Scheduling: React.FC = () => {
         <h3 className="text-lg font-medium mb-2">Decision Path:</h3>
         <div className="bg-gray-50 p-4 rounded-lg">
           <ol className="list-decimal list-inside">
-            {path.map((node, index) => (
+            {path.map((step, index) => (
               <li key={index} className="py-1">
-                {node.text}
-                {index < path.length - 1 && selectedOption !== null && node.options && (
-                  <span className="text-blue-600"> → {node.options[path[index + 1].id === 'patientAge' ? 0 : selectedOption].text}</span>
+                {step.node.text}
+                {step.selectedOptionIndex !== undefined && step.node.options && (
+                  <span className="text-blue-600"> → {step.node.options[step.selectedOptionIndex].text}</span>
                 )}
               </li>
             ))}
