@@ -5,7 +5,8 @@ import {
   WorkflowNode,
   getInitialNode,
   getNextNode,
-  ProviderType
+  ProviderType,
+  workflowNodes
 } from './util/workflow';
 import Button from '../../components/button';
 import Quid6Questionnaire, { DiagnosisType, Quid6Result } from './components/Quid6Questionnaire';
@@ -136,9 +137,6 @@ const Scheduling: React.FC = () => {
         return null;
     }
   };
-
-  // Get the workflowNodes object for accessing node ids outside the main flow
-  const { workflowNodes } = require('./util/workflow');
 
   return (
     <Container className="py-8">
