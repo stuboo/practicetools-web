@@ -72,7 +72,7 @@ export const workflowNodes: Record<string, WorkflowNode> = {
       },
       {
         text: 'Pelvic Organ Prolapse',
-        nextNodeId: 'likelySurgical'
+        nextNodeId: 'scheduleWithSurgeon'
       }
     ]
   },
@@ -93,31 +93,11 @@ export const workflowNodes: Record<string, WorkflowNode> = {
     text: 'QUID-6 Questionnaire',
     isQuid6: true
   },
-  likelySurgical: {
-    id: 'likelySurgical',
-    type: 'action',
-    text: 'This case likely requires surgical evaluation',
-    options: [
-      {
-        text: 'Continue',
-        nextNodeId: 'scheduleWithSurgeon'
-      }
-    ]
-  },
   scheduleWithSurgeon: {
     id: 'scheduleWithSurgeon',
-    type: 'question',
-    text: 'Schedule with which surgeon?',
-    options: [
-      {
-        text: 'Schedule with Dr. Guanzon',
-        nextNodeId: 'resultGuanzon'
-      },
-      {
-        text: 'Schedule with Dr. Stewart',
-        nextNodeId: 'resultStewart'
-      }
-    ]
+    type: 'result',
+    text: 'Schedule with a surgeon for evaluation.',
+    result: 'Guanzon'
   },
   scheduleWithAPP: {
     id: 'scheduleWithAPP',

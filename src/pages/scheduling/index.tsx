@@ -35,7 +35,7 @@ const Scheduling: React.FC = () => {
     switch (result.diagnosis) {
       case 'Stress Incontinence':
       case 'Stress-Predominant Mixed':
-        nextNodeId = 'likelySurgical';
+        nextNodeId = 'scheduleWithSurgeon';
         break;
       case 'Urge Incontinence':
       case 'Urge-Predominant Mixed':
