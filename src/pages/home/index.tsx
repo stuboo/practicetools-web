@@ -31,20 +31,6 @@ const toolsList: Tools[] = [
   },
 
   {
-    title: 'Consent Form Generator',
-    description: 'Generate consent form dynamically',
-    icon: <AiOutlineForm className="w-8 h-8 lg:w-16 lg:h-16" />,
-    href: '/consent-form-generator',
-  },
-
-  {
-    title: 'QUID-6',
-    description: 'Questionnaire for Urinary Incontinence Diagnosis',
-    icon: <AiOutlineFileText className="w-8 h-8 lg:w-16 lg:h-16" />,
-    href: '/quid6',
-  },
-
-  {
     title: 'Scheduling',
     description: 'Guide for scheduling patients with appropriate providers',
     icon: <AiOutlineSchedule className="w-8 h-8 lg:w-16 lg:h-16" />,
