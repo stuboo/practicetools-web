@@ -18,17 +18,6 @@ export interface WorkflowOption {
 
 // Define the scheduling workflow based on the flowchart
 export const workflowNodes: Record<string, WorkflowNode> = {
-  start: {
-    id: 'start',
-    type: 'start',
-    text: 'Start the scheduling workflow',
-    options: [
-      {
-        text: 'Continue',
-        nextNodeId: 'patientAge'
-      }
-    ]
-  },
   patientAge: {
     id: 'patientAge',
     type: 'question',
@@ -170,7 +159,7 @@ export const workflowNodes: Record<string, WorkflowNode> = {
 
 // Helper function to get the initial node
 export const getInitialNode = (): WorkflowNode => {
-  return workflowNodes.start;
+  return workflowNodes.patientAge;
 };
 
 // Helper function to get the next node based on the current node and selected option
