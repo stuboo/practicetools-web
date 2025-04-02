@@ -12,6 +12,7 @@ import { Provider } from 'react-redux'
 import { store } from './libs/store'
 import ConsentFormGenerator from './pages/consent-form-generator'
 import Quid6 from './pages/quid6'
+import Scheduling from './pages/scheduling'
 
 const queryClient = new QueryClient()
 
@@ -30,6 +31,7 @@ function App() {
                 element={<ConsentFormGenerator />}
               />
               <Route path="quid6" element={<Quid6 />} />
+              <Route path="scheduling" element={<Scheduling />} />
             </Route>
 
             {/* Administration/Backend Routes */}

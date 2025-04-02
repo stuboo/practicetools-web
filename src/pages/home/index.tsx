@@ -4,6 +4,7 @@ import {
   AiOutlineForm,
   AiOutlineSearch,
   AiOutlineFileText,
+  AiOutlineSchedule,
 } from 'react-icons/ai'
 
 interface Tools {
@@ -41,6 +42,13 @@ const toolsList: Tools[] = [
     description: 'Questionnaire for Urinary Incontinence Diagnosis',
     icon: <AiOutlineFileText className="w-8 h-8 lg:w-16 lg:h-16" />,
     href: '/quid6',
+  },
+
+  {
+    title: 'Scheduling',
+    description: 'Guide for scheduling patients with appropriate providers',
+    icon: <AiOutlineSchedule className="w-8 h-8 lg:w-16 lg:h-16" />,
+    href: '/scheduling',
   },
 ]
 
