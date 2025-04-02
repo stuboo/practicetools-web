@@ -96,7 +96,7 @@ export const workflowNodes: Record<string, WorkflowNode> = {
   scheduleWithSurgeon: {
     id: 'scheduleWithSurgeon',
     type: 'result',
-    text: 'Schedule with a surgeon for evaluation.',
+    text: 'Schedule with Surgeon',
     result: 'Guanzon'
   },
   scheduleWithAPP: {

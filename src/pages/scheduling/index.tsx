@@ -116,20 +116,12 @@ const Scheduling: React.FC = () => {
           </div>
         );
       case 'Guanzon':
-        return (
-          <div className="bg-purple-50 p-4 rounded-lg">
-            <h3 className="text-lg font-medium text-purple-700">Dr. Guanzon</h3>
-            <p className="mt-2 text-purple-600">
-              Please schedule the patient with Dr. Guanzon for surgical evaluation and treatment options.
-            </p>
-          </div>
-        );
       case 'Stewart':
         return (
-          <div className="bg-green-50 p-4 rounded-lg">
-            <h3 className="text-lg font-medium text-green-700">Dr. Stewart</h3>
-            <p className="mt-2 text-green-600">
-              Please schedule the patient with Dr. Stewart for surgical evaluation and treatment options.
+          <div className="bg-purple-50 p-4 rounded-lg">
+            <h3 className="text-lg font-medium text-purple-700">Surgeon</h3>
+            <p className="mt-2 text-purple-600">
+              Please schedule the patient with a surgeon for evaluation and treatment options.
             </p>
           </div>
         );
