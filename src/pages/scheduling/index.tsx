@@ -104,31 +104,48 @@ const Scheduling: React.FC = () => {
     setQuid6Result(null);
   };
 
-  const renderProviderInfo = (providerType: ProviderType) => {
-    switch (providerType) {
-      case 'APP':
-        return (
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <h3 className="text-lg font-medium text-blue-700">Advanced Practice Provider (APP)</h3>
-            <p className="mt-2 text-blue-600">
-              Please schedule the patient with an Advanced Practice Provider. They are well-equipped to handle this type of case.
-            </p>
-          </div>
-        );
+  const renderProviderInfo = (result: string) => {
+    // Calculate date 90 days from today for APP scheduling note
+    const futureDate = new Date();
+    futureDate.setDate(futureDate.getDate() + 90);
+    const formattedDate = futureDate.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+
+    switch (result) {
       case 'Guanzon':
       case 'Stewart':
+      case 'Surgeon':
         return (
-          <div className="bg-purple-50 p-4 rounded-lg">
-            <h3 className="text-lg font-medium text-purple-700">Surgeon</h3>
-            <p className="mt-2 text-purple-600">
-              Please schedule the patient with a surgeon for evaluation and treatment options.
+          <div className="bg-blue-100 p-4 rounded-md my-4">
+            <h3 className="text-lg font-semibold mb-2">Surgeon</h3>
+            <p>Please schedule the patient with a surgeon for evaluation and treatment options.</p>
+          </div>
+        )
+      case 'APP':
+        return (
+          <div className="bg-blue-100 p-4 rounded-md my-4">
+            <h3 className="text-lg font-semibold mb-2">Advanced Practice Provider (APP)</h3>
+            <p>Please schedule the patient with an APP for evaluation and treatment options.</p>
+            <p className="mt-2 text-sm italic">
+              Note: If the APP is scheduling new patients more than 90 days from today ({formattedDate}), 
+              it is okay to schedule this patient with a surgeon.
             </p>
           </div>
-        );
+        )
+      case 'PT':
+        return (
+          <div className="bg-green-100 p-4 rounded-md my-4">
+            <h3 className="text-lg font-semibold mb-2">Physical Therapy</h3>
+            <p>Please schedule the patient with a physical therapist for pelvic floor therapy.</p>
+          </div>
+        )
       default:
-        return null;
+        return null
     }
-  };
+  }
 
   return (
     <Container className="py-8">
