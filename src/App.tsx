@@ -13,6 +13,7 @@ import { store } from './libs/store'
 import ConsentFormGenerator from './pages/consent-form-generator'
 import Quid6 from './pages/quid6'
 import Scheduling from './pages/scheduling'
+import AuditLookup from './pages/scheduling/audit'
 
 const queryClient = new QueryClient()
 
@@ -32,6 +33,7 @@ function App() {
               />
               <Route path="quid6" element={<Quid6 />} />
               <Route path="scheduling" element={<Scheduling />} />
+              <Route path="scheduling/audit" element={<AuditLookup />} />
             </Route>
 
             {/* Administration/Backend Routes */}
