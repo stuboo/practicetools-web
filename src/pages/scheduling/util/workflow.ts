@@ -16,6 +16,11 @@ export interface WorkflowOption {
   nextNodeId: string;
 }
 
+export interface PathStep {
+  node: WorkflowNode;
+  selectedOptionIndex?: number;
+}
+
 // Define the scheduling workflow based on the flowchart
 export const workflowNodes: Record<string, WorkflowNode> = {
   patientAge: {

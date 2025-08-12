@@ -6,22 +6,47 @@ import {
   getInitialNode,
   getNextNode,
   ProviderType,
-  workflowNodes
+  workflowNodes,
+  PathStep
 } from './util/workflow';
 import Button from '../../components/button';
 import Quid6Questionnaire, { DiagnosisType, Quid6Result } from './components/Quid6Questionnaire';
-
-interface PathStep {
-  node: WorkflowNode;
-  selectedOptionIndex?: number;
-}
+import { AuditKeyDisplay } from './components/AuditKeyDisplay';
+import { useAuditStorage } from '../../hooks/useAuditStorage';
 
 const Scheduling: React.FC = () => {
   const [currentNode, setCurrentNode] = useState<WorkflowNode>(getInitialNode());
   const [path, setPath] = useState<PathStep[]>([{ node: getInitialNode() }]);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [quid6Result, setQuid6Result] = useState<Quid6Result | null>(null);
+  const [auditKey, setAuditKey] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { createAuditRecord } = useAuditStorage();
+
+  // Generate audit key when reaching a result node
+  useEffect(() => {
+    if (currentNode.type === 'result' && currentNode.result && !auditKey) {
+      try {
+        // Convert DiagnosisType to our audit format if quid6Result exists
+        const auditQuid6Result = quid6Result ? {
+          totalScore: quid6Result.SUI_score + quid6Result.UUI_score,
+          stressScore: quid6Result.SUI_score,
+          urgeScore: quid6Result.UUI_score,
+          overallIncontinenceImpact: quid6Result.SUI_score + quid6Result.UUI_score,
+          interpretation: quid6Result.diagnosis
+        } : undefined;
+
+        const key = createAuditRecord(
+          path,
+          currentNode.result as ProviderType,
+          auditQuid6Result
+        );
+        setAuditKey(key);
+      } catch (error) {
+        console.error('Failed to create audit record:', error);
+      }
+    }
+  }, [currentNode, path, quid6Result, auditKey, createAuditRecord]);
 
   const handleOptionSelect = (optionIndex: number) => {
     setSelectedOption(optionIndex);
@@ -102,6 +127,7 @@ const Scheduling: React.FC = () => {
     setPath([{ node: initialNode }]);
     setSelectedOption(null);
     setQuid6Result(null);
+    setAuditKey(null);
   };
 
   const renderProviderInfo = (result: string) => {
@@ -149,25 +175,48 @@ const Scheduling: React.FC = () => {
 
   return (
     <Container className="py-8">
-      <Link to="/" className="flex items-center self-start gap-4 mb-8">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-5 h-5 lg:w-6 lg:h-6"
+      <div className="flex items-center justify-between mb-8">
+        <Link to="/" className="flex items-center gap-4">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-5 h-5 lg:w-6 lg:h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+            />
+          </svg>
+          <h1 className="text-md lg:text-2xl font-light">
+            Scheduling Assistant
+          </h1>
+        </Link>
+
+        <Link 
+          to="/scheduling/audit" 
+          className="inline-flex items-center gap-2 px-3 py-2 text-sm font-medium text-blue-600 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 hover:text-blue-700 transition-colors"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
-          />
-        </svg>
-        <h1 className="text-md lg:text-2xl font-light">
-          Scheduling Assistant
-        </h1>
-      </Link>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-4 h-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 6.75V6A2.25 2.25 0 0 0 11.25 3.75H8.25A2.25 2.25 0 0 0 6 6v.75a1.125 1.125 0 0 1-1.125 1.125h-1.5A3.375 3.375 0 0 0 0 12.375V21a.75.75 0 0 0 .75.75h15a.75.75 0 0 0 .75-.75v-8.625M21 12l-3-3m3 3l-3 3m3-3H9"
+            />
+          </svg>
+          Audit Lookup
+        </Link>
+      </div>
 
       {/* Progress Indicator */}
       <div className="mb-6">
@@ -191,6 +240,7 @@ const Scheduling: React.FC = () => {
               {currentNode.type === 'result' && currentNode.result && (
                 <div className="mt-4">
                   {renderProviderInfo(currentNode.result)}
+                  {auditKey && <AuditKeyDisplay auditKey={auditKey} />}
                 </div>
               )}
 

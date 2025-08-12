@@ -1,0 +1,51 @@
+flowchart TD
+
+    A[Start] --> B{Patient Age}
+
+    B -->|< 30 or > 80| C[Schedule with APP]
+
+    B -->|30-80| D{Chief Complaint}
+
+   
+
+    D -->|Urinary Incontinence| K{QUID-6 Questionnaire<br>urogy.in/quid6}
+
+ 
+
+    D -->|Recurrent UTIs| C
+
+    D -->|Pelvic Pain| F{Physician Review}
+
+    D -->|Vaginal Dryness| C
+
+    D -->|Fecal Incontinence| C
+
+    D -->|Urinary Frequency| C
+
+    D -->|Overactive Bladder| C
+
+    D -->|Urinary Retention| F{Physician Review}
+
+    F -->C
+
+    K -->|Stress Incontinence| G{Likely Surgical}
+
+   
+
+    K -->|Urge Incontinence| C
+
+    K -->|Urge Predominant Mixed| C
+
+    K -->|Stress Predominant Mixed| G
+
+    D -->|Pelvic Organ Prolapse| G{Likely Surgical}
+
+ 
+
+    G -->|Surgical Evaluation| H{Schedule with surgeon}
+
+   
+
+    H -->I[Schedule with Guanzon]
+
+    H -->J[Schedule with Stewart]
