@@ -1,7 +1,4 @@
-import { AuditRecord, AuditStorage } from '../types/audit';
-
-const STORAGE_KEY_PREFIX = 'scheduling-audit-';
-const STORAGE_INDEX_KEY = 'scheduling-audit-index';
+import { auditApiService } from '../../../services/auditApi';
 
 /**
  * Generate a unique 8-character alphanumeric audit key
@@ -18,119 +15,40 @@ export function generateAuditKey(): string {
 }
 
 /**
- * Generate a unique audit key that doesn't already exist in storage
+ * Generate a unique audit key that doesn't already exist in the API
+ * Falls back to simple generation if API is unavailable (e.g., during development)
  */
-export function generateUniqueAuditKey(): string {
-  let key: string;
-  let attempts = 0;
-  const maxAttempts = 100;
+export async function generateUniqueAuditKey(): Promise<string> {
+  const key = generateAuditKey();
   
-  do {
-    key = generateAuditKey();
-    attempts++;
+  try {
+    // Try to check if key exists in API
+    const exists = await auditApiService.checkKeyExists(key);
+    if (exists) {
+      // If it exists, try a few more times
+      let attempts = 1;
+      const maxAttempts = 10;
+      
+      while (attempts < maxAttempts) {
+        const newKey = generateAuditKey();
+        const newExists = await auditApiService.checkKeyExists(newKey);
+        if (!newExists) {
+          return newKey;
+        }
+        attempts++;
+      }
+      
+      // If we still have collisions after 10 attempts, just use the last generated key
+      // The probability of collision is extremely low (1 in 32^8 = ~1 trillion)
+      return generateAuditKey();
+    }
     
-    if (attempts > maxAttempts) {
-      throw new Error('Failed to generate unique audit key after maximum attempts');
-    }
-  } while (getAuditRecord(key) !== null);
-  
-  return key;
-}
-
-/**
- * Store an audit record in localStorage
- */
-export function storeAuditRecord(record: AuditRecord): void {
-  try {
-    // Store the individual record
-    localStorage.setItem(
-      `${STORAGE_KEY_PREFIX}${record.key}`,
-      JSON.stringify(record)
-    );
-    
-    // Update the index of all audit keys for easier retrieval
-    const existingIndex = getAuditIndex();
-    const updatedIndex = [...existingIndex, record.key];
-    localStorage.setItem(STORAGE_INDEX_KEY, JSON.stringify(updatedIndex));
+    return key;
   } catch (error) {
-    console.error('Failed to store audit record:', error);
-    throw new Error('Failed to store audit record. Storage may be full.');
+    // If API is unavailable (e.g., during development), just return the generated key
+    // The collision probability is negligible for development purposes
+    console.log('API unavailable for key uniqueness check, using generated key');
+    return key;
   }
 }
 
-/**
- * Retrieve an audit record by key
- */
-export function getAuditRecord(key: string): AuditRecord | null {
-  try {
-    const stored = localStorage.getItem(`${STORAGE_KEY_PREFIX}${key.toUpperCase()}`);
-    return stored ? JSON.parse(stored) : null;
-  } catch (error) {
-    console.error('Failed to retrieve audit record:', error);
-    return null;
-  }
-}
-
-/**
- * Get all audit record keys
- */
-export function getAuditIndex(): string[] {
-  try {
-    const stored = localStorage.getItem(STORAGE_INDEX_KEY);
-    return stored ? JSON.parse(stored) : [];
-  } catch (error) {
-    console.error('Failed to retrieve audit index:', error);
-    return [];
-  }
-}
-
-/**
- * Get all audit records
- */
-export function getAllAuditRecords(): AuditRecord[] {
-  const index = getAuditIndex();
-  const records: AuditRecord[] = [];
-  
-  for (const key of index) {
-    const record = getAuditRecord(key);
-    if (record) {
-      records.push(record);
-    }
-  }
-  
-  return records.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
-}
-
-/**
- * Clean up invalid records and rebuild index
- */
-export function cleanupAuditStorage(): void {
-  const index = getAuditIndex();
-  const validKeys: string[] = [];
-  
-  for (const key of index) {
-    const record = getAuditRecord(key);
-    if (record) {
-      validKeys.push(key);
-    }
-  }
-  
-  localStorage.setItem(STORAGE_INDEX_KEY, JSON.stringify(validKeys));
-}
-
-/**
- * Get storage usage statistics
- */
-export function getStorageStats(): { recordCount: number; estimatedSizeKB: number } {
-  const records = getAllAuditRecords();
-  let totalSize = 0;
-  
-  for (const record of records) {
-    totalSize += JSON.stringify(record).length;
-  }
-  
-  return {
-    recordCount: records.length,
-    estimatedSizeKB: Math.round(totalSize / 1024)
-  };
-}

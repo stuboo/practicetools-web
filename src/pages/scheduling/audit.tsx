@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Container from '../../components/container';
 import Button from '../../components/button';
@@ -11,19 +11,33 @@ const AuditLookup: React.FC = () => {
   const [auditRecord, setAuditRecord] = useState<AuditRecord | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [stats, setStats] = useState({ recordCount: 0, estimatedSizeKB: 0 });
+  const [error, setError] = useState<string | null>(null);
   const { lookupAuditRecord, getStats } = useAuditStorage();
 
-  const stats = getStats();
+  useEffect(() => {
+    const loadStats = async () => {
+      try {
+        const statsData = await getStats();
+        setStats(statsData);
+      } catch (error) {
+        console.error('Failed to load audit stats:', error);
+        setStats({ recordCount: 0, estimatedSizeKB: 0 });
+      }
+    };
+    loadStats();
+  }, [getStats]);
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (!searchKey.trim()) return;
 
     setIsSearching(true);
     setNotFound(false);
     setAuditRecord(null);
+    setError(null);
 
-    setTimeout(() => {
-      const record = lookupAuditRecord(searchKey.trim().toUpperCase());
+    try {
+      const record = await lookupAuditRecord(searchKey.trim().toUpperCase());
       if (record) {
         setAuditRecord(record);
         setNotFound(false);
@@ -31,8 +45,14 @@ const AuditLookup: React.FC = () => {
         setAuditRecord(null);
         setNotFound(true);
       }
-      setIsSearching(false);
-    }, 300);
+    } catch (error) {
+      console.error('Failed to lookup audit record:', error);
+      setError(error instanceof Error ? error.message : 'Failed to retrieve audit record');
+      setAuditRecord(null);
+      setNotFound(false);
+    }
+    
+    setIsSearching(false);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -168,6 +188,13 @@ const AuditLookup: React.FC = () => {
                 </svg>
                 Searching audit records...
               </div>
+            </div>
+          )}
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-center">
+              <h3 className="font-semibold text-red-800 mb-2">Error</h3>
+              <p className="text-red-600 text-sm">{error}</p>
             </div>
           )}
 

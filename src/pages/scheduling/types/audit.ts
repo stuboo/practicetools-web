@@ -16,7 +16,3 @@ export interface AuditRecord {
   finalRecommendation: ProviderType;
   quid6Result?: Quid6Result;
 }
-
-export interface AuditStorage {
-  [key: string]: AuditRecord;
-}
