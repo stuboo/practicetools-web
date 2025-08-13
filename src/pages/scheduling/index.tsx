@@ -25,26 +25,33 @@ const Scheduling: React.FC = () => {
 
   // Generate audit key when reaching a result node
   useEffect(() => {
-    if (currentNode.type === 'result' && currentNode.result && !auditKey) {
-      try {
-        // Convert DiagnosisType to our audit format if quid6Result exists
-        const auditQuid6Result = quid6Result ? {
-          totalScore: quid6Result.SUI_score + quid6Result.UUI_score,
-          stressScore: quid6Result.SUI_score,
-          urgeScore: quid6Result.UUI_score,
-          overallIncontinenceImpact: quid6Result.SUI_score + quid6Result.UUI_score,
-          interpretation: quid6Result.diagnosis
-        } : undefined;
+    if (currentNode.type === 'result' && currentNode.result && auditKey === null) {
+      const generateAuditKey = async () => {
+        try {
+          // Convert DiagnosisType to our audit format if quid6Result exists
+          const auditQuid6Result = quid6Result ? {
+            totalScore: quid6Result.SUI_score + quid6Result.UUI_score,
+            stressScore: quid6Result.SUI_score,
+            urgeScore: quid6Result.UUI_score,
+            overallIncontinenceImpact: quid6Result.SUI_score + quid6Result.UUI_score,
+            interpretation: quid6Result.diagnosis
+          } : undefined;
 
-        const key = createAuditRecord(
-          path,
-          currentNode.result as ProviderType,
-          auditQuid6Result
-        );
-        setAuditKey(key);
-      } catch (error) {
-        console.error('Failed to create audit record:', error);
-      }
+          const key = await createAuditRecord(
+            path,
+            currentNode.result as ProviderType,
+            auditQuid6Result
+          );
+          
+          // Set the key even if it's null (API failure), so we don't keep retrying
+          setAuditKey(key || 'FAILED');
+        } catch (error) {
+          console.error('Failed to create audit record:', error);
+          setAuditKey('FAILED');
+        }
+      };
+      
+      generateAuditKey();
     }
   }, [currentNode, path, quid6Result, auditKey, createAuditRecord]);
 
@@ -240,7 +247,17 @@ const Scheduling: React.FC = () => {
               {currentNode.type === 'result' && currentNode.result && (
                 <div className="mt-4">
                   {renderProviderInfo(currentNode.result)}
-                  {auditKey && <AuditKeyDisplay auditKey={auditKey} />}
+                  {auditKey && auditKey !== 'FAILED' && <AuditKeyDisplay auditKey={auditKey} />}
+                  {auditKey === 'FAILED' && (
+                    <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                      <h3 className="text-sm font-medium text-yellow-900 mb-2">
+                        Audit Trail Unavailable
+                      </h3>
+                      <p className="text-sm text-yellow-700">
+                        Unable to generate audit key at this time. The recommendation is still valid.
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 
