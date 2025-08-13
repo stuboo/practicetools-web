@@ -51,4 +51,3 @@ export async function generateUniqueAuditKey(): Promise<string> {
     return key;
   }
 }
-
