@@ -14,6 +14,14 @@ import ConsentFormGenerator from './pages/consent-form-generator'
 import Quid6 from './pages/quid6'
 import Scheduling from './pages/scheduling'
 import AuditLookup from './pages/scheduling/audit'
+import {
+  CoverageLayout,
+  CoveragePublicLayout,
+  LoginPage,
+  SearchPage,
+  DocumentsPage,
+  UploadPage,
+} from './pages/coverage'
 
 const queryClient = new QueryClient()
 
@@ -40,6 +48,17 @@ function App() {
             <Route path="/physical-therapists" element={<AdminShell />}>
               <Route index element={<PhysicalTherapistLists />} />
             </Route>
+
+            {/* Coverage Routes */}
+            <Route path="/login" element={<CoveragePublicLayout />}>
+              <Route index element={<LoginPage />} />
+            </Route>
+            <Route path="/coverage" element={<CoverageLayout />}>
+              <Route index element={<SearchPage />} />
+              <Route path="documents" element={<DocumentsPage />} />
+              <Route path="upload" element={<UploadPage />} />
+            </Route>
+
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

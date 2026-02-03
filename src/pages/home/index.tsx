@@ -5,6 +5,7 @@ import {
   AiOutlineSearch,
   AiOutlineFileText,
   AiOutlineSchedule,
+  AiOutlineMedicineBox,
 } from 'react-icons/ai'
 
 interface Tools {
@@ -35,6 +36,12 @@ const toolsList: Tools[] = [
     description: 'Guide for scheduling patients with appropriate providers',
     icon: <AiOutlineSchedule className="w-8 h-8 lg:w-16 lg:h-16" />,
     href: '/scheduling',
+  },
+  {
+    title: 'Coverage Search',
+    description: 'Search formulary documents for medication coverage info',
+    icon: <AiOutlineMedicineBox className="w-8 h-8 lg:w-16 lg:h-16" />,
+    href: '/coverage',
   },
 ]
 
