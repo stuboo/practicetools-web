@@ -45,7 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (storedToken) {
         try {
           // Validate token by fetching current user
-          const response = await apiClient.get('/admin/users/me');
+          const response = await apiClient.get('/admin/auth/users/me');
           setUser(response.data);
           setTokenState(storedToken);
         } catch {
@@ -66,21 +66,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     formData.append('username', email);
     formData.append('password', password);
 
-    const response = await fetch('/api/admin/login', {
-      method: 'POST',
-      body: formData,
+    const response = await apiClient.post('/admin/auth/login', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
     });
 
-    if (!response.ok) {
-      throw new Error('Login failed');
-    }
-
-    const data = await response.json();
-    setToken(data.access_token);
-    setTokenState(data.access_token);
+    setToken(response.data.access_token);
+    setTokenState(response.data.access_token);
 
     // Fetch user info using the new token
-    const userResponse = await apiClient.get('/admin/users/me');
+    const userResponse = await apiClient.get('/admin/auth/users/me');
     setUser(userResponse.data);
   };
 
