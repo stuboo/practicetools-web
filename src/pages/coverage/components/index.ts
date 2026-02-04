@@ -1,3 +1,4 @@
+export { CoverageTable } from './CoverageTable';
 export { DocumentCard } from './DocumentCard';
 export { DocumentStatusBadge } from './DocumentStatusBadge';
 export { FetchUrlForm } from './FetchUrlForm';

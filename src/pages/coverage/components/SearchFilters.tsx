@@ -10,6 +10,7 @@ import { useMedications, useInsurancePlans } from '../hooks';
 export interface SearchFiltersState {
   medication?: string;
   insurance_plan_id?: string;
+  generate_answer?: boolean;
 }
 
 interface SearchFiltersProps {
@@ -58,8 +59,12 @@ export function SearchFilters({
     onChange({ ...filters, insurance_plan_id: value });
   };
 
+  const handleGenerateAnswerChange = () => {
+    onChange({ ...filters, generate_answer: !filters.generate_answer });
+  };
+
   const handleClearAll = () => {
-    onChange({ medication: undefined, insurance_plan_id: undefined });
+    onChange({ medication: undefined, insurance_plan_id: undefined, generate_answer: true });
   };
 
   const hasActiveFilters = filters.medication || filters.insurance_plan_id;
@@ -97,6 +102,35 @@ export function SearchFilters({
           onChange={handlePlanChange}
           isLoading={plansLoading}
         />
+      </div>
+
+      {/* AI Answer Toggle */}
+      <div className="mt-4 pt-4 border-t border-gray-100">
+        <label className="flex items-center justify-between cursor-pointer">
+          <div>
+            <span className="text-sm font-medium text-gray-700">AI Summary</span>
+            <p className="text-xs text-gray-500">Generate an AI answer with category comparison</p>
+          </div>
+          <button
+            type="button"
+            role="switch"
+            aria-checked={filters.generate_answer !== false}
+            onClick={handleGenerateAnswerChange}
+            className={`
+              relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent
+              transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+              ${filters.generate_answer !== false ? 'bg-blue-600' : 'bg-gray-200'}
+            `}
+          >
+            <span
+              className={`
+                pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0
+                transition duration-200 ease-in-out
+                ${filters.generate_answer !== false ? 'translate-x-5' : 'translate-x-0'}
+              `}
+            />
+          </button>
+        </label>
       </div>
     </div>
   );

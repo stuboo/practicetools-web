@@ -108,6 +108,7 @@ export interface SearchQuery {
   medication?: string;
   practice_id?: string;
   limit?: number;
+  generate_answer?: boolean;
 }
 
 export interface SearchResultItem {
@@ -126,6 +127,33 @@ export interface SearchResponse {
   query: string;
   results: SearchResultItem[];
   total: number;
+  answer?: string;
+  coverage_table?: CoverageTable;
+  detected_medication?: string;
+  detected_category?: string;
+}
+
+// =============================================================================
+// LLM Answer / Coverage Table
+// =============================================================================
+
+export interface MedicationCoverage {
+  medication: string;
+  generic_name?: string;
+  tier?: string;
+  prior_auth?: boolean;
+  step_therapy?: boolean;
+  quantity_limit?: string;
+  preferred?: boolean;
+  notes?: string;
+  is_query_drug: boolean;
+}
+
+export interface CoverageTable {
+  category: string;
+  category_display_name: string;
+  insurance_plan: string;
+  medications: MedicationCoverage[];
 }
 
 // =============================================================================

@@ -18,6 +18,7 @@ export function SearchPage() {
   const [filters, setFilters] = useState<SearchFiltersState>(() => ({
     medication: searchParams.get('medication') || undefined,
     insurance_plan_id: searchParams.get('plan') || undefined,
+    generate_answer: searchParams.get('ai') !== 'false', // Default true
   }));
   const [showFilters, setShowFilters] = useState(false);
 
@@ -27,6 +28,7 @@ export function SearchPage() {
     if (searchQuery.trim()) params.set('q', searchQuery.trim());
     if (filters.medication) params.set('medication', filters.medication);
     if (filters.insurance_plan_id) params.set('plan', filters.insurance_plan_id);
+    if (filters.generate_answer === false) params.set('ai', 'false');
     setSearchParams(params, { replace: true });
   }, [searchQuery, filters, setSearchParams]);
 
