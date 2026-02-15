@@ -118,16 +118,34 @@ export async function uploadDocument(
 /**
  * Fetch a PDF from URL and process it
  * Returns 202 Accepted - document is processed asynchronously
+ *
+ * If states and year are not provided, they will be auto-extracted from the PDF
+ * using LLM analysis.
  */
 export async function fetchDocument(
   params: DocumentFetchParams
 ): Promise<{ document_id: string; status: string; filename: string; source_url: string }> {
+  // Only include states/year if provided - otherwise API will auto-extract
+  const payload: Record<string, unknown> = {
+    url: params.url,
+    filename: params.filename,
+  };
+  if (params.states && params.states.length > 0) {
+    payload.states = params.states;
+  }
+  if (params.year !== undefined) {
+    payload.year = params.year;
+  }
+  if (params.insurance_plan_id) {
+    payload.insurance_plan_id = params.insurance_plan_id;
+  }
+
   const response = await apiClient.post<ApiResponse<{
     document_id: string;
     status: string;
     filename: string;
     source_url: string;
-  }>>('/coverage/documents/fetch', params);
+  }>>('/coverage/documents/fetch', payload);
   return response.data.data;
 }
 

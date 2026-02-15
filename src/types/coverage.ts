@@ -99,8 +99,8 @@ export interface DocumentUploadResponse {
 export interface DocumentFetchParams {
   url: string;
   filename: string;
-  states: string[];
-  year: number;
+  states?: string[];  // Optional - auto-extracted from PDF if not provided
+  year?: number;      // Optional - auto-extracted from PDF if not provided
   insurance_plan_id?: string;
 }
 
