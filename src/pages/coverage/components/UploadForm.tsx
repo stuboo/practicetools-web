@@ -11,7 +11,16 @@ import { useInsurancePlans } from '../hooks';
 
 interface UploadFormProps {
   /** Called when upload succeeds */
-  onSuccess?: (result: { document_id: string; filename: string }) => void;
+  onSuccess?: (result: {
+    document_id: string;
+    filename: string;
+    extracted_metadata?: {
+      plan_name: string;
+      plan_type: string;
+      confidence: number;
+      is_new_plan: boolean;
+    };
+  }) => void;
   /** Called when upload fails */
   onError?: (error: Error) => void;
 }
@@ -33,7 +42,7 @@ const yearOptions: FilterOption[] = Array.from({ length: 5 }, (_, i) => ({
 export function UploadForm({ onSuccess, onError }: UploadFormProps) {
   const [file, setFile] = useState<File | null>(null);
   const [states, setStates] = useState<string[]>([]);
-  const [year, setYear] = useState<string>(String(currentYear));
+  const [year, setYear] = useState<string>('');  // Empty = auto-detect
   const [insurancePlanId, setInsurancePlanId] = useState<string>();
   const [dragActive, setDragActive] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -55,7 +64,7 @@ export function UploadForm({ onSuccess, onError }: UploadFormProps) {
       // Reset form
       setFile(null);
       setStates([]);
-      setYear(String(currentYear));
+      setYear('');  // Reset to auto-detect
       setInsurancePlanId(undefined);
       if (fileInputRef.current) {
         fileInputRef.current.value = '';
@@ -104,17 +113,19 @@ export function UploadForm({ onSuccess, onError }: UploadFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!file || states.length === 0 || !year) return;
+    if (!file) return;
 
     uploadMutation.mutate({
       file,
-      states,
-      year: parseInt(year),
+      // Only include states/year if user provided them - otherwise API auto-extracts
+      states: states.length > 0 ? states : undefined,
+      year: year ? parseInt(year) : undefined,
       insurance_plan_id: insurancePlanId,
     });
   };
 
-  const isValid = file && states.length > 0 && year;
+  // Only file is required - states/year are auto-extracted if not provided
+  const isValid = !!file;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -176,10 +187,17 @@ export function UploadForm({ onSuccess, onError }: UploadFormProps) {
         )}
       </div>
 
+      {/* Auto-extraction notice */}
+      <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+        <p className="text-sm text-blue-800">
+          <strong>Auto-detection enabled:</strong> States, year, and insurance plan will be automatically extracted from the PDF. You can override by selecting values below.
+        </p>
+      </div>
+
       {/* States selection */}
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          Applicable States <span className="text-red-500">*</span>
+          Applicable States <span className="text-gray-400 font-normal">(optional - auto-detected)</span>
         </label>
         <div className="flex flex-wrap gap-2 max-h-32 overflow-y-auto p-2 border border-gray-300 rounded-lg">
           {US_STATES.map((state) => (
@@ -208,15 +226,15 @@ export function UploadForm({ onSuccess, onError }: UploadFormProps) {
       {/* Year and Insurance Plan */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <FilterCombobox
-          label="Year *"
-          placeholder="Select year"
+          label="Year"
+          placeholder="Auto-detect from PDF"
           options={yearOptions}
           value={year}
-          onChange={(v) => setYear(v || String(currentYear))}
+          onChange={(v) => setYear(v || '')}
         />
         <FilterCombobox
           label="Insurance Plan"
-          placeholder="Select plan (optional)"
+          placeholder="Auto-detect from PDF"
           options={planOptions}
           value={insurancePlanId}
           onChange={setInsurancePlanId}

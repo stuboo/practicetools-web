@@ -14,6 +14,7 @@ import type {
   CoverageDocumentList,
   DocumentListParams,
   DocumentUploadParams,
+  DocumentUploadResponse,
   DocumentFetchParams,
   DocumentRetryStatus,
   MedicationList,
@@ -80,27 +81,37 @@ export async function getDocument(documentId: string): Promise<CoverageDocument>
 /**
  * Upload a PDF document for processing
  * Returns 202 Accepted - document is processed asynchronously
+ *
+ * If states and year are not provided, they will be auto-extracted from the PDF
+ * using LLM analysis. The response will include extracted_metadata with details
+ * about what was detected.
  */
 export async function uploadDocument(
   params: DocumentUploadParams
-): Promise<{ document_id: string; status: string; filename: string }> {
+): Promise<DocumentUploadResponse> {
   const formData = new FormData();
   formData.append('file', params.file);
-  formData.append('states', JSON.stringify(params.states));
-  formData.append('year', String(params.year));
+
+  // Only include states/year if provided - otherwise API will auto-extract
+  if (params.states && params.states.length > 0) {
+    formData.append('states', JSON.stringify(params.states));
+  }
+  if (params.year !== undefined) {
+    formData.append('year', String(params.year));
+  }
   if (params.insurance_plan_id) {
     formData.append('insurance_plan_id', params.insurance_plan_id);
   }
 
-  const response = await apiClient.post<ApiResponse<{
-    document_id: string;
-    status: string;
-    filename: string;
-  }>>('/coverage/documents/upload', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
+  const response = await apiClient.post<ApiResponse<DocumentUploadResponse>>(
+    '/coverage/documents/upload',
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    }
+  );
   return response.data.data;
 }
 

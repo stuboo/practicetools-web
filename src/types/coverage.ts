@@ -73,9 +73,27 @@ export interface CoverageDocumentList {
 
 export interface DocumentUploadParams {
   file: File;
+  states?: string[];  // Optional - auto-extracted from PDF if not provided
+  year?: number;      // Optional - auto-extracted from PDF if not provided
+  insurance_plan_id?: string;
+}
+
+export interface ExtractedMetadata {
+  plan_name: string;
+  plan_type: string;
+  confidence: number;
+  is_new_plan: boolean;
+  search_used: boolean;
+}
+
+export interface DocumentUploadResponse {
+  document_id: string;
+  status: string;
+  filename: string;
   states: string[];
   year: number;
   insurance_plan_id?: string;
+  extracted_metadata?: ExtractedMetadata;
 }
 
 export interface DocumentFetchParams {
