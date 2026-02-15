@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom'
 import Layout from './layout'
 import Home from './pages/home'
 import NotFound from './pages/not-found'
@@ -65,7 +65,7 @@ function App() {
             </Route>
 
             {/* Admin Routes */}
-            <Route path="/admin" element={<AuthProvider><AdminRoute><div /></AdminRoute></AuthProvider>}>
+            <Route path="/admin" element={<AuthProvider><AdminRoute><Outlet /></AdminRoute></AuthProvider>}>
               <Route path="users" element={<UserManagement />} />
             </Route>
 
