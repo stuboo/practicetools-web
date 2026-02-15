@@ -3,6 +3,7 @@
  * Container for displaying search results with loading and empty states
  */
 
+import { useState } from 'react';
 import type { SearchResponse } from '../../../types/coverage';
 import { CoverageTable } from './CoverageTable';
 import { SearchResultCard } from './SearchResultCard';
@@ -110,6 +111,8 @@ export function SearchResults({
   error,
   query,
 }: SearchResultsProps) {
+  const [showSourceDocuments, setShowSourceDocuments] = useState(false);
+
   if (isLoading) {
     return <LoadingState />;
   }
@@ -170,29 +173,51 @@ export function SearchResults({
         <CoverageTable table={data.coverage_table} />
       )}
 
-      {/* Results count */}
+      {/* Toggle for source documents */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-600">
-          Found {data.total} result{data.total !== 1 ? 's' : ''}
-        </p>
+        <button
+          type="button"
+          onClick={() => setShowSourceDocuments(!showSourceDocuments)}
+          className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1"
+        >
+          {showSourceDocuments ? (
+            <>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+              </svg>
+              Hide source documents ({data.total})
+            </>
+          ) : (
+            <>
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+              View source documents ({data.total})
+            </>
+          )}
+        </button>
       </div>
 
-      {/* Results list */}
-      <div className="space-y-3">
-        {data.results.map((result) => (
-          <SearchResultCard
-            key={result.chunk_id}
-            result={result}
-            query={query}
-          />
-        ))}
-      </div>
+      {/* Results list - only shown when toggled */}
+      {showSourceDocuments && (
+        <>
+          <div className="space-y-3">
+            {data.results.map((result) => (
+              <SearchResultCard
+                key={result.chunk_id}
+                result={result}
+                query={query}
+              />
+            ))}
+          </div>
 
-      {/* Show if there are more results */}
-      {data.results.length < data.total && (
-        <p className="text-center text-sm text-gray-500 pt-2">
-          Showing {data.results.length} of {data.total} results
-        </p>
+          {/* Show if there are more results */}
+          {data.results.length < data.total && (
+            <p className="text-center text-sm text-gray-500 pt-2">
+              Showing {data.results.length} of {data.total} results
+            </p>
+          )}
+        </>
       )}
     </div>
   );

@@ -52,6 +52,8 @@ export function useCoverageSearch(
     enabled: enabled && !!searchQuery,
     staleTime: 30_000, // Cache results for 30 seconds
     cacheTime: 5 * 60_000, // Keep in cache for 5 minutes
+    refetchOnWindowFocus: false, // Don't auto-refresh when user returns to tab
+    refetchOnMount: false, // Don't auto-refresh on component mount (use cache)
   });
 
   return {
