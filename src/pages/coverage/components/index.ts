@@ -1,3 +1,4 @@
+export { CoverageHeader } from './CoverageHeader';
 export { CoverageTable } from './CoverageTable';
 export { DocumentCard } from './DocumentCard';
 export { DocumentStatusBadge } from './DocumentStatusBadge';

@@ -22,6 +22,11 @@ import {
   DocumentsPage,
   UploadPage,
 } from './pages/coverage'
+import { AuthProvider } from './context/AuthContext'
+import { AdminRoute } from './components/common/AdminRoute'
+import { ProtectedRoute } from './components/common/ProtectedRoute'
+import UserManagement from './pages/admin/UserManagement'
+import ChangePassword from './pages/ChangePassword'
 
 const queryClient = new QueryClient()
 
@@ -58,6 +63,14 @@ function App() {
               <Route path="documents" element={<DocumentsPage />} />
               <Route path="upload" element={<UploadPage />} />
             </Route>
+
+            {/* Admin Routes */}
+            <Route path="/admin" element={<AuthProvider><AdminRoute><div /></AdminRoute></AuthProvider>}>
+              <Route path="users" element={<UserManagement />} />
+            </Route>
+
+            {/* User Routes */}
+            <Route path="/change-password" element={<AuthProvider><ProtectedRoute><ChangePassword /></ProtectedRoute></AuthProvider>} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>

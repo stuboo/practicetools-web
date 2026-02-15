@@ -5,12 +5,10 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { SearchBar, SearchResults, SuggestedQueries, SearchFilters, type SearchFiltersState } from './components';
+import { CoverageHeader, SearchBar, SearchResults, SuggestedQueries, SearchFilters, type SearchFiltersState } from './components';
 import { useCoverageSearch, useSuggestedQueries } from './hooks';
 
 export function SearchPage() {
-  const { user, logout } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
 
   // Initialize state from URL params
@@ -70,34 +68,10 @@ export function SearchPage() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-16">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4">
-          <div className="flex items-start sm:items-center justify-between gap-4">
-            <div className="min-w-0 flex-1">
-              <h1 className="text-lg sm:text-xl font-semibold text-gray-900">
-                Coverage Search
-              </h1>
-              <p className="text-xs sm:text-sm text-gray-500 mt-0.5 truncate">
-                Search formulary documents for coverage info
-              </p>
-            </div>
-            <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
-              {user && (
-                <span className="text-xs sm:text-sm text-gray-600 hidden sm:inline">
-                  {user.name || user.email}
-                </span>
-              )}
-              <button
-                onClick={logout}
-                className="text-xs sm:text-sm text-gray-500 hover:text-gray-700 py-1 px-2 -mr-2"
-              >
-                Sign out
-              </button>
-            </div>
-          </div>
-        </div>
-      </header>
+      <CoverageHeader
+        title="Coverage Search"
+        subtitle="Search formulary documents for coverage info"
+      />
 
       {/* Main content */}
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
