@@ -81,7 +81,7 @@ export default function UserManagement() {
   if (error) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="text-red-500">Error loading users: {error.message}</div>
+        <div className="text-red-500">Error loading users: {(error as Error).message}</div>
       </div>
     );
   }
@@ -160,7 +160,7 @@ export default function UserManagement() {
         <CreateUserModal
           onClose={() => setIsCreateModalOpen(false)}
           onSubmit={handleCreateUser}
-          isSubmitting={createUserMutation.isPending}
+          isSubmitting={createUserMutation.isLoading}
         />
       )}
 
@@ -173,7 +173,7 @@ export default function UserManagement() {
             setSelectedUser(null);
           }}
           onSubmit={handleResetPassword}
-          isSubmitting={resetPasswordMutation.isPending}
+          isSubmitting={resetPasswordMutation.isLoading}
         />
       )}
     </div>

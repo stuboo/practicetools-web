@@ -123,16 +123,16 @@ export default function ChangePassword() {
               type="button"
               onClick={() => navigate(-1)}
               className="flex-1 px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50"
-              disabled={changePasswordMutation.isPending}
+              disabled={changePasswordMutation.isLoading}
             >
               Cancel
             </button>
             <button
               type="submit"
               className="flex-1 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:bg-blue-300"
-              disabled={changePasswordMutation.isPending}
+              disabled={changePasswordMutation.isLoading}
             >
-              {changePasswordMutation.isPending ? 'Changing...' : 'Change Password'}
+              {changePasswordMutation.isLoading ? 'Changing...' : 'Change Password'}
             </button>
           </div>
         </form>
