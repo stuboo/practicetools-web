@@ -154,7 +154,7 @@
         "Typecheck passes"
       ],
       "priority": 8,
-      "passes": false,
+      "passes": true,
       "notes": "Server generates the key. creatorToken prevents accidental nurse edits via PUT. Zod validation mirrors the Pydantic model on the backend."
     },
     {

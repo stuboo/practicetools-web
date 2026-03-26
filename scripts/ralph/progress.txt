@@ -114,3 +114,20 @@ Started: Wed Mar 25 20:04:59 CDT 2026
   - react-hot-toast is the project's toast library — import `toast` from 'react-hot-toast'
   - file-saver's `saveAs` is used for PDF downloads throughout the project
 ---
+
+## 2026-03-25 ~23:30 - CP-008
+- Created `src/pages/care-pathway/components/SavePathwayControls.tsx` — Save button with Zod validation, save/update logic, key display with Copy Key, unsaved indicator, completion summary popup
+- Added `setSaved` action to reducer in `index.tsx` — updates key/createdAt/updatedAt without replacing steps/exclusions
+- Integrated SavePathwayControls into page header, replacing placeholder comment
+- Removed `void setLastSaved` suppression — now used via `onSaved` callback
+- Save validates with Zod, strips HTML via schema transforms, calls savePathway (new) or updatePathway (existing with creatorToken)
+- Error handling: toast "Could not save pathway" on API failure, retains local state
+- Completion summary: green popup "Pathway saved. Share key {key} with your nurse." for 8 seconds after first save
+- Existing pathway badge: "Editing existing pathway" + Created/Updated dates
+- Files changed: SavePathwayControls.tsx (new), index.tsx (updated reducer + header integration)
+- **Learnings for future iterations:**
+  - Zod `safeParse` error property is `.issues` (not `.errors`) — `.errors` is deprecated
+  - `setSaved` reducer action is cleaner than `loadPathway` for post-save — doesn't replace steps/exclusions, just merges key/timestamps
+  - `getStoredCreatorToken` is exported from usePathway hooks for pre-flight token check before update
+  - react-hot-toast `toast.success/error` for save feedback, inline popup for the "share key" completion summary
+---
