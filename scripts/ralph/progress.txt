@@ -15,6 +15,7 @@ Started: Wed Mar 25 20:04:59 CDT 2026
 - Lucide icons don't accept `title` prop — wrap in `<span title="...">` for native tooltips
 - react-dnd v16 with HTML5Backend — DndProvider wraps the builder, each item is both drag+drop. Hover-based reorder with `item.index = index` mutation for smooth tracking
 - ESLint worktree issue: use `--resolve-plugins-relative-to .` flag to avoid duplicate plugin error
+- Pure utility functions go in `src/pages/care-pathway/utils/` for testability (e.g., formatNurseProtocol)
 
 ---
 
@@ -82,4 +83,17 @@ Started: Wed Mar 25 20:04:59 CDT 2026
   - Confirmation dialog for removal only triggers when step has user-edited fields (notes, followUp, escalationTrigger, or dose differing from catalog default)
   - Connector auto-defaults: requiresProvider transition = 'ESCALATE TO PROVIDER →', cross-tier = 'If previous insufficient →', same-tier = 'Then →'
   - Custom duration: use a `showCustomDuration` boolean state rather than tracking custom value separately
+---
+
+## 2026-03-25 ~22:30 - CP-006
+- Created `src/pages/care-pathway/utils/formatNurseProtocol.ts` — pure function that generates ASCII-safe structured protocol text from pathway state. Handles header with key/condition/dates, numbered steps with tier/duration/dose/follow-up/notes/escalation, transition text between steps, excluded treatments section, and footer
+- Created `src/pages/care-pathway/components/NurseProtocolOutput.tsx` — bottom tab panel with expandable full-height view, Copy Nurse Protocol button (green "Copied ✓" feedback for 2.5s), Copy Key button, disabled state when no steps, @media print CSS
+- Updated `src/pages/care-pathway/index.tsx` — integrated NurseProtocolOutput as bottom panel in right column using flex layout, passed full state
+- Files changed: formatNurseProtocol.ts (new), NurseProtocolOutput.tsx (new), index.tsx (updated)
+- **Learnings for future iterations:**
+  - Protocol formatter is a pure function in `utils/` for easy unit testing in CP-011
+  - useCopyToClipboard hook returns `[copiedValue, copyFn]` — copyFn is async and returns boolean success
+  - Expanded/full-height view uses fixed positioning to overlay the entire viewport
+  - ASCII-safe means no unicode box-drawing — use dashes, equals signs, and >> for connectors
+  - Print CSS uses visibility trick to hide all page chrome and show only the pre element
 ---

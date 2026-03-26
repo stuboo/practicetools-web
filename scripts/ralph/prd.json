@@ -115,7 +115,7 @@
         "Typecheck passes"
       ],
       "priority": 6,
-      "passes": false,
+      "passes": true,
       "notes": "The protocol text IS the product — it goes directly into the EMR. ASCII-safe is critical because unicode may render as garbage in some EMR systems. Expandable preview is important because the bottom tab is too cramped for reviewing before copy."
     },
     {
