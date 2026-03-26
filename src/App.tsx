@@ -27,6 +27,7 @@ import { AdminRoute } from './components/common/AdminRoute'
 import { ProtectedRoute } from './components/common/ProtectedRoute'
 import UserManagement from './pages/admin/UserManagement'
 import ChangePassword from './pages/ChangePassword'
+import CarePathway from './pages/care-pathway'
 
 const queryClient = new QueryClient()
 
@@ -47,6 +48,8 @@ function App() {
               <Route path="quid6" element={<Quid6 />} />
               <Route path="scheduling" element={<Scheduling />} />
               <Route path="scheduling/audit" element={<AuditLookup />} />
+              <Route path="care-pathway" element={<CarePathway />} />
+              <Route path="care-pathway/:key" element={<CarePathway />} />
             </Route>
 
             {/* Administration/Backend Routes */}
