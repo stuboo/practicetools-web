@@ -97,3 +97,20 @@ Started: Wed Mar 25 20:04:59 CDT 2026
   - ASCII-safe means no unicode box-drawing — use dashes, equals signs, and >> for connectors
   - Print CSS uses visibility trick to hide all page chrome and show only the pre element
 ---
+
+## 2026-03-25 ~23:00 - CP-007
+- Created `src/pages/care-pathway/components/PatientEducationOutput.tsx` — builds patient education PDF packet using pdf-lib
+- Cover page generated with pdf-lib (no fillable template exists yet): shows title, condition name, date, pathway key, and list of included treatments
+- Per-PDF try/catch: failed handout loads insert a placeholder page and show a toast warning via react-hot-toast
+- Treatments with null pdfHandoutPath get a placeholder page ("Education materials for this treatment — discuss with your provider")
+- "Build Patient Packet" button disabled when zero steps, shows spinner during build
+- Downloaded file named `patient-education-{key}.pdf` (uses "draft" when no key yet)
+- Integrated into page layout as a second row below NurseProtocolOutput in the bottom panel
+- Files changed: PatientEducationOutput.tsx (new), index.tsx (updated import + layout)
+- **Learnings for future iterations:**
+  - pdf-lib StandardFonts (Helvetica, HelveticaBold) work well for cover pages — no need to embed custom fonts
+  - Sequential PDF merge loop (not Promise.all) preserves order — same pattern as src/libs/pdf-libs.ts
+  - All OAB treatments currently have pdfHandoutPath: null, so every treatment gets a placeholder page until handouts are added
+  - react-hot-toast is the project's toast library — import `toast` from 'react-hot-toast'
+  - file-saver's `saveAs` is used for PDF downloads throughout the project
+---

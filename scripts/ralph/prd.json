@@ -134,7 +134,7 @@
         "Typecheck passes"
       ],
       "priority": 7,
-      "passes": false,
+      "passes": true,
       "notes": "Cover page uses a fillable PDF template to avoid 2-4 hours of pdf-lib layout work. Some OAB treatments won't have PDFs yet — placeholder pages handle this gracefully."
     },
     {
