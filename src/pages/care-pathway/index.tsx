@@ -8,6 +8,7 @@ import { oabCondition } from './config/conditions/oab';
 import { getTreatmentById } from './config/treatmentCatalog';
 import { TreatmentMenu } from './components/TreatmentMenu';
 import { PathwayBuilder } from './components/PathwayBuilder';
+import { NurseProtocolOutput } from './components/NurseProtocolOutput';
 
 // ── Reducer types ──
 
@@ -188,19 +189,26 @@ export default function CarePathway() {
           <TreatmentMenu state={state} dispatch={dispatch} />
         </div>
 
-        {/* Right panel — Pathway builder */}
-        <div className="overflow-y-auto p-6">
-          {state.steps.length === 0 ? (
-            <div className="flex items-center justify-center h-full">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center max-w-md">
-                <p className="text-gray-500">
-                  Select treatments from the menu to build a pathway
-                </p>
+        {/* Right panel — Pathway builder + protocol output */}
+        <div className="flex flex-col overflow-hidden">
+          <div className="flex-1 overflow-y-auto p-6">
+            {state.steps.length === 0 ? (
+              <div className="flex items-center justify-center h-full">
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center max-w-md">
+                  <p className="text-gray-500">
+                    Select treatments from the menu to build a pathway
+                  </p>
+                </div>
               </div>
-            </div>
-          ) : (
-            <PathwayBuilder steps={state.steps} dispatch={dispatch} />
-          )}
+            ) : (
+              <PathwayBuilder steps={state.steps} dispatch={dispatch} />
+            )}
+          </div>
+
+          {/* Bottom tab — Nurse protocol output */}
+          <div className="border-t border-gray-200 shrink-0">
+            <NurseProtocolOutput state={state} />
+          </div>
         </div>
       </div>
     </div>
