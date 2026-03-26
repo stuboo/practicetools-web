@@ -16,6 +16,7 @@ Started: Wed Mar 25 20:04:59 CDT 2026
 - react-dnd v16 with HTML5Backend — DndProvider wraps the builder, each item is both drag+drop. Hover-based reorder with `item.index = index` mutation for smooth tracking
 - ESLint worktree issue: use `--resolve-plugins-relative-to .` flag to avoid duplicate plugin error
 - Pure utility functions go in `src/pages/care-pathway/utils/` for testability (e.g., formatNurseProtocol)
+- Vitest configured in vite.config.ts (import `defineConfig` from `vitest/config`), run with `npm test` or `npx vitest run`
 
 ---
 
@@ -163,4 +164,19 @@ Started: Wed Mar 25 20:04:59 CDT 2026
   - Home page tool cards are defined as a `toolsList` array of `Tools` objects in `src/pages/home/index.tsx`
   - Icons use `react-icons/ai` (Ant Design) — already imported set, just add new icon to the import
   - Pre-existing unused imports (`AiOutlineForm`, `AiOutlineFileText`) exist — don't clean them up unless asked
+---
+
+## 2026-03-26 ~03:38 - CP-011
+- Installed vitest as dev dependency, configured in vite.config.ts (using vitest/config for type-safe test config), added "test": "vitest run" script
+- Created formatNurseProtocol.test.ts (17 tests): empty pathway, single/multiple steps, dose rendering, escalation trigger, follow-up/notes, transition text, exclusions, ASCII-safe output, HTML stripping, [PROVIDER ONLY] tag, created/updated dates
+- Created types.test.ts (22 tests): stepSchema validation (required fields, negative/zero/non-integer sequence, HTML stripping on all text fields, maxLength enforcement for notes/dose/duration/transitionText), exclusionSchema validation, pathwaySchema validation (empty steps, missing conditionId, error propagation)
+- Created reducer.test.ts (20 tests): renumberSteps utility, addStep (sequence numbering, pre-fill duration/dose, duplicate prevention, unknown IDs), removeStep with renumbering, reorderStep with renumbering, updateStep, addExclusion (removes from steps + renumbers), removeExclusion, loadPathway, setSaved
+- Created treatmentCatalog.test.ts (15 tests): catalog loading, no duplicate IDs, required fields, medication dose options, behavioral empty doses, requiresProvider flags (Botox=true, PTNS=false, implantable=true, sacral=true), tier counts (7 first-line, 4 third-line, 2 adjunctive), getTreatmentById, first-line all non-provider
+- 74 tests total, all passing
+- Files changed: vite.config.ts, package.json, package-lock.json, 4 new test files
+- **Learnings for future iterations:**
+  - Use `vitest/config` import for `defineConfig` instead of `vite` to get type-safe `test` config property
+  - formatNurseProtocol footer always includes "Generated:" line regardless of created/updated dates — only the header conditionally shows "Generated:" vs "Created:/Updated:"
+  - ESLint `--resolve-plugins-relative-to .` flag needed in worktrees to avoid duplicate plugin error (already documented in Codebase Patterns)
+  - Test files should avoid `!` non-null assertions — use `?.` optional chaining instead to satisfy ESLint
 ---

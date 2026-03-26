@@ -205,7 +205,7 @@
         "All tests pass"
       ],
       "priority": 11,
-      "passes": false,
+      "passes": true,
       "notes": "The protocol formatter is the most critical output — it goes into clinical EMR records. Test edge cases thoroughly. See test plan at ~/.gstack/projects/stuboo-practicetools-web/jrs-feature-oab-care-pathway-test-plan-20260325.md"
     }
   ]
