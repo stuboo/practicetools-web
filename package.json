@@ -39,7 +39,8 @@
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^1.1.2",
-    "yup": "^1.2.0"
+    "yup": "^1.2.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
