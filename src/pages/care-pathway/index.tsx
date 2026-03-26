@@ -7,6 +7,7 @@ import { Step, Exclusion, Pathway } from './types';
 import { oabCondition } from './config/conditions/oab';
 import { getTreatmentById } from './config/treatmentCatalog';
 import { TreatmentMenu } from './components/TreatmentMenu';
+import { PathwayBuilder } from './components/PathwayBuilder';
 
 // ── Reducer types ──
 
@@ -198,11 +199,7 @@ export default function CarePathway() {
               </div>
             </div>
           ) : (
-            <div>
-              <p className="text-sm text-gray-400">
-                Pathway builder with {state.steps.length} step{state.steps.length !== 1 ? 's' : ''} — drag-drop coming in CP-005
-              </p>
-            </div>
+            <PathwayBuilder steps={state.steps} dispatch={dispatch} />
           )}
         </div>
       </div>
