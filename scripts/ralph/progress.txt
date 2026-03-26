@@ -152,3 +152,15 @@ Started: Wed Mar 25 20:04:59 CDT 2026
   - PDF packet building logic is duplicated from PatientEducationOutput since the lookup doesn't have the full PathwayState — could be refactored into a shared utility
   - Manual key entry from the builder page uses `useNavigate` to navigate to `/care-pathway/{key}`
 ---
+
+## 2026-03-25 ~24:30 - CP-010
+- Added Care Pathway Builder card to the home page tool grid in `src/pages/home/index.tsx`
+- Card shows "Care Pathway Builder" title, description mentioning OAB, and `AiOutlineBranches` icon
+- Links to `/care-pathway`
+- Follows existing card pattern (same styling, same toolsList array structure)
+- Files changed: `src/pages/home/index.tsx` (updated)
+- **Learnings for future iterations:**
+  - Home page tool cards are defined as a `toolsList` array of `Tools` objects in `src/pages/home/index.tsx`
+  - Icons use `react-icons/ai` (Ant Design) — already imported set, just add new icon to the import
+  - Pre-existing unused imports (`AiOutlineForm`, `AiOutlineFileText`) exist — don't clean them up unless asked
+---

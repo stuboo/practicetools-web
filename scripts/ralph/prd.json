@@ -190,7 +190,7 @@
         "Typecheck passes"
       ],
       "priority": 10,
-      "passes": false,
+      "passes": true,
       "notes": "Follow the pattern of existing tool cards (consent form generator, scheduling, coverage search, etc.)."
     },
     {
