@@ -6,6 +6,7 @@ import {
   AiOutlineFileText,
   AiOutlineSchedule,
   AiOutlineMedicineBox,
+  AiOutlineBranches,
 } from 'react-icons/ai'
 
 interface Tools {
@@ -42,6 +43,12 @@ const toolsList: Tools[] = [
     description: 'Search formulary documents for medication coverage info',
     icon: <AiOutlineMedicineBox className="w-8 h-8 lg:w-16 lg:h-16" />,
     href: '/coverage',
+  },
+  {
+    title: 'Care Pathway Builder',
+    description: 'Build treatment pathways and generate nurse protocols (OAB)',
+    icon: <AiOutlineBranches className="w-8 h-8 lg:w-16 lg:h-16" />,
+    href: '/care-pathway',
   },
 ]
 
