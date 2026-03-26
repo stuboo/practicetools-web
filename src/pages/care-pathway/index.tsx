@@ -9,6 +9,7 @@ import { getTreatmentById } from './config/treatmentCatalog';
 import { TreatmentMenu } from './components/TreatmentMenu';
 import { PathwayBuilder } from './components/PathwayBuilder';
 import { NurseProtocolOutput } from './components/NurseProtocolOutput';
+import { PatientEducationOutput } from './components/PatientEducationOutput';
 
 // ── Reducer types ──
 
@@ -205,9 +206,12 @@ export default function CarePathway() {
             )}
           </div>
 
-          {/* Bottom tab — Nurse protocol output */}
+          {/* Bottom panel — Nurse protocol + Patient education */}
           <div className="border-t border-gray-200 shrink-0">
             <NurseProtocolOutput state={state} />
+            <div className="border-t border-gray-200">
+              <PatientEducationOutput state={state} />
+            </div>
           </div>
         </div>
       </div>
