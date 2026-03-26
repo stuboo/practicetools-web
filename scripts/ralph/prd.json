@@ -175,7 +175,7 @@
         "Typecheck passes"
       ],
       "priority": 9,
-      "passes": false,
+      "passes": true,
       "notes": "Nurse and provider see DIFFERENT views. The nurse view is read-only with the protocol text front and center. The provider editable builder is only at /care-pathway (no :key param)."
     },
     {

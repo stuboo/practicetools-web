@@ -131,3 +131,24 @@ Started: Wed Mar 25 20:04:59 CDT 2026
   - `getStoredCreatorToken` is exported from usePathway hooks for pre-flight token check before update
   - react-hot-toast `toast.success/error` for save feedback, inline popup for the "share key" completion summary
 ---
+
+## 2026-03-25 ~24:00 - CP-009
+- Created `src/pages/care-pathway/components/PathwayLookup.tsx` — full read-only nurse view with:
+  - Prominent nurse protocol text display (main content, not a tab)
+  - Copy Protocol + Print buttons
+  - Patient education list with Download Patient Packet button
+  - Skeleton loader during fetch (key visible immediately from URL)
+  - 404 state: "Pathway not found" with key input for manual re-entry
+  - 5xx state: "Service temporarily unavailable" (distinct from 404)
+  - Error detection via Axios response status code
+- Updated `src/pages/care-pathway/index.tsx`:
+  - Replaced CP-009 placeholder with `<PathwayLookup>` component
+  - Added lookup key input form to builder header for manual key entry
+  - Added `useNavigate` import and `lookupKey` state
+- Files changed: PathwayLookup.tsx (new), index.tsx (updated)
+- **Learnings for future iterations:**
+  - Axios errors have `.response.status` for HTTP status detection — cast error to `{ response?: { status?: number } }` for type safety
+  - The lookup view reuses `formatNurseProtocol` utility and `oabCondition` config — same protocol output as the builder
+  - PDF packet building logic is duplicated from PatientEducationOutput since the lookup doesn't have the full PathwayState — could be refactored into a shared utility
+  - Manual key entry from the builder page uses `useNavigate` to navigate to `/care-pathway/{key}`
+---
