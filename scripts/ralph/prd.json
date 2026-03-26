@@ -94,7 +94,7 @@
         "Typecheck passes"
       ],
       "priority": 5,
-      "passes": false,
+      "passes": true,
       "notes": "DnD is pattern-level reuse from PDF combiner, not direct component reuse — pathway steps have richer UI. Connector presets auto-fill: same-tier='Then →', tier change upward='If previous insufficient →', to requiresProvider treatment='ESCALATE TO PROVIDER →'."
     },
     {

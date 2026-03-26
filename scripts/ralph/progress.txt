@@ -13,6 +13,8 @@ Started: Wed Mar 25 20:04:59 CDT 2026
 - Reducer actions exported from `src/pages/care-pathway/index.tsx` for child components to dispatch
 - `void varName` pattern to suppress TS unused-variable warnings for vars needed in future stories
 - Lucide icons don't accept `title` prop — wrap in `<span title="...">` for native tooltips
+- react-dnd v16 with HTML5Backend — DndProvider wraps the builder, each item is both drag+drop. Hover-based reorder with `item.index = index` mutation for smooth tracking
+- ESLint worktree issue: use `--resolve-plugins-relative-to .` flag to avoid duplicate plugin error
 
 ---
 
@@ -66,4 +68,18 @@ Started: Wed Mar 25 20:04:59 CDT 2026
   - Lucide icons don't accept `title` prop directly — wrap in `<span title="...">` for tooltips
   - Import `PathwayAction` and `PathwayState` types from `index.tsx` for child component props
   - Exclude flow: hover reveals MinusCircle button → inline reason input → confirm/cancel
+---
+
+## 2026-03-25 ~22:00 - CP-005
+- Created `src/pages/care-pathway/components/PathwayBuilder.tsx` — right panel container with DndProvider, confirmation dialog for removing steps with edits
+- Created `src/pages/care-pathway/components/StepCard.tsx` — draggable step card with duration dropdown (preset + custom), dose input, expandable notes/follow-up/escalation fields, tier-colored left borders, requiresProvider label
+- Created `src/pages/care-pathway/components/StepConnector.tsx` — inter-step connector with editable transition text, presets dropdown, auto-generated defaults based on tier transitions
+- Updated `src/pages/care-pathway/index.tsx` to replace placeholder with PathwayBuilder component
+- Files changed: StepCard.tsx (new), PathwayBuilder.tsx (new), StepConnector.tsx (new), index.tsx (updated)
+- **Learnings for future iterations:**
+  - react-dnd hover-based reorder: mutate `item.index = index` in hover callback for smooth tracking during drag
+  - DndProvider must wrap the builder (not be at page level) to avoid conflicts with other DnD contexts
+  - Confirmation dialog for removal only triggers when step has user-edited fields (notes, followUp, escalationTrigger, or dose differing from catalog default)
+  - Connector auto-defaults: requiresProvider transition = 'ESCALATE TO PROVIDER →', cross-tier = 'If previous insufficient →', same-tier = 'Then →'
+  - Custom duration: use a `showCustomDuration` boolean state rather than tracking custom value separately
 ---
