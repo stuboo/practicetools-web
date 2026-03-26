@@ -6,6 +6,7 @@ import {
 import { Step, Exclusion, Pathway } from './types';
 import { oabCondition } from './config/conditions/oab';
 import { getTreatmentById } from './config/treatmentCatalog';
+import { TreatmentMenu } from './components/TreatmentMenu';
 
 // ── Reducer types ──
 
@@ -120,8 +121,7 @@ export default function CarePathway() {
   const [state, dispatch] = useReducer(pathwayReducer, initialState);
   const [lastSaved, setLastSaved] = useState<PathwayState | null>(null);
 
-  // dispatch and setLastSaved used by child components in CP-004+
-  void dispatch;
+  // setLastSaved used by child components in CP-008
   void setLastSaved;
   const isTooSmall = useMinViewport(1024);
 
@@ -182,9 +182,9 @@ export default function CarePathway() {
 
       {/* Two-panel layout */}
       <div className="grid grid-cols-[340px_1fr] h-[calc(100vh-theme(spacing.16)-73px)]">
-        {/* Left panel — Treatment menu (CP-004) */}
+        {/* Left panel — Treatment menu */}
         <div className="border-r border-gray-200 overflow-y-auto bg-gray-50 p-4">
-          <p className="text-sm text-gray-400">Treatment menu — coming in CP-004</p>
+          <TreatmentMenu state={state} dispatch={dispatch} />
         </div>
 
         {/* Right panel — Pathway builder */}
