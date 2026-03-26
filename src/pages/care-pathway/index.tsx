@@ -1,6 +1,7 @@
 import { useReducer, useCallback, useEffect, useState } from 'react';
 import {
   useParams,
+  useNavigate,
   unstable_useBlocker as useBlocker,
 } from 'react-router-dom';
 import { Step, Exclusion, Pathway } from './types';
@@ -11,6 +12,7 @@ import { PathwayBuilder } from './components/PathwayBuilder';
 import { NurseProtocolOutput } from './components/NurseProtocolOutput';
 import { PatientEducationOutput } from './components/PatientEducationOutput';
 import { SavePathwayControls } from './components/SavePathwayControls';
+import { PathwayLookup } from './components/PathwayLookup';
 
 // ── Reducer types ──
 
@@ -131,8 +133,10 @@ function useMinViewport(minWidth: number) {
 
 export default function CarePathway() {
   const { key } = useParams<{ key?: string }>();
+  const navigate = useNavigate();
   const [state, dispatch] = useReducer(pathwayReducer, initialState);
   const [lastSaved, setLastSaved] = useState<PathwayState | null>(null);
+  const [lookupKey, setLookupKey] = useState('');
 
   const isTooSmall = useMinViewport(1024);
 
@@ -163,22 +167,43 @@ export default function CarePathway() {
     );
   }
 
-  // Lookup view will be implemented in CP-009
-  if (isLookupView) {
-    return (
-      <div className="p-6">
-        <p className="text-gray-500">Pathway lookup view — coming in CP-009</p>
-      </div>
-    );
+  // Read-only lookup view for nurses
+  if (isLookupView && key) {
+    return <PathwayLookup pathwayKey={key} />;
   }
 
   return (
     <div className="h-full">
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200">
-        <div>
-          <h1 className="text-xl font-semibold text-gray-900">Care Pathway Builder</h1>
-          <p className="text-sm text-gray-500">{oabCondition.name}</p>
+        <div className="flex items-center gap-6">
+          <div>
+            <h1 className="text-xl font-semibold text-gray-900">Care Pathway Builder</h1>
+            <p className="text-sm text-gray-500">{oabCondition.name}</p>
+          </div>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const trimmed = lookupKey.trim();
+              if (trimmed) navigate(`/care-pathway/${trimmed}`);
+            }}
+            className="flex items-center gap-1.5"
+          >
+            <input
+              type="text"
+              value={lookupKey}
+              onChange={(e) => setLookupKey(e.target.value)}
+              placeholder="Look up key..."
+              className="w-36 px-2 py-1 text-xs font-mono border border-gray-300 rounded focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+            />
+            <button
+              type="submit"
+              disabled={!lookupKey.trim()}
+              className="px-2 py-1 text-xs bg-gray-100 text-gray-600 border border-gray-300 rounded hover:bg-gray-200 disabled:opacity-50"
+            >
+              Go
+            </button>
+          </form>
         </div>
         <SavePathwayControls
           state={state}
