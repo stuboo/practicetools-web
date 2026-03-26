@@ -72,7 +72,7 @@
         "Typecheck passes"
       ],
       "priority": 4,
-      "passes": false,
+      "passes": true,
       "notes": "Excluded treatments appear inline in their tier with strikethrough AND in a summary section at bottom. Checking a treatment appends it to the pathway with smooth scroll-into-view."
     },
     {

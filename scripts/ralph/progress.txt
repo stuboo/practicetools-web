@@ -12,6 +12,7 @@ Started: Wed Mar 25 20:04:59 CDT 2026
 - React Router 6.12 — use `unstable_useBlocker` (not `useBlocker`) for navigation blocking
 - Reducer actions exported from `src/pages/care-pathway/index.tsx` for child components to dispatch
 - `void varName` pattern to suppress TS unused-variable warnings for vars needed in future stories
+- Lucide icons don't accept `title` prop — wrap in `<span title="...">` for native tooltips
 
 ---
 
@@ -53,4 +54,16 @@ Started: Wed Mar 25 20:04:59 CDT 2026
   - `addExclusion` also removes the treatment from steps (and renumbers) to keep state consistent
   - `addStep` pre-fills duration and first dose from the catalog treatment defaults
   - Lookup view (`:key` param) is a placeholder — CP-009 will implement the full read-only nurse view
+---
+
+## 2026-03-25 ~21:30 - CP-004
+- Created `src/pages/care-pathway/components/TreatmentMenu.tsx` with tier-organized treatment checkboxes
+- Integrated TreatmentMenu into the left panel of the page layout, replacing placeholder
+- Removed `void dispatch` suppression since dispatch is now used by TreatmentMenu
+- Features: tier-colored section headers, checkbox toggle with green check styling, requiresProvider shield icon, exclude button with inline reason input, excluded treatments summary with restore button
+- Files changed: `src/pages/care-pathway/components/TreatmentMenu.tsx` (new), `src/pages/care-pathway/index.tsx` (updated)
+- **Learnings for future iterations:**
+  - Lucide icons don't accept `title` prop directly — wrap in `<span title="...">` for tooltips
+  - Import `PathwayAction` and `PathwayState` types from `index.tsx` for child component props
+  - Exclude flow: hover reveals MinusCircle button → inline reason input → confirm/cancel
 ---
