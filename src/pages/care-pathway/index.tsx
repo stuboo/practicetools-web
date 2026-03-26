@@ -10,6 +10,7 @@ import { TreatmentMenu } from './components/TreatmentMenu';
 import { PathwayBuilder } from './components/PathwayBuilder';
 import { NurseProtocolOutput } from './components/NurseProtocolOutput';
 import { PatientEducationOutput } from './components/PatientEducationOutput';
+import { SavePathwayControls } from './components/SavePathwayControls';
 
 // ── Reducer types ──
 
@@ -20,7 +21,8 @@ export type PathwayAction =
   | { type: 'updateStep'; treatmentId: string; updates: Partial<Omit<Step, 'treatmentId' | 'sequence'>> }
   | { type: 'addExclusion'; treatmentId: string; reason: string }
   | { type: 'removeExclusion'; treatmentId: string }
-  | { type: 'loadPathway'; pathway: Pathway };
+  | { type: 'loadPathway'; pathway: Pathway }
+  | { type: 'setSaved'; key: string; createdAt?: string; updatedAt?: string };
 
 export type PathwayState = {
   conditionId: string;
@@ -97,6 +99,14 @@ function pathwayReducer(state: PathwayState, action: PathwayAction): PathwayStat
         updatedAt: action.pathway.updatedAt,
       };
     }
+    case 'setSaved': {
+      return {
+        ...state,
+        key: action.key,
+        createdAt: action.createdAt ?? state.createdAt,
+        updatedAt: action.updatedAt ?? state.updatedAt,
+      };
+    }
     default:
       return state;
   }
@@ -124,8 +134,6 @@ export default function CarePathway() {
   const [state, dispatch] = useReducer(pathwayReducer, initialState);
   const [lastSaved, setLastSaved] = useState<PathwayState | null>(null);
 
-  // setLastSaved used by child components in CP-008
-  void setLastSaved;
   const isTooSmall = useMinViewport(1024);
 
   const hasUnsavedChanges = useCallback(() => {
@@ -172,15 +180,12 @@ export default function CarePathway() {
           <h1 className="text-xl font-semibold text-gray-900">Care Pathway Builder</h1>
           <p className="text-sm text-gray-500">{oabCondition.name}</p>
         </div>
-        <div className="flex items-center gap-3">
-          {hasUnsavedChanges() && (
-            <span className="flex items-center gap-1.5 text-sm text-amber-600">
-              <span className="w-2 h-2 rounded-full bg-amber-500" />
-              Unsaved
-            </span>
-          )}
-          {/* Save button will be implemented in CP-008 */}
-        </div>
+        <SavePathwayControls
+          state={state}
+          dispatch={dispatch}
+          hasUnsavedChanges={hasUnsavedChanges()}
+          onSaved={(savedState: PathwayState) => setLastSaved(savedState)}
+        />
       </div>
 
       {/* Two-panel layout */}
