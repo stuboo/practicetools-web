@@ -1,0 +1,56 @@
+# Ralph Progress Log
+Started: Wed Mar 25 20:04:59 CDT 2026
+
+## Codebase Patterns
+- Zod is now installed for validation; project also uses Yup for Formik forms — use Zod for care-pathway schemas
+- Types use `export type` pattern, page-specific types go in `src/pages/{page}/types.ts`
+- Page modules: `index.tsx` + `types.ts` + `components/` + `hooks/` + `config/` subdirs
+- API client pattern: frozen object with async methods using `apiClient` from `src/api/client.ts`
+- React Query v4 (TanStack) — use `isLoading` not `isPending`
+- Tailwind CSS for styling, Headless UI for behaviors, Heroicons/Lucide for icons
+- Routes defined in `src/App.tsx`
+- React Router 6.12 — use `unstable_useBlocker` (not `useBlocker`) for navigation blocking
+- Reducer actions exported from `src/pages/care-pathway/index.tsx` for child components to dispatch
+- `void varName` pattern to suppress TS unused-variable warnings for vars needed in future stories
+
+---
+
+## 2026-03-25 ~20:10 - CP-001
+- Created `src/pages/care-pathway/types.ts` with Treatment, Step, Pathway, Exclusion, Condition types + Zod schemas (stepSchema, exclusionSchema, pathwaySchema) with HTML stripping and maxLength validation
+- Created `src/pages/care-pathway/config/treatmentCatalog.ts` as generic catalog loader with getTreatmentCatalog, getTreatmentById, getTreatmentsByTier helpers
+- Created `src/pages/care-pathway/config/conditions/oab.ts` with full OAB catalog: 7 first-line behavioral, 13 second-line pharmacotherapy (separate dose entries), 4 third-line procedures, 2 adjunctive
+- Installed `zod` dependency
+- **Learnings for future iterations:**
+  - Zod `.transform().pipe()` pattern needed for strip-then-validate (can't just chain `.max()` after `.transform()`)
+  - PTNS is `requiresProvider: false` despite being third-line — per PRD notes
+  - Separate catalog entries per dose variant (e.g., mirabegron 25mg vs 50mg are distinct Treatment objects)
+  - Combination therapy entry is generic ("per prescriber") since specific combos vary
+---
+
+## 2026-03-25 ~20:25 - CP-002
+- Created `src/api/carePathway.ts` with savePathway (POST), getPathway (GET), updatePathway (PUT with X-Creator-Token header)
+- Created `src/pages/care-pathway/hooks/usePathway.ts` with useGetPathway, useSavePathway, useUpdatePathway hooks
+- creatorToken stored in localStorage with `carePathway_creatorToken_{key}` prefix on save success
+- **Learnings for future iterations:**
+  - Coverage API wraps responses in `ApiResponse<T>` with `.data.data` pattern, but care-pathway endpoints return data directly (no wrapper) — match whatever the backend implements
+  - React Query v4 uses `cacheTime` not `gcTime` — confirmed from existing hooks
+  - Export `getStoredCreatorToken` for use by save/update logic in CP-008
+  - updatePathway hook reads creatorToken from localStorage automatically — consumers just pass key + data
+---
+
+## 2026-03-25 ~21:00 - CP-003
+- Created `src/pages/care-pathway/index.tsx` with full useReducer state management (addStep, removeStep, reorderStep, updateStep, addExclusion, removeExclusion, loadPathway)
+- Added routes to `src/App.tsx`: `/care-pathway` (builder) and `/care-pathway/:key` (lookup)
+- Two-panel grid layout: 340px left panel + flexible right panel
+- `unstable_useBlocker` for unsaved changes navigation warning
+- Empty state: dashed border in right panel with guidance text
+- Viewport guard: below 1024px shows desktop-only message
+- Unsaved changes indicator in header (amber dot + "Unsaved" label)
+- `renumberSteps` utility exported for reuse
+- Files changed: `src/pages/care-pathway/index.tsx` (new), `src/App.tsx` (routes added)
+- **Learnings for future iterations:**
+  - React Router 6.12 uses `unstable_useBlocker` — the stable `useBlocker` is only available in 6.14+
+  - `addExclusion` also removes the treatment from steps (and renumbers) to keep state consistent
+  - `addStep` pre-fills duration and first dose from the catalog treatment defaults
+  - Lookup view (`:key` param) is a placeholder — CP-009 will implement the full read-only nurse view
+---

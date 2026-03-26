@@ -1,0 +1,212 @@
+{
+  "project": "PracticeTools - Care Pathway Builder",
+  "branchName": "worktree-oab-care-pathway",
+  "description": "Care Pathway Builder - A condition-agnostic tool (starting with OAB) that lets providers select and sequence treatments into a pathway, generating a nurse protocol (clipboard → EMR) and patient education PDF packet. Persisted via anonymous key with creatorToken write protection.",
+  "userStories": [
+    {
+      "id": "CP-001",
+      "title": "Treatment catalog and types",
+      "description": "As a developer, I need the OAB treatment catalog data structure and TypeScript types so all downstream components have a stable foundation to build on.",
+      "acceptanceCriteria": [
+        "Create src/pages/care-pathway/types.ts with Treatment, Step, Pathway, Exclusion, and Condition types",
+        "Treatment type includes: id, name, tier ('first-line'|'second-line'|'third-line'|'adjunctive'), category, defaultDuration, doseOptions (string[] for medications), requiresProvider (boolean), pdfHandoutPath (string|null)",
+        "Step type includes: treatmentId, sequence, duration, dose, notes, followUp, escalationTrigger, transitionText (all optional strings except treatmentId and sequence)",
+        "Create src/pages/care-pathway/config/treatmentCatalog.ts as a generic catalog loader that accepts a Condition config",
+        "Create src/pages/care-pathway/config/conditions/oab.ts with the full OAB treatment catalog: all first-line behavioral (7 items), second-line pharmacotherapy with separate entries per dose (beta-3 agonists, antimuscarinics, combination, topical estrogen), third-line procedures (Botox requiresProvider:true, PTNS requiresProvider:false, implantable tibial requiresProvider:true, sacral neuromodulation requiresProvider:true), adjunctive (pessary, incontinence products)",
+        "Create Zod validation schema in types.ts mirroring the pathway data structure: treatmentId non-empty, sequence positive int, text fields HTML-stripped and max 500 chars, exclusions array validated",
+        "Typecheck passes"
+      ],
+      "priority": 1,
+      "passes": true,
+      "notes": "Separate catalog entries per dose (e.g., vibegron 75mg and mirabegron 25mg are distinct items). requiresProvider flag replaces tier-based escalation boundary. PTNS is third-line but requiresProvider:false."
+    },
+    {
+      "id": "CP-002",
+      "title": "API client and React Query hooks",
+      "description": "As a developer, I need the API client and data-fetching hooks so the builder can save, load, and update pathways.",
+      "acceptanceCriteria": [
+        "Create src/api/carePathway.ts using apiClient from src/api/client.ts (Axios with JWT interceptors)",
+        "Implement savePathway(data) → POST /api/care-pathway, returns { key, creatorToken }",
+        "Implement getPathway(key) → GET /api/care-pathway/{key}, returns pathway data",
+        "Implement updatePathway(key, data, creatorToken) → PUT /api/care-pathway/{key} with creatorToken in X-Creator-Token header",
+        "Create src/pages/care-pathway/hooks/usePathway.ts with React Query hooks: useGetPathway(key), useSavePathway(), useUpdatePathway()",
+        "creatorToken stored in localStorage keyed by pathway key on save",
+        "Typecheck passes"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Server generates the key (not client-side). creatorToken is a UUID required for PUT to prevent accidental nurse edits. Backend endpoints don't exist yet — these hooks will work once the backend is built."
+    },
+    {
+      "id": "CP-003",
+      "title": "Page scaffold with useReducer state management",
+      "description": "As a developer, I need the page scaffold with routing and state management so components can be built incrementally.",
+      "acceptanceCriteria": [
+        "Create src/pages/care-pathway/index.tsx as the main page component",
+        "Add routes to src/App.tsx: /care-pathway (builder) and /care-pathway/:key (lookup)",
+        "Implement useReducer at page level with actions: addStep, removeStep, reorderStep (renumbers all sequences), updateStep, addExclusion, removeExclusion",
+        "reorderStep action must renumber all sequence fields after drag-drop reorder",
+        "Two-panel grid layout: 340px left panel + flexible right panel (matching wireframe)",
+        "React Router useBlocker for unsaved changes navigation warning",
+        "Empty state: dashed border in right panel with text 'Select treatments from the menu to build a pathway'",
+        "Minimum viewport check: below 1024px show 'This tool is designed for desktop use'",
+        "Typecheck passes"
+      ],
+      "priority": 3,
+      "passes": true,
+      "notes": "Use useReducer for builder working state (NOT Redux). React Query only for save/load mutations. useBlocker instead of beforeunload for cross-browser support."
+    },
+    {
+      "id": "CP-004",
+      "title": "Treatment menu component",
+      "description": "As a provider, I want to see all available treatments organized by tier so I can select which ones this patient is a candidate for.",
+      "acceptanceCriteria": [
+        "Create src/pages/care-pathway/components/TreatmentMenu.tsx",
+        "Displays treatments from OAB catalog organized by tier sections: First-Line Behavioral, Second-Line Pharmacotherapy, Third-Line Procedures, Adjunctive",
+        "Each tier has a colored label header",
+        "Each treatment is a checkbox item — checking immediately dispatches addStep to the reducer",
+        "Selected treatments show green check styling",
+        "Treatments with requiresProvider:true show a small indicator icon",
+        "Excluded treatments section at bottom with strikethrough styling and reason text",
+        "Provider can add exclusions by right-clicking or via a small exclude button on each treatment, with a reason input",
+        "Typecheck passes"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": "Excluded treatments appear inline in their tier with strikethrough AND in a summary section at bottom. Checking a treatment appends it to the pathway with smooth scroll-into-view."
+    },
+    {
+      "id": "CP-005",
+      "title": "Pathway builder with drag-drop StepCards",
+      "description": "As a provider, I want to drag and reorder treatment steps and configure timing, doses, and notes for each step.",
+      "acceptanceCriteria": [
+        "Create src/pages/care-pathway/components/PathwayBuilder.tsx as the right panel container",
+        "Create src/pages/care-pathway/components/StepCard.tsx as individual draggable step",
+        "Implement react-dnd drag-and-drop reordering (reference pattern from src/pages/combine-pdf/modules/PDFCombine/PDFSelections.tsx)",
+        "StepCard always shows: step number, treatment name, tier badge, drag handle (left), remove button (right)",
+        "StepCard expanded by default: duration dropdown ('2 weeks', '4 weeks', '4-6 weeks', '6-8 weeks', 'Ongoing', custom), dose text input (pre-filled from catalog for medications)",
+        "StepCard collapsed by default (click to expand): notes textarea (200 char max), follow-up text input, escalation trigger text input",
+        "Steps with requiresProvider:true have red left border and '(provider only)' label",
+        "Second-line medication steps have orange left border",
+        "Unchecking a treatment with edited fields shows confirmation dialog: 'Remove [treatment]? Custom settings will be lost.'",
+        "Inter-step connectors between cards: editable text with presets dropdown ('Then →', 'Concurrent with above →', 'If previous insufficient →', 'ESCALATE TO PROVIDER →', custom). Auto-generated defaults based on tier transitions",
+        "All text inputs enforce maxLength (notes: 200, dose: 100, duration: 50, transitionText: 200)",
+        "Typecheck passes"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": "DnD is pattern-level reuse from PDF combiner, not direct component reuse — pathway steps have richer UI. Connector presets auto-fill: same-tier='Then →', tier change upward='If previous insufficient →', to requiresProvider treatment='ESCALATE TO PROVIDER →'."
+    },
+    {
+      "id": "CP-006",
+      "title": "Nurse protocol text output with clipboard",
+      "description": "As a provider, I want to generate a structured nurse protocol text and copy it to the clipboard so I can paste it into the EMR.",
+      "acceptanceCriteria": [
+        "Create src/pages/care-pathway/components/NurseProtocolOutput.tsx",
+        "Generates ASCII-safe structured text following the template: header with key/condition/dates, numbered steps with tier/duration/dose/follow-up/notes/escalation trigger, transition text between steps, excluded treatments section, footer with key",
+        "No unicode box-drawing characters — use ASCII-safe formatting only (dashes, equals signs)",
+        "HTML tags stripped from all text fields before rendering",
+        "Expandable preview: starts in a bottom tab panel, can expand to full-height view",
+        "Copy Nurse Protocol button uses useCopyToClipboard hook from src/hooks/useCopyToClipboard.ts",
+        "Copy feedback: button changes to 'Copied ✓' with green background for 2-3 seconds",
+        "Copy Key button next to the pathway key display",
+        "@media print CSS for clean, no-UI-chrome printed output",
+        "Protocol output disabled (button grayed) when pathway has zero steps",
+        "Typecheck passes"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": "The protocol text IS the product — it goes directly into the EMR. ASCII-safe is critical because unicode may render as garbage in some EMR systems. Expandable preview is important because the bottom tab is too cramped for reviewing before copy."
+    },
+    {
+      "id": "CP-007",
+      "title": "Patient education PDF output",
+      "description": "As a provider, I want to assemble a patient education PDF packet with handouts for each selected treatment so the nurse can give it to the patient.",
+      "acceptanceCriteria": [
+        "Create src/pages/care-pathway/components/PatientEducationOutput.tsx",
+        "Uses pdf-lib merge pattern from src/libs/pdf-libs.ts",
+        "Cover page using a fillable PDF template (not generated from scratch with pdf-lib): shows 'Patient Education Materials' header, pathway key, date, list of included treatments",
+        "Handouts assembled in pathway sequence order",
+        "Per-PDF try/catch: if a handout PDF fails to load, insert a placeholder page noting 'Education materials for [treatment] — discuss with your provider' and show a toast warning",
+        "Treatments without linked PDFs (pdfHandoutPath is null) get the same placeholder page",
+        "Build Patient Packet button disabled when pathway has zero steps",
+        "Downloaded file named 'patient-education-{key}.pdf'",
+        "Typecheck passes"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": "Cover page uses a fillable PDF template to avoid 2-4 hours of pdf-lib layout work. Some OAB treatments won't have PDFs yet — placeholder pages handle this gracefully."
+    },
+    {
+      "id": "CP-008",
+      "title": "Save pathway and key management",
+      "description": "As a provider, I want to save a pathway and get an anonymous key so the nurse can look it up later.",
+      "acceptanceCriteria": [
+        "Save button in the builder header area",
+        "On save: validate pathway data with Zod schema, strip HTML from text fields, then call savePathway API",
+        "Display returned key prominently with 'Copy Key' button",
+        "Store creatorToken in localStorage keyed by pathway key",
+        "Unsaved changes indicator: Save button shows dot + 'Unsaved' label when state differs from last save",
+        "After save: show completion summary 'Pathway saved. Share key {key} with your nurse.'",
+        "Editing existing pathway (loaded by key): show 'Editing existing pathway' badge + Created/Updated timestamps, use updatePathway API with creatorToken",
+        "Save disabled when steps array is empty",
+        "API error on save: toast 'Could not save pathway. Your selections are preserved — try again.' and retain local state",
+        "Typecheck passes"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": "Server generates the key. creatorToken prevents accidental nurse edits via PUT. Zod validation mirrors the Pydantic model on the backend."
+    },
+    {
+      "id": "CP-009",
+      "title": "Read-only pathway lookup for nurses",
+      "description": "As a nurse, I want to look up a pathway by key and see a clear, read-only protocol so I can follow the treatment plan without accidentally editing it.",
+      "acceptanceCriteria": [
+        "Create src/pages/care-pathway/components/PathwayLookup.tsx",
+        "Route /care-pathway/:key renders the lookup view (not the editable builder)",
+        "Shows the nurse protocol text prominently (main content area, not a small tab)",
+        "Shows patient education list with download button",
+        "Print button for clean printed output",
+        "No edit controls visible — completely read-only",
+        "Loading state: skeleton loader, key visible immediately from URL",
+        "404 state: 'Pathway not found. Check the key and try again.' with key input field for manual entry",
+        "5xx state: 'Service temporarily unavailable. Try again in a moment.' (distinct from 404)",
+        "Also accessible by navigating to /care-pathway and entering a key manually",
+        "Typecheck passes"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": "Nurse and provider see DIFFERENT views. The nurse view is read-only with the protocol text front and center. The provider editable builder is only at /care-pathway (no :key param)."
+    },
+    {
+      "id": "CP-010",
+      "title": "Home page integration",
+      "description": "As a user, I want to see the Care Pathway Builder on the home page tool grid so I can navigate to it.",
+      "acceptanceCriteria": [
+        "Add Care Pathway Builder card to the home page tool grid in src/pages/home/",
+        "Card shows tool name, brief description, and 'OAB' as the available condition",
+        "Card links to /care-pathway",
+        "Follows existing card styling patterns from other tools",
+        "Typecheck passes"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": "Follow the pattern of existing tool cards (consent form generator, scheduling, coverage search, etc.)."
+    },
+    {
+      "id": "CP-011",
+      "title": "Unit tests for protocol formatter and validation",
+      "description": "As a developer, I need automated tests for the critical paths: nurse protocol text generation, Zod validation, and step sequencing.",
+      "acceptanceCriteria": [
+        "Tests for nurse protocol formatter: empty pathway, single step, multiple steps, step with escalation trigger, step with/without dose, exclusions rendering, transition text rendering, ASCII-safe output (no unicode), HTML stripped from fields",
+        "Tests for Zod validation: valid data passes, missing treatmentId fails, negative sequence fails, HTML in notes is stripped, exceeds maxLength fails, empty steps array fails",
+        "Tests for step sequencing: after reorder all sequences renumbered, add step gets correct sequence, remove step renumbers remaining",
+        "Tests for treatment catalog: all treatments have required fields, no duplicate IDs, medication treatments have dose options, requiresProvider flag set correctly (PTNS=false, Botox=true)",
+        "All tests pass"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": "The protocol formatter is the most critical output — it goes into clinical EMR records. Test edge cases thoroughly. See test plan at ~/.gstack/projects/stuboo-practicetools-web/jrs-feature-oab-care-pathway-test-plan-20260325.md"
+    }
+  ]
+}
