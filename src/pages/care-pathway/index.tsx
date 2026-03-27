@@ -146,8 +146,19 @@ export default function CarePathway() {
       || JSON.stringify(state.exclusions) !== JSON.stringify(lastSaved.exclusions);
   }, [state, lastSaved]);
 
-  // Navigation blocker for unsaved changes
+  // Navigation blocker for unsaved changes (in-app)
   useBlocker(hasUnsavedChanges());
+
+  // Browser close/refresh protection
+  useEffect(() => {
+    const handler = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges()) {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener('beforeunload', handler);
+    return () => window.removeEventListener('beforeunload', handler);
+  }, [hasUnsavedChanges]);
 
   // If key param present, this is a lookup/read-only view
   const isLookupView = Boolean(key);

@@ -63,19 +63,29 @@ export function SavePathwayControls({
           key: state.key,
           updatedAt: response.updatedAt,
         });
-        onSaved({ ...state, updatedAt: response.updatedAt });
+        onSaved({
+          ...state,
+          key: state.key,
+          updatedAt: response.updatedAt,
+        });
         toast.success(`Pathway updated.`);
       } else {
         // Save new pathway
         const response = await saveMutation.mutateAsync(validatedData);
 
+        const now = new Date().toISOString();
         dispatch({
           type: 'setSaved',
           key: response.key,
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
+          createdAt: now,
+          updatedAt: now,
         });
-        onSaved({ ...state, key: response.key });
+        onSaved({
+          ...state,
+          key: response.key,
+          createdAt: now,
+          updatedAt: now,
+        });
         setShowSummary(true);
         setTimeout(() => setShowSummary(false), 8000);
       }
@@ -102,10 +112,10 @@ export function SavePathwayControls({
             Editing existing pathway
           </span>
           {state.createdAt && (
-            <span>Created {new Date(state.createdAt).toLocaleDateString()}</span>
+            <span>Created {new Date(state.createdAt).toLocaleDateString('en-US')}</span>
           )}
           {state.updatedAt && (
-            <span>· Updated {new Date(state.updatedAt).toLocaleDateString()}</span>
+            <span>· Updated {new Date(state.updatedAt).toLocaleDateString('en-US')}</span>
           )}
         </div>
       )}

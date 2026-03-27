@@ -68,7 +68,7 @@ export const exclusionSchema = z.object({
 
 export const pathwaySchema = z.object({
   conditionId: z.string().min(1),
-  steps: z.array(stepSchema).min(1, 'Pathway must have at least one step'),
+  steps: z.array(stepSchema).min(1, 'Pathway must have at least one step').max(50, 'Pathway cannot exceed 50 steps'),
   exclusions: z.array(exclusionSchema),
 });
 
