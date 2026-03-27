@@ -94,36 +94,56 @@ export function StepCard({ step, treatment, index, dispatch, moveStep, onRemove 
       ? 'border-l-orange-500'
       : TIER_BORDER[treatment.tier];
 
+  // Inline summary for collapsed view
+  const summaryParts: string[] = [];
+  if (step.duration) summaryParts.push(step.duration);
+  if (step.dose) summaryParts.push(step.dose);
+  const summaryText = summaryParts.join(' · ');
+
   return (
     <div
       ref={ref}
       data-handler-id={handlerId}
       className={`bg-white rounded-lg shadow-sm border border-gray-200 border-l-4 ${borderColor} transition-opacity ${isDragging ? 'opacity-30' : ''}`}
     >
-      {/* Always-visible header */}
-      <div className="flex items-center gap-2 px-3 py-2.5">
+      {/* Compact header — always visible */}
+      <div className="flex items-center gap-2 px-3 py-2">
         <div ref={(node) => { drag(node); }} className="cursor-grab active:cursor-grabbing text-gray-400 hover:text-gray-600 shrink-0">
           <GripVertical className="w-4 h-4" />
         </div>
 
-        <span className="text-sm font-semibold text-gray-500 w-6 shrink-0">
+        <span className="text-sm font-semibold text-gray-400 w-5 shrink-0">
           {step.sequence}
         </span>
 
-        <span className="text-sm font-medium text-gray-900 flex-1 min-w-0 truncate">
+        <span className="text-sm font-medium text-gray-900 min-w-0 truncate">
           {treatment.name}
         </span>
+
+        {/* Inline duration/dose summary when collapsed */}
+        {!expanded && summaryText && (
+          <span className="text-xs text-gray-400 truncate shrink-0 max-w-[200px]">
+            {summaryText}
+          </span>
+        )}
 
         {treatment.requiresProvider && (
           <span className="flex items-center gap-1 text-xs text-red-600 shrink-0">
             <ShieldAlert className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">(provider only)</span>
           </span>
         )}
 
         <span className={`text-xs px-1.5 py-0.5 rounded font-medium shrink-0 ${TIER_BADGE[treatment.tier]}`}>
           {TIER_LABEL[treatment.tier]}
         </span>
+
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="p-1 rounded text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors shrink-0"
+          title={expanded ? 'Collapse' : 'Edit details'}
+        >
+          {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+        </button>
 
         <button
           onClick={() => onRemove(step.treatmentId)}
@@ -134,105 +154,94 @@ export function StepCard({ step, treatment, index, dispatch, moveStep, onRemove 
         </button>
       </div>
 
-      {/* Expanded by default: duration & dose */}
-      <div className="px-3 pb-2.5 pt-0 space-y-2 border-t border-gray-100">
-        <div className="grid grid-cols-2 gap-3 pt-2">
-          <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Duration</label>
-            <select
-              value={showCustomDuration ? '__custom__' : (step.duration || '')}
-              onChange={(e) => {
-                if (e.target.value === '__custom__') {
-                  setShowCustomDuration(true);
-                  updateField('duration', '');
-                } else {
-                  setShowCustomDuration(false);
-                  updateField('duration', e.target.value);
-                }
-              }}
-              className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            >
-              <option value="">Select...</option>
-              {DURATION_OPTIONS.map((d) => (
-                <option key={d} value={d}>{d}</option>
-              ))}
-              <option value="__custom__">Custom...</option>
-            </select>
-            {showCustomDuration && (
+      {/* Expandable detail panel — all editable fields */}
+      {expanded && (
+        <div className="px-3 pb-3 pt-1 space-y-3 border-t border-gray-100">
+          {/* Duration & Dose */}
+          <div className="grid grid-cols-2 gap-3 pt-1">
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">Duration</label>
+              <select
+                value={showCustomDuration ? '__custom__' : (step.duration || '')}
+                onChange={(e) => {
+                  if (e.target.value === '__custom__') {
+                    setShowCustomDuration(true);
+                    updateField('duration', '');
+                  } else {
+                    setShowCustomDuration(false);
+                    updateField('duration', e.target.value);
+                  }
+                }}
+                className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              >
+                <option value="">Select...</option>
+                {DURATION_OPTIONS.map((d) => (
+                  <option key={d} value={d}>{d}</option>
+                ))}
+                <option value="__custom__">Custom...</option>
+              </select>
+              {showCustomDuration && (
+                <input
+                  type="text"
+                  value={step.duration || ''}
+                  onChange={(e) => updateField('duration', e.target.value.slice(0, 50))}
+                  placeholder="e.g., 3 months"
+                  maxLength={50}
+                  className="w-full mt-1 text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                />
+              )}
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-500 mb-1">Dose</label>
               <input
                 type="text"
-                value={step.duration || ''}
-                onChange={(e) => updateField('duration', e.target.value.slice(0, 50))}
-                placeholder="e.g., 3 months"
-                maxLength={50}
-                className="w-full mt-1 text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                value={step.dose || ''}
+                onChange={(e) => updateField('dose', e.target.value.slice(0, 100))}
+                placeholder={treatment.doseOptions[0] || 'N/A'}
+                maxLength={100}
+                className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
-            )}
+            </div>
+          </div>
+
+          {/* Notes, Follow-up, Escalation */}
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">
+              Notes <span className="text-gray-400">({(step.notes || '').length}/200)</span>
+            </label>
+            <textarea
+              value={step.notes || ''}
+              onChange={(e) => updateField('notes', e.target.value.slice(0, 200))}
+              placeholder="Additional notes..."
+              maxLength={200}
+              rows={2}
+              className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none"
+            />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Dose</label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Follow-up</label>
             <input
               type="text"
-              value={step.dose || ''}
-              onChange={(e) => updateField('dose', e.target.value.slice(0, 100))}
-              placeholder={treatment.doseOptions[0] || 'N/A'}
-              maxLength={100}
+              value={step.followUp || ''}
+              onChange={(e) => updateField('followUp', e.target.value.slice(0, 500))}
+              placeholder="e.g., Reassess in 4 weeks"
+              maxLength={500}
+              className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-gray-500 mb-1">Escalation trigger</label>
+            <input
+              type="text"
+              value={step.escalationTrigger || ''}
+              onChange={(e) => updateField('escalationTrigger', e.target.value.slice(0, 500))}
+              placeholder="e.g., If symptoms persist after 6 weeks"
+              maxLength={500}
               className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
           </div>
         </div>
-      </div>
-
-      {/* Collapsed by default: notes, follow-up, escalation trigger */}
-      <div className="border-t border-gray-100">
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="flex items-center gap-1 w-full px-3 py-1.5 text-xs text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors"
-        >
-          {expanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-          {expanded ? 'Less options' : 'More options (notes, follow-up, escalation)'}
-        </button>
-        {expanded && (
-          <div className="px-3 pb-3 space-y-2">
-            <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">
-                Notes <span className="text-gray-400">({(step.notes || '').length}/200)</span>
-              </label>
-              <textarea
-                value={step.notes || ''}
-                onChange={(e) => updateField('notes', e.target.value.slice(0, 200))}
-                placeholder="Additional notes..."
-                maxLength={200}
-                rows={2}
-                className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500 resize-none"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Follow-up</label>
-              <input
-                type="text"
-                value={step.followUp || ''}
-                onChange={(e) => updateField('followUp', e.target.value.slice(0, 500))}
-                placeholder="e.g., Reassess in 4 weeks"
-                maxLength={500}
-                className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-500 mb-1">Escalation trigger</label>
-              <input
-                type="text"
-                value={step.escalationTrigger || ''}
-                onChange={(e) => updateField('escalationTrigger', e.target.value.slice(0, 500))}
-                placeholder="e.g., If symptoms persist after 6 weeks"
-                maxLength={500}
-                className="w-full text-sm border border-gray-300 rounded px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-            </div>
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 }
-
