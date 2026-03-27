@@ -1,15 +1,14 @@
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ClipboardCopy, Check, Printer, Download, Loader2, Search, FileText, AlertTriangle } from 'lucide-react';
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { saveAs } from 'file-saver';
 import toast from 'react-hot-toast';
 import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard';
 import { useGetPathway } from '../hooks/usePathway';
 import { formatNurseProtocol } from '../utils/formatNurseProtocol';
+import { buildPatientPacket } from '../utils/buildPatientPacket';
 import { oabCondition } from '../config/conditions/oab';
 import { getTreatmentById } from '../config/treatmentCatalog';
-import type { Step } from '../types';
 
 type PathwayLookupProps = {
   pathwayKey: string;
@@ -28,8 +27,8 @@ function SkeletonLoader({ pathwayKey }: { pathwayKey: string }) {
         <span className="font-mono text-sm text-gray-500">{pathwayKey}</span>
       </div>
       <div className="space-y-3">
-        {[...Array(8)].map((_, i) => (
-          <div key={i} className="h-4 bg-gray-100 rounded animate-pulse" style={{ width: `${70 + Math.random() * 30}%` }} />
+        {[85, 92, 78, 95, 72, 88, 80, 90].map((w, i) => (
+          <div key={i} className="h-4 bg-gray-100 rounded animate-pulse" style={{ width: `${w}%` }} />
         ))}
       </div>
     </div>
@@ -93,91 +92,6 @@ function ServerErrorState() {
   );
 }
 
-// ── PDF builder for lookup view ──
-
-async function createPlaceholderPage(treatmentName: string): Promise<PDFDocument> {
-  const doc = await PDFDocument.create();
-  const page = doc.addPage([612, 792]);
-  const helvetica = await doc.embedFont(StandardFonts.Helvetica);
-  const helveticaBold = await doc.embedFont(StandardFonts.HelveticaBold);
-  const gray = rgb(0.4, 0.4, 0.4);
-
-  page.drawText(treatmentName, { x: 72, y: 680, size: 18, font: helveticaBold, color: gray });
-  page.drawText('Education materials for this treatment — discuss with your provider', {
-    x: 72, y: 650, size: 12, font: helvetica, color: gray,
-  });
-
-  return doc;
-}
-
-async function buildReadonlyPacket(steps: Step[], pathwayKey: string): Promise<Uint8Array> {
-  const finalDoc = await PDFDocument.create();
-
-  const stepTreatments = steps.map((step) => {
-    const treatment = getTreatmentById(oabCondition, step.treatmentId);
-    return { name: treatment?.name ?? step.treatmentId, pdfPath: treatment?.pdfHandoutPath ?? null };
-  });
-
-  // Cover page
-  const coverDoc = await PDFDocument.create();
-  const coverPage = coverDoc.addPage([612, 792]);
-  const helvetica = await coverDoc.embedFont(StandardFonts.Helvetica);
-  const helveticaBold = await coverDoc.embedFont(StandardFonts.HelveticaBold);
-  const darkGray = rgb(0.2, 0.2, 0.2);
-  const medGray = rgb(0.4, 0.4, 0.4);
-  const accentBlue = rgb(0.2, 0.4, 0.7);
-
-  let y = 680;
-  coverPage.drawText('Patient Education Materials', { x: 72, y, size: 24, font: helveticaBold, color: darkGray });
-  y -= 8;
-  coverPage.drawLine({ start: { x: 72, y }, end: { x: 540, y }, thickness: 2, color: accentBlue });
-  y -= 32;
-  coverPage.drawText(oabCondition.name, { x: 72, y, size: 14, font: helvetica, color: medGray });
-  y -= 24;
-  coverPage.drawText(`Pathway Key: ${pathwayKey}`, { x: 72, y, size: 11, font: helvetica, color: medGray });
-  y -= 32;
-  coverPage.drawText('Included Treatments:', { x: 72, y, size: 13, font: helveticaBold, color: darkGray });
-  y -= 24;
-  for (const { name } of stepTreatments) {
-    if (y < 72) break;
-    coverPage.drawText(`  •  ${name}`, { x: 80, y, size: 11, font: helvetica, color: medGray });
-    y -= 18;
-  }
-
-  const coverPages = await finalDoc.copyPages(coverDoc, coverDoc.getPageIndices());
-  coverPages.forEach((page) => finalDoc.addPage(page));
-
-  const warnings: string[] = [];
-  for (const { name, pdfPath } of stepTreatments) {
-    if (!pdfPath) {
-      const placeholderDoc = await createPlaceholderPage(name);
-      const pages = await finalDoc.copyPages(placeholderDoc, placeholderDoc.getPageIndices());
-      pages.forEach((page) => finalDoc.addPage(page));
-      continue;
-    }
-    try {
-      const pdfBytes = await fetch(pdfPath).then((res) => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.arrayBuffer();
-      });
-      const handoutDoc = await PDFDocument.load(pdfBytes);
-      const pages = await finalDoc.copyPages(handoutDoc, handoutDoc.getPageIndices());
-      pages.forEach((page) => finalDoc.addPage(page));
-    } catch {
-      warnings.push(name);
-      const placeholderDoc = await createPlaceholderPage(name);
-      const pages = await finalDoc.copyPages(placeholderDoc, placeholderDoc.getPageIndices());
-      pages.forEach((page) => finalDoc.addPage(page));
-    }
-  }
-
-  if (warnings.length > 0) {
-    toast.error(`Could not load handouts for: ${warnings.join(', ')}. Placeholder pages inserted.`, { duration: 5000 });
-  }
-
-  return finalDoc.save();
-}
-
 // ── Main lookup component ──
 
 export function PathwayLookup({ pathwayKey }: PathwayLookupProps) {
@@ -238,7 +152,7 @@ export function PathwayLookup({ pathwayKey }: PathwayLookupProps) {
     if (!pathway) return;
     setBuilding(true);
     try {
-      const pdfBytes = await buildReadonlyPacket(pathway.steps, pathwayKey);
+      const pdfBytes = await buildPatientPacket(pathway.steps, pathwayKey);
       saveAs(new Blob([pdfBytes], { type: 'application/pdf' }), `patient-education-${pathwayKey}.pdf`);
     } catch (err) {
       console.error('Failed to build patient packet:', err);
