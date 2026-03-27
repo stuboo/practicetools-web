@@ -3,6 +3,7 @@ import {
   useParams,
   useNavigate,
 } from 'react-router-dom';
+import { FileText, X } from 'lucide-react';
 import { Step, Exclusion, Pathway } from './types';
 import { oabCondition } from './config/conditions/oab';
 import { getTreatmentById } from './config/treatmentCatalog';
@@ -136,6 +137,7 @@ export default function CarePathway() {
   const [state, dispatch] = useReducer(pathwayReducer, initialState);
   const [lastSaved, setLastSaved] = useState<PathwayState | null>(null);
   const [lookupKey, setLookupKey] = useState('');
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   const isTooSmall = useMinViewport(1024);
 
@@ -227,31 +229,59 @@ export default function CarePathway() {
           <TreatmentMenu state={state} dispatch={dispatch} />
         </div>
 
-        {/* Right panel — Pathway builder + protocol output */}
-        <div className="flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto p-6">
-            {state.steps.length === 0 ? (
-              <div className="flex items-center justify-center h-full">
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center max-w-md">
-                  <p className="text-gray-500">
-                    Select treatments from the menu to build a pathway
-                  </p>
-                </div>
+        {/* Right panel — Pathway builder (full height) */}
+        <div className="overflow-y-auto p-6 relative">
+          {state.steps.length === 0 ? (
+            <div className="flex items-center justify-center h-full">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center max-w-md">
+                <p className="text-gray-500">
+                  Select treatments from the menu to build a pathway
+                </p>
               </div>
-            ) : (
-              <PathwayBuilder steps={state.steps} dispatch={dispatch} />
-            )}
-          </div>
-
-          {/* Bottom panel — Nurse protocol + Patient education */}
-          <div className="border-t border-gray-200 shrink-0">
-            <NurseProtocolOutput state={state} />
-            <div className="border-t border-gray-200">
-              <PatientEducationOutput state={state} />
             </div>
-          </div>
+          ) : (
+            <PathwayBuilder steps={state.steps} dispatch={dispatch} />
+          )}
+
+          {/* Output drawer toggle — fixed bottom-right */}
+          {state.steps.length > 0 && !drawerOpen && (
+            <button
+              onClick={() => setDrawerOpen(true)}
+              className="fixed bottom-6 right-6 z-30 flex items-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-colors"
+            >
+              <FileText className="w-4 h-4" />
+              View Output
+            </button>
+          )}
         </div>
       </div>
+
+      {/* Slide-out drawer — Nurse protocol + Patient education */}
+      {drawerOpen && (
+        <>
+          <div
+            className="fixed inset-0 bg-black/20 z-40"
+            onClick={() => setDrawerOpen(false)}
+          />
+          <div className="fixed top-0 right-0 h-full w-[520px] max-w-[90vw] bg-white shadow-2xl z-50 flex flex-col">
+            <div className="flex items-center justify-between px-5 py-3 border-b border-gray-200 bg-gray-50 shrink-0">
+              <h2 className="text-sm font-semibold text-gray-800">Output</h2>
+              <button
+                onClick={() => setDrawerOpen(false)}
+                className="p-1 rounded hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-y-auto">
+              <NurseProtocolOutput state={state} />
+              <div className="border-t border-gray-200">
+                <PatientEducationOutput state={state} />
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
