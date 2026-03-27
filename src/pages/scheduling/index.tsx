@@ -10,7 +10,7 @@ import {
   PathStep
 } from './util/workflow';
 import Button from '../../components/button';
-import Quid6Questionnaire, { DiagnosisType, Quid6Result } from './components/Quid6Questionnaire';
+import Quid6Questionnaire, { Quid6Result } from './components/Quid6Questionnaire';
 import { AuditKeyDisplay } from './components/AuditKeyDisplay';
 import { useAuditStorage } from '../../hooks/useAuditStorage';
 
@@ -64,17 +64,8 @@ const Scheduling: React.FC = () => {
     
     // Determine the next node based on QUID-6 results
     let nextNodeId: string;
-    switch (result.diagnosis) {
-      case 'Stress Incontinence':
-      case 'Stress-Predominant Mixed':
-        nextNodeId = 'scheduleWithSurgeon';
-        break;
-      case 'Urge Incontinence':
-      case 'Urge-Predominant Mixed':
-      default:
-        nextNodeId = 'scheduleWithAPP';
-        break;
-    }
+    // All QUID-6 outcomes route to surgeon
+    nextNodeId = 'scheduleWithSurgeon';
     
     // Add QUID-6 result information to the path
     const updatedPath = [...path];
@@ -247,8 +238,22 @@ const Scheduling: React.FC = () => {
               {currentNode.type === 'result' && currentNode.result && (
                 <div className="mt-4">
                   {renderProviderInfo(currentNode.result)}
-                  {auditKey && auditKey !== 'FAILED' && <AuditKeyDisplay auditKey={auditKey} />}
-                  {auditKey === 'FAILED' && (
+                  {quid6Result && (
+                    <div className="mt-4 p-3 bg-gray-100 rounded-md text-center">
+                      <span className="text-sm text-gray-600">Diagnosis: </span>
+                      <span className="text-lg font-bold font-mono">
+                        {({
+                          'Stress Incontinence': 'SUI',
+                          'Urge Incontinence': 'UUI',
+                          'Stress-Predominant Mixed': 'SPMUI',
+                          'Urge-Predominant Mixed': 'UPMUI',
+                          'Inconclusive': 'INCON',
+                        } as Record<string, string>)[quid6Result.diagnosis]}
+                      </span>
+                    </div>
+                  )}
+                  {!quid6Result && auditKey && auditKey !== 'FAILED' && <AuditKeyDisplay auditKey={auditKey} />}
+                  {!quid6Result && auditKey === 'FAILED' && (
                     <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                       <h3 className="text-sm font-medium text-yellow-900 mb-2">
                         Audit Trail Unavailable
