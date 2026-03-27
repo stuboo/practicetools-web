@@ -2,7 +2,6 @@ import { useReducer, useCallback, useEffect, useState } from 'react';
 import {
   useParams,
   useNavigate,
-  unstable_useBlocker as useBlocker,
 } from 'react-router-dom';
 import { Step, Exclusion, Pathway } from './types';
 import { oabCondition } from './config/conditions/oab';
@@ -145,9 +144,6 @@ export default function CarePathway() {
     return JSON.stringify(state.steps) !== JSON.stringify(lastSaved.steps)
       || JSON.stringify(state.exclusions) !== JSON.stringify(lastSaved.exclusions);
   }, [state, lastSaved]);
-
-  // Navigation blocker for unsaved changes (in-app)
-  useBlocker(hasUnsavedChanges());
 
   // Browser close/refresh protection
   useEffect(() => {
