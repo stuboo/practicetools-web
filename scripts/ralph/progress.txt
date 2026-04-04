@@ -1,0 +1,182 @@
+# Ralph Progress Log
+Started: Wed Mar 25 20:04:59 CDT 2026
+
+## Codebase Patterns
+- Zod is now installed for validation; project also uses Yup for Formik forms — use Zod for care-pathway schemas
+- Types use `export type` pattern, page-specific types go in `src/pages/{page}/types.ts`
+- Page modules: `index.tsx` + `types.ts` + `components/` + `hooks/` + `config/` subdirs
+- API client pattern: frozen object with async methods using `apiClient` from `src/api/client.ts`
+- React Query v4 (TanStack) — use `isLoading` not `isPending`
+- Tailwind CSS for styling, Headless UI for behaviors, Heroicons/Lucide for icons
+- Routes defined in `src/App.tsx`
+- React Router 6.12 — use `unstable_useBlocker` (not `useBlocker`) for navigation blocking
+- Reducer actions exported from `src/pages/care-pathway/index.tsx` for child components to dispatch
+- `void varName` pattern to suppress TS unused-variable warnings for vars needed in future stories
+- Lucide icons don't accept `title` prop — wrap in `<span title="...">` for native tooltips
+- react-dnd v16 with HTML5Backend — DndProvider wraps the builder, each item is both drag+drop. Hover-based reorder with `item.index = index` mutation for smooth tracking
+- ESLint worktree issue: use `--resolve-plugins-relative-to .` flag to avoid duplicate plugin error
+- Pure utility functions go in `src/pages/care-pathway/utils/` for testability (e.g., formatNurseProtocol)
+- Vitest configured in vite.config.ts (import `defineConfig` from `vitest/config`), run with `npm test` or `npx vitest run`
+
+---
+
+## 2026-03-25 ~20:10 - CP-001
+- Created `src/pages/care-pathway/types.ts` with Treatment, Step, Pathway, Exclusion, Condition types + Zod schemas (stepSchema, exclusionSchema, pathwaySchema) with HTML stripping and maxLength validation
+- Created `src/pages/care-pathway/config/treatmentCatalog.ts` as generic catalog loader with getTreatmentCatalog, getTreatmentById, getTreatmentsByTier helpers
+- Created `src/pages/care-pathway/config/conditions/oab.ts` with full OAB catalog: 7 first-line behavioral, 13 second-line pharmacotherapy (separate dose entries), 4 third-line procedures, 2 adjunctive
+- Installed `zod` dependency
+- **Learnings for future iterations:**
+  - Zod `.transform().pipe()` pattern needed for strip-then-validate (can't just chain `.max()` after `.transform()`)
+  - PTNS is `requiresProvider: false` despite being third-line — per PRD notes
+  - Separate catalog entries per dose variant (e.g., mirabegron 25mg vs 50mg are distinct Treatment objects)
+  - Combination therapy entry is generic ("per prescriber") since specific combos vary
+---
+
+## 2026-03-25 ~20:25 - CP-002
+- Created `src/api/carePathway.ts` with savePathway (POST), getPathway (GET), updatePathway (PUT with X-Creator-Token header)
+- Created `src/pages/care-pathway/hooks/usePathway.ts` with useGetPathway, useSavePathway, useUpdatePathway hooks
+- creatorToken stored in localStorage with `carePathway_creatorToken_{key}` prefix on save success
+- **Learnings for future iterations:**
+  - Coverage API wraps responses in `ApiResponse<T>` with `.data.data` pattern, but care-pathway endpoints return data directly (no wrapper) — match whatever the backend implements
+  - React Query v4 uses `cacheTime` not `gcTime` — confirmed from existing hooks
+  - Export `getStoredCreatorToken` for use by save/update logic in CP-008
+  - updatePathway hook reads creatorToken from localStorage automatically — consumers just pass key + data
+---
+
+## 2026-03-25 ~21:00 - CP-003
+- Created `src/pages/care-pathway/index.tsx` with full useReducer state management (addStep, removeStep, reorderStep, updateStep, addExclusion, removeExclusion, loadPathway)
+- Added routes to `src/App.tsx`: `/care-pathway` (builder) and `/care-pathway/:key` (lookup)
+- Two-panel grid layout: 340px left panel + flexible right panel
+- `unstable_useBlocker` for unsaved changes navigation warning
+- Empty state: dashed border in right panel with guidance text
+- Viewport guard: below 1024px shows desktop-only message
+- Unsaved changes indicator in header (amber dot + "Unsaved" label)
+- `renumberSteps` utility exported for reuse
+- Files changed: `src/pages/care-pathway/index.tsx` (new), `src/App.tsx` (routes added)
+- **Learnings for future iterations:**
+  - React Router 6.12 uses `unstable_useBlocker` — the stable `useBlocker` is only available in 6.14+
+  - `addExclusion` also removes the treatment from steps (and renumbers) to keep state consistent
+  - `addStep` pre-fills duration and first dose from the catalog treatment defaults
+  - Lookup view (`:key` param) is a placeholder — CP-009 will implement the full read-only nurse view
+---
+
+## 2026-03-25 ~21:30 - CP-004
+- Created `src/pages/care-pathway/components/TreatmentMenu.tsx` with tier-organized treatment checkboxes
+- Integrated TreatmentMenu into the left panel of the page layout, replacing placeholder
+- Removed `void dispatch` suppression since dispatch is now used by TreatmentMenu
+- Features: tier-colored section headers, checkbox toggle with green check styling, requiresProvider shield icon, exclude button with inline reason input, excluded treatments summary with restore button
+- Files changed: `src/pages/care-pathway/components/TreatmentMenu.tsx` (new), `src/pages/care-pathway/index.tsx` (updated)
+- **Learnings for future iterations:**
+  - Lucide icons don't accept `title` prop directly — wrap in `<span title="...">` for tooltips
+  - Import `PathwayAction` and `PathwayState` types from `index.tsx` for child component props
+  - Exclude flow: hover reveals MinusCircle button → inline reason input → confirm/cancel
+---
+
+## 2026-03-25 ~22:00 - CP-005
+- Created `src/pages/care-pathway/components/PathwayBuilder.tsx` — right panel container with DndProvider, confirmation dialog for removing steps with edits
+- Created `src/pages/care-pathway/components/StepCard.tsx` — draggable step card with duration dropdown (preset + custom), dose input, expandable notes/follow-up/escalation fields, tier-colored left borders, requiresProvider label
+- Created `src/pages/care-pathway/components/StepConnector.tsx` — inter-step connector with editable transition text, presets dropdown, auto-generated defaults based on tier transitions
+- Updated `src/pages/care-pathway/index.tsx` to replace placeholder with PathwayBuilder component
+- Files changed: StepCard.tsx (new), PathwayBuilder.tsx (new), StepConnector.tsx (new), index.tsx (updated)
+- **Learnings for future iterations:**
+  - react-dnd hover-based reorder: mutate `item.index = index` in hover callback for smooth tracking during drag
+  - DndProvider must wrap the builder (not be at page level) to avoid conflicts with other DnD contexts
+  - Confirmation dialog for removal only triggers when step has user-edited fields (notes, followUp, escalationTrigger, or dose differing from catalog default)
+  - Connector auto-defaults: requiresProvider transition = 'ESCALATE TO PROVIDER →', cross-tier = 'If previous insufficient →', same-tier = 'Then →'
+  - Custom duration: use a `showCustomDuration` boolean state rather than tracking custom value separately
+---
+
+## 2026-03-25 ~22:30 - CP-006
+- Created `src/pages/care-pathway/utils/formatNurseProtocol.ts` — pure function that generates ASCII-safe structured protocol text from pathway state. Handles header with key/condition/dates, numbered steps with tier/duration/dose/follow-up/notes/escalation, transition text between steps, excluded treatments section, and footer
+- Created `src/pages/care-pathway/components/NurseProtocolOutput.tsx` — bottom tab panel with expandable full-height view, Copy Nurse Protocol button (green "Copied ✓" feedback for 2.5s), Copy Key button, disabled state when no steps, @media print CSS
+- Updated `src/pages/care-pathway/index.tsx` — integrated NurseProtocolOutput as bottom panel in right column using flex layout, passed full state
+- Files changed: formatNurseProtocol.ts (new), NurseProtocolOutput.tsx (new), index.tsx (updated)
+- **Learnings for future iterations:**
+  - Protocol formatter is a pure function in `utils/` for easy unit testing in CP-011
+  - useCopyToClipboard hook returns `[copiedValue, copyFn]` — copyFn is async and returns boolean success
+  - Expanded/full-height view uses fixed positioning to overlay the entire viewport
+  - ASCII-safe means no unicode box-drawing — use dashes, equals signs, and >> for connectors
+  - Print CSS uses visibility trick to hide all page chrome and show only the pre element
+---
+
+## 2026-03-25 ~23:00 - CP-007
+- Created `src/pages/care-pathway/components/PatientEducationOutput.tsx` — builds patient education PDF packet using pdf-lib
+- Cover page generated with pdf-lib (no fillable template exists yet): shows title, condition name, date, pathway key, and list of included treatments
+- Per-PDF try/catch: failed handout loads insert a placeholder page and show a toast warning via react-hot-toast
+- Treatments with null pdfHandoutPath get a placeholder page ("Education materials for this treatment — discuss with your provider")
+- "Build Patient Packet" button disabled when zero steps, shows spinner during build
+- Downloaded file named `patient-education-{key}.pdf` (uses "draft" when no key yet)
+- Integrated into page layout as a second row below NurseProtocolOutput in the bottom panel
+- Files changed: PatientEducationOutput.tsx (new), index.tsx (updated import + layout)
+- **Learnings for future iterations:**
+  - pdf-lib StandardFonts (Helvetica, HelveticaBold) work well for cover pages — no need to embed custom fonts
+  - Sequential PDF merge loop (not Promise.all) preserves order — same pattern as src/libs/pdf-libs.ts
+  - All OAB treatments currently have pdfHandoutPath: null, so every treatment gets a placeholder page until handouts are added
+  - react-hot-toast is the project's toast library — import `toast` from 'react-hot-toast'
+  - file-saver's `saveAs` is used for PDF downloads throughout the project
+---
+
+## 2026-03-25 ~23:30 - CP-008
+- Created `src/pages/care-pathway/components/SavePathwayControls.tsx` — Save button with Zod validation, save/update logic, key display with Copy Key, unsaved indicator, completion summary popup
+- Added `setSaved` action to reducer in `index.tsx` — updates key/createdAt/updatedAt without replacing steps/exclusions
+- Integrated SavePathwayControls into page header, replacing placeholder comment
+- Removed `void setLastSaved` suppression — now used via `onSaved` callback
+- Save validates with Zod, strips HTML via schema transforms, calls savePathway (new) or updatePathway (existing with creatorToken)
+- Error handling: toast "Could not save pathway" on API failure, retains local state
+- Completion summary: green popup "Pathway saved. Share key {key} with your nurse." for 8 seconds after first save
+- Existing pathway badge: "Editing existing pathway" + Created/Updated dates
+- Files changed: SavePathwayControls.tsx (new), index.tsx (updated reducer + header integration)
+- **Learnings for future iterations:**
+  - Zod `safeParse` error property is `.issues` (not `.errors`) — `.errors` is deprecated
+  - `setSaved` reducer action is cleaner than `loadPathway` for post-save — doesn't replace steps/exclusions, just merges key/timestamps
+  - `getStoredCreatorToken` is exported from usePathway hooks for pre-flight token check before update
+  - react-hot-toast `toast.success/error` for save feedback, inline popup for the "share key" completion summary
+---
+
+## 2026-03-25 ~24:00 - CP-009
+- Created `src/pages/care-pathway/components/PathwayLookup.tsx` — full read-only nurse view with:
+  - Prominent nurse protocol text display (main content, not a tab)
+  - Copy Protocol + Print buttons
+  - Patient education list with Download Patient Packet button
+  - Skeleton loader during fetch (key visible immediately from URL)
+  - 404 state: "Pathway not found" with key input for manual re-entry
+  - 5xx state: "Service temporarily unavailable" (distinct from 404)
+  - Error detection via Axios response status code
+- Updated `src/pages/care-pathway/index.tsx`:
+  - Replaced CP-009 placeholder with `<PathwayLookup>` component
+  - Added lookup key input form to builder header for manual key entry
+  - Added `useNavigate` import and `lookupKey` state
+- Files changed: PathwayLookup.tsx (new), index.tsx (updated)
+- **Learnings for future iterations:**
+  - Axios errors have `.response.status` for HTTP status detection — cast error to `{ response?: { status?: number } }` for type safety
+  - The lookup view reuses `formatNurseProtocol` utility and `oabCondition` config — same protocol output as the builder
+  - PDF packet building logic is duplicated from PatientEducationOutput since the lookup doesn't have the full PathwayState — could be refactored into a shared utility
+  - Manual key entry from the builder page uses `useNavigate` to navigate to `/care-pathway/{key}`
+---
+
+## 2026-03-25 ~24:30 - CP-010
+- Added Care Pathway Builder card to the home page tool grid in `src/pages/home/index.tsx`
+- Card shows "Care Pathway Builder" title, description mentioning OAB, and `AiOutlineBranches` icon
+- Links to `/care-pathway`
+- Follows existing card pattern (same styling, same toolsList array structure)
+- Files changed: `src/pages/home/index.tsx` (updated)
+- **Learnings for future iterations:**
+  - Home page tool cards are defined as a `toolsList` array of `Tools` objects in `src/pages/home/index.tsx`
+  - Icons use `react-icons/ai` (Ant Design) — already imported set, just add new icon to the import
+  - Pre-existing unused imports (`AiOutlineForm`, `AiOutlineFileText`) exist — don't clean them up unless asked
+---
+
+## 2026-03-26 ~03:38 - CP-011
+- Installed vitest as dev dependency, configured in vite.config.ts (using vitest/config for type-safe test config), added "test": "vitest run" script
+- Created formatNurseProtocol.test.ts (17 tests): empty pathway, single/multiple steps, dose rendering, escalation trigger, follow-up/notes, transition text, exclusions, ASCII-safe output, HTML stripping, [PROVIDER ONLY] tag, created/updated dates
+- Created types.test.ts (22 tests): stepSchema validation (required fields, negative/zero/non-integer sequence, HTML stripping on all text fields, maxLength enforcement for notes/dose/duration/transitionText), exclusionSchema validation, pathwaySchema validation (empty steps, missing conditionId, error propagation)
+- Created reducer.test.ts (20 tests): renumberSteps utility, addStep (sequence numbering, pre-fill duration/dose, duplicate prevention, unknown IDs), removeStep with renumbering, reorderStep with renumbering, updateStep, addExclusion (removes from steps + renumbers), removeExclusion, loadPathway, setSaved
+- Created treatmentCatalog.test.ts (15 tests): catalog loading, no duplicate IDs, required fields, medication dose options, behavioral empty doses, requiresProvider flags (Botox=true, PTNS=false, implantable=true, sacral=true), tier counts (7 first-line, 4 third-line, 2 adjunctive), getTreatmentById, first-line all non-provider
+- 74 tests total, all passing
+- Files changed: vite.config.ts, package.json, package-lock.json, 4 new test files
+- **Learnings for future iterations:**
+  - Use `vitest/config` import for `defineConfig` instead of `vite` to get type-safe `test` config property
+  - formatNurseProtocol footer always includes "Generated:" line regardless of created/updated dates — only the header conditionally shows "Generated:" vs "Created:/Updated:"
+  - ESLint `--resolve-plugins-relative-to .` flag needed in worktrees to avoid duplicate plugin error (already documented in Codebase Patterns)
+  - Test files should avoid `!` non-null assertions — use `?.` optional chaining instead to satisfy ESLint
+---
