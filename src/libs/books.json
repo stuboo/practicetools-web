@@ -3,10 +3,15 @@
     "title": "Accidental Bowel Leakage",
     "filename": "ABL.pdf",
     "language": "English",
-    "category": ["ABL", "FI", "bowel", "incontinence"],
+    "category": [
+      "ABL",
+      "FI",
+      "bowel",
+      "incontinence"
+    ],
     "description": "AUGS handout on Accidental Bowel Leakage in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/ABL_Page_1.jpg",
+    "thumbnail": "thumbnails/abl.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/ABL.pdf",
     "short_url": "https://urogyn.click/g7xi5p",
@@ -16,10 +21,15 @@
     "title": "Accidental Bowel Leakage",
     "filename": "ABL_Spanish.pdf",
     "language": "Spanish",
-    "category": ["ABL", "FI", "bowel", "incontinence"],
+    "category": [
+      "ABL",
+      "FI",
+      "bowel",
+      "incontinence"
+    ],
     "description": "AUGS handout on Accidental Bowel Leakage in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/ABL_Page_1.jpg",
+    "thumbnail": "thumbnails/abl-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/ABL_Spanish.pdf",
     "short_url": "https://urogyn.click/vtdjy9",
@@ -29,10 +39,15 @@
     "title": "Botox Injections to Improve Bladder Control",
     "filename": "Botox.pdf",
     "language": "English",
-    "category": ["OAB", "bladder", "botox", "neurogenic"],
+    "category": [
+      "OAB",
+      "bladder",
+      "botox",
+      "neurogenic"
+    ],
     "description": "AUGS handout on Botox Injections to Improve Bladder Control in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Botox_Page_1.jpg",
+    "thumbnail": "thumbnails/botox.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Botox.pdf",
     "short_url": "https://urogyn.click/xxe2hs",
@@ -42,10 +57,15 @@
     "title": "Botox Injections to Improve Bladder Control",
     "filename": "Botox_Spanish.pdf",
     "language": "Spanish",
-    "category": ["OAB", "bladder", "botox", "neurogenic"],
+    "category": [
+      "OAB",
+      "bladder",
+      "botox",
+      "neurogenic"
+    ],
     "description": "AUGS handout on Botox Injections to Improve Bladder Control in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Botox_Page_1.jpg",
+    "thumbnail": "thumbnails/botox-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Botox_Spanish.pdf",
     "short_url": "https://urogyn.click/8uyg9j",
@@ -55,10 +75,15 @@
     "title": "Colpoclesis/Vaginal Closure Surgery",
     "filename": "Colpocleisis.pdf",
     "language": "English",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis"
+    ],
     "description": "AUGS handout on Colpoclesis/Vaginal Closure Surgery in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Colpocleisis_Page_1.jpg",
+    "thumbnail": "thumbnails/colpocleisis.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Colpocleisis.pdf",
     "short_url": "https://urogyn.click/by2rjk",
@@ -68,10 +93,15 @@
     "title": "Colpoclesis/Vaginal Closure Surgery",
     "filename": "Colpocleisis_Spanish.pdf",
     "language": "Spanish",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis"
+    ],
     "description": "AUGS handout on Colpoclesis/Vaginal Closure Surgery in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Colpocleisis_Page_1.jpg",
+    "thumbnail": "thumbnails/colpocleisis-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Colpocleisis_Spanish.pdf",
     "short_url": "https://urogyn.click/a5zi5n",
@@ -81,10 +111,13 @@
     "title": "Constipation",
     "filename": "Constipation.pdf",
     "language": "English",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "AUGS handout on Constipation in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Constipation_Page_1.jpg",
+    "thumbnail": "thumbnails/constipation.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Constipation.pdf",
     "short_url": "https://urogyn.click/n9ue39",
@@ -94,10 +127,13 @@
     "title": "Constipation",
     "filename": "Constipation_Spanish.pdf",
     "language": "Spanish",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "AUGS handout on Constipation in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Constipation_Page_1.jpg",
+    "thumbnail": "thumbnails/constipation-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Constipation_Spanish.pdf",
     "short_url": "https://urogyn.click/aq656m",
@@ -116,7 +152,7 @@
     ],
     "description": "AUGS handout on Cystoscopy in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Cystoscopy_Page_1.jpg",
+    "thumbnail": "thumbnails/cystoscopy.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Cystoscopy.pdf",
     "short_url": "https://urogyn.click/as6j9y",
@@ -135,7 +171,7 @@
     ],
     "description": "AUGS handout on Cystoscopy in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Cystoscopy_Page_1.jpg",
+    "thumbnail": "thumbnails/cystoscopy-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Cystoscopy_Spanish.pdf",
     "short_url": "https://urogyn.click/zsb95a",
@@ -145,10 +181,15 @@
     "title": "Fistulas: Genitourinary and Rectovaginal",
     "filename": "Fistulas.pdf",
     "language": "English",
-    "category": ["bowel", "bladder", "fistula", "incontinence"],
+    "category": [
+      "bowel",
+      "bladder",
+      "fistula",
+      "incontinence"
+    ],
     "description": "AUGS handout on Fistulas: Genitourinary and Rectovaginal in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Fistulas_Page_1.jpg",
+    "thumbnail": "thumbnails/fistulas.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Fistulas.pdf",
     "short_url": "https://urogyn.click/6nsj58",
@@ -158,10 +199,15 @@
     "title": "Fistulas: Genitourinary and Rectovaginal",
     "filename": "Fistulas_Spanish.pdf",
     "language": "Spanish",
-    "category": ["bowel", "bladder", "fistula", "incontinence"],
+    "category": [
+      "bowel",
+      "bladder",
+      "fistula",
+      "incontinence"
+    ],
     "description": "AUGS handout on Fistulas: Genitourinary and Rectovaginal in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Fistulas_Page_1.jpg",
+    "thumbnail": "thumbnails/fistulas-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Fistulas_Spanish.pdf",
     "short_url": "https://urogyn.click/sz67z6",
@@ -171,10 +217,15 @@
     "title": "Intermittent Self-Catheterization (ISC)",
     "filename": "ISC.pdf",
     "language": "English",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "AUGS handout on Intermittent Self-Catheterization (ISC) in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/ISC_Page_1.jpg",
+    "thumbnail": "thumbnails/isc.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/ISC.pdf",
     "short_url": "https://urogyn.click/mdxsd4",
@@ -184,10 +235,15 @@
     "title": "Intermittent Self-Catheterization (ISC)",
     "filename": "ISC_Spanish.pdf",
     "language": "Spanish",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "AUGS handout on Intermittent Self-Catheterization (ISC) in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/ISC_Page_1.jpg",
+    "thumbnail": "thumbnails/isc-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/ISC_Spanish.pdf",
     "short_url": "https://urogyn.click/7c2q8q",
@@ -197,10 +253,15 @@
     "title": "Interstitial Cystitis/Bladder Pain Syndrome",
     "filename": "IC.pdf",
     "language": "English",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "AUGS handout on Interstitial Cystitis/Bladder Pain Syndrome in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/IC_Page_1.jpg",
+    "thumbnail": "thumbnails/ic.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/IC.pdf",
     "short_url": "https://urogyn.click/74ik78",
@@ -210,10 +271,15 @@
     "title": "Interstitial Cystitis/Bladder Pain Syndrome",
     "filename": "IC_Spanish.pdf",
     "language": "Spanish",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "AUGS handout on Interstitial Cystitis/Bladder Pain Syndrome in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/IC_Page_1.jpg",
+    "thumbnail": "thumbnails/ic-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/IC_Spanish.pdf",
     "short_url": "https://urogyn.click/sybd83",
@@ -235,7 +301,7 @@
     ],
     "description": "AUGS handout on Mid-Urethral Sling for SUI in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Mid-Urethral_Sling_Page_1.jpg",
+    "thumbnail": "thumbnails/mid-urethral-sling.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Mid-urethral_Sling.pdf",
     "short_url": "https://urogyn.click/7pjjqd",
@@ -257,7 +323,7 @@
     ],
     "description": "AUGS handout on Mid-Urethral Sling for SUI in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Mid-Urethral_Sling_Page_1.jpg",
+    "thumbnail": "thumbnails/mid-urethral-sling-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Mid-Urethral_Sling_Spanish.pdf",
     "short_url": "https://urogyn.click/y5ypb8",
@@ -267,10 +333,13 @@
     "title": "Overactive Bladder",
     "filename": "OAB.pdf",
     "language": "English",
-    "category": ["OAB", "bladder"],
+    "category": [
+      "OAB",
+      "bladder"
+    ],
     "description": "AUGS handout on Overactive Bladder in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/OAB_Page_11.jpg",
+    "thumbnail": "thumbnails/oab.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/OAB.pdf",
     "short_url": "https://urogyn.click/nicpsa",
@@ -280,10 +349,13 @@
     "title": "Overactive Bladder",
     "filename": "Overactive_Bladder_Spanish.pdf",
     "language": "Spanish",
-    "category": ["OAB", "bladder"],
+    "category": [
+      "OAB",
+      "bladder"
+    ],
     "description": "AUGS handout on Overactive Bladder in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/OAB_Page_11.jpg",
+    "thumbnail": "thumbnails/overactive-bladder-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Overactive_Bladder_Spanish.pdf",
     "short_url": "https://urogyn.click/chjrcw",
@@ -303,7 +375,7 @@
     ],
     "description": "AUGS handout on Pelvic Floor Muscle Exercises and Bladder Training in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Bladder_Training_Page_1.jpg",
+    "thumbnail": "thumbnails/bladder-training.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Bladder_Training.pdf",
     "short_url": "https://urogyn.click/7er6zf",
@@ -323,7 +395,7 @@
     ],
     "description": "AUGS handout on Pelvic Floor Muscle Exercises and Bladder Training in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Bladder_Training_Page_1.jpg",
+    "thumbnail": "thumbnails/pelvic-floor-muscle-bladder-training-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Pelvic_Floor_Muscle_Bladder_Training_Spanish.pdf",
     "short_url": "https://urogyn.click/e8twi5",
@@ -333,10 +405,13 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "POP.pdf",
     "language": "English",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "AUGS handout on Pelvic Organ Prolapse in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/POP_Page_1.jpg",
+    "thumbnail": "thumbnails/pop.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/POP.pdf",
     "short_url": "https://urogyn.click/4jjz8q",
@@ -346,10 +421,13 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "Pelvic_Organ_Prolapse_Spanish.pdf",
     "language": "Spanish",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "AUGS handout on Pelvic Organ Prolapse in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/POP_Page_1.jpg",
+    "thumbnail": "thumbnails/pelvic-organ-prolapse-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Pelvic_Organ_Prolapse_Spanish.pdf",
     "short_url": "https://urogyn.click/8bxk6k",
@@ -359,10 +437,16 @@
     "title": "Sacrocolpopexy",
     "filename": "Sacrocolpopexy.pdf",
     "language": "English",
-    "category": ["prolapse", "POP", "procedures", "sacrocolpopexy", "mesh"],
+    "category": [
+      "prolapse",
+      "POP",
+      "procedures",
+      "sacrocolpopexy",
+      "mesh"
+    ],
     "description": "AUGS handout on Sacrocolpopexy in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Sacrocolpopexy_Page_1.jpg",
+    "thumbnail": "thumbnails/sacrocolpopexy.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Sacrocolpopexy.pdf",
     "short_url": "https://urogyn.click/7gsv2h",
@@ -372,10 +456,16 @@
     "title": "Sacrocolpopexy",
     "filename": "Sacrocolpopexy_Spanish.pdf",
     "language": "Spanish",
-    "category": ["prolapse", "POP", "procedures", "sacrocolpopexy", "mesh"],
+    "category": [
+      "prolapse",
+      "POP",
+      "procedures",
+      "sacrocolpopexy",
+      "mesh"
+    ],
     "description": "AUGS handout on Sacrocolpopexy in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Sacrocolpopexy_Page_1.jpg",
+    "thumbnail": "thumbnails/sacrocolpopexy-spanish.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Sacrocolpopexy_Spanish.pdf",
     "short_url": "https://urogyn.click/66v3mz",
@@ -385,10 +475,14 @@
     "title": "Stress Urinary Incontinence",
     "filename": "SUI.pdf",
     "language": "English",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "AUGS handout on Stress Urinary Incontinence in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/SUI_Page_1.jpg",
+    "thumbnail": "thumbnails/sui.jpg",
     "updated": "2022-05-06 12:25:02",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/SUI.pdf",
     "short_url": "https://urogyn.click/v7bj3r",
@@ -398,10 +492,14 @@
     "title": "Stress Urinary Incontinence",
     "filename": "SUI_Spanish.pdf",
     "language": "Spanish",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "AUGS handout on Stress Urinary Incontinence in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/SUI_Page_1.jpg",
+    "thumbnail": "thumbnails/sui-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/SUI_Spanish.pdf",
     "short_url": "https://urogyn.click/pnkdwr",
@@ -411,10 +509,14 @@
     "title": "Surgery: What to Expect",
     "filename": "Surgery.pdf",
     "language": "English",
-    "category": ["surgery", "procedures", "postop"],
+    "category": [
+      "surgery",
+      "procedures",
+      "postop"
+    ],
     "description": "AUGS handout on Surgery: What to Expect in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Surgery_Page_1.jpg",
+    "thumbnail": "thumbnails/surgery.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Surgery.pdf",
     "short_url": "https://urogyn.click/gxpypx",
@@ -424,10 +526,14 @@
     "title": "Surgery: What to Expect",
     "filename": "Surgery_Spanish.pdf",
     "language": "Spanish",
-    "category": ["surgery", "procedures", "postop"],
+    "category": [
+      "surgery",
+      "procedures",
+      "postop"
+    ],
     "description": "AUGS handout on Surgery: What to Expect in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Surgery_Page_1.jpg",
+    "thumbnail": "thumbnails/surgery-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Surgery_Spanish.pdf",
     "short_url": "https://urogyn.click/fkz5ag",
@@ -448,7 +554,7 @@
     ],
     "description": "AUGS handout on Third and Fourth Degree Perineal Tears in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Perineal_Tears_Page_1.jpg",
+    "thumbnail": "thumbnails/perineal-tears.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Perineal_Tears.pdf",
     "short_url": "https://urogyn.click/2gd6je",
@@ -469,7 +575,7 @@
     ],
     "description": "AUGS handout on Third and Fourth Degree Perineal Tears in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Perineal_Tears_Page_1.jpg",
+    "thumbnail": "thumbnails/perineal-tears-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Perineal_Tears_Spanish.pdf",
     "short_url": "https://urogyn.click/8rasnx",
@@ -491,7 +597,7 @@
     ],
     "description": "AUGS handout on Urethral Bulking for Stress Urinary Incontinence in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Urethral_Bulking_Page_1.jpg",
+    "thumbnail": "thumbnails/urethral-bulking.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Urethral_Bulking.pdf",
     "short_url": "https://urogyn.click/rwbwpz",
@@ -513,7 +619,7 @@
     ],
     "description": "AUGS handout on Urethral Bulking for Stress Urinary Incontinence in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Urethral_Bulking_Page_1.jpg",
+    "thumbnail": "thumbnails/urethral-bulking-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Urethral_Bulking_Spanish.pdf",
     "short_url": "https://urogyn.click/h6n2pe",
@@ -523,10 +629,15 @@
     "title": "Urinary Tract Infections",
     "filename": "UTI.pdf",
     "language": "English",
-    "category": ["UTI", "infection", "bladder", "urinary"],
+    "category": [
+      "UTI",
+      "infection",
+      "bladder",
+      "urinary"
+    ],
     "description": "AUGS handout on Urinary Tract Infections in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Pages_from_UTI.jpg",
+    "thumbnail": "thumbnails/uti.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/UTI.pdf",
     "short_url": "https://urogyn.click/9675ie",
@@ -536,10 +647,15 @@
     "title": "Urinary Tract Infections",
     "filename": "UTI_Spanish.pdf",
     "language": "Spanish",
-    "category": ["UTI", "infection", "bladder", "urinary"],
+    "category": [
+      "UTI",
+      "infection",
+      "bladder",
+      "urinary"
+    ],
     "description": "AUGS handout on Urinary Tract Infections in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Pages_from_UTI.jpg",
+    "thumbnail": "thumbnails/uti-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/UTI_Spanish.pdf",
     "short_url": "https://urogyn.click/4atq7n",
@@ -549,10 +665,15 @@
     "title": "Urodynamic Testing",
     "filename": "Urodynamics.pdf",
     "language": "English",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "AUGS handout on Urodynamic Testing in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Urodynamics_Page_1.jpg",
+    "thumbnail": "thumbnails/urodynamics.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Urodynamics.pdf",
     "short_url": "https://urogyn.click/h2avap",
@@ -562,10 +683,15 @@
     "title": "Urodynamic Testing",
     "filename": "Urodynamics_Spanish.pdf",
     "language": "Spanish",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "AUGS handout on Urodynamic Testing in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Urodynamics_Page_1.jpg",
+    "thumbnail": "thumbnails/urodynamics-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Urodynamics_Spanish.pdf",
     "short_url": "https://urogyn.click/ce95dv",
@@ -586,7 +712,7 @@
     ],
     "description": "AUGS handout on Vaginal Estrogen Therapy in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Pages_from_Vaginal_Estrogen_Therapy.jpg",
+    "thumbnail": "thumbnails/vaginal-estrogen-therapy.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vaginal_Estrogen_Therapy.pdf",
     "short_url": "https://urogyn.click/3zj64j",
@@ -596,10 +722,16 @@
     "title": "Vaginal Estrogen Therapy",
     "filename": "Vag_Estrogen_Therapy_Spanish.pdf",
     "language": "Spanish",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "AUGS handout on Vaginal Estrogen Therapy in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Pages_from_Vaginal_Estrogen_Therapy.jpg",
+    "thumbnail": "thumbnails/vag-estrogen-therapy-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vag_Estrogen_Therapy_Spanish.pdf",
     "short_url": "https://urogyn.click/sw5zx6",
@@ -619,7 +751,7 @@
     ],
     "description": "AUGS handout on Vaginal Hysterectomy for Pelvic Organ Prolapse in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vaginal_Hysterectomy_for_Prolapse_Page_1.jpg",
+    "thumbnail": "thumbnails/vaginal-hysterectomy-for-prolapse.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vaginal_Hysterectomy_for_Prolapse.pdf",
     "short_url": "https://urogyn.click/kkuz86",
@@ -639,7 +771,7 @@
     ],
     "description": "AUGS handout on Vaginal Hysterectomy for Pelvic Organ Prolapse in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vaginal_Hysterectomy_for_Prolapse_Page_1.jpg",
+    "thumbnail": "thumbnails/vag-hysterectomy-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vag_Hysterectomy_Spanish.pdf",
     "short_url": "https://urogyn.click/5d2w5k",
@@ -649,10 +781,14 @@
     "title": "Vaginal Pessaries",
     "filename": "Vaginal_Pessaries.pdf",
     "language": "English",
-    "category": ["prolapse", "POP", "pessary"],
+    "category": [
+      "prolapse",
+      "POP",
+      "pessary"
+    ],
     "description": "AUGS handout on Vaginal Pessaries in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vaginal_Pessaries_Page_1.jpg",
+    "thumbnail": "thumbnails/vaginal-pessaries.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vaginal_Pessaries.pdf",
     "short_url": "https://urogyn.click/nfbxrz",
@@ -662,10 +798,14 @@
     "title": "Vaginal Pessaries",
     "filename": "Vag_Pessaries_Spanish.pdf",
     "language": "Spanish",
-    "category": ["prolapse", "POP", "pessary"],
+    "category": [
+      "prolapse",
+      "POP",
+      "pessary"
+    ],
     "description": "AUGS handout on Vaginal Pessaries in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vaginal_Pessaries_Page_1.jpg",
+    "thumbnail": "thumbnails/vag-pessaries-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vag_Pessaries_Spanish.pdf",
     "short_url": "https://urogyn.click/tbvma2",
@@ -675,10 +815,17 @@
     "title": "Vaginal Prolapse Repair Surgery using Mesh/Biological Graft",
     "filename": "Vag_Prolapse.pdf",
     "language": "English",
-    "category": ["POP", "prolapse", "procedures", "mesh", "vaginal", "surgery"],
+    "category": [
+      "POP",
+      "prolapse",
+      "procedures",
+      "mesh",
+      "vaginal",
+      "surgery"
+    ],
     "description": "AUGS handout on Vaginal Prolapse Repair Surgery using Mesh/Biological Graft in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vag_Prolapse_Page_1.jpg",
+    "thumbnail": "thumbnails/vag-prolapse.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vag_Prolapse.pdf",
     "short_url": "https://urogyn.click/95bah2",
@@ -688,10 +835,17 @@
     "title": "Vaginal Prolapse Repair Surgery using Mesh/Biological Graft",
     "filename": "Vag_Prolapse_Spanish.pdf",
     "language": "Spanish",
-    "category": ["POP", "prolapse", "procedures", "mesh", "vaginal", "surgery"],
+    "category": [
+      "POP",
+      "prolapse",
+      "procedures",
+      "mesh",
+      "vaginal",
+      "surgery"
+    ],
     "description": "AUGS handout on Vaginal Prolapse Repair Surgery using Mesh/Biological Graft in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vag_Prolapse_Page_1.jpg",
+    "thumbnail": "thumbnails/vag-prolapse-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vag_Prolapse_Spanish.pdf",
     "short_url": "https://urogyn.click/q2867r",
@@ -713,7 +867,7 @@
     ],
     "description": "AUGS handout on Vaginal Suspension Surgery in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vaginal_Suspension_Surgery_Page_1.jpg",
+    "thumbnail": "thumbnails/vaginal-suspension-surgery.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vaginal_Suspension_Surgery.pdf",
     "short_url": "https://urogyn.click/azehw3",
@@ -735,7 +889,7 @@
     ],
     "description": "AUGS handout on Vaginal Suspension Surgery in Spanish",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vaginal_Suspension_Surgery_Page_1.jpg",
+    "thumbnail": "thumbnails/vag-suspension-spanish.jpg",
     "updated": "2022-05-06 12:25:03",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vag_Suspension_Spanish.pdf",
     "short_url": "https://urogyn.click/wzvdqx",
@@ -745,10 +899,16 @@
     "title": "Accidental Bowel Leakage",
     "filename": "ABL_LARGE_PRINT.pdf",
     "language": "English",
-    "category": ["ABL", "FI", "incontinence", "bowel", "large print"],
+    "category": [
+      "ABL",
+      "FI",
+      "incontinence",
+      "bowel",
+      "large print"
+    ],
     "description": "AUGS handout on Accidental Bowel Leakage in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/ABL_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/abl-large-print.jpg",
     "updated": "2022-05-06 14:28:18",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/ABL_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/7w92ef",
@@ -758,10 +918,15 @@
     "title": "Botox Injections to Improve Bladder Control",
     "filename": "Botox_LARGE_PRINT.pdf",
     "language": "English",
-    "category": ["OAB", "bladder", "botox", "large print"],
+    "category": [
+      "OAB",
+      "bladder",
+      "botox",
+      "large print"
+    ],
     "description": "AUGS handout on Botox Injections to Improve Bladder Control in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Botox_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/botox-large-print.jpg",
     "updated": "2022-05-06 14:28:18",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Botox_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/i3ggi6",
@@ -771,10 +936,16 @@
     "title": "Colpoclesis/Vaginal Closure Surgery",
     "filename": "Colpocleisis_LARGE_PRINT.pdf",
     "language": "English",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis", "large print"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis",
+      "large print"
+    ],
     "description": "AUGS handout on Colpoclesis/Vaginal Closure Surgery in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Colpocleisis_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/colpocleisis-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Colpocleisis_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/fbhwvr",
@@ -784,10 +955,14 @@
     "title": "Constipation",
     "filename": "Constipation_Large_Print.pdf",
     "language": "English",
-    "category": ["bowel", "constipation", "large print"],
+    "category": [
+      "bowel",
+      "constipation",
+      "large print"
+    ],
     "description": "AUGS handout on Constipation in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/Constipation_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/constipation-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Constipation_Large_Print.pdf",
     "short_url": "https://urogyn.click/4iih3h",
@@ -807,7 +982,7 @@
     ],
     "description": "AUGS handout on Cystoscopy in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/Cystoscopy_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/cystoscopy-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Cystoscopy_Large_Print.pdf",
     "short_url": "https://urogyn.click/x6xnf9",
@@ -817,10 +992,16 @@
     "title": "Fistulas: Genitourinary and Rectovaginal",
     "filename": "Fistulas_LARGE_PRINT.pdf",
     "language": "English",
-    "category": ["bowel", "bladder", "fistula", "incontinence", "large print"],
+    "category": [
+      "bowel",
+      "bladder",
+      "fistula",
+      "incontinence",
+      "large print"
+    ],
     "description": "AUGS handout on Fistulas: Genitourinary and Rectovaginal in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Fistulas_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/fistulas-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Fistulas_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/kvewdu",
@@ -830,10 +1011,16 @@
     "title": "Intermittent Self Catheterization (ISC)",
     "filename": "ISC_Large_Print.pdf",
     "language": "English",
-    "category": ["ISC", "catheter", "retention", "bladder", "large print"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder",
+      "large print"
+    ],
     "description": "AUGS handout on Intermittent Self Catheterization (ISC) in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/ISC_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/isc-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/ISC_Large_Print.pdf",
     "short_url": "https://urogyn.click/nxq7jk",
@@ -852,7 +1039,7 @@
     ],
     "description": "AUGS handout on Interstitial Cystitis/Bladder Pain Syndrome in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/IC_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/ic-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/IC_Large_Print.pdf",
     "short_url": "https://urogyn.click/i5bqgz",
@@ -875,7 +1062,7 @@
     ],
     "description": "AUGS handout on Mid-Urethral Sling for SUI in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/Mid-urethral_Sling_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/mid-urethral-sling-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Mid-urethral_Sling_Large_Print.pdf",
     "short_url": "https://urogyn.click/4j4z6p",
@@ -885,10 +1072,14 @@
     "title": "Overactive Bladder",
     "filename": "OAB_LARGE__PRINT.pdf",
     "language": "English",
-    "category": ["OAB", "bladder", "large print"],
+    "category": [
+      "OAB",
+      "bladder",
+      "large print"
+    ],
     "description": "AUGS handout on Overactive Bladder in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/Pages_from_OAB_LARGE__PRINT.jpg",
+    "thumbnail": "thumbnails/oab-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/OAB_LARGE__PRINT.pdf",
     "short_url": "https://urogyn.click/5dmwex",
@@ -909,7 +1100,7 @@
     ],
     "description": "AUGS handout on Pelvic Floor Muscle Exercises and Bladder Training in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/Bladder_Training_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/bladder-training-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Bladder_Training_Large_Print.pdf",
     "short_url": "https://urogyn.click/6p4cdt",
@@ -919,10 +1110,14 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "POP_Large_Print.pdf",
     "language": "English",
-    "category": ["prolapse", "POP", "large print"],
+    "category": [
+      "prolapse",
+      "POP",
+      "large print"
+    ],
     "description": "AUGS handout on Pelvic Organ Prolapse in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/POP_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/pop-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/POP_Large_Print.pdf",
     "short_url": "https://urogyn.click/armyrs",
@@ -942,7 +1137,7 @@
     ],
     "description": "AUGS handout on Sacrocolpopexy in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Sacrocolpopexy_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/sacrocolpopexy-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Sacrocolpopexy_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/tir5qk",
@@ -952,10 +1147,15 @@
     "title": "Stress Urinary Incontinence",
     "filename": "SUI_Large_Print.pdf",
     "language": "English",
-    "category": ["incontinence", "bladder", "SUI", "large print"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI",
+      "large print"
+    ],
     "description": "AUGS handout on Stress Urinary Incontinence in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/SUI_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/sui-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/SUI_Large_Print.pdf",
     "short_url": "https://urogyn.click/f92jgc",
@@ -965,10 +1165,15 @@
     "title": "Surgery: What to Expect",
     "filename": "Surgery_LARGE_PRINT.pdf",
     "language": "English",
-    "category": ["surgery", "procedures", "postop", "large print"],
+    "category": [
+      "surgery",
+      "procedures",
+      "postop",
+      "large print"
+    ],
     "description": "AUGS handout on Surgery: What to Expect in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Surgery_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/surgery-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Surgery_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/g54jz7",
@@ -990,7 +1195,7 @@
     ],
     "description": "AUGS handout on Third and Fourth Degree Perineal Tears in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/Perineal_Tears_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/perineal-tears-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Perineal_Tears_Large_Print.pdf",
     "short_url": "https://urogyn.click/q9vm4m",
@@ -1013,7 +1218,7 @@
     ],
     "description": "AUGS handout on Urethral Bulking for Stress Urinary Incontinence  in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Urethral_Builking_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/urethral-builking-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Urethral_Builking_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/njbjqp",
@@ -1036,7 +1241,7 @@
     ],
     "description": "AUGS handout on Urinary Tract Infections in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/UTI_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/uti-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/UTI_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/tzep4e",
@@ -1055,7 +1260,7 @@
     ],
     "description": "AUGS handout on Urodynamic Testing in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/Urodynamics_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/urodynamics-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Urodynamics_Large_Print.pdf",
     "short_url": "https://urogyn.click/ptftxq",
@@ -1077,7 +1282,7 @@
     ],
     "description": "AUGS handout on Vaginal Estrogen Therapy in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vag_Estrogen_Therapy_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/vag-estrogen-therapy-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vag_Estrogen_Therapy_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/v9fm5y",
@@ -1098,7 +1303,7 @@
     ],
     "description": "AUGS handout on Vaginal Hysterectomy for Prolapse in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vag_Hyster_for_Prolapse_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/vag-hyster-for-prolapse-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vag_Hyster_for_Prolapse_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/skzprw",
@@ -1108,10 +1313,15 @@
     "title": "Vaginal Pessaries",
     "filename": "Vaginal_Pessaries_Large_Print.pdf",
     "language": "English",
-    "category": ["prolapse", "POP", "pessary", "large print"],
+    "category": [
+      "prolapse",
+      "POP",
+      "pessary",
+      "large print"
+    ],
     "description": "AUGS handout on Vaginal Pessaries in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/Vaginal_Pessaries_Large_Print_Page_1.jpg",
+    "thumbnail": "thumbnails/vaginal-pessaries-large-print.jpg",
     "updated": "2022-05-06 14:28:19",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vaginal_Pessaries_Large_Print.pdf",
     "short_url": "https://urogyn.click/vknfrd",
@@ -1132,7 +1342,7 @@
     ],
     "description": "AUGS handout on Vaginal Prolapse Repair Surgery using Mesh/Biological Graft in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vag_Prolapse_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/vag-prolapse-large-print.jpg",
     "updated": "2022-05-06 14:28:20",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vag_Prolapse_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/bpqmef",
@@ -1155,7 +1365,7 @@
     ],
     "description": "AUGS handout on Vaginal Suspension Surgery in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Vag_Sus_Surgery_LARGE_PRINT_Page_1.jpg",
+    "thumbnail": "thumbnails/vag-sus-surgery-large-print.jpg",
     "updated": "2022-05-06 14:28:20",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Vag_Sus_Surgery_LARGE_PRINT.pdf",
     "short_url": "https://urogyn.click/9954ye",
@@ -1165,7 +1375,9 @@
     "title": "FAQs for Providers - Midurethral Slings for Stress Urinary Incontinence",
     "filename": "Provider_FAQ_Final_-_Formatted.pdf",
     "language": "English",
-    "category": [""],
+    "category": [
+      ""
+    ],
     "description": "AUGS handout on FAQs for Providers - Midurethral Slings for Stress Urinary Incontinence in English",
     "author": "AUGS",
     "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/FAQs_-_Midurethral_Slings_for_SUI.jpg",
@@ -1178,7 +1390,9 @@
     "title": "FAQs for Patients - Midurethral Slings for Stress Urinary Incontinence",
     "filename": "Patient_FAQ_Final_-_Formatted.pdf",
     "language": "English",
-    "category": [""],
+    "category": [
+      ""
+    ],
     "description": "AUGS handout on FAQs for Patients - Midurethral Slings for Stress Urinary Incontinence in English",
     "author": "AUGS",
     "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Patient_FAQs_-_Midurethral_Slings_for_SUI.jpg",
@@ -1191,7 +1405,9 @@
     "title": "Clinical Consensus Statement on Vaginal Energy-Based Devices",
     "filename": "Patient_Summary_-_Clinical_Concensus_Statement.pdf",
     "language": "English",
-    "category": [""],
+    "category": [
+      ""
+    ],
     "description": "AUGS handout on Clinical Consensus Statement on Vaginal Energy-Based Devices in English",
     "author": "AUGS",
     "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Patient_Summary_-_Clinical_Concensus_Statement_Page_2.jpg",
@@ -1204,7 +1420,9 @@
     "title": "Joint Position Statement on the Management of Mesh-Related Complications for the FPMRS Specialist",
     "filename": "Patient_Summary_-_Joint_Position_Statement_on_the_Management_of_Mesh_Related_Complications.pdf",
     "language": "English",
-    "category": ["mesh"],
+    "category": [
+      "mesh"
+    ],
     "description": "AUGS handout on Joint Position Statement on the Management of Mesh-Related Complications for the FPMRS Specialist in English",
     "author": "AUGS",
     "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Patient_Summary_-_Joint_Position_Statement_on_the_Management_of_Mesh_Related_Complications_Page_1.jpg",
@@ -1217,10 +1435,12 @@
     "title": "Bladder Control Quiz",
     "filename": "Bladder_Control_Quiz1.pdf",
     "language": "English",
-    "category": [""],
+    "category": [
+      ""
+    ],
     "description": "AUGS handout on Bladder Control Quiz in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Bladder_Control_Quiz.jpg",
+    "thumbnail": "thumbnails/bladder-control-quiz1.jpg",
     "updated": "2022-05-06 14:28:20",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Bladder_Control_Quiz1.pdf",
     "short_url": "https://urogyn.click/mb8kh5",
@@ -1230,10 +1450,12 @@
     "title": "What is a Urogynecologist?",
     "filename": "What_is_a_Urogynecologist.pdf",
     "language": "English",
-    "category": [""],
+    "category": [
+      ""
+    ],
     "description": "AUGS handout on What is a Urogynecologist? in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/What_is_a_Urogynecologist.jpg",
+    "thumbnail": "thumbnails/what-is-a-urogynecologist.jpg",
     "updated": "2022-05-06 14:28:20",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/What_is_a_Urogynecologist.pdf",
     "short_url": "https://urogyn.click/965xxa",
@@ -1243,10 +1465,12 @@
     "title": "Talking to Your Doctor",
     "filename": "Talking_To_Your_Doctor.pdf",
     "language": "English",
-    "category": [""],
+    "category": [
+      ""
+    ],
     "description": "AUGS handout on Talking to Your Doctor in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Talking_To_Your_Doctor.jpg",
+    "thumbnail": "thumbnails/talking-to-your-doctor.jpg",
     "updated": "2022-05-06 14:28:20",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Talking_To_Your_Doctor.pdf",
     "short_url": "https://urogyn.click/6pyn8s",
@@ -1256,10 +1480,12 @@
     "title": "Voiding Diary",
     "filename": "Voiding_Diary.pdf",
     "language": "English",
-    "category": [""],
+    "category": [
+      ""
+    ],
     "description": "AUGS handout on Voiding Diary in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Voiding_Diary.jpg",
+    "thumbnail": "thumbnails/voiding-diary.jpg",
     "updated": "2022-05-06 14:28:20",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Voiding_Diary.pdf",
     "short_url": "https://urogyn.click/daet7b",
@@ -1279,7 +1505,7 @@
     ],
     "description": "AUGS handout on Lifestyle Changes in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/LIFESTYLE_CHANGES.jpg",
+    "thumbnail": "thumbnails/lifestyle-changes.jpg",
     "updated": "2022-05-06 14:28:20",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/LIFESTYLE_CHANGES.pdf",
     "short_url": "https://urogyn.click/g6revw",
@@ -1289,10 +1515,14 @@
     "title": "Kegel Exercise Instruction Sheet",
     "filename": "Kegel_Exercises.pdf",
     "language": "English",
-    "category": ["exercises", "kegel", "PT"],
+    "category": [
+      "exercises",
+      "kegel",
+      "PT"
+    ],
     "description": "AUGS handout on Kegel Exercise Instruction Sheet in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Kegel_Exercises.jpg",
+    "thumbnail": "thumbnails/kegel-exercises.jpg",
     "updated": "2022-05-06 14:28:20",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Kegel_Exercises.pdf",
     "short_url": "https://urogyn.click/ciskr4",
@@ -1302,10 +1532,12 @@
     "title": "First Visit with a Urogynecologist",
     "filename": "First_Visit_with_a_Urogyn.pdf",
     "language": "English",
-    "category": [""],
+    "category": [
+      ""
+    ],
     "description": "AUGS handout on First Visit with a Urogynecologist in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/First_Visit_with_a_Urogyn.jpg",
+    "thumbnail": "thumbnails/first-visit-with-a-urogyn.jpg",
     "updated": "2022-05-06 14:28:20",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/First_Visit_with_a_Urogyn.pdf",
     "short_url": "https://urogyn.click/g5puwz",
@@ -1315,10 +1547,12 @@
     "title": "Preparing for Surgery",
     "filename": "Preparing_for_Surgery.pdf",
     "language": "English",
-    "category": ["surgery"],
+    "category": [
+      "surgery"
+    ],
     "description": "AUGS handout on Preparing for Surgery in English",
     "author": "AUGS",
-    "thumbnail": "https://www.voicesforpfd.org/assets/2/6/MainFCKEditorDimension/Preparing_for_Surgery.jpg",
+    "thumbnail": "thumbnails/preparing-for-surgery.jpg",
     "updated": "2022-05-06 14:28:20",
     "source": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/augs/Preparing_for_Surgery.pdf",
     "short_url": "https://urogyn.click/ywwedy",
@@ -1328,7 +1562,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-wall-repair-RV2-2-1.pdf",
     "language": "English",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1341,7 +1581,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-wall-repair-RV2_Arabic.pdf",
     "language": "Arabic",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1354,7 +1600,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-wall-repair-chinese.pdf",
     "language": "Chinese",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Chinese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1367,7 +1619,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-repair-croatian.pdf",
     "language": "Croatian",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Croatian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1380,7 +1638,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-repair-czech.pdf",
     "language": "Czech",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Czech",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1393,7 +1657,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-repair-dutch.pdf",
     "language": "Dutch",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1406,7 +1676,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "Anterior-Repair-Farsi-Translation-Dr.Ayati_.pdf",
     "language": "Farsi",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Farsi",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1419,7 +1695,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "French_Anterior_Vaginal_Wall_Repair.pdf",
     "language": "French",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1432,7 +1714,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "German_Anterior_Vaginal_Repair.pdf",
     "language": "German",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in German",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1445,7 +1733,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-wall-repair-hungarian-RV2.pdf",
     "language": "Hungarian",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Hungarian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1458,7 +1752,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-wall-repair-Indonesian-RV2.pdf",
     "language": "Indonesian",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Indonesian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1471,7 +1771,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-repair-italian.pdf",
     "language": "Italian",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Italian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1484,7 +1790,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-repair-japanese.pdf",
     "language": "Japanese",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Japanese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1497,7 +1809,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-wall-repair_Malay_RV2.pdf",
     "language": "Malay",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Malay",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1510,7 +1828,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-repair-polish.pdf",
     "language": "Polish",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Polish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1523,7 +1847,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-repair-portuguese.pdf",
     "language": "Portuguese",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1536,7 +1866,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-repair-spanish.pdf",
     "language": "Spanish",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1549,7 +1885,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-wall-repair-RV2_swedish.pdf",
     "language": "Swedish",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Swedish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1562,7 +1904,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "anterior-vaginal-repair-thai.pdf",
     "language": "Thai",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Thai",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1575,7 +1923,13 @@
     "title": "Anterior Vaginal Repair",
     "filename": "Turkish_Anterior_Vaginal_Repair.pdf",
     "language": "Turkish",
-    "category": ["POP", "prolapse", "anterior", "surgery", "procedures"],
+    "category": [
+      "POP",
+      "prolapse",
+      "anterior",
+      "surgery",
+      "procedures"
+    ],
     "description": "IUGA handout on Anterior Vaginal Repair in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Anterior-Vaginal-Repair.png",
@@ -1588,7 +1942,11 @@
     "title": "Bladder Diary",
     "filename": "Bladder_Diary-5.pdf",
     "language": "English",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1601,7 +1959,11 @@
     "title": "Bladder Diary",
     "filename": "bladder-diary-RV2-arabic.pdf",
     "language": "Arabic",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1614,7 +1976,11 @@
     "title": "Bladder Diary",
     "filename": "bladder-diary-croatian.pdf",
     "language": "Croatian",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Croatian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1627,7 +1993,11 @@
     "title": "Bladder Diary",
     "filename": "Bladder_Diary_Dutch.pdf",
     "language": "Dutch",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1640,7 +2010,11 @@
     "title": "Bladder Diary",
     "filename": "ger_bladderdiary.pdf",
     "language": "German",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in German",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1653,7 +2027,11 @@
     "title": "Bladder Diary",
     "filename": "Bladder_Diary-hungarian-RV2.pdf",
     "language": "Hungarian",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Hungarian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1666,7 +2044,11 @@
     "title": "Bladder Diary",
     "filename": "Bladder_Diary_Indonesian.pdf",
     "language": "Indonesian",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Indonesian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1679,7 +2061,11 @@
     "title": "Bladder Diary",
     "filename": "ita_bladderdiary.pdf",
     "language": "Italian",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Italian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1692,7 +2078,11 @@
     "title": "Bladder Diary",
     "filename": "Japanese-Bladder-Diary.pdf",
     "language": "Japanese",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Japanese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1705,7 +2095,11 @@
     "title": "Bladder Diary",
     "filename": "Malay_Bladder_Diary.pdf",
     "language": "Malay",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Malay",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1718,7 +2112,11 @@
     "title": "Bladder Diary",
     "filename": "pol_bladderdiary.pdf",
     "language": "Polish",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Polish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1731,7 +2129,11 @@
     "title": "Bladder Diary",
     "filename": "bladder-diary-portuguese.pdf",
     "language": "Portuguese",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1744,7 +2146,11 @@
     "title": "Bladder Diary",
     "filename": "Bladder_Diary_RV3_Spanish-1.pdf",
     "language": "Spanish",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -1757,7 +2163,11 @@
     "title": "Bladder Diary",
     "filename": "Turkish_Bladder_Diary.pdf",
     "language": "Turkish",
-    "category": ["bladder", "diary", "diagnostic"],
+    "category": [
+      "bladder",
+      "diary",
+      "diagnostic"
+    ],
     "description": "IUGA handout on Bladder Diary in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-12-at-16.20.31.png",
@@ -2050,7 +2460,13 @@
     "title": "Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity",
     "filename": "Botulinum_Toxin.pdf",
     "language": "English",
-    "category": ["OAB", "bladder", "botox", "neurogenic", "procedures"],
+    "category": [
+      "OAB",
+      "bladder",
+      "botox",
+      "neurogenic",
+      "procedures"
+    ],
     "description": "IUGA handout on Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Botulinum-Toxin-A.png",
@@ -2063,7 +2479,13 @@
     "title": "Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity",
     "filename": "botulinum-toxin-croatian.pdf",
     "language": "Croatian",
-    "category": ["OAB", "bladder", "botox", "neurogenic", "procedures"],
+    "category": [
+      "OAB",
+      "bladder",
+      "botox",
+      "neurogenic",
+      "procedures"
+    ],
     "description": "IUGA handout on Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity in Croatian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Botulinum-Toxin-A.png",
@@ -2076,7 +2498,13 @@
     "title": "Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity",
     "filename": "botulinum-toxin-dutch.pdf",
     "language": "Dutch",
-    "category": ["OAB", "bladder", "botox", "neurogenic", "procedures"],
+    "category": [
+      "OAB",
+      "bladder",
+      "botox",
+      "neurogenic",
+      "procedures"
+    ],
     "description": "IUGA handout on Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Botulinum-Toxin-A.png",
@@ -2089,7 +2517,13 @@
     "title": "Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity",
     "filename": "German_Botulinum_Toxin_A.pdf",
     "language": "German",
-    "category": ["OAB", "bladder", "botox", "neurogenic", "procedures"],
+    "category": [
+      "OAB",
+      "bladder",
+      "botox",
+      "neurogenic",
+      "procedures"
+    ],
     "description": "IUGA handout on Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity in German",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Botulinum-Toxin-A.png",
@@ -2102,7 +2536,13 @@
     "title": "Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity",
     "filename": "Portuguese_Botulinum_Toxin_A.pdf",
     "language": "Portuguese",
-    "category": ["OAB", "bladder", "botox", "neurogenic", "procedures"],
+    "category": [
+      "OAB",
+      "bladder",
+      "botox",
+      "neurogenic",
+      "procedures"
+    ],
     "description": "IUGA handout on Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Botulinum-Toxin-A.png",
@@ -2115,7 +2555,13 @@
     "title": "Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity",
     "filename": "botulinum-toxin-spanish.pdf",
     "language": "Spanish",
-    "category": ["OAB", "bladder", "botox", "neurogenic", "procedures"],
+    "category": [
+      "OAB",
+      "bladder",
+      "botox",
+      "neurogenic",
+      "procedures"
+    ],
     "description": "IUGA handout on Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Botulinum-Toxin-A.png",
@@ -2128,7 +2574,13 @@
     "title": "Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity",
     "filename": "Turkish_Botulinum_Toxin_A_RV1.pdf",
     "language": "Turkish",
-    "category": ["OAB", "bladder", "botox", "neurogenic", "procedures"],
+    "category": [
+      "OAB",
+      "bladder",
+      "botox",
+      "neurogenic",
+      "procedures"
+    ],
     "description": "IUGA handout on Botulinum Toxin A (BOTA) for Overactive Bladder and Neurogenic Detrusor Overactivity in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Botulinum-Toxin-A.png",
@@ -2141,7 +2593,13 @@
     "title": "Colpocleisis",
     "filename": "Colpocleisis_English_RV2.pdf",
     "language": "English",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis", "procedures"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis",
+      "procedures"
+    ],
     "description": "IUGA handout on Colpocleisis in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Colpocleisis.png",
@@ -2154,7 +2612,13 @@
     "title": "Colpocleisis",
     "filename": "colpocleisis-arabic.pdf",
     "language": "Arabic",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis", "procedures"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis",
+      "procedures"
+    ],
     "description": "IUGA handout on Colpocleisis in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Colpocleisis.png",
@@ -2167,7 +2631,13 @@
     "title": "Colpocleisis",
     "filename": "Chinese_Colpocleisis.pdf",
     "language": "Chinese",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis", "procedures"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis",
+      "procedures"
+    ],
     "description": "IUGA handout on Colpocleisis in Chinese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Colpocleisis.png",
@@ -2180,7 +2650,13 @@
     "title": "Colpocleisis",
     "filename": "colpocleisis-dutch.pdf",
     "language": "Dutch",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis", "procedures"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis",
+      "procedures"
+    ],
     "description": "IUGA handout on Colpocleisis in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Colpocleisis.png",
@@ -2193,7 +2669,13 @@
     "title": "Colpocleisis",
     "filename": "French_Colpocleisis.pdf",
     "language": "French",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis", "procedures"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis",
+      "procedures"
+    ],
     "description": "IUGA handout on Colpocleisis in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Colpocleisis.png",
@@ -2206,7 +2688,13 @@
     "title": "Colpocleisis",
     "filename": "Japanese_Colpocleisis.pdf",
     "language": "Japanese",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis", "procedures"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis",
+      "procedures"
+    ],
     "description": "IUGA handout on Colpocleisis in Japanese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Colpocleisis.png",
@@ -2219,7 +2707,13 @@
     "title": "Colpocleisis",
     "filename": "colpocleisis-portuguese.pdf",
     "language": "Portuguese",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis", "procedures"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis",
+      "procedures"
+    ],
     "description": "IUGA handout on Colpocleisis in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Colpocleisis.png",
@@ -2232,7 +2726,13 @@
     "title": "Colpocleisis",
     "filename": "colpocleisis-spanish.pdf",
     "language": "Spanish",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis", "procedures"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis",
+      "procedures"
+    ],
     "description": "IUGA handout on Colpocleisis in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Colpocleisis.png",
@@ -2245,7 +2745,13 @@
     "title": "Colpocleisis",
     "filename": "Turkish_Colpocleisis.pdf",
     "language": "Turkish",
-    "category": ["surgery", "POP", "prolapse", "colpocleisis", "procedures"],
+    "category": [
+      "surgery",
+      "POP",
+      "prolapse",
+      "colpocleisis",
+      "procedures"
+    ],
     "description": "IUGA handout on Colpocleisis in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Colpocleisis.png",
@@ -2363,7 +2869,10 @@
     "title": "Constipation",
     "filename": "Constipation_RV1.pdf",
     "language": "English",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "IUGA handout on Constipation in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Constipation.png",
@@ -2376,7 +2885,10 @@
     "title": "Constipation",
     "filename": "constipation-arabic.pdf",
     "language": "Arabic",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "IUGA handout on Constipation in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Constipation.png",
@@ -2389,7 +2901,10 @@
     "title": "Constipation",
     "filename": "constipation-croatian.pdf",
     "language": "Croatian",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "IUGA handout on Constipation in Croatian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Constipation.png",
@@ -2402,7 +2917,10 @@
     "title": "Constipation",
     "filename": "Constipation_RV1_French.pdf",
     "language": "French",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "IUGA handout on Constipation in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Constipation.png",
@@ -2415,7 +2933,10 @@
     "title": "Constipation",
     "filename": "German_Constipation.pdf",
     "language": "German",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "IUGA handout on Constipation in German",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Constipation.png",
@@ -2428,7 +2949,10 @@
     "title": "Constipation",
     "filename": "constipation-japanese.pdf",
     "language": "Japanese",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "IUGA handout on Constipation in Japanese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Constipation.png",
@@ -2441,7 +2965,10 @@
     "title": "Constipation",
     "filename": "Portuguese-Constipation.pdf",
     "language": "Portuguese",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "IUGA handout on Constipation in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Constipation.png",
@@ -2454,7 +2981,10 @@
     "title": "Constipation",
     "filename": "constipation-spanish.pdf",
     "language": "Spanish",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "IUGA handout on Constipation in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Constipation.png",
@@ -2467,7 +2997,10 @@
     "title": "Constipation",
     "filename": "Turkish_Constipation_RV1.pdf",
     "language": "Turkish",
-    "category": ["bowel", "constipation"],
+    "category": [
+      "bowel",
+      "constipation"
+    ],
     "description": "IUGA handout on Constipation in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Constipation.png",
@@ -2480,7 +3013,11 @@
     "title": "Continence Pads and Perineal Care",
     "filename": "Continence_Pads_and_Perineal_Care-new-1.pdf",
     "language": "English",
-    "category": ["incontinence", "perineal", "first line"],
+    "category": [
+      "incontinence",
+      "perineal",
+      "first line"
+    ],
     "description": "IUGA handout on Continence Pads and Perineal Care in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-16-at-09.48.03.png",
@@ -2493,7 +3030,11 @@
     "title": "Continence Pads and Perineal Care",
     "filename": "Continence_Pads_and_Perineal_Care_Spanish.pdf",
     "language": "Spanish",
-    "category": ["incontinence", "perineal", "first line"],
+    "category": [
+      "incontinence",
+      "perineal",
+      "first line"
+    ],
     "description": "IUGA handout on Continence Pads and Perineal Care in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-16-at-09.48.03.png",
@@ -2506,7 +3047,11 @@
     "title": "Continence Pads and Perineal Care",
     "filename": "Turkish_Continence_Pads_and_Perineal_Care_V1-1.pdf",
     "language": "Turkish",
-    "category": ["incontinence", "perineal", "first line"],
+    "category": [
+      "incontinence",
+      "perineal",
+      "first line"
+    ],
     "description": "IUGA handout on Continence Pads and Perineal Care in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-16-at-09.48.03.png",
@@ -2785,7 +3330,11 @@
     "title": "Dyspareunia (Painful Sex)",
     "filename": "painful-sex-dyspareunia-V1.pdf",
     "language": "English",
-    "category": ["pain", "dyspareunia", "sex"],
+    "category": [
+      "pain",
+      "dyspareunia",
+      "sex"
+    ],
     "description": "IUGA handout on Dyspareunia (Painful Sex) in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/dyspareunia-cover-website.png",
@@ -2798,7 +3347,11 @@
     "title": "Dyspareunia (Painful Sex)",
     "filename": "Dyspareunia-spanish-V1.pdf",
     "language": "Spanish",
-    "category": ["pain", "dyspareunia", "sex"],
+    "category": [
+      "pain",
+      "dyspareunia",
+      "sex"
+    ],
     "description": "IUGA handout on Dyspareunia (Painful Sex) in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/dyspareunia-cover-website.png",
@@ -2811,7 +3364,11 @@
     "title": "Dyspareunia (Painful Sex)",
     "filename": "Dyspareunia-V1-Swedish.pdf",
     "language": "Swedish",
-    "category": ["pain", "dyspareunia", "sex"],
+    "category": [
+      "pain",
+      "dyspareunia",
+      "sex"
+    ],
     "description": "IUGA handout on Dyspareunia (Painful Sex) in Swedish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/dyspareunia-cover-website.png",
@@ -2824,7 +3381,13 @@
     "title": "Fascial Slings",
     "filename": "Fascial_Slings.pdf",
     "language": "English",
-    "category": ["native tissue", "graft", "sling", "SUI", "incontinence"],
+    "category": [
+      "native tissue",
+      "graft",
+      "sling",
+      "SUI",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fascial Slings in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fascial-Sling.jpg",
@@ -2837,7 +3400,13 @@
     "title": "Fascial Slings",
     "filename": "Fascial_Slings-Spanish-V1.pdf",
     "language": "Spanish",
-    "category": ["native tissue", "graft", "sling", "SUI", "incontinence"],
+    "category": [
+      "native tissue",
+      "graft",
+      "sling",
+      "SUI",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fascial Slings in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fascial-Sling.jpg",
@@ -2850,7 +3419,13 @@
     "title": "Fascial Slings",
     "filename": "Turkish_Fascial_Slings_V1.pdf",
     "language": "Turkish",
-    "category": ["native tissue", "graft", "sling", "SUI", "incontinence"],
+    "category": [
+      "native tissue",
+      "graft",
+      "sling",
+      "SUI",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fascial Slings in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fascial-Sling.jpg",
@@ -2863,7 +3438,12 @@
     "title": "Fecal Incontinence (Accidental Bowel Leakage)",
     "filename": "Fecal_Incontinence_RV2.pdf",
     "language": "English",
-    "category": ["ABL", "FI", "bowel", "incontinence"],
+    "category": [
+      "ABL",
+      "FI",
+      "bowel",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fecal Incontinence (Accidental Bowel Leakage) in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fecal-Incontinence.png",
@@ -2876,7 +3456,12 @@
     "title": "Fecal Incontinence (Accidental Bowel Leakage)",
     "filename": "fecal-incontinence-arabic.pdf",
     "language": "Arabic",
-    "category": ["ABL", "FI", "bowel", "incontinence"],
+    "category": [
+      "ABL",
+      "FI",
+      "bowel",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fecal Incontinence (Accidental Bowel Leakage) in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fecal-Incontinence.png",
@@ -2889,7 +3474,12 @@
     "title": "Fecal Incontinence (Accidental Bowel Leakage)",
     "filename": "fecal-incontinence-dutch.pdf",
     "language": "Dutch",
-    "category": ["ABL", "FI", "bowel", "incontinence"],
+    "category": [
+      "ABL",
+      "FI",
+      "bowel",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fecal Incontinence (Accidental Bowel Leakage) in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fecal-Incontinence.png",
@@ -2902,7 +3492,12 @@
     "title": "Fecal Incontinence (Accidental Bowel Leakage)",
     "filename": "French_Fecal_Incontinence.pdf",
     "language": "French",
-    "category": ["ABL", "FI", "bowel", "incontinence"],
+    "category": [
+      "ABL",
+      "FI",
+      "bowel",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fecal Incontinence (Accidental Bowel Leakage) in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fecal-Incontinence.png",
@@ -2915,7 +3510,12 @@
     "title": "Fecal Incontinence (Accidental Bowel Leakage)",
     "filename": "fecal-incontinence-japanese.pdf",
     "language": "Japanese",
-    "category": ["ABL", "FI", "bowel", "incontinence"],
+    "category": [
+      "ABL",
+      "FI",
+      "bowel",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fecal Incontinence (Accidental Bowel Leakage) in Japanese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fecal-Incontinence.png",
@@ -2928,7 +3528,12 @@
     "title": "Fecal Incontinence (Accidental Bowel Leakage)",
     "filename": "Fecal_Incontinence_Portuguese.pdf",
     "language": "Portuguese",
-    "category": ["ABL", "FI", "bowel", "incontinence"],
+    "category": [
+      "ABL",
+      "FI",
+      "bowel",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fecal Incontinence (Accidental Bowel Leakage) in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fecal-Incontinence.png",
@@ -2941,7 +3546,12 @@
     "title": "Fecal Incontinence (Accidental Bowel Leakage)",
     "filename": "fecal-incontinence-spanish.pdf",
     "language": "Spanish",
-    "category": ["ABL", "FI", "bowel", "incontinence"],
+    "category": [
+      "ABL",
+      "FI",
+      "bowel",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fecal Incontinence (Accidental Bowel Leakage) in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fecal-Incontinence.png",
@@ -2954,7 +3564,12 @@
     "title": "Fecal Incontinence (Accidental Bowel Leakage)",
     "filename": "Turkish_Fecal_Incontinence_RV1.pdf",
     "language": "Turkish",
-    "category": ["ABL", "FI", "bowel", "incontinence"],
+    "category": [
+      "ABL",
+      "FI",
+      "bowel",
+      "incontinence"
+    ],
     "description": "IUGA handout on Fecal Incontinence (Accidental Bowel Leakage) in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Fecal-Incontinence.png",
@@ -2967,7 +3582,12 @@
     "title": "Genitourinary Fistula",
     "filename": "Genitourinary_Fistula.pdf",
     "language": "English",
-    "category": ["bowel", "bladder", "fistula", "incontinence"],
+    "category": [
+      "bowel",
+      "bladder",
+      "fistula",
+      "incontinence"
+    ],
     "description": "IUGA handout on Genitourinary Fistula in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Genitourinary-Fistula.png",
@@ -2980,7 +3600,12 @@
     "title": "Genitourinary Fistula",
     "filename": "Portuguese_Genitourinary_Fistula.pdf",
     "language": "Portuguese",
-    "category": ["bowel", "bladder", "fistula", "incontinence"],
+    "category": [
+      "bowel",
+      "bladder",
+      "fistula",
+      "incontinence"
+    ],
     "description": "IUGA handout on Genitourinary Fistula in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Genitourinary-Fistula.png",
@@ -2993,7 +3618,12 @@
     "title": "Genitourinary Fistula",
     "filename": "genitourinary_-fistula-spanish.pdf",
     "language": "Spanish",
-    "category": ["bowel", "bladder", "fistula", "incontinence"],
+    "category": [
+      "bowel",
+      "bladder",
+      "fistula",
+      "incontinence"
+    ],
     "description": "IUGA handout on Genitourinary Fistula in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Genitourinary-Fistula.png",
@@ -3006,7 +3636,12 @@
     "title": "Genitourinary Fistula",
     "filename": "Turkish_Genitourinary_Fistula.pdf",
     "language": "Turkish",
-    "category": ["bowel", "bladder", "fistula", "incontinence"],
+    "category": [
+      "bowel",
+      "bladder",
+      "fistula",
+      "incontinence"
+    ],
     "description": "IUGA handout on Genitourinary Fistula in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Genitourinary-Fistula.png",
@@ -3019,7 +3654,12 @@
     "title": "Intermittent Self Catheterization",
     "filename": "Intermittent_Self_Catheterization.pdf",
     "language": "English",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "IUGA handout on Intermittent Self Catheterization in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Intermittent-Self-Catheterization.png",
@@ -3032,7 +3672,12 @@
     "title": "Intermittent Self Catheterization",
     "filename": "intermittent-self-catheterization-arabic.pdf",
     "language": "Arabic",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "IUGA handout on Intermittent Self Catheterization in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Intermittent-Self-Catheterization.png",
@@ -3045,7 +3690,12 @@
     "title": "Intermittent Self Catheterization",
     "filename": "intermittent-self-catheterization-dutch.pdf",
     "language": "Dutch",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "IUGA handout on Intermittent Self Catheterization in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Intermittent-Self-Catheterization.png",
@@ -3058,7 +3708,12 @@
     "title": "Intermittent Self Catheterization",
     "filename": "French_Intermittent_Self_Catheterization.pdf",
     "language": "French",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "IUGA handout on Intermittent Self Catheterization in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Intermittent-Self-Catheterization.png",
@@ -3071,7 +3726,12 @@
     "title": "Intermittent Self Catheterization",
     "filename": "Intermittent_Self_Catheterization-hungarian.pdf",
     "language": "Hungarian",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "IUGA handout on Intermittent Self Catheterization in Hungarian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Intermittent-Self-Catheterization.png",
@@ -3084,7 +3744,12 @@
     "title": "Intermittent Self Catheterization",
     "filename": "intermittent-self-catheterization-japanese.pdf",
     "language": "Japanese",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "IUGA handout on Intermittent Self Catheterization in Japanese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Intermittent-Self-Catheterization.png",
@@ -3097,7 +3762,12 @@
     "title": "Intermittent Self Catheterization",
     "filename": "Portuguese_Intermittent_Self_Catheterization.pdf",
     "language": "Portuguese",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "IUGA handout on Intermittent Self Catheterization in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Intermittent-Self-Catheterization.png",
@@ -3110,7 +3780,12 @@
     "title": "Intermittent Self Catheterization",
     "filename": "intermittent-self-catheterization-spanish.pdf",
     "language": "Spanish",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "IUGA handout on Intermittent Self Catheterization in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Intermittent-Self-Catheterization.png",
@@ -3123,7 +3798,12 @@
     "title": "Intermittent Self Catheterization",
     "filename": "Turkish_Intermittent_Self_Catheterization.pdf",
     "language": "Turkish",
-    "category": ["ISC", "catheter", "retention", "bladder"],
+    "category": [
+      "ISC",
+      "catheter",
+      "retention",
+      "bladder"
+    ],
     "description": "IUGA handout on Intermittent Self Catheterization in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Intermittent-Self-Catheterization.png",
@@ -3136,7 +3816,12 @@
     "title": "Interstitial Cystitis",
     "filename": "Interstitial_Cystitis.pdf",
     "language": "English",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "IUGA handout on Interstitial Cystitis in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Interstitial-Cystitis.png",
@@ -3149,7 +3834,12 @@
     "title": "Interstitial Cystitis",
     "filename": "interstitial-cystitis-arabic.pdf",
     "language": "Arabic",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "IUGA handout on Interstitial Cystitis in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Interstitial-Cystitis.png",
@@ -3162,7 +3852,12 @@
     "title": "Interstitial Cystitis",
     "filename": "interstitial-cystitis-chinese.pdf",
     "language": "Chinese",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "IUGA handout on Interstitial Cystitis in Chinese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Interstitial-Cystitis.png",
@@ -3175,7 +3870,12 @@
     "title": "Interstitial Cystitis",
     "filename": "interstitial-cystitis-dutch.pdf",
     "language": "Dutch",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "IUGA handout on Interstitial Cystitis in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Interstitial-Cystitis.png",
@@ -3188,7 +3888,12 @@
     "title": "Interstitial Cystitis",
     "filename": "Interstitial-Cystitis_Hebrew-final.pdf",
     "language": "Hebrew",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "IUGA handout on Interstitial Cystitis in Hebrew",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Interstitial-Cystitis.png",
@@ -3201,7 +3906,12 @@
     "title": "Interstitial Cystitis",
     "filename": "Interstitial_Cystitis_hungarian.pdf",
     "language": "Hungarian",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "IUGA handout on Interstitial Cystitis in Hungarian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Interstitial-Cystitis.png",
@@ -3214,7 +3924,12 @@
     "title": "Interstitial Cystitis",
     "filename": "interstitial-cystitis-italian.pdf",
     "language": "Italian",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "IUGA handout on Interstitial Cystitis in Italian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Interstitial-Cystitis.png",
@@ -3227,7 +3942,12 @@
     "title": "Interstitial Cystitis",
     "filename": "interstitial-cystitis-polish.pdf",
     "language": "Polish",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "IUGA handout on Interstitial Cystitis in Polish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Interstitial-Cystitis.png",
@@ -3240,7 +3960,12 @@
     "title": "Interstitial Cystitis",
     "filename": "interstitial-cystitis-spanish.pdf",
     "language": "Spanish",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "IUGA handout on Interstitial Cystitis in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Interstitial-Cystitis.png",
@@ -3253,7 +3978,12 @@
     "title": "Interstitial Cystitis",
     "filename": "Vietnamese_Interstitial_Cystitis.pdf",
     "language": "Vietnamese",
-    "category": ["IC", "bladder", "pain", "interstitial cystitis"],
+    "category": [
+      "IC",
+      "bladder",
+      "pain",
+      "interstitial cystitis"
+    ],
     "description": "IUGA handout on Interstitial Cystitis in Vietnamese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Interstitial-Cystitis.png",
@@ -3266,7 +3996,12 @@
     "title": "Labiaplasty",
     "filename": "labiaplasty-V1-3.pdf",
     "language": "English",
-    "category": ["surgery", "procedures", "labialplasty", "labia"],
+    "category": [
+      "surgery",
+      "procedures",
+      "labialplasty",
+      "labia"
+    ],
     "description": "IUGA handout on Labiaplasty in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Labiaplasty_Cover_Website.png",
@@ -3279,7 +4014,12 @@
     "title": "Labiaplasty",
     "filename": "labiaplasty-spanish-V1.pdf",
     "language": "Spanish",
-    "category": ["surgery", "procedures", "labialplasty", "labia"],
+    "category": [
+      "surgery",
+      "procedures",
+      "labialplasty",
+      "labia"
+    ],
     "description": "IUGA handout on Labiaplasty in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Labiaplasty_Cover_Website.png",
@@ -3313,7 +4053,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "low-dose-vaginal-estrogen-therapy-arabic.pdf",
     "language": "Arabic",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3326,7 +4072,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "low-dose-vaginal-estrogen-therapy-chinese.pdf",
     "language": "Chinese",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Chinese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3339,7 +4091,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "low-dose-vaginal-estrogen-therapy-czech.pdf",
     "language": "Czech",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Czech",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3352,7 +4110,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "low-dose-vaginal-estrogen-therapy-dutch.pdf",
     "language": "Dutch",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3365,7 +4129,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "French_Low-Dose_Vaginal_Estrogen_Therapy.pdf",
     "language": "French",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3378,7 +4148,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "low-dose-vaginal-estrogen-therapy-italian.pdf",
     "language": "Italian",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Italian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3391,7 +4167,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "low-dose-vaginal-estrogen-therapy-polish.pdf",
     "language": "Polish",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Polish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3404,7 +4186,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "low-dose-vaginal-estrogen-therapy-portuguese.pdf",
     "language": "Portuguese",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3417,7 +4205,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "low-dose-vaginal-estrogen-therapy-spanish.pdf",
     "language": "Spanish",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3430,7 +4224,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "low-dose-vaginal-estrogen-therapy-thai.pdf",
     "language": "Thai",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Thai",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3443,7 +4243,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "Turkish_Low-Dose_Vaginal_Wall_Repair.pdf",
     "language": "Turkish",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3456,7 +4262,13 @@
     "title": "Low-Dose Vaginal Estrogen Therapy",
     "filename": "Vietnamese_Low_Dose_Vaginal_Estrogen_Therapy.pdf",
     "language": "Vietnamese",
-    "category": ["topical", "vaginal", "estrogen", "GSM", "atrophy"],
+    "category": [
+      "topical",
+      "vaginal",
+      "estrogen",
+      "GSM",
+      "atrophy"
+    ],
     "description": "IUGA handout on Low-Dose Vaginal Estrogen Therapy in Vietnamese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Low-Dose-Vaginal-Estrogen-Therapy.png",
@@ -3836,7 +4648,11 @@
     "title": "Nocturia",
     "filename": "Nocturia_Leaflet_V1.pdf",
     "language": "English",
-    "category": ["bladder", "OAB", "nocturia"],
+    "category": [
+      "bladder",
+      "OAB",
+      "nocturia"
+    ],
     "description": "IUGA handout on Nocturia in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screenshot-Nocturia_Leaflet-eng.png",
@@ -3849,7 +4665,11 @@
     "title": "Nocturia",
     "filename": "Nocturia_Spanish.pdf",
     "language": "Spanish",
-    "category": ["bladder", "OAB", "nocturia"],
+    "category": [
+      "bladder",
+      "OAB",
+      "nocturia"
+    ],
     "description": "IUGA handout on Nocturia in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screenshot-Nocturia_Leaflet-eng.png",
@@ -3862,7 +4682,11 @@
     "title": "Non-Surgical Approaches to Managing Bladder Problems",
     "filename": "Non-Surgical_Approaches_to_Managing_Bladder_Problems_V1.pdf",
     "language": "English",
-    "category": ["non-surgical", "bladder", "OAB"],
+    "category": [
+      "non-surgical",
+      "bladder",
+      "OAB"
+    ],
     "description": "IUGA handout on Non-Surgical Approaches to Managing Bladder Problems in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/First_Page.png",
@@ -3875,7 +4699,11 @@
     "title": "Non-Surgical Approaches to Managing Bladder Problems",
     "filename": "Non-Surgical_Approaches_to_Managing_Bladder_Problems_Spanish_V1.pdf",
     "language": "Spanish",
-    "category": ["non-surgical", "bladder", "OAB"],
+    "category": [
+      "non-surgical",
+      "bladder",
+      "OAB"
+    ],
     "description": "IUGA handout on Non-Surgical Approaches to Managing Bladder Problems in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/First_Page.png",
@@ -3888,7 +4716,12 @@
     "title": "Overactive Bladder",
     "filename": "Overactive_Bladder_RV2.pdf",
     "language": "English",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -3901,7 +4734,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-arabic.pdf",
     "language": "Arabic",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -3914,7 +4752,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-chinese.pdf",
     "language": "Chinese",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Chinese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -3927,7 +4770,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-czech.pdf",
     "language": "Czech",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Czech",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -3940,7 +4788,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-dutch.pdf",
     "language": "Dutch",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -3953,7 +4806,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-french.pdf",
     "language": "French",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -3966,7 +4824,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-german.pdf",
     "language": "German",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in German",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -3979,7 +4842,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-greek.pdf",
     "language": "Greek",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Greek",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -3992,7 +4860,12 @@
     "title": "Overactive Bladder",
     "filename": "Overactive_Bladder_Hungarian_RV2.pdf",
     "language": "Hungarian",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Hungarian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -4005,7 +4878,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-italian.pdf",
     "language": "Italian",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Italian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -4018,7 +4896,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-japanese.pdf",
     "language": "Japanese",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Japanese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -4031,7 +4914,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-malay.pdf",
     "language": "Malay",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Malay",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -4044,7 +4932,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-polish.pdf",
     "language": "Polish",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Polish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -4057,7 +4950,12 @@
     "title": "Overactive Bladder",
     "filename": "Portuguese_Overactive_Bladder.pdf",
     "language": "Portuguese",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -4070,7 +4968,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-spanish.pdf",
     "language": "Spanish",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -4083,7 +4986,12 @@
     "title": "Overactive Bladder",
     "filename": "overactive-bladder-thai.pdf",
     "language": "Thai",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Thai",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -4096,7 +5004,12 @@
     "title": "Overactive Bladder",
     "filename": "Turkish_Overactive_Bladder.pdf",
     "language": "Turkish",
-    "category": ["OAB", "frequency", "urgency", "bladder"],
+    "category": [
+      "OAB",
+      "frequency",
+      "urgency",
+      "bladder"
+    ],
     "description": "IUGA handout on Overactive Bladder in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Overactive-Bladder.png",
@@ -4109,7 +5022,11 @@
     "title": "Painful Sex (Dyspareunia)",
     "filename": "painful-sex-dyspareunia-V1-1.pdf",
     "language": "English",
-    "category": ["pain", "dyspareunia", "sex"],
+    "category": [
+      "pain",
+      "dyspareunia",
+      "sex"
+    ],
     "description": "IUGA handout on Painful Sex (Dyspareunia) in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/dyspareunia-cover-website.png",
@@ -4462,7 +5379,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "Pelvic_Organ_Prolapse_RV3.pdf",
     "language": "English",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4475,7 +5395,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "pelvic-organ-prolapse-arabic.pdf",
     "language": "Arabic",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4488,7 +5411,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "pelvic-organ-prolapse-chinese.pdf",
     "language": "Chinese",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Chinese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4501,7 +5427,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "pelvic-organ-prolapse-czech.pdf",
     "language": "Czech",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Czech",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4514,7 +5443,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "pelvic-organ-prolapse-dutch.pdf",
     "language": "Dutch",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4527,7 +5459,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "Finnish_Pelvic_Organ_Prolapse.pdf",
     "language": "Finnish",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Finnish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4540,7 +5475,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "pelvic-organ-prolapse-french.pdf",
     "language": "French",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4553,7 +5491,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "German_Pelvic_Organ_Prolapse.pdf",
     "language": "German",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in German",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4566,7 +5507,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "Pelvic_Organ_Prolapse_Hungarian.pdf",
     "language": "Hungarian",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Hungarian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4579,7 +5523,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "pelvic-organ-prolapse-indonesian.pdf",
     "language": "Indonesian",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Indonesian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4592,7 +5539,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "pelvic-organ-prolapse-italian.pdf",
     "language": "Italian",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Italian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4605,7 +5555,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "Japanese_Pelvic_Organ_Prolapse.pdf",
     "language": "Japanese",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Japanese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4618,7 +5571,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "pelvic-organ-prolapse-polish.pdf",
     "language": "Polish",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Polish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4631,7 +5587,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "Portuguese_Pelvic_Organ_Prolapse.pdf",
     "language": "Portuguese",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4644,7 +5603,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "Pelvic_Organ_Prolapse_Russian_rv2.pdf",
     "language": "Russian",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Russian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4657,7 +5619,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "pelvic-organ-prolapse-spanish.pdf",
     "language": "Spanish",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4670,7 +5635,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "Pelvic_Organ_Prolapse_RV2_Swedish-1.pdf",
     "language": "Swedish",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Swedish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4683,7 +5651,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "pelvic-organ-prolapse-thai.pdf",
     "language": "Thai",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Thai",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4696,7 +5667,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "Turkish-Pelvic-Organ-Prolapse.pdf",
     "language": "Turkish",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -4709,7 +5683,10 @@
     "title": "Pelvic Organ Prolapse",
     "filename": "Vietnamese_Pelvic_Organ_Prolapse.pdf",
     "language": "Vietnamese",
-    "category": ["prolapse", "POP"],
+    "category": [
+      "prolapse",
+      "POP"
+    ],
     "description": "IUGA handout on Pelvic Organ Prolapse in Vietnamese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Pelvic-Organ-Prolapse.png",
@@ -5277,7 +6254,13 @@
     "title": "Rectovaginal Fistula",
     "filename": "Rectovaginal_Fistula.pdf",
     "language": "English",
-    "category": ["bowel", "fistula", "incontinence", "FI", "rectovaginal"],
+    "category": [
+      "bowel",
+      "fistula",
+      "incontinence",
+      "FI",
+      "rectovaginal"
+    ],
     "description": "IUGA handout on Rectovaginal Fistula in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Rectovaginal-Fistula.png",
@@ -5290,7 +6273,13 @@
     "title": "Rectovaginal Fistula",
     "filename": "Rectovaginal_Fistula_Portuguese.pdf",
     "language": "Portuguese",
-    "category": ["bowel", "fistula", "incontinence", "FI", "rectovaginal"],
+    "category": [
+      "bowel",
+      "fistula",
+      "incontinence",
+      "FI",
+      "rectovaginal"
+    ],
     "description": "IUGA handout on Rectovaginal Fistula in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Rectovaginal-Fistula.png",
@@ -5303,7 +6292,13 @@
     "title": "Rectovaginal Fistula",
     "filename": "rectovaginal-fistula-spanish.pdf",
     "language": "Spanish",
-    "category": ["bowel", "fistula", "incontinence", "FI", "rectovaginal"],
+    "category": [
+      "bowel",
+      "fistula",
+      "incontinence",
+      "FI",
+      "rectovaginal"
+    ],
     "description": "IUGA handout on Rectovaginal Fistula in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Rectovaginal-Fistula.png",
@@ -5316,7 +6311,13 @@
     "title": "Rectovaginal Fistula",
     "filename": "Turkish_Rectovaginal_Fistula.pdf",
     "language": "Turkish",
-    "category": ["bowel", "fistula", "incontinence", "FI", "rectovaginal"],
+    "category": [
+      "bowel",
+      "fistula",
+      "incontinence",
+      "FI",
+      "rectovaginal"
+    ],
     "description": "IUGA handout on Rectovaginal Fistula in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Rectovaginal-Fistula.png",
@@ -6058,7 +7059,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-RV2-1.pdf",
     "language": "English",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6071,7 +7076,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "Arabic_Stress_Urinary_Incontinence.pdf",
     "language": "Arabic",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6084,7 +7093,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-chinese.pdf",
     "language": "Chinese",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Chinese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6097,7 +7110,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-dutch.pdf",
     "language": "Dutch",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6110,7 +7127,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "French_Stress_Urinary_Incontinence.pdf",
     "language": "French",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6123,7 +7144,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-german.pdf",
     "language": "German",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in German",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6136,7 +7161,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-greek.pdf",
     "language": "Greek",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Greek",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6149,7 +7178,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-hindi.pdf",
     "language": "Hindi",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Hindi",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6162,7 +7195,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-hungarian-RV2.pdf",
     "language": "Hungarian",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Hungarian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6175,7 +7212,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-indonesian.pdf",
     "language": "Indonesian",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Indonesian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6188,7 +7229,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-italian.pdf",
     "language": "Italian",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Italian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6201,7 +7246,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-japanese.pdf",
     "language": "Japanese",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Japanese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6214,7 +7263,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-malay.pdf",
     "language": "Malay",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Malay",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6227,7 +7280,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-polish.pdf",
     "language": "Polish",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Polish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6240,7 +7297,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-portuguese.pdf",
     "language": "Portuguese",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6253,7 +7314,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-RV2_russian.pdf",
     "language": "Russian",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Russian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6266,7 +7331,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-Spanish-RV2.pdf",
     "language": "Spanish",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6279,7 +7348,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "stress-urinary-incontinence-thai.pdf",
     "language": "Thai",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Thai",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6292,7 +7365,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "turkish-stress-urinary-incontinence-rv2.pdf",
     "language": "Turkish",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6305,7 +7382,11 @@
     "title": "Stress Urinary Incontinence",
     "filename": "Vietnamese_Stress_Urinary_Incontinence.pdf",
     "language": "Vietnamese",
-    "category": ["incontinence", "bladder", "SUI"],
+    "category": [
+      "incontinence",
+      "bladder",
+      "SUI"
+    ],
     "description": "IUGA handout on Stress Urinary Incontinence in Vietnamese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Stress-Urinary-Incontinence.png",
@@ -6486,7 +7567,11 @@
     "title": "Transperineal Pelvic Floor Ultrasound Scan",
     "filename": "Transperineal_Pelvic_Floor_Ultrasound.pdf",
     "language": "English",
-    "category": ["pelvic floor", "ultrasound", "perineal"],
+    "category": [
+      "pelvic floor",
+      "ultrasound",
+      "perineal"
+    ],
     "description": "IUGA handout on Transperineal Pelvic Floor Ultrasound Scan in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Transperineal-Pelvic-Floor-Ultrasound.png",
@@ -6499,7 +7584,11 @@
     "title": "Transperineal Pelvic Floor Ultrasound Scan",
     "filename": "Transperineal_Pelvic_Floor_Ultrasound_Dutch_RV1.pdf",
     "language": "Dutch",
-    "category": ["pelvic floor", "ultrasound", "perineal"],
+    "category": [
+      "pelvic floor",
+      "ultrasound",
+      "perineal"
+    ],
     "description": "IUGA handout on Transperineal Pelvic Floor Ultrasound Scan in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Transperineal-Pelvic-Floor-Ultrasound.png",
@@ -6512,7 +7601,11 @@
     "title": "Transperineal Pelvic Floor Ultrasound Scan",
     "filename": "German_Transperineal_Pelvic_Floor_Ultrasound_Scan.pdf",
     "language": "German",
-    "category": ["pelvic floor", "ultrasound", "perineal"],
+    "category": [
+      "pelvic floor",
+      "ultrasound",
+      "perineal"
+    ],
     "description": "IUGA handout on Transperineal Pelvic Floor Ultrasound Scan in German",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Transperineal-Pelvic-Floor-Ultrasound.png",
@@ -6525,7 +7618,11 @@
     "title": "Transperineal Pelvic Floor Ultrasound Scan",
     "filename": "Transperineal_Pelvic_Floor_Ultrasound_Indonesian.pdf",
     "language": "Indonesian",
-    "category": ["pelvic floor", "ultrasound", "perineal"],
+    "category": [
+      "pelvic floor",
+      "ultrasound",
+      "perineal"
+    ],
     "description": "IUGA handout on Transperineal Pelvic Floor Ultrasound Scan in Indonesian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Transperineal-Pelvic-Floor-Ultrasound.png",
@@ -6538,7 +7635,11 @@
     "title": "Transperineal Pelvic Floor Ultrasound Scan",
     "filename": "transperineal-pelvic-floor-ultrasound-portuguese.pdf",
     "language": "Portuguese",
-    "category": ["pelvic floor", "ultrasound", "perineal"],
+    "category": [
+      "pelvic floor",
+      "ultrasound",
+      "perineal"
+    ],
     "description": "IUGA handout on Transperineal Pelvic Floor Ultrasound Scan in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Transperineal-Pelvic-Floor-Ultrasound.png",
@@ -6551,7 +7652,11 @@
     "title": "Transperineal Pelvic Floor Ultrasound Scan",
     "filename": "transperineal-pelvic-floor-ultrasound-spanish.pdf",
     "language": "Spanish",
-    "category": ["pelvic floor", "ultrasound", "perineal"],
+    "category": [
+      "pelvic floor",
+      "ultrasound",
+      "perineal"
+    ],
     "description": "IUGA handout on Transperineal Pelvic Floor Ultrasound Scan in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Transperineal-Pelvic-Floor-Ultrasound.png",
@@ -6718,7 +7823,12 @@
     "title": "Urinary Tract Infection",
     "filename": "Urinary_Tract_Infection_RV2.pdf",
     "language": "English",
-    "category": ["UTI", "infection", "bladder", "urinary"],
+    "category": [
+      "UTI",
+      "infection",
+      "bladder",
+      "urinary"
+    ],
     "description": "IUGA handout on Urinary Tract Infection in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urinary-Tract-Infection-leaflet-printscreen.png",
@@ -6731,7 +7841,12 @@
     "title": "Urinary Tract Infection",
     "filename": "urinary-tract-infection-arabic.pdf",
     "language": "Arabic",
-    "category": ["UTI", "infection", "bladder", "urinary"],
+    "category": [
+      "UTI",
+      "infection",
+      "bladder",
+      "urinary"
+    ],
     "description": "IUGA handout on Urinary Tract Infection in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urinary-Tract-Infection-leaflet-printscreen.png",
@@ -6744,7 +7859,12 @@
     "title": "Urinary Tract Infection",
     "filename": "chinese-urinary-tract-infection.pdf",
     "language": "Chinese",
-    "category": ["UTI", "infection", "bladder", "urinary"],
+    "category": [
+      "UTI",
+      "infection",
+      "bladder",
+      "urinary"
+    ],
     "description": "IUGA handout on Urinary Tract Infection in Chinese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urinary-Tract-Infection-leaflet-printscreen.png",
@@ -6757,7 +7877,12 @@
     "title": "Urinary Tract Infection",
     "filename": "urinary-tract-infection-italian.pdf",
     "language": "Italian",
-    "category": ["UTI", "infection", "bladder", "urinary"],
+    "category": [
+      "UTI",
+      "infection",
+      "bladder",
+      "urinary"
+    ],
     "description": "IUGA handout on Urinary Tract Infection in Italian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urinary-Tract-Infection-leaflet-printscreen.png",
@@ -6770,7 +7895,12 @@
     "title": "Urinary Tract Infection",
     "filename": "urinary-tract-infection-portuguese.pdf",
     "language": "Portuguese",
-    "category": ["UTI", "infection", "bladder", "urinary"],
+    "category": [
+      "UTI",
+      "infection",
+      "bladder",
+      "urinary"
+    ],
     "description": "IUGA handout on Urinary Tract Infection in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urinary-Tract-Infection-leaflet-printscreen.png",
@@ -6783,7 +7913,12 @@
     "title": "Urinary Tract Infection",
     "filename": "Urinary_Tract_Infection_RV2_Russian.pdf",
     "language": "Russian",
-    "category": ["UTI", "infection", "bladder", "urinary"],
+    "category": [
+      "UTI",
+      "infection",
+      "bladder",
+      "urinary"
+    ],
     "description": "IUGA handout on Urinary Tract Infection in Russian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urinary-Tract-Infection-leaflet-printscreen.png",
@@ -6796,7 +7931,12 @@
     "title": "Urinary Tract Infection",
     "filename": "urinary-tract-infection-spanish.pdf",
     "language": "Spanish",
-    "category": ["UTI", "infection", "bladder", "urinary"],
+    "category": [
+      "UTI",
+      "infection",
+      "bladder",
+      "urinary"
+    ],
     "description": "IUGA handout on Urinary Tract Infection in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urinary-Tract-Infection-leaflet-printscreen.png",
@@ -6809,7 +7949,12 @@
     "title": "Urodynamics",
     "filename": "Urodynamics_RV1.pdf",
     "language": "English",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6822,7 +7967,12 @@
     "title": "Urodynamics",
     "filename": "Arabic_Urodynamics.pdf",
     "language": "Arabic",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in Arabic",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6835,7 +7985,12 @@
     "title": "Urodynamics",
     "filename": "urodynamics-chinese.pdf",
     "language": "Chinese",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in Chinese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6848,7 +8003,12 @@
     "title": "Urodynamics",
     "filename": "urodynamics-czech.pdf",
     "language": "Czech",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in Czech",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6861,7 +8021,12 @@
     "title": "Urodynamics",
     "filename": "urodynamics-dutch.pdf",
     "language": "Dutch",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in Dutch",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6874,7 +8039,12 @@
     "title": "Urodynamics",
     "filename": "urodynamics-french.pdf",
     "language": "French",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6887,7 +8057,12 @@
     "title": "Urodynamics",
     "filename": "urodynamics-italian.pdf",
     "language": "Italian",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in Italian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6900,7 +8075,12 @@
     "title": "Urodynamics",
     "filename": "urodynamics-malay.pdf",
     "language": "Malay",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in Malay",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6913,7 +8093,12 @@
     "title": "Urodynamics",
     "filename": "urodynamics-portuguese.pdf",
     "language": "Portuguese",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in Portuguese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6926,7 +8111,12 @@
     "title": "Urodynamics",
     "filename": "urodynamics-spanish.pdf",
     "language": "Spanish",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6939,7 +8129,12 @@
     "title": "Urodynamics",
     "filename": "urodynamics-thai.pdf",
     "language": "Thai",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in Thai",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6952,7 +8147,12 @@
     "title": "Urodynamics",
     "filename": "Turkish_Urodynamics.pdf",
     "language": "Turkish",
-    "category": ["urodynamic", "testing", "diagnostic", "advanced"],
+    "category": [
+      "urodynamic",
+      "testing",
+      "diagnostic",
+      "advanced"
+    ],
     "description": "IUGA handout on Urodynamics in Turkish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Urodynamics.png",
@@ -6965,7 +8165,12 @@
     "title": "Uterine Preservation Surgery for Prolapse",
     "filename": "uterine-preservation-RV1.pdf",
     "language": "English",
-    "category": ["surgery", "uterine preservation", "POP", "prolapse"],
+    "category": [
+      "surgery",
+      "uterine preservation",
+      "POP",
+      "prolapse"
+    ],
     "description": "IUGA handout on Uterine Preservation Surgery for Prolapse in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-16-at-09.48.20.png",
@@ -6978,7 +8183,12 @@
     "title": "Uterine Preservation Surgery for Prolapse",
     "filename": "uterine-preservation-spanish-RV1.pdf",
     "language": "Spanish",
-    "category": ["surgery", "uterine preservation", "POP", "prolapse"],
+    "category": [
+      "surgery",
+      "uterine preservation",
+      "POP",
+      "prolapse"
+    ],
     "description": "IUGA handout on Uterine Preservation Surgery for Prolapse in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Screen-Shot-2018-02-16-at-09.48.20.png",
@@ -7458,7 +8668,11 @@
     "title": "Vaginal Pessary for Pelvic Organ Prolapse",
     "filename": "Vaginal_Pessary_for_Pelvic_Organ_Prolapse_RV2.pdf",
     "language": "English",
-    "category": ["prolapse", "POP", "pessary"],
+    "category": [
+      "prolapse",
+      "POP",
+      "pessary"
+    ],
     "description": "IUGA handout on Vaginal Pessary for Pelvic Organ Prolapse in English",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Vaginal-Pessary-for-Pelvic-Organ-Prolapse.png",
@@ -7471,7 +8685,11 @@
     "title": "Vaginal Pessary for Pelvic Organ Prolapse",
     "filename": "vaginal-pessary-for-pelvic-organ-prolapse-chinese.pdf",
     "language": "Chinese",
-    "category": ["prolapse", "POP", "pessary"],
+    "category": [
+      "prolapse",
+      "POP",
+      "pessary"
+    ],
     "description": "IUGA handout on Vaginal Pessary for Pelvic Organ Prolapse in Chinese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Vaginal-Pessary-for-Pelvic-Organ-Prolapse.png",
@@ -7484,7 +8702,11 @@
     "title": "Vaginal Pessary for Pelvic Organ Prolapse",
     "filename": "Vaginal_Pessary_for_Pelvic_Organ_Prolapse_RV2_French.pdf",
     "language": "French",
-    "category": ["prolapse", "POP", "pessary"],
+    "category": [
+      "prolapse",
+      "POP",
+      "pessary"
+    ],
     "description": "IUGA handout on Vaginal Pessary for Pelvic Organ Prolapse in French",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Vaginal-Pessary-for-Pelvic-Organ-Prolapse.png",
@@ -7497,7 +8719,11 @@
     "title": "Vaginal Pessary for Pelvic Organ Prolapse",
     "filename": "Vaginal_Pessary_for_Pelvic_Organ_Prolapse_Hungarian_RV2.pdf",
     "language": "Hungarian",
-    "category": ["prolapse", "POP", "pessary"],
+    "category": [
+      "prolapse",
+      "POP",
+      "pessary"
+    ],
     "description": "IUGA handout on Vaginal Pessary for Pelvic Organ Prolapse in Hungarian",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Vaginal-Pessary-for-Pelvic-Organ-Prolapse.png",
@@ -7510,7 +8736,11 @@
     "title": "Vaginal Pessary for Pelvic Organ Prolapse",
     "filename": "vaginal-pessary-for-pelvic-organ-prolapse-japanese.pdf",
     "language": "Japanese",
-    "category": ["prolapse", "POP", "pessary"],
+    "category": [
+      "prolapse",
+      "POP",
+      "pessary"
+    ],
     "description": "IUGA handout on Vaginal Pessary for Pelvic Organ Prolapse in Japanese",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Vaginal-Pessary-for-Pelvic-Organ-Prolapse.png",
@@ -7523,7 +8753,11 @@
     "title": "Vaginal Pessary for Pelvic Organ Prolapse",
     "filename": "vaginal-pessary-for-pelvic-organ-prolapse-portuguese.pdf",
     "language": "Port",
-    "category": ["prolapse", "POP", "pessary"],
+    "category": [
+      "prolapse",
+      "POP",
+      "pessary"
+    ],
     "description": "IUGA handout on Vaginal Pessary for Pelvic Organ Prolapse in Port",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Vaginal-Pessary-for-Pelvic-Organ-Prolapse.png",
@@ -7536,7 +8770,11 @@
     "title": "Vaginal Pessary for Pelvic Organ Prolapse",
     "filename": "vaginal-pessary-for-pelvic-organ-prolapse-spanish.pdf",
     "language": "Spanish",
-    "category": ["prolapse", "POP", "pessary"],
+    "category": [
+      "prolapse",
+      "POP",
+      "pessary"
+    ],
     "description": "IUGA handout on Vaginal Pessary for Pelvic Organ Prolapse in Spanish",
     "author": "IUGA",
     "thumbnail": "https://www.yourpelvicfloor.org/media/Vaginal-Pessary-for-Pelvic-Organ-Prolapse.png",
@@ -7570,7 +8808,12 @@
     "title": "Gemtesa (vibegron)",
     "filename": "vibegron.pdf",
     "language": "English",
-    "category": ["OAB", "bladder", "medications", "vibegron"],
+    "category": [
+      "OAB",
+      "bladder",
+      "medications",
+      "vibegron"
+    ],
     "description": "Patient Education for Gemtesa (vibegron)",
     "author": "Urovant",
     "thumbnail": "https://tools.ryanstewart.com/uploads/internal/vibegron.png",
@@ -7583,7 +8826,12 @@
     "title": "Myrbetriq (mirabegron)",
     "filename": "mirabegron.pdf",
     "language": "English",
-    "category": ["OAB", "bladder", "medications", "mirabegron"],
+    "category": [
+      "OAB",
+      "bladder",
+      "medications",
+      "mirabegron"
+    ],
     "description": "Patient Education for Myrbetriq (mirabegron)",
     "author": "Astellas",
     "thumbnail": "https://tools.ryanstewart.com/uploads/internal/mirabegron.png",
@@ -7618,7 +8866,13 @@
     "title": "Bladder Retraining",
     "filename": "BladderRetrainingTips-9a6kj0.pdf",
     "language": "English",
-    "category": ["OAB", "bladder", "drills", "training", "first"],
+    "category": [
+      "OAB",
+      "bladder",
+      "drills",
+      "training",
+      "first"
+    ],
     "description": "Bladder retraining hints and tips from the NAFC",
     "author": "NAFC",
     "thumbnail": "https://tools.ryanstewart.com/uploads/nafc/OAB-Bladder-Retraining-Thumbnail.png",
@@ -7716,7 +8970,13 @@
     "title": "Hematuria",
     "filename": "hematuria_aua_en.pdf",
     "language": "English",
-    "category": ["hematuria", "blood", "urine", "bladder", "testing"],
+    "category": [
+      "hematuria",
+      "blood",
+      "urine",
+      "bladder",
+      "testing"
+    ],
     "description": "Handout on hematuria from the AUA",
     "author": "AUA",
     "thumbnail": "https://tools.ryanstewart.com/uploads/aua/hematuria_aua_en.png",
@@ -7773,7 +9033,13 @@
     "title": "Recurrent UTI Care Pathway",
     "filename": "ruti_pathway.pdf",
     "language": "English",
-    "category": ["ruti", "uti", "pathway", "care", "treatment"],
+    "category": [
+      "ruti",
+      "uti",
+      "pathway",
+      "care",
+      "treatment"
+    ],
     "description": "Recurrent UTI care pathway",
     "author": "Internal",
     "thumbnail": "https://tools.ryanstewart.com/uploads/internal/ruti_pathway.png",
@@ -7786,7 +9052,11 @@
     "title": "Preoperative Counseling",
     "filename": "preop_counseling_v4.pdf",
     "language": "English",
-    "category": ["preop", "consent", "counseling"],
+    "category": [
+      "preop",
+      "consent",
+      "counseling"
+    ],
     "description": "Preop counsling worksheet",
     "author": "Internal",
     "thumbnail": "https://tools.ryanstewart.com/uploads/internal/preop_counseling_v4.png",
@@ -7799,7 +9069,13 @@
     "title": "Pelvic Organ Prolapse Care Pathway",
     "filename": "pop_pathway.pdf",
     "language": "English",
-    "category": ["pop", "prolapse", "pathway", "care", "treatment"],
+    "category": [
+      "pop",
+      "prolapse",
+      "pathway",
+      "care",
+      "treatment"
+    ],
     "description": "Pelvic organ prolapse (POP) care pathway",
     "author": "Internal",
     "thumbnail": "https://tools.ryanstewart.com/uploads/internal/pop_pathway.png",
@@ -7835,7 +9111,13 @@
     "title": "Preventing UTI: D-Mannose & PACs",
     "filename": "uti_dmannose_pac.pdf",
     "language": "English",
-    "category": ["uti", "ruti", "dmannose", "pac", "treatment"],
+    "category": [
+      "uti",
+      "ruti",
+      "dmannose",
+      "pac",
+      "treatment"
+    ],
     "description": "Preventing UTI: D-Mannose & PACs",
     "author": "Internal",
     "thumbnail": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/uti_dmannose_pac.png",
@@ -7871,7 +9153,13 @@
     "title": "Pelvic Organ Prolapse Care Pathway in Spanish",
     "filename": "pop_pathway.pdf",
     "language": "Spanish",
-    "category": ["pop", "prolapse", "pathway", "care", "treatment"],
+    "category": [
+      "pop",
+      "prolapse",
+      "pathway",
+      "care",
+      "treatment"
+    ],
     "description": "Pelvic organ prolapse (POP) care pathway in Spanish",
     "author": "Internal",
     "thumbnail": "https://patienteducation.nyc3.digitaloceanspaces.com/pdf/internal/pop_pathway_spanish.png",
