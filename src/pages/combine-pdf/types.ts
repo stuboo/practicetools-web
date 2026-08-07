@@ -22,5 +22,4 @@ export interface CombinePDFState {
     error: string | null;
     status: "idle" | "loading" | "failed" | "succeeded";
     combinePDFStatus: "idle" | "loading" | "failed" | "succeeded";
-    combinedPDF: Uint8Array | null;
 }

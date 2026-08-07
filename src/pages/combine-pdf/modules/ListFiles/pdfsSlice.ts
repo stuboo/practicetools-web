@@ -12,7 +12,6 @@ interface PDFState {
   error: string | null;
   status: "idle" | "loading" | "failed" | "succeeded";
   combinePDFStatus: "idle" | "loading" | "failed" | "succeeded";
-  combinedPDF: Uint8Array | null;
 }
 
 const initialState: PDFState = {
@@ -24,7 +23,6 @@ const initialState: PDFState = {
   status: "idle",
   error: null,
   combinePDFStatus: "idle",
-  combinedPDF: null,
 };
 
 export const fetchPDFs = createAsyncThunk("pdfs/fetchPDFs", async () => {
@@ -37,9 +35,10 @@ export const fetchPDFs = createAsyncThunk("pdfs/fetchPDFs", async () => {
 
 export const combinePDFs = createAsyncThunk(
   "pdfs/combinePDFs",
+  // mergePDF triggers the browser download itself via saveAs and returns
+  // nothing; only combinePDFStatus is consumed from this thunk.
   async (toBeCombinedPDFs: PDF[]) => {
-    const pdfBytes = await mergePDF(toBeCombinedPDFs);
-    return pdfBytes;
+    await mergePDF(toBeCombinedPDFs);
   }
 );
 
