@@ -1,0 +1,13 @@
+name = "urogyn-click"
+main = "src/worker.js"
+compatibility_date = "2026-08-07"
+
+# Serves the apex and www. Requires urogyn.click to be an active zone in the
+# same Cloudflare account, i.e. its nameservers moved off DreamHost.
+[[routes]]
+pattern = "urogyn.click/*"
+zone_name = "urogyn.click"
+
+[[routes]]
+pattern = "www.urogyn.click/*"
+zone_name = "urogyn.click"
