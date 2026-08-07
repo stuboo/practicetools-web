@@ -1,18 +1,6 @@
 import { QrCodeIcon } from '@heroicons/react/24/outline'
 import { PDF } from '@/pages/combine-pdf/types'
 
-/**
- * Thumbnails used to be absolute URLs on third-party sites. The 84 hosted on
- * voicesforpfd.org all went 404 when that site reorganised its assets, so
- * those are now regenerated from each PDF's own first page and served by our
- * API as relative paths. Absolute URLs are still passed through untouched for
- * the entries that have not been migrated yet.
- */
-const thumbnailUrl = (thumbnail: string) =>
-  /^https?:\/\//.test(thumbnail)
-    ? thumbnail
-    : `${import.meta.env.VITE_API_URL}/public/${thumbnail}`
-
 type CardProps = {
   pdf: PDF
   onBookSelected?: (book: PDF) => void
@@ -41,7 +29,7 @@ const BookCard = ({
         className="relative h-16 overflow-hidden"
       >
         <img
-          src={thumbnailUrl(pdf.thumbnail)}
+          src={pdf.thumbnail}
           alt={pdf.title}
           loading="lazy"
           className="inset-0 object-cover object-top w-full rounded-lg opacity-50 hover:opacity-100"
