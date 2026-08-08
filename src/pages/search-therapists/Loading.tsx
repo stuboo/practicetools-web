@@ -1,6 +1,8 @@
+/** One placeholder row. The announcing role="status" lives on the wrapper in
+    index.tsx -- six nested live regions would announce six times per search. */
 export default function Loading() {
   return (
-    <div role="status" className="animate-pulse flex gap-3.5 px-4 lg:px-5 py-3.5 border-b border-[#eef2f6]">
+    <div aria-hidden="true" className="animate-pulse flex gap-3.5 px-4 lg:px-5 py-3.5 border-b border-[#eef2f6]">
       <div className="shrink-0 w-[26px] h-[26px] mt-0.5 rounded-md bg-gray-200"></div>
       <div className="flex-1">
         <div className="flex items-baseline gap-2.5 mb-2">
@@ -10,7 +12,6 @@ export default function Loading() {
         <div className="h-3 bg-gray-100 rounded max-w-[320px] mb-1.5"></div>
         <div className="h-3 bg-gray-100 rounded max-w-[240px]"></div>
       </div>
-      <span className="sr-only">Loading...</span>
     </div>
   )
 }

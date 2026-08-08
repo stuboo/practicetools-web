@@ -1,6 +1,12 @@
 import { forwardRef } from 'react'
 import { TherapistType } from './types'
-import { displayDomain, formatAddress, presentValue } from './referralFormat'
+import {
+  displayDomain,
+  formatAddress,
+  formatDistanceBadge,
+  presentValue,
+  safeUrl,
+} from './referralFormat'
 
 interface PhysicalTherapyCardProps {
   therapist: TherapistType
@@ -10,33 +16,6 @@ interface PhysicalTherapyCardProps {
   onSelect?: (id: number) => void
 }
 
-/** The badge on a row: "6 min · 2.3 mi", or the honest estimate form. */
-function driveBadge(therapist: TherapistType) {
-  const miles = therapist.drive_distance_miles ?? therapist.distance
-  const isEstimate =
-    therapist.drive_time_source === 'estimate' ||
-    therapist.drive_time_minutes === undefined
-
-  if (isEstimate) {
-    return {
-      text:
-        miles === undefined
-          ? 'Distance unavailable'
-          : `~${miles.toFixed(1)} mi straight line`,
-      // A straight-line fallback says so rather than passing itself off as a
-      // route, and dresses down to match.
-      className: 'bg-gray-100 text-gray-600',
-    }
-  }
-  return {
-    text:
-      miles === undefined
-        ? `${therapist.drive_time_minutes} min`
-        : `${therapist.drive_time_minutes} min · ${miles.toFixed(1)} mi`,
-    className: 'bg-[#e5f3ea] text-[#0e5e2f]',
-  }
-}
-
 const PhysicalTherapyCard = forwardRef<HTMLDivElement, PhysicalTherapyCardProps>(
   function PhysicalTherapyCard({ therapist, position, selected, onSelect }, ref) {
     const handleAddressClick = (event: React.MouseEvent) => {
@@ -44,21 +23,32 @@ const PhysicalTherapyCard = forwardRef<HTMLDivElement, PhysicalTherapyCardProps>
       const addressQuery = encodeURIComponent(formatAddress(therapist))
       window.open(
         `https://www.google.com/maps/search/?api=1&query=${addressQuery}`,
-        '_blank'
+        '_blank',
+        'noopener,noreferrer'
       )
     }
 
-    const badge = driveBadge(therapist)
+    const badge = formatDistanceBadge(therapist)
     const phone = presentValue(therapist.phone)
     const fax = presentValue(therapist.fax)
-    const website = presentValue(therapist.website)
-    const referralFormUrl = presentValue(therapist.referral_form_url)
+    const email = presentValue(therapist.email)
+    const websiteUrl = safeUrl(therapist.website)
+    const referralFormUrl = safeUrl(therapist.referral_form_url)
 
     return (
       <div
         ref={ref}
+        role="button"
+        tabIndex={0}
+        aria-pressed={selected}
         onClick={() => onSelect?.(therapist.id)}
-        className={`relative flex gap-3.5 px-4 lg:px-5 py-3.5 border-b border-[#eef2f6] cursor-pointer transition-colors ${
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault()
+            onSelect?.(therapist.id)
+          }
+        }}
+        className={`relative flex gap-3.5 px-4 lg:px-5 py-3.5 border-b border-[#eef2f6] cursor-pointer transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2f7dd1] ${
           selected ? 'bg-[#f0f7ff]' : 'hover:bg-[#f8fafc]'
         }`}
       >
@@ -80,31 +70,37 @@ const PhysicalTherapyCard = forwardRef<HTMLDivElement, PhysicalTherapyCardProps>
               {therapist.name}
             </h2>
             <span
-              className={`shrink-0 font-plexmono text-[12.5px] font-medium px-2 py-0.5 rounded whitespace-nowrap ${badge.className}`}
+              className={`shrink-0 font-plexmono text-[12.5px] font-medium px-2 py-0.5 rounded whitespace-nowrap ${
+                badge.isEstimate
+                  ? 'bg-gray-100 text-gray-600'
+                  : 'bg-[#e5f3ea] text-[#0e5e2f]'
+              }`}
             >
               {badge.text}
             </span>
           </div>
 
-          <p
-            className="text-[13.5px] text-[#42566b] mt-0.5 hover:underline"
+          <button
+            type="button"
+            className="block text-left text-[13.5px] text-[#42566b] mt-0.5 hover:underline"
             onClick={handleAddressClick}
           >
             {formatAddress(therapist)}
-          </p>
+          </button>
 
-          <div className="flex flex-wrap gap-x-3.5 gap-y-0.5 text-[12.5px] text-[#8195a8] mt-1">
+          <div className="flex flex-wrap gap-x-3.5 gap-y-0.5 text-[12.5px] text-[#5b7186] mt-1">
             {phone && <span>{phone}</span>}
             {fax && <span>Fax {fax}</span>}
-            {website && (
+            {email && <span>{email}</span>}
+            {websiteUrl && (
               <a
-                href={therapist.website}
+                href={websiteUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:underline"
                 onClick={(event) => event.stopPropagation()}
               >
-                {displayDomain(website)}
+                {displayDomain(websiteUrl)}
               </a>
             )}
             {referralFormUrl && (

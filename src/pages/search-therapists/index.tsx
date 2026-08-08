@@ -9,6 +9,9 @@ import { SearchMeta, SearchValidationError, TherapistType } from './types'
 import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { Link } from 'react-router-dom'
 
+// Keep DEFAULT_RADIUS in step with PT_SEARCH_DEFAULT_RADIUS_MILES on the API.
+// The server clamps to 1-100; the UI floor of 5 is deliberately stricter
+// because a sub-5-mile pelvic floor PT search is never what a clinician wants.
 const DEFAULT_RADIUS = 15
 const RADIUS_STEP = 5
 const MIN_RADIUS = 5
@@ -128,12 +131,12 @@ export default function SearchTherapists() {
             className="flex items-center gap-2 text-[#9db8d2] hover:text-white transition-colors"
           >
             <span aria-hidden="true">&larr;</span>
-            <span className="font-semibold text-[15px] text-white">
+            <h1 className="font-semibold text-[15px] text-white">
               PT referral
-            </span>
+            </h1>
           </Link>
 
-          <label className="flex items-center bg-[#1b3d5e] border border-[#2d5479] rounded-lg overflow-hidden focus-within:border-[#2f7dd1]">
+          <label className="flex items-center bg-[#1b3d5e] border border-[#2d5479] rounded-lg overflow-hidden focus-within:border-[#2f7dd1] focus-within:ring-2 focus-within:ring-[#2f7dd1]">
             <span className="text-[11px] uppercase tracking-[0.08em] text-[#7ea4c8] pl-3 pr-2">
               ZIP
             </span>
@@ -144,9 +147,14 @@ export default function SearchTherapists() {
               value={zipCode}
               placeholder="_____"
               aria-label="Patient ZIP code"
-              className="bg-transparent border-none outline-none text-white font-plexmono font-medium text-[17px] w-24 py-2 pr-3 placeholder:text-[#4a6b8c]"
+              className="bg-transparent border-none outline-none text-white font-plexmono font-medium text-[17px] w-24 py-2 pr-3 placeholder:text-[#4a6b8c] focus:ring-0"
               onChange={(event) => {
-                setIsTyping(true)
+                // Only flag typing when the value actually diverges from the
+                // settled one: if the clinician types a digit and backspaces
+                // it within the debounce window, the debounced value never
+                // changes, the effect never re-runs, and an unconditional
+                // setIsTyping(true) would leave the skeleton on forever.
+                setIsTyping(event.target.value.trim() !== debouncedValue.trim())
                 setZipCode(event.target.value)
               }}
             />
@@ -179,18 +187,28 @@ export default function SearchTherapists() {
           {meta && !showSkeleton && (
             <div className="text-[13px] text-[#9db8d2]">
               <span className="font-plexmono text-white">{therapists.length}</span>{' '}
-              results &middot; ranked by drive time
+              result{therapists.length === 1 ? '' : 's'} &middot;{' '}
+              {/* Never claim drive-time ranking when the banner below is
+                  simultaneously admitting the drive times are missing. */}
+              {meta.degraded ? 'ranked by distance' : 'ranked by drive time'}
             </div>
           )}
 
           <div className="flex-1" />
 
+          {/* Both actions freeze during a search: the state still holds the
+              PREVIOUS patient's results for the debounce+fetch window, and a
+              handout printed in that window would be for the wrong ZIP. */}
           <div className="flex gap-2.5">
-            <CopyForAvsButton therapists={therapists} zip={meta?.zip ?? ''} />
+            <CopyForAvsButton
+              therapists={therapists}
+              zip={meta?.zip ?? ''}
+              disabled={!hasResults || showSkeleton}
+            />
             <button
               type="button"
               onClick={() => window.print()}
-              disabled={!hasResults}
+              disabled={!hasResults || showSkeleton}
               className="px-4 py-2 rounded-lg bg-[#2f7dd1] text-white text-[13px] font-semibold hover:bg-[#2568b0] transition-colors disabled:opacity-40 disabled:pointer-events-none"
             >
               Print handout
@@ -230,14 +248,24 @@ export default function SearchTherapists() {
 
       {showSkeleton && (
         <div className="lg:w-[46%] bg-white print:hidden" role="status">
+          <span className="sr-only">Loading results&hellip;</span>
           {Array.from('000000').map((_, index) => (
             <Loading key={index.toString()} />
           ))}
         </div>
       )}
 
-      {!showSkeleton && !hasResults && !errorMessage && (
-        <div className="py-24 text-center text-gray-400 text-[15px] print:hidden">
+      {/* A search that genuinely found nothing is not the same page state as
+          "nothing typed yet": the onboarding prompt under a toolbar reading
+          "0 results" would contradict itself. */}
+      {!showSkeleton && !hasResults && !errorMessage && meta && (
+        <div className="py-24 text-center text-gray-600 text-[15px] print:hidden">
+          No physical therapy locations found near {meta.zip}.
+        </div>
+      )}
+
+      {!showSkeleton && !hasResults && !errorMessage && !meta && (
+        <div className="py-24 text-center text-gray-600 text-[15px] print:hidden">
           Enter the patient&rsquo;s 5-digit ZIP code to find nearby pelvic floor
           physical therapy.
         </div>
@@ -279,7 +307,11 @@ export default function SearchTherapists() {
         </div>
       )}
 
-      {hasResults && meta && <PrintHandout therapists={therapists} zip={meta.zip} />}
+      {/* Unmounted during a search so Ctrl+P cannot capture the previous
+          patient's handout while the screen shows skeletons. */}
+      {hasResults && meta && !showSkeleton && (
+        <PrintHandout therapists={therapists} zip={meta.zip} />
+      )}
     </div>
   )
 }

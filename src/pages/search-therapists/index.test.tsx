@@ -281,6 +281,92 @@ describe('SearchTherapists result banners', () => {
     expect(screen.getAllByRole('status').length).toBeGreaterThan(0)
   })
 
+  it('clears results and returns to the prompt when the ZIP is cleared', async () => {
+    search.mockResolvedValue({ therapists: [therapist()], meta: meta() })
+    render(
+      <MemoryRouter>
+        <SearchTherapists />
+      </MemoryRouter>
+    )
+    const input = screen.getByLabelText('Patient ZIP code')
+    await userEvent.type(input, '54235')
+    await waitFor(
+      () => expect(screen.getAllByText('Green Bay PT').length).toBeGreaterThan(0),
+      AFTER_DEBOUNCE
+    )
+
+    await userEvent.clear(input)
+    await waitFor(
+      () =>
+        expect(
+          screen.getByText(/Enter the patient.s 5-digit ZIP code/)
+        ).toBeInTheDocument(),
+      AFTER_DEBOUNCE
+    )
+    expect(screen.queryAllByText('Green Bay PT')).toHaveLength(0)
+    expect(search).toHaveBeenCalledTimes(1)
+  })
+
+  it('says so when a search genuinely found nothing, instead of the onboarding prompt', async () => {
+    search.mockResolvedValue({ therapists: [], meta: meta({ result_count: 0 }) })
+    await typeZip('54235')
+
+    await waitFor(
+      () =>
+        expect(
+          screen.getByText(/No physical therapy locations found near 54235/)
+        ).toBeInTheDocument(),
+      AFTER_DEBOUNCE
+    )
+    expect(
+      screen.queryByText(/Enter the patient.s 5-digit ZIP code/)
+    ).not.toBeInTheDocument()
+  })
+
+  it('does not leave the skeleton on when the input settles back to its old value', async () => {
+    render(
+      <MemoryRouter>
+        <SearchTherapists />
+      </MemoryRouter>
+    )
+    const input = screen.getByLabelText('Patient ZIP code')
+    // Type a digit and immediately erase it: the debounced value never
+    // changes, so nothing but the onChange handler can clear the skeleton.
+    await userEvent.type(input, '5')
+    await userEvent.clear(input)
+
+    expect(screen.queryAllByRole('status')).toHaveLength(0)
+    expect(
+      screen.getByText(/Enter the patient.s 5-digit ZIP code/)
+    ).toBeInTheDocument()
+  })
+
+  it('freezes Print and Copy while a new search settles -- stale results must not print', async () => {
+    search.mockResolvedValue({ therapists: [therapist()], meta: meta() })
+    render(
+      <MemoryRouter>
+        <SearchTherapists />
+      </MemoryRouter>
+    )
+    const input = screen.getByLabelText('Patient ZIP code')
+
+    expect(screen.getByRole('button', { name: /print handout/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /copy for avs/i })).toBeDisabled()
+
+    await userEvent.type(input, '54235')
+    await waitFor(
+      () => expect(screen.getByRole('button', { name: /print handout/i })).toBeEnabled(),
+      AFTER_DEBOUNCE
+    )
+
+    // Start typing the NEXT patient's ZIP: the old results are still in state,
+    // and printing them would hand this patient the previous patient's list.
+    await userEvent.clear(input)
+    await userEvent.type(input, '54301')
+    expect(screen.getByRole('button', { name: /print handout/i })).toBeDisabled()
+    expect(screen.getByRole('button', { name: /copy for avs/i })).toBeDisabled()
+  })
+
   it('ignores a slow earlier search that lands after a faster later one', async () => {
     let resolveFirst!: (value: {
       therapists: TherapistType[]

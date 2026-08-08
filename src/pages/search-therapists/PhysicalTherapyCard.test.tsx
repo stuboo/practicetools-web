@@ -136,7 +136,8 @@ describe('PhysicalTherapyCard', () => {
         `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
           '123 Main St, Suite 200, Green Bay, WI, 54301'
         )}`,
-        '_blank'
+        '_blank',
+        'noopener,noreferrer'
       )
     })
   })

@@ -8,6 +8,7 @@ import {
   formatDistanceBadge,
   formatTravel,
   presentValue,
+  safeUrl,
 } from './referralFormat'
 import { TherapistType } from './types'
 
@@ -115,19 +116,47 @@ describe('buildAvsText', () => {
 describe('formatTravel / formatDistanceBadge', () => {
   it('renders a real drive time', () => {
     expect(formatTravel(therapist())).toBe('About 28 minutes away by car (24 miles)')
-    expect(formatDistanceBadge(therapist())).toBe('28 min drive · 24.3 mi')
+    expect(formatDistanceBadge(therapist())).toEqual({
+      text: '28 min · 24.3 mi',
+      isEstimate: false,
+    })
   })
 
   it('renders an estimate without inventing a duration', () => {
     const estimate = therapist({ drive_time_source: 'estimate', drive_time_minutes: undefined })
     expect(formatTravel(estimate)).toBe('About 24 miles away (straight-line estimate)')
-    expect(formatDistanceBadge(estimate)).toBe('~24.3 mi (straight line)')
+    expect(formatDistanceBadge(estimate)).toEqual({
+      text: '~24.3 mi straight line',
+      isEstimate: true,
+    })
   })
 
   it('handles a missing drive time as an estimate rather than crashing', () => {
     const bare = therapist({ drive_time_minutes: undefined, drive_time_source: undefined })
-    expect(formatDistanceBadge(bare)).toBe('~24.3 mi (straight line)')
+    expect(formatDistanceBadge(bare)).toEqual({
+      text: '~24.3 mi straight line',
+      isEstimate: true,
+    })
   })
+})
+
+describe('safeUrl', () => {
+  it('passes http and https URLs through', () => {
+    expect(safeUrl('https://example.com/form.pdf')).toBe('https://example.com/form.pdf')
+    expect(safeUrl('http://example.com')).toBe('http://example.com')
+  })
+
+  it('prefixes a scheme onto bare-domain records instead of making them relative', () => {
+    expect(safeUrl('example.com')).toBe('https://example.com')
+    expect(safeUrl('  example.com/contact  ')).toBe('https://example.com/contact')
+  })
+
+  it.each(['javascript:alert(1)', 'data:text/html,x', 'mailto:a@b.com', 'n/a', '', undefined])(
+    'refuses %j -- these fields are data, not code',
+    (value) => {
+      expect(safeUrl(value)).toBeUndefined()
+    }
+  )
 })
 
 describe('presentValue', () => {

@@ -140,7 +140,7 @@ export default function ResultsMap({
               {index + 1}. {therapist.name}
             </strong>
             <br />
-            {formatDistanceBadge(therapist)}
+            {formatDistanceBadge(therapist).text}
           </Popup>
         </Marker>
       ))}

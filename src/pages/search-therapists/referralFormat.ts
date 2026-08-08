@@ -69,15 +69,55 @@ export function formatTravel(therapist: TherapistType): string {
   return milesText ? `${minuteText} (${milesText})` : minuteText
 }
 
-/** The badge on a result card: "28 min drive - 24.3 mi", or the estimate form. */
-export function formatDistanceBadge(therapist: TherapistType): string {
+/**
+ * The badge on a result row and its map popup: "28 min · 24.3 mi", or the
+ * honest estimate form. One function so the row and the pin can never word
+ * the same fact two different ways. A straight-line fallback says so rather
+ * than passing itself off as a route.
+ */
+export function formatDistanceBadge(therapist: TherapistType): {
+  text: string
+  isEstimate: boolean
+} {
   const miles = therapist.drive_distance_miles ?? therapist.distance
+  const isEstimate =
+    therapist.drive_time_source === 'estimate' ||
+    therapist.drive_time_minutes === undefined
 
-  if (therapist.drive_time_source === 'estimate' || therapist.drive_time_minutes === undefined) {
-    return miles === undefined ? 'Distance unavailable' : `~${miles.toFixed(1)} mi (straight line)`
+  if (isEstimate) {
+    return {
+      text:
+        miles === undefined
+          ? 'Distance unavailable'
+          : `~${miles.toFixed(1)} mi straight line`,
+      isEstimate: true,
+    }
   }
-  const minutes = `${therapist.drive_time_minutes} min drive`
-  return miles === undefined ? minutes : `${minutes} · ${miles.toFixed(1)} mi`
+  const minutes = `${therapist.drive_time_minutes} min`
+  return {
+    text: miles === undefined ? minutes : `${minutes} · ${miles.toFixed(1)} mi`,
+    isEstimate: false,
+  }
+}
+
+/**
+ * An href that is safe to render from database content: http(s) only, with a
+ * scheme prefixed for bare-domain records ("example.com"). Anything else --
+ * javascript:, data:, mailto:, garbage -- returns undefined and the link is
+ * simply not rendered. These fields are populated through admin forms and
+ * CSV imports, so they are data, not code.
+ */
+export function safeUrl(value?: string): string | undefined {
+  const present = presentValue(value)
+  if (!present) return undefined
+  const candidate = /^[a-z][a-z0-9+.-]*:/i.test(present) ? present : `https://${present}`
+  try {
+    const parsed = new URL(candidate)
+    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') return candidate
+  } catch {
+    return undefined
+  }
+  return undefined
 }
 
 export function directionsUrl(therapist: TherapistType): string {
@@ -93,9 +133,10 @@ export function buildEntries(therapists: TherapistType[]): ReferralEntry[] {
     address: formatAddress(therapist),
     phone: presentValue(therapist.phone),
     fax: presentValue(therapist.fax),
-    website: presentValue(therapist.website)
-      ? bareDomain(presentValue(therapist.website) as string)
-      : undefined,
+    website: (() => {
+      const website = presentValue(therapist.website)
+      return website ? bareDomain(website) : undefined
+    })(),
     travel: formatTravel(therapist),
     therapist,
     directionsUrl: directionsUrl(therapist),
