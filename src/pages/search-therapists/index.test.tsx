@@ -53,10 +53,9 @@ describe('SearchTherapists ZIP gating', () => {
     expect(search).toHaveBeenCalledWith('54235', 15)
   })
 
-  it('debounces the radius slider instead of searching per drag step', async () => {
-    // Regression: `isFilterApplied` was derived from the live filter and was an
-    // effect dependency, so the first pixel of a drag flipped it false->true
-    // and fired a search with no debounce at all.
+  it('debounces the radius stepper instead of searching per click', async () => {
+    // A clinician tapping + several times to reach a radius should cost one
+    // search when the clicks settle, not one per click.
     render(
       <MemoryRouter>
         <SearchTherapists />
@@ -65,12 +64,10 @@ describe('SearchTherapists ZIP gating', () => {
     await userEvent.type(screen.getByLabelText('Patient ZIP code'), '54235')
     await waitFor(() => expect(search).toHaveBeenCalledTimes(1), AFTER_DEBOUNCE)
 
-    await userEvent.click(screen.getByRole('button', { name: /filters/i }))
-    const radius = await screen.findByRole('spinbutton')
-
-    // Sweep the radius the way a drag does: many changes in quick succession.
-    for (const value of ['10', '20', '30', '40', '50']) {
-      fireEvent.change(radius, { target: { value } })
+    const increase = screen.getByRole('button', { name: /increase search radius/i })
+    // 15 -> 50 in quick succession.
+    for (let i = 0; i < 7; i++) {
+      fireEvent.click(increase)
     }
     expect(search).toHaveBeenCalledTimes(1)
 

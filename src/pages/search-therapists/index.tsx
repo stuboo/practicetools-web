@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import PhysicalTherapyCard from './PhysicalTherapyCard'
 import Loading from './Loading'
 import ResultsMap from './ResultsMap'
@@ -8,30 +8,11 @@ import { useDebounce } from '../../hooks/useDebounce'
 import { SearchMeta, SearchValidationError, TherapistType } from './types'
 import PhysicalTherapistAPI from '../../api/physicaltherapist'
 import { Link } from 'react-router-dom'
-import Container from '../../components/container'
-import { MdOutlineFilterList } from 'react-icons/md'
-import { Popover, Transition } from '@headlessui/react'
-import Button from '../../components/button'
-import { Slider } from '../../components/slider'
-import isEqual from 'lodash/isEqual'
 
-// 5 miles was empty for most rural ZIPs, so nearly every search fell through
-// to the auto-expand path and the "showing the nearest instead" banner became
-// the normal case rather than the exception it is meant to flag. Keep this in
-// step with PT_SEARCH_DEFAULT_RADIUS_MILES on the API.
-const DEFAULT_RADIUS_MILES = 15
-
-// Distinct from the default: the slider floor used to be defaultFilter.radius,
-// which silently made the default the *minimum* too. Matches the server's
-// clamp (1-100 miles) so the UI cannot ask for something the API will reject.
-const MIN_RADIUS_MILES = 1
-const MAX_RADIUS_MILES = 100
-
-const defaultFilter: {
-  radius: number
-} = {
-  radius: DEFAULT_RADIUS_MILES,
-}
+const DEFAULT_RADIUS = 15
+const RADIUS_STEP = 5
+const MIN_RADIUS = 5
+const MAX_RADIUS = 100
 
 const ZIP_PATTERN = /^\d{5}$/
 
@@ -46,27 +27,12 @@ export default function SearchTherapists() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [selectedId, setSelectedId] = useState<number | null>(null)
 
-  const [filter, setFilter] = useState(defaultFilter)
-  // Matches the ZIP input's delay. A slider drag emits a change per pixel, and
-  // every one of them is a search: a request logged against the per-IP hourly
-  // limit, plus a spinner replacing results the clinician is mid-sentence
-  // about. Waiting for the drag to settle costs a second and avoids both.
-  const debouncedFilter = useDebounce(filter, 1000)
-
-  // Live, so the Filters button lights up the moment the slider moves rather
-  // than a second later.
-  const isFilterApplied = !isEqual(filter, defaultFilter)
-
-  // Settled, and the only radius the effect is allowed to see. Deriving it as
-  // one primitive keeps the debounce honest: an `isFilterApplied` computed
-  // from the live filter would flip false->true on the first pixel of a drag
-  // and, being an effect dependency, fire a search immediately -- skipping the
-  // debounce entirely for exactly the interaction it exists to protect.
-  //
-  // Always an explicit number, never undefined-to-mean-default: two defaults
-  // that have to be kept in agreement across a network boundary is a bug
-  // waiting for one of them to be edited alone.
-  const searchRadius = debouncedFilter.radius
+  const [radius, setRadius] = useState(DEFAULT_RADIUS)
+  // Matches the ZIP input's delay. Each stepper click is a search: a request
+  // logged against the per-IP hourly limit, plus a spinner replacing results
+  // the clinician is mid-sentence about. Waiting for the clicks to settle
+  // costs a second and avoids both.
+  const debouncedRadius = useDebounce(radius, 1000)
 
   const cardRefs = useRef<Record<number, HTMLDivElement | null>>({})
   // Guards against a slow earlier search landing after a faster later one and
@@ -100,7 +66,7 @@ export default function SearchTherapists() {
       try {
         const result = await PhysicalTherapistAPI.searchTherapistsByZipCode(
           trimmed,
-          searchRadius
+          debouncedRadius
         )
         if (currentRequest !== requestId.current) return
         setTherapists(result.therapists)
@@ -122,20 +88,26 @@ export default function SearchTherapists() {
 
     search()
     // Both dependencies are debounced values, so nothing here can fire on a
-    // keystroke or a slider pixel.
+    // keystroke or a stepper click.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedValue, searchRadius])
+  }, [debouncedValue, debouncedRadius])
 
   const handleSelect = useCallback((id: number) => {
     setSelectedId(id)
     cardRefs.current[id]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [])
 
+  const stepRadius = (direction: 1 | -1) => {
+    setRadius((current) =>
+      Math.min(MAX_RADIUS, Math.max(MIN_RADIUS, current + direction * RADIUS_STEP))
+    )
+  }
+
   const hasResults = therapists.length > 0
   const showSkeleton = isLoading || isTyping
   // The server expands past the radius whenever it holds fewer than the
   // minimum number of results, which includes "one clinic was in range".
-  // Saying "no locations within 5 miles" above a card reading 0.7 mi would
+  // Saying "no locations within 15 miles" above a row reading 0.7 mi would
   // read as a bug to the clinician, so the banner counts what is actually in
   // range rather than assuming zero.
   const withinRadiusCount = meta
@@ -147,207 +119,161 @@ export default function SearchTherapists() {
     : 0
 
   return (
-    <div className="flex flex-col bg-red">
-      <Container bgColor="bg-gray-100">
-        <div className="h-fit py-6 lg:py-0 lg:h-48 flex flex-col justify-center items-center bg-gray-100 print:hidden">
-          <div className="flex justify-start w-full mb-4">
-            <Link to={'/'} className="flex items-center self-start gap-2 lg:gap-4">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 h-5 lg:w-6 lg:h-6"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
-                />
-              </svg>
+    <div className="flex flex-col font-plex">
+      {/* Console toolbar: every control and action in one bar. */}
+      <div className="bg-[#0f2a43] text-white print:hidden">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-3 px-4 lg:px-6 py-3">
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-[#9db8d2] hover:text-white transition-colors"
+          >
+            <span aria-hidden="true">&larr;</span>
+            <span className="font-semibold text-[15px] text-white">
+              PT referral
+            </span>
+          </Link>
 
-              <h1 className="text-md lg:text-2xl font-light">Go Back</h1>
-            </Link>
+          <label className="flex items-center bg-[#1b3d5e] border border-[#2d5479] rounded-lg overflow-hidden focus-within:border-[#2f7dd1]">
+            <span className="text-[11px] uppercase tracking-[0.08em] text-[#7ea4c8] pl-3 pr-2">
+              ZIP
+            </span>
+            <input
+              type="text"
+              inputMode="numeric"
+              maxLength={5}
+              value={zipCode}
+              placeholder="_____"
+              aria-label="Patient ZIP code"
+              className="bg-transparent border-none outline-none text-white font-plexmono font-medium text-[17px] w-24 py-2 pr-3 placeholder:text-[#4a6b8c]"
+              onChange={(event) => {
+                setIsTyping(true)
+                setZipCode(event.target.value)
+              }}
+            />
+          </label>
+
+          <div className="flex items-center border border-[#2d5479] rounded-lg overflow-hidden text-[13px]">
+            <button
+              type="button"
+              aria-label="Decrease search radius"
+              disabled={radius <= MIN_RADIUS}
+              onClick={() => stepRadius(-1)}
+              className="bg-[#1b3d5e] text-[#7ea4c8] hover:text-white w-8 h-9 text-base disabled:opacity-40"
+            >
+              &minus;
+            </button>
+            <div className="bg-[#16324f] px-3 leading-9 font-plexmono text-white">
+              {radius} mi
+            </div>
+            <button
+              type="button"
+              aria-label="Increase search radius"
+              disabled={radius >= MAX_RADIUS}
+              onClick={() => stepRadius(1)}
+              className="bg-[#1b3d5e] text-[#7ea4c8] hover:text-white w-8 h-9 text-base disabled:opacity-40"
+            >
+              +
+            </button>
           </div>
 
-          <div className="flex flex-col lg:flex-row gap-4 lg:gap-8">
-            <div className="flex flex-col">
-              <input
-                type="text"
-                inputMode="numeric"
-                maxLength={5}
-                value={zipCode}
-                placeholder="Enter Zip"
-                aria-label="Patient ZIP code"
-                className="px-8 py-4 text-gray-900 text-2xl font-bold outline-4 transition-[outline] duration-200 outline-gray-600/20 focus:outline focus:rounded-md"
-                onChange={(event) => {
-                  setIsTyping(true)
-                  setZipCode(event.target.value)
-                }}
-              />
-              {errorMessage && !showSkeleton && (
-                <p className="text-red-700 text-sm mt-2 font-semibold" role="alert">
-                  {errorMessage}
-                </p>
-              )}
+          {meta && !showSkeleton && (
+            <div className="text-[13px] text-[#9db8d2]">
+              <span className="font-plexmono text-white">{therapists.length}</span>{' '}
+              results &middot; ranked by drive time
             </div>
+          )}
 
-            <Popover className="relative">
-              <Popover.Button
-                className={`px-8 py-4 flex gap-3 items-center  text-2xl font-bold outline-4 transition-all duration-200 outline-gray-600/20 focus:outline focus:rounded-md w-full lg:w-56  ${
-                  isFilterApplied
-                    ? 'bg-blue-600 text-white'
-                    : 'text-gray-900 bg-gray-200'
-                }`}
-              >
-                <MdOutlineFilterList />
-                Filters
-                {/* Badge with number of filters applied */}
-                <div
-                  className={`w-8 h-8 flex items-center justify-center rounded-full bg-white text-blue-600 transition-all duration-200 ${
-                    isFilterApplied ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  1
-                </div>
-              </Popover.Button>
+          <div className="flex-1" />
 
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
-                <Popover.Panel className="absolute rounded-xl bg-blue-100 z-20 mt-3 w-[400px] min-h-[300px] transform px-4 py-4 h-full shadow-xl">
-                  <div className="flex flex-col h-full">
-                    <div className="flex flex-col flex-grow">
-                      <hr />
-                      <h4 className="text-lg text-blue-900">Radius</h4>
-                      <div className="flex gap-4">
-                        <Slider
-                          defaultValue={[defaultFilter.radius]}
-                          value={[filter.radius]}
-                          min={MIN_RADIUS_MILES}
-                          max={MAX_RADIUS_MILES}
-                          step={1}
-                          componentStyle={{
-                            ringOffsetBg: 'ring-offset-blue-900',
-                            trackBg: 'bg-white',
-                            selectedBg: 'bg-blue-900',
-                            thumbBg: 'bg-blue-900',
-                            thumbBorder: 'border-white',
-                          }}
-                          onValueChange={(value) =>
-                            setFilter({
-                              ...filter,
-                              radius: Number(value),
-                            })
-                          }
-                        />
-                        <input
-                          type="number"
-                          value={filter.radius}
-                          step={1}
-                          min={MIN_RADIUS_MILES}
-                          max={MAX_RADIUS_MILES}
-                          className="block rounded-md px-4 border-0 py-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 h-12 text-center w-20"
-                          onChange={(e) => {
-                            setFilter({
-                              ...filter,
-                              radius: Number(e.target.value),
-                            })
-                          }}
-                        />
-                      </div>
-                    </div>
-
-                    <div className="flex justify-between">
-                      <Button
-                        title="Reset"
-                        onClick={() => setFilter(defaultFilter)}
-                      />
-                      {/* <Button title="Apply" colorScheme="blue" /> */}
-                    </div>
-                  </div>
-                </Popover.Panel>
-              </Transition>
-            </Popover>
+          <div className="flex gap-2.5">
+            <CopyForAvsButton therapists={therapists} zip={meta?.zip ?? ''} />
+            <button
+              type="button"
+              onClick={() => window.print()}
+              disabled={!hasResults}
+              className="px-4 py-2 rounded-lg bg-[#2f7dd1] text-white text-[13px] font-semibold hover:bg-[#2568b0] transition-colors disabled:opacity-40 disabled:pointer-events-none"
+            >
+              Print handout
+            </button>
           </div>
         </div>
-      </Container>
+      </div>
+
+      {errorMessage && !showSkeleton && (
+        <p
+          role="alert"
+          className="px-4 lg:px-6 py-2.5 bg-red-50 text-red-800 text-sm font-semibold border-b border-red-100 print:hidden"
+        >
+          {errorMessage}
+        </p>
+      )}
+
+      {meta && !showSkeleton && hasResults && (meta.expanded || meta.degraded) && (
+        <div className="px-4 lg:px-6 py-2.5 bg-amber-50 border-b border-amber-100 print:hidden">
+          {meta.expanded && (
+            <p className="text-sm font-semibold text-amber-800">
+              {withinRadiusCount === 0
+                ? `No locations within ${meta.radius_requested} miles`
+                : `Only ${withinRadiusCount} location${
+                    withinRadiusCount === 1 ? '' : 's'
+                  } within ${meta.radius_requested} miles`}{' '}
+              &mdash; showing the {therapists.length} nearest.
+            </p>
+          )}
+          {meta.degraded && (
+            <p className="text-sm text-amber-700">
+              Drive times unavailable &mdash; distances are straight-line.
+            </p>
+          )}
+        </div>
+      )}
 
       {showSkeleton && (
-        <div className="px-10 py-12 grid md:grid-cols-2 gap-4 overflow-auto print:hidden">
-          {Array.from('00000000').map((_, index) => (
+        <div className="lg:w-[46%] bg-white print:hidden" role="status">
+          {Array.from('000000').map((_, index) => (
             <Loading key={index.toString()} />
           ))}
         </div>
       )}
 
-      {!showSkeleton && hasResults && meta && (
-        <div className="px-4 lg:px-10 py-8 print:hidden">
-          <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
-            <div>
-              {meta.expanded && (
-                <p className="text-lg font-semibold text-amber-800">
-                  {withinRadiusCount === 0
-                    ? `No locations within ${meta.radius_requested} miles`
-                    : `Only ${withinRadiusCount} location${
-                        withinRadiusCount === 1 ? '' : 's'
-                      } within ${meta.radius_requested} miles`}{' '}
-                  &mdash; showing the {therapists.length} nearest.
-                </p>
-              )}
-              {meta.degraded && (
-                <p className="text-sm text-gray-500">
-                  Drive times unavailable &mdash; distances are straight-line.
-                </p>
-              )}
-            </div>
+      {!showSkeleton && !hasResults && !errorMessage && (
+        <div className="py-24 text-center text-gray-400 text-[15px] print:hidden">
+          Enter the patient&rsquo;s 5-digit ZIP code to find nearby pelvic floor
+          physical therapy.
+        </div>
+      )}
 
-            <div className="flex gap-3">
-              <CopyForAvsButton therapists={therapists} zip={meta.zip} />
-              <button
-                type="button"
-                onClick={() => window.print()}
-                className="px-4 py-2 rounded-md bg-blue-700 text-white font-semibold hover:bg-blue-800 transition-colors"
-              >
-                Print handout
-              </button>
-            </div>
+      {!showSkeleton && hasResults && meta && (
+        /* Map above the list when stacked, beside it on wide screens:
+           exam-room displays come in both shapes. */
+        <div className="flex flex-col lg:flex-row print:hidden">
+          <div className="lg:w-[46%] bg-white border-r border-[#dfe6ec]">
+            {therapists.map((therapist, index) => (
+              <PhysicalTherapyCard
+                key={therapist.id}
+                therapist={therapist}
+                position={index + 1}
+                selected={selectedId === therapist.id}
+                onSelect={handleSelect}
+                ref={(node) => {
+                  cardRefs.current[therapist.id] = node
+                }}
+              />
+            ))}
           </div>
 
-          {/* Map above the cards when stacked, beside them on wide screens:
-              exam-room displays come in both shapes. */}
-          <div className="flex flex-col lg:flex-row gap-6">
-            <div className="h-[320px] lg:h-auto lg:w-1/2 lg:order-2">
-              <div className="h-[320px] lg:h-[calc(100vh-14rem)] lg:sticky lg:top-4">
-                <ResultsMap
-                  therapists={therapists}
-                  meta={meta}
-                  selectedId={selectedId}
-                  onSelect={handleSelect}
-                />
+          <div className="order-first lg:order-last lg:w-[54%]">
+            <div className="relative h-[320px] lg:h-screen lg:sticky lg:top-0">
+              <ResultsMap
+                therapists={therapists}
+                meta={meta}
+                selectedId={selectedId}
+                onSelect={handleSelect}
+              />
+              <div className="absolute bottom-3.5 left-3.5 z-[500] bg-[#0f2a43]/90 text-[#cfe0ef] text-xs px-3 py-2 rounded-md pointer-events-none">
+                Pins match list rank &middot;{' '}
+                <span className="text-red-500">&#9670;</span> ZIP {meta.zip}
               </div>
-            </div>
-
-            <div className="lg:w-1/2 lg:order-1 flex flex-col gap-4">
-              {therapists.map((therapist, index) => (
-                <PhysicalTherapyCard
-                  key={therapist.id}
-                  therapist={therapist}
-                  position={index + 1}
-                  selected={selectedId === therapist.id}
-                  onSelect={handleSelect}
-                  ref={(node) => {
-                    cardRefs.current[therapist.id] = node
-                  }}
-                />
-              ))}
             </div>
           </div>
         </div>

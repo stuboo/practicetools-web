@@ -31,6 +31,17 @@ export type ReferralEntry = {
   directionsUrl: string
 }
 
+/**
+ * Some records carry literal "n/a" strings instead of empty fields, and a
+ * handout reading "Fax: n/a" wastes the line. One filter, used by the cards,
+ * the AVS text and the printed handout alike.
+ */
+export function presentValue(value?: string): string | undefined {
+  const trimmed = value?.trim()
+  if (!trimmed || /^n\/?a$/i.test(trimmed)) return undefined
+  return trimmed
+}
+
 /** Full one-line address, skipping any part the record does not have. */
 export function formatAddress(therapist: TherapistType): string {
   const street = [therapist.address, therapist.address_two].filter(Boolean).join(', ')
@@ -80,21 +91,32 @@ export function buildEntries(therapists: TherapistType[]): ReferralEntry[] {
     number: index + 1,
     name: therapist.name,
     address: formatAddress(therapist),
-    phone: therapist.phone || undefined,
-    fax: therapist.fax || undefined,
-    website: therapist.website ? bareDomain(therapist.website) : undefined,
+    phone: presentValue(therapist.phone),
+    fax: presentValue(therapist.fax),
+    website: presentValue(therapist.website)
+      ? bareDomain(presentValue(therapist.website) as string)
+      : undefined,
     travel: formatTravel(therapist),
     therapist,
     directionsUrl: directionsUrl(therapist),
   }))
 }
 
-/** Strip scheme and trailing slash: a printed URL is read, not clicked. */
+/**
+ * Strip scheme, query string and trailing slash: a printed URL is read, not
+ * clicked, and nobody reads a UTM tag aloud.
+ */
 export function bareDomain(website: string): string {
   return website
     .trim()
     .replace(/^https?:\/\//i, '')
+    .replace(/[?#].*$/, '')
     .replace(/\/+$/, '')
+}
+
+/** Just the hostname, for the one-line result row where a path is noise. */
+export function displayDomain(website: string): string {
+  return bareDomain(website).split('/')[0]
 }
 
 /**

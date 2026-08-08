@@ -51,7 +51,7 @@ export default function CopyForAvsButton({ therapists, zip }: CopyForAvsButtonPr
         type="button"
         onClick={handleCopy}
         disabled={therapists.length === 0}
-        className="px-4 py-2 rounded-md border-2 border-gray-800 font-semibold text-gray-900 hover:bg-gray-800 hover:text-white transition-colors disabled:opacity-40 disabled:pointer-events-none"
+        className="px-4 py-2 rounded-lg border border-[#2d5479] text-[13px] font-semibold text-[#cfe0ef] hover:bg-[#1b3d5e] transition-colors disabled:opacity-40 disabled:pointer-events-none"
       >
         {copied ? 'Copied ✓' : 'Copy for AVS'}
       </button>
