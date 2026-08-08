@@ -45,11 +45,18 @@ export default function SearchTherapists() {
   useEffect(() => {
     const trimmed = debouncedValue.trim()
     setIsTyping(false)
+    // Invalidate any in-flight search up front. Without this, the early
+    // returns below leave requestId untouched, and a slow response from the
+    // PREVIOUS ZIP lands after the field was cleared, passes the staleness
+    // check, and resurrects the prior patient's results under an empty input.
+    const currentRequest = ++requestId.current
 
     if (trimmed === '') {
       setTherapists([])
       setMeta(null)
       setErrorMessage(null)
+      // The invalidated in-flight request can no longer clear this itself.
+      setIsLoading(false)
       return
     }
 
@@ -59,10 +66,10 @@ export default function SearchTherapists() {
       setTherapists([])
       setMeta(null)
       setErrorMessage('Enter a 5-digit ZIP code')
+      setIsLoading(false)
       return
     }
 
-    const currentRequest = ++requestId.current
     const search = async () => {
       setIsLoading(true)
       setErrorMessage(null)
@@ -110,7 +117,10 @@ export default function SearchTherapists() {
   // The radius comparison mirrors isTyping: while a stepper change is still
   // debouncing, the visible results (and the print handout) belong to the OLD
   // radius, so the page must read as "searching", not as settled results.
-  const showSkeleton = isLoading || isTyping || radius !== debouncedRadius
+  // Gated on meta so stepping the radius on an empty page does not flash a
+  // loading state for a search that will never fire.
+  const showSkeleton =
+    isLoading || isTyping || (radius !== debouncedRadius && meta !== null)
   // The server expands past the radius whenever it holds fewer than the
   // minimum number of results, which includes "one clinic was in range".
   // Saying "no locations within 15 miles" above a row reading 0.7 mi would
@@ -152,13 +162,17 @@ export default function SearchTherapists() {
               aria-label="Patient ZIP code"
               className="bg-transparent border-none outline-none text-white font-plexmono font-medium text-[17px] w-24 py-2 pr-3 placeholder:text-[#4a6b8c] focus:ring-0"
               onChange={(event) => {
+                // Digits only: a pasted " 12345" would otherwise hit
+                // maxLength as " 1234" and fail validation with no visible
+                // cause.
+                const digits = event.target.value.replace(/\D/g, '').slice(0, 5)
                 // Only flag typing when the value actually diverges from the
                 // settled one: if the clinician types a digit and backspaces
                 // it within the debounce window, the debounced value never
                 // changes, the effect never re-runs, and an unconditional
                 // setIsTyping(true) would leave the skeleton on forever.
-                setIsTyping(event.target.value.trim() !== debouncedValue.trim())
-                setZipCode(event.target.value)
+                setIsTyping(digits !== debouncedValue.trim())
+                setZipCode(digits)
               }}
             />
           </label>
@@ -213,12 +227,12 @@ export default function SearchTherapists() {
             <CopyForAvsButton
               therapists={therapists}
               zip={meta?.zip ?? ''}
-              disabled={!hasResults || showSkeleton}
+              disabled={!hasResults || !meta || showSkeleton}
             />
             <button
               type="button"
               onClick={() => window.print()}
-              disabled={!hasResults || showSkeleton}
+              disabled={!hasResults || !meta || showSkeleton}
               className="px-4 py-2 rounded-lg bg-[#2f7dd1] text-white text-[13px] font-semibold hover:bg-[#2568b0] transition-colors disabled:opacity-40 disabled:pointer-events-none"
             >
               Print handout

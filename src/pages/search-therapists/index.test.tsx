@@ -37,18 +37,31 @@ describe('SearchTherapists ZIP gating', () => {
     search.mockResolvedValue({ therapists: [], meta: null })
   })
 
-  it.each(['1234', 'abcde'])(
-    'sends no request for %j -- a search can cost a billable API call',
-    async (value) => {
-      await typeZip(value)
+  it('sends no request for a short ZIP -- a search can cost a billable API call', async () => {
+    await typeZip('1234')
 
-      await waitFor(
-        () => expect(screen.getByText('Enter a 5-digit ZIP code')).toBeInTheDocument(),
-        AFTER_DEBOUNCE
-      )
-      expect(search).not.toHaveBeenCalled()
-    }
-  )
+    await waitFor(
+      () => expect(screen.getByText('Enter a 5-digit ZIP code')).toBeInTheDocument(),
+      AFTER_DEBOUNCE
+    )
+    expect(search).not.toHaveBeenCalled()
+  })
+
+  it('rejects non-digit input at the field itself', async () => {
+    await typeZip('abcde')
+
+    // The input filters to digits, so nothing was ever entered: no error,
+    // no request, just the untouched prompt.
+    expect(screen.getByLabelText('Patient ZIP code')).toHaveValue('')
+    await waitFor(
+      () =>
+        expect(
+          screen.getByText(/Enter the patient.s 5-digit ZIP code/)
+        ).toBeInTheDocument(),
+      AFTER_DEBOUNCE
+    )
+    expect(search).not.toHaveBeenCalled()
+  })
 
   it('searches once the input is a complete 5-digit ZIP', async () => {
     await typeZip('54235')
@@ -391,6 +404,47 @@ describe('SearchTherapists result banners', () => {
       () => expect(screen.getByRole('button', { name: /print handout/i })).toBeEnabled(),
       AFTER_DEBOUNCE
     )
+  })
+
+  it('does not resurrect results when a slow search lands after the ZIP was cleared', async () => {
+    let resolveSearch!: (value: {
+      therapists: TherapistType[]
+      meta: SearchMeta | null
+    }) => void
+    search.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveSearch = resolve
+        })
+    )
+
+    render(
+      <MemoryRouter>
+        <SearchTherapists />
+      </MemoryRouter>
+    )
+    const input = screen.getByLabelText('Patient ZIP code')
+    await userEvent.type(input, '54235')
+    await waitFor(() => expect(search).toHaveBeenCalledTimes(1), AFTER_DEBOUNCE)
+
+    // Clinician clears the field for the next patient while the first
+    // request is still on the wire.
+    await userEvent.clear(input)
+    await waitFor(
+      () =>
+        expect(
+          screen.getByText(/Enter the patient.s 5-digit ZIP code/)
+        ).toBeInTheDocument(),
+      AFTER_DEBOUNCE
+    )
+
+    // The slow response finally lands. It must not repopulate the page or
+    // re-enable Print under an empty input.
+    resolveSearch({ therapists: [therapist()], meta: meta() })
+    await waitFor(() =>
+      expect(screen.queryAllByText('Green Bay PT')).toHaveLength(0)
+    )
+    expect(screen.getByRole('button', { name: /print handout/i })).toBeDisabled()
   })
 
   it('ignores a slow earlier search that lands after a faster later one', async () => {

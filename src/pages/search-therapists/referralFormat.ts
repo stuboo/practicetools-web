@@ -133,9 +133,11 @@ export function buildEntries(therapists: TherapistType[]): ReferralEntry[] {
     address: formatAddress(therapist),
     phone: presentValue(therapist.phone),
     fax: presentValue(therapist.fax),
+    // Through safeUrl so the printed handout -- the highest-trust artifact
+    // this page produces -- never carries a URL the on-screen row refused.
     website: (() => {
-      const website = presentValue(therapist.website)
-      return website ? bareDomain(website) : undefined
+      const url = safeUrl(therapist.website)
+      return url ? bareDomain(url) : undefined
     })(),
     travel: formatTravel(therapist),
     therapist,
@@ -155,8 +157,14 @@ export function bareDomain(website: string): string {
     .replace(/\/+$/, '')
 }
 
-/** Just the hostname, for the one-line result row where a path is noise. */
+/**
+ * Just the hostname, for the one-line result row where a path is noise.
+ * Parsed with URL so userinfo tricks ("trusted.com@evil.com") cannot make the
+ * link text lead with a domain the href does not actually go to.
+ */
 export function displayDomain(website: string): string {
+  const url = safeUrl(website)
+  if (url) return new URL(url).hostname
   return bareDomain(website).split('/')[0]
 }
 
