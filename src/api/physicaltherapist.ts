@@ -1,6 +1,13 @@
-import { AxiosResponse } from "axios";
+import axios, { AxiosResponse } from "axios";
 import apiClient from "./client";
-import { CreateTherapistType, TherapistType, UpdateTherapistType } from "../pages/search-therapists/types";
+import {
+    CreateTherapistType,
+    SearchMeta,
+    SearchResult,
+    SearchValidationError,
+    TherapistType,
+    UpdateTherapistType,
+} from "../pages/search-therapists/types";
 
 async function getAll(): Promise<TherapistType[]> {
     try {
@@ -11,11 +18,22 @@ async function getAll(): Promise<TherapistType[]> {
     }
 }
 
-async function searchTherapistsByZipCode(zipCode: string, distance = 5): Promise<TherapistType[]> {
+async function searchTherapistsByZipCode(zipCode: string, distance = 15): Promise<SearchResult> {
     try {
-        const response: AxiosResponse<{ data: TherapistType[] }> = await apiClient.get(`/physicaltherapist/distance/${zipCode}?distance=${distance}`);
-        return response.data.data;
+        const response: AxiosResponse<{ data: TherapistType[]; meta?: SearchMeta }> =
+            await apiClient.get(`/physicaltherapist/distance/${zipCode}?distance=${distance}`);
+        return { therapists: response.data.data ?? [], meta: response.data.meta ?? null };
     } catch (error) {
+        // A 422 is the API telling us the ZIP is bad or unknown, in words meant
+        // for the clinician. Flattening it into a generic failure would throw
+        // away the only useful part of the response.
+        if (axios.isAxiosError(error) && error.response?.status === 422) {
+            const message = (error.response.data as { message?: string } | undefined)?.message;
+            throw new SearchValidationError(message || 'That ZIP code was not recognized.');
+        }
+        if (axios.isAxiosError(error) && error.response?.status === 429) {
+            throw new SearchValidationError('Too many searches right now. Please try again shortly.');
+        }
         throw new Error('Failed to fetch therapists.');
     }
 }
