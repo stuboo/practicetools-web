@@ -116,6 +116,19 @@ describe('PhysicalTherapyCard', () => {
     expect(screen.queryByRole('link', { name: /referral form/i })).not.toBeInTheDocument()
   })
 
+  it('selects from the keyboard: the row is a real button, not a mouse-only div', async () => {
+    const onSelect = vi.fn()
+    render(<PhysicalTherapyCard therapist={therapist()} position={1} onSelect={onSelect} />)
+
+    const row = screen.getByRole('button', { name: /Green Bay PT/ })
+    row.focus()
+    await userEvent.keyboard('{Enter}')
+    expect(onSelect).toHaveBeenCalledWith(7)
+
+    await userEvent.keyboard(' ')
+    expect(onSelect).toHaveBeenCalledTimes(2)
+  })
+
   describe('address click', () => {
     afterEach(() => {
       vi.restoreAllMocks()
