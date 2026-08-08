@@ -24,7 +24,8 @@ function numberedIcon(index: number, selected: boolean) {
       display:flex;align-items:center;justify-content:center;
       width:28px;height:28px;border-radius:7px;
       background:${background};color:#fff;
-      font-weight:700;font-size:14px;line-height:1;
+      font-family:'IBM Plex Mono',ui-monospace,monospace;
+      font-weight:500;font-size:14px;line-height:1;
       border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4);
     ">${index + 1}</span>`,
     iconSize: [28, 28],

@@ -107,7 +107,10 @@ export default function SearchTherapists() {
   }
 
   const hasResults = therapists.length > 0
-  const showSkeleton = isLoading || isTyping
+  // The radius comparison mirrors isTyping: while a stepper change is still
+  // debouncing, the visible results (and the print handout) belong to the OLD
+  // radius, so the page must read as "searching", not as settled results.
+  const showSkeleton = isLoading || isTyping || radius !== debouncedRadius
   // The server expands past the radius whenever it holds fewer than the
   // minimum number of results, which includes "one clinic was in range".
   // Saying "no locations within 15 miles" above a row reading 0.7 mi would
@@ -160,7 +163,11 @@ export default function SearchTherapists() {
             />
           </label>
 
-          <div className="flex items-center border border-[#2d5479] rounded-lg overflow-hidden text-[13px]">
+          <div
+            role="group"
+            aria-label="Search radius"
+            className="flex items-center border border-[#2d5479] rounded-lg overflow-hidden text-[13px]"
+          >
             <button
               type="button"
               aria-label="Decrease search radius"
@@ -170,7 +177,10 @@ export default function SearchTherapists() {
             >
               &minus;
             </button>
-            <div className="bg-[#16324f] px-3 leading-9 font-plexmono text-white">
+            <div
+              aria-live="polite"
+              className="bg-[#16324f] px-3 leading-9 font-plexmono text-white"
+            >
               {radius} mi
             </div>
             <button

@@ -365,6 +365,32 @@ describe('SearchTherapists result banners', () => {
     await userEvent.type(input, '54301')
     expect(screen.getByRole('button', { name: /print handout/i })).toBeDisabled()
     expect(screen.getByRole('button', { name: /copy for avs/i })).toBeDisabled()
+    // The print handout must leave the DOM too -- Ctrl+P bypasses the buttons.
+    expect(document.querySelector('#pt-print-handout')).toBeNull()
+  })
+
+  it('freezes Print and Copy while a radius change settles, same as ZIP typing', async () => {
+    search.mockResolvedValue({ therapists: [therapist()], meta: meta() })
+    render(
+      <MemoryRouter>
+        <SearchTherapists />
+      </MemoryRouter>
+    )
+    await userEvent.type(screen.getByLabelText('Patient ZIP code'), '54235')
+    await waitFor(
+      () => expect(screen.getByRole('button', { name: /print handout/i })).toBeEnabled(),
+      AFTER_DEBOUNCE
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: /increase search radius/i }))
+    // The visible results belong to the OLD radius until the debounce settles.
+    expect(screen.getByRole('button', { name: /print handout/i })).toBeDisabled()
+    expect(document.querySelector('#pt-print-handout')).toBeNull()
+
+    await waitFor(
+      () => expect(screen.getByRole('button', { name: /print handout/i })).toBeEnabled(),
+      AFTER_DEBOUNCE
+    )
   })
 
   it('ignores a slow earlier search that lands after a faster later one', async () => {

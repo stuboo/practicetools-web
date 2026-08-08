@@ -35,20 +35,15 @@ const PhysicalTherapyCard = forwardRef<HTMLDivElement, PhysicalTherapyCardProps>
     const websiteUrl = safeUrl(therapist.website)
     const referralFormUrl = safeUrl(therapist.referral_form_url)
 
+    // The container is a plain mouse click target; the rank badge is the
+    // keyboard-accessible select control. A role="button" container would
+    // wrap the address button and links in another button, which ARIA
+    // forbids and screen readers mis-expose.
     return (
       <div
         ref={ref}
-        role="button"
-        tabIndex={0}
-        aria-pressed={selected}
         onClick={() => onSelect?.(therapist.id)}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' || event.key === ' ') {
-            event.preventDefault()
-            onSelect?.(therapist.id)
-          }
-        }}
-        className={`relative flex gap-3.5 px-4 lg:px-5 py-3.5 border-b border-[#eef2f6] cursor-pointer transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-[#2f7dd1] ${
+        className={`relative flex gap-3.5 px-4 lg:px-5 py-3.5 border-b border-[#eef2f6] cursor-pointer transition-colors ${
           selected ? 'bg-[#f0f7ff]' : 'hover:bg-[#f8fafc]'
         }`}
       >
@@ -56,13 +51,20 @@ const PhysicalTherapyCard = forwardRef<HTMLDivElement, PhysicalTherapyCardProps>
           <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#2f7dd1]" />
         )}
 
-        <span
-          className={`shrink-0 w-[26px] h-[26px] mt-0.5 rounded-md flex items-center justify-center font-plexmono text-[13px] text-white ${
+        <button
+          type="button"
+          aria-label={`Select result ${position}: ${therapist.name}`}
+          aria-pressed={selected}
+          onClick={(event) => {
+            event.stopPropagation()
+            onSelect?.(therapist.id)
+          }}
+          className={`shrink-0 w-[26px] h-[26px] mt-0.5 rounded-md flex items-center justify-center font-plexmono text-[13px] text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2f7dd1] ${
             selected ? 'bg-[#2f7dd1]' : 'bg-[#0f2a43]'
           }`}
         >
           {position}
-        </span>
+        </button>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-baseline gap-2.5">

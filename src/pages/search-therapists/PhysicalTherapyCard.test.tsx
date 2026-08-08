@@ -116,17 +116,30 @@ describe('PhysicalTherapyCard', () => {
     expect(screen.queryByRole('link', { name: /referral form/i })).not.toBeInTheDocument()
   })
 
-  it('selects from the keyboard: the row is a real button, not a mouse-only div', async () => {
+  it('selects from the keyboard via the rank badge, a real button', async () => {
     const onSelect = vi.fn()
     render(<PhysicalTherapyCard therapist={therapist()} position={1} onSelect={onSelect} />)
 
-    const row = screen.getByRole('button', { name: /Green Bay PT/ })
-    row.focus()
+    const badge = screen.getByRole('button', { name: /Select result 1: Green Bay PT/ })
+    badge.focus()
     await userEvent.keyboard('{Enter}')
     expect(onSelect).toHaveBeenCalledWith(7)
 
     await userEvent.keyboard(' ')
     expect(onSelect).toHaveBeenCalledTimes(2)
+  })
+
+  it('shows the clinic email and hides a literal "n/a" one', () => {
+    const { rerender } = render(
+      <PhysicalTherapyCard
+        therapist={therapist({ email: 'referrals@greenbaypt.com' })}
+        position={1}
+      />
+    )
+    expect(screen.getByText('referrals@greenbaypt.com')).toBeInTheDocument()
+
+    rerender(<PhysicalTherapyCard therapist={therapist({ email: 'n/a' })} position={1} />)
+    expect(screen.queryByText(/n\/a/i)).not.toBeInTheDocument()
   })
 
   describe('address click', () => {
