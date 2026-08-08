@@ -1,9 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import {
+  bareDomain,
   buildAvsText,
+  buildEntries,
+  displayDomain,
   formatAddress,
   formatDistanceBadge,
   formatTravel,
+  presentValue,
 } from './referralFormat'
 import { TherapistType } from './types'
 
@@ -123,6 +127,59 @@ describe('formatTravel / formatDistanceBadge', () => {
   it('handles a missing drive time as an estimate rather than crashing', () => {
     const bare = therapist({ drive_time_minutes: undefined, drive_time_source: undefined })
     expect(formatDistanceBadge(bare)).toBe('~24.3 mi (straight line)')
+  })
+})
+
+describe('presentValue', () => {
+  it('passes a real value through, trimmed', () => {
+    expect(presentValue('  (920) 555-1234  ')).toBe('(920) 555-1234')
+  })
+
+  it.each([undefined, '', '   '])(
+    'returns undefined for %j so the line is omitted entirely',
+    (value) => {
+      expect(presentValue(value)).toBeUndefined()
+    }
+  )
+
+  it.each(['n/a', 'N/A', 'na', 'NA', ' n/a '])(
+    'filters the literal placeholder %j out of records',
+    (value) => {
+      expect(presentValue(value)).toBeUndefined()
+    }
+  )
+
+  it('does not swallow values that merely start with "na"', () => {
+    expect(presentValue('nashville-pt.com')).toBe('nashville-pt.com')
+    expect(presentValue('n/a ext. 2')).toBe('n/a ext. 2')
+  })
+})
+
+describe('bareDomain / displayDomain', () => {
+  it('strips a query string and fragment -- nobody reads a UTM tag aloud', () => {
+    expect(bareDomain('https://example.com/pelvic?utm_source=x&y=1')).toBe(
+      'example.com/pelvic'
+    )
+    expect(bareDomain('https://example.com/pelvic#hours')).toBe('example.com/pelvic')
+  })
+
+  it('displayDomain keeps only the hostname for the one-line row', () => {
+    expect(displayDomain('https://example.com/clinics/green-bay?ref=pt')).toBe(
+      'example.com'
+    )
+    expect(displayDomain('example.com')).toBe('example.com')
+  })
+})
+
+describe('buildEntries', () => {
+  it('drops literal "n/a" phone, fax and website instead of printing them', () => {
+    const [entry] = buildEntries([
+      therapist({ phone: 'n/a', fax: 'N/A', website: 'n/a' }),
+    ])
+
+    expect(entry.phone).toBeUndefined()
+    expect(entry.fax).toBeUndefined()
+    expect(entry.website).toBeUndefined()
   })
 })
 

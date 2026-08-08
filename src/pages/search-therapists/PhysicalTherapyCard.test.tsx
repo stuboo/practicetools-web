@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import userEvent from '@testing-library/user-event'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import PhysicalTherapyCard from './PhysicalTherapyCard'
 import { TherapistType } from './types'
 
@@ -46,5 +47,97 @@ describe('PhysicalTherapyCard', () => {
     render(<PhysicalTherapyCard therapist={therapist()} position={3} />)
 
     expect(screen.getByText('3')).toBeInTheDocument()
+  })
+
+  it('shows minutes alone when Google answered without a distance', () => {
+    render(
+      <PhysicalTherapyCard
+        therapist={therapist({ drive_distance_miles: undefined, distance: undefined })}
+        position={1}
+      />
+    )
+
+    expect(screen.getByText('28 min')).toBeInTheDocument()
+  })
+
+  it('says "Distance unavailable" when there is no number at all', () => {
+    render(
+      <PhysicalTherapyCard
+        therapist={therapist({
+          drive_time_source: 'estimate',
+          drive_time_minutes: undefined,
+          drive_distance_miles: undefined,
+          distance: undefined,
+        })}
+        position={1}
+      />
+    )
+
+    expect(screen.getByText('Distance unavailable')).toBeInTheDocument()
+  })
+
+  it('hides literal "n/a" phone and fax instead of printing them', () => {
+    render(
+      <PhysicalTherapyCard
+        therapist={therapist({ phone: 'n/a', fax: 'N/A' })}
+        position={1}
+      />
+    )
+
+    expect(screen.queryByText(/n\/a/i)).not.toBeInTheDocument()
+    expect(screen.queryByText(/^Fax/)).not.toBeInTheDocument()
+  })
+
+  it('shows the website as a bare hostname linking to the full URL', () => {
+    render(
+      <PhysicalTherapyCard
+        therapist={therapist({ website: 'https://greenbaypt.com/contact?utm_source=x' })}
+        position={1}
+      />
+    )
+
+    const link = screen.getByRole('link', { name: 'greenbaypt.com' })
+    expect(link).toHaveAttribute('href', 'https://greenbaypt.com/contact?utm_source=x')
+  })
+
+  it('links the referral form only when the record has one', () => {
+    const { rerender } = render(
+      <PhysicalTherapyCard
+        therapist={therapist({ referral_form_url: 'https://example.com/form.pdf' })}
+        position={1}
+      />
+    )
+    expect(screen.getByRole('link', { name: /referral form/i })).toHaveAttribute(
+      'href',
+      'https://example.com/form.pdf'
+    )
+
+    rerender(<PhysicalTherapyCard therapist={therapist()} position={1} />)
+    expect(screen.queryByRole('link', { name: /referral form/i })).not.toBeInTheDocument()
+  })
+
+  describe('address click', () => {
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    it('opens Google Maps with the full address, suite line included', async () => {
+      const open = vi.spyOn(window, 'open').mockImplementation(() => null)
+      render(
+        <PhysicalTherapyCard
+          therapist={therapist({ address_two: 'Suite 200' })}
+          position={1}
+        />
+      )
+
+      await userEvent.click(screen.getByText(/123 Main St/))
+
+      expect(open).toHaveBeenCalledWith(
+        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          '123 Main St, Suite 200, Green Bay, WI, 54301'
+        )}`,
+        '_blank'
+      )
+    })
   })
 })
