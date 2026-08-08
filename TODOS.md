@@ -27,7 +27,7 @@ testFixtures.ts. Deferred from pre-landing review on pt-search-redesign.
 **Priority:** P3
 The white urogy.in nav renders above the navy console toolbar. If the stacked
 look wears thin, route /search-therapists outside Layout the way
-/physical-therapists uses AdminShell. Deliberately accepted for now.
+/admin/physical-therapists uses AdminShell. Deliberately accepted for now.
 
 ### Radius stepper touch targets
 **Priority:** P3

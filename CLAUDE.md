@@ -25,6 +25,17 @@ gh issue close <number>                        # Complete work
 The `.beads/` directory holds the retired bd (beads) tracker's history. It is
 kept for reference only; do not file new work there.
 
+## Documentation Map
+
+There is no root README yet; this file is the entry point.
+
+- `CHANGELOG.md` - user-facing release notes, one entry per version
+- `VERSION` - current version, 4-part MAJOR.MINOR.PATCH.MICRO (kept in sync with `package.json` and the top CHANGELOG entry)
+- `TODOS.md` - deferred work with priorities; completed items move to its Completed section
+- `docs/` - approved specs and PRDs (design-time records, not living docs)
+- `shortener/README.md` - the urogyn.click link shortener subproject
+- `.beads/README.md` - retired issue tracker, reference only
+
 ## Landing the Plane (Session Completion)
 
 **When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
