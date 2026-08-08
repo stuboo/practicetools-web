@@ -1,11 +1,8 @@
-import { Link, Outlet, useLocation } from 'react-router-dom'
+import { Link, Outlet } from 'react-router-dom'
 
 const navigation: { name: string; href: string; current: boolean }[] = []
 
 export default function Layout() {
-  const location = useLocation();
-  const isSchedulingPage = location.pathname === '/scheduling';
-
   return (
     <div className="h-full">
       <nav className="bg-white border-gray-200 dark:bg-gray-900 border-b-2">
@@ -21,15 +18,6 @@ export default function Layout() {
             </span>
           </Link>
           <div className="flex md:order-2">
-            {!isSchedulingPage && (
-              <Link
-                to={'/admin/physical-therapists'}
-                type="button"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-              >
-                View Backend
-              </Link>
-            )}
             <button
               data-collapse-toggle="navbar-cta"
               type="button"

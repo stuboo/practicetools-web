@@ -17,14 +17,15 @@ interface ResultsMapProps {
  * "the third pin" are the same thing when the clinician turns the screen.
  */
 function numberedIcon(index: number, selected: boolean) {
-  const background = selected ? '#1d4ed8' : '#1f2937'
+  const background = selected ? '#2f7dd1' : '#0f2a43'
   return L.divIcon({
     className: 'pt-result-pin',
     html: `<span style="
       display:flex;align-items:center;justify-content:center;
-      width:28px;height:28px;border-radius:9999px;
+      width:28px;height:28px;border-radius:7px;
       background:${background};color:#fff;
-      font-weight:700;font-size:14px;line-height:1;
+      font-family:'IBM Plex Mono',ui-monospace,monospace;
+      font-weight:500;font-size:14px;line-height:1;
       border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.4);
     ">${index + 1}</span>`,
     iconSize: [28, 28],
@@ -110,7 +111,7 @@ export default function ResultsMap({
       center={points[0]}
       zoom={11}
       scrollWheelZoom
-      className="h-full w-full rounded-md z-0"
+      className="h-full w-full z-0"
     >
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -140,7 +141,7 @@ export default function ResultsMap({
               {index + 1}. {therapist.name}
             </strong>
             <br />
-            {formatDistanceBadge(therapist)}
+            {formatDistanceBadge(therapist).text}
           </Popup>
         </Marker>
       ))}

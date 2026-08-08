@@ -25,6 +25,17 @@ gh issue close <number>                        # Complete work
 The `.beads/` directory holds the retired bd (beads) tracker's history. It is
 kept for reference only; do not file new work there.
 
+## Documentation Map
+
+There is no root README yet; this file is the entry point.
+
+- `CHANGELOG.md` - user-facing release notes, one entry per version
+- `VERSION` - current version, 4-part MAJOR.MINOR.PATCH.MICRO (kept in sync with `package.json` and the top CHANGELOG entry)
+- `TODOS.md` - deferred work with priorities; completed items move to its Completed section
+- `docs/` - approved specs and PRDs (design-time records, not living docs)
+- `shortener/README.md` - the urogyn.click link shortener subproject
+- `.beads/README.md` - retired issue tracker, reference only
+
 ## Landing the Plane (Session Completion)
 
 **When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
@@ -50,3 +61,22 @@ kept for reference only; do not file new work there.
 - NEVER say "ready to push when you are" - YOU must push
 - If push fails, resolve and retry until it succeeds
 
+
+## Skill routing
+
+When the user's request matches an available skill, invoke it via the Skill tool. When in doubt, invoke the skill.
+
+Key routing rules:
+- Product ideas/brainstorming → invoke /office-hours
+- Strategy/scope → invoke /plan-ceo-review
+- Architecture → invoke /plan-eng-review
+- Design system/plan review → invoke /design-consultation or /plan-design-review
+- Full review pipeline → invoke /autoplan
+- Bugs/errors → invoke /investigate
+- QA/testing site behavior → invoke /qa or /qa-only
+- Code review/diff check → invoke /review
+- Visual polish → invoke /design-review
+- Ship/deploy/PR → invoke /ship or /land-and-deploy
+- Save progress → invoke /context-save
+- Resume context → invoke /context-restore
+- Author a backlog-ready spec/issue → invoke /spec

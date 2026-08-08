@@ -31,6 +31,17 @@ export type ReferralEntry = {
   directionsUrl: string
 }
 
+/**
+ * Some records carry literal "n/a" strings instead of empty fields, and a
+ * handout reading "Fax: n/a" wastes the line. One filter, used by the cards,
+ * the AVS text and the printed handout alike.
+ */
+export function presentValue(value?: string): string | undefined {
+  const trimmed = value?.trim()
+  if (!trimmed || /^n\/?a$/i.test(trimmed)) return undefined
+  return trimmed
+}
+
 /** Full one-line address, skipping any part the record does not have. */
 export function formatAddress(therapist: TherapistType): string {
   const street = [therapist.address, therapist.address_two].filter(Boolean).join(', ')
@@ -58,15 +69,55 @@ export function formatTravel(therapist: TherapistType): string {
   return milesText ? `${minuteText} (${milesText})` : minuteText
 }
 
-/** The badge on a result card: "28 min drive - 24.3 mi", or the estimate form. */
-export function formatDistanceBadge(therapist: TherapistType): string {
+/**
+ * The badge on a result row and its map popup: "28 min · 24.3 mi", or the
+ * honest estimate form. One function so the row and the pin can never word
+ * the same fact two different ways. A straight-line fallback says so rather
+ * than passing itself off as a route.
+ */
+export function formatDistanceBadge(therapist: TherapistType): {
+  text: string
+  isEstimate: boolean
+} {
   const miles = therapist.drive_distance_miles ?? therapist.distance
+  const isEstimate =
+    therapist.drive_time_source === 'estimate' ||
+    therapist.drive_time_minutes === undefined
 
-  if (therapist.drive_time_source === 'estimate' || therapist.drive_time_minutes === undefined) {
-    return miles === undefined ? 'Distance unavailable' : `~${miles.toFixed(1)} mi (straight line)`
+  if (isEstimate) {
+    return {
+      text:
+        miles === undefined
+          ? 'Distance unavailable'
+          : `~${miles.toFixed(1)} mi straight line`,
+      isEstimate: true,
+    }
   }
-  const minutes = `${therapist.drive_time_minutes} min drive`
-  return miles === undefined ? minutes : `${minutes} · ${miles.toFixed(1)} mi`
+  const minutes = `${therapist.drive_time_minutes} min`
+  return {
+    text: miles === undefined ? minutes : `${minutes} · ${miles.toFixed(1)} mi`,
+    isEstimate: false,
+  }
+}
+
+/**
+ * An href that is safe to render from database content: http(s) only, with a
+ * scheme prefixed for bare-domain records ("example.com"). Anything else --
+ * javascript:, data:, mailto:, garbage -- returns undefined and the link is
+ * simply not rendered. These fields are populated through admin forms and
+ * CSV imports, so they are data, not code.
+ */
+export function safeUrl(value?: string): string | undefined {
+  const present = presentValue(value)
+  if (!present) return undefined
+  const candidate = /^[a-z][a-z0-9+.-]*:/i.test(present) ? present : `https://${present}`
+  try {
+    const parsed = new URL(candidate)
+    if (parsed.protocol === 'http:' || parsed.protocol === 'https:') return candidate
+  } catch {
+    return undefined
+  }
+  return undefined
 }
 
 export function directionsUrl(therapist: TherapistType): string {
@@ -80,21 +131,41 @@ export function buildEntries(therapists: TherapistType[]): ReferralEntry[] {
     number: index + 1,
     name: therapist.name,
     address: formatAddress(therapist),
-    phone: therapist.phone || undefined,
-    fax: therapist.fax || undefined,
-    website: therapist.website ? bareDomain(therapist.website) : undefined,
+    phone: presentValue(therapist.phone),
+    fax: presentValue(therapist.fax),
+    // Through safeUrl so the printed handout -- the highest-trust artifact
+    // this page produces -- never carries a URL the on-screen row refused.
+    website: (() => {
+      const url = safeUrl(therapist.website)
+      return url ? bareDomain(url) : undefined
+    })(),
     travel: formatTravel(therapist),
     therapist,
     directionsUrl: directionsUrl(therapist),
   }))
 }
 
-/** Strip scheme and trailing slash: a printed URL is read, not clicked. */
+/**
+ * Strip scheme, query string and trailing slash: a printed URL is read, not
+ * clicked, and nobody reads a UTM tag aloud.
+ */
 export function bareDomain(website: string): string {
   return website
     .trim()
     .replace(/^https?:\/\//i, '')
+    .replace(/[?#].*$/, '')
     .replace(/\/+$/, '')
+}
+
+/**
+ * Just the hostname, for the one-line result row where a path is noise.
+ * Parsed with URL so userinfo tricks ("trusted.com@evil.com") cannot make the
+ * link text lead with a domain the href does not actually go to.
+ */
+export function displayDomain(website: string): string {
+  const url = safeUrl(website)
+  if (url) return new URL(url).hostname
+  return bareDomain(website).split('/')[0]
 }
 
 /**

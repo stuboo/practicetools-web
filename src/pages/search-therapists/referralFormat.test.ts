@@ -1,9 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import {
+  bareDomain,
   buildAvsText,
+  buildEntries,
+  displayDomain,
   formatAddress,
   formatDistanceBadge,
   formatTravel,
+  presentValue,
+  safeUrl,
 } from './referralFormat'
 import { TherapistType } from './types'
 
@@ -111,18 +116,99 @@ describe('buildAvsText', () => {
 describe('formatTravel / formatDistanceBadge', () => {
   it('renders a real drive time', () => {
     expect(formatTravel(therapist())).toBe('About 28 minutes away by car (24 miles)')
-    expect(formatDistanceBadge(therapist())).toBe('28 min drive · 24.3 mi')
+    expect(formatDistanceBadge(therapist())).toEqual({
+      text: '28 min · 24.3 mi',
+      isEstimate: false,
+    })
   })
 
   it('renders an estimate without inventing a duration', () => {
     const estimate = therapist({ drive_time_source: 'estimate', drive_time_minutes: undefined })
     expect(formatTravel(estimate)).toBe('About 24 miles away (straight-line estimate)')
-    expect(formatDistanceBadge(estimate)).toBe('~24.3 mi (straight line)')
+    expect(formatDistanceBadge(estimate)).toEqual({
+      text: '~24.3 mi straight line',
+      isEstimate: true,
+    })
   })
 
   it('handles a missing drive time as an estimate rather than crashing', () => {
     const bare = therapist({ drive_time_minutes: undefined, drive_time_source: undefined })
-    expect(formatDistanceBadge(bare)).toBe('~24.3 mi (straight line)')
+    expect(formatDistanceBadge(bare)).toEqual({
+      text: '~24.3 mi straight line',
+      isEstimate: true,
+    })
+  })
+})
+
+describe('safeUrl', () => {
+  it('passes http and https URLs through', () => {
+    expect(safeUrl('https://example.com/form.pdf')).toBe('https://example.com/form.pdf')
+    expect(safeUrl('http://example.com')).toBe('http://example.com')
+  })
+
+  it('prefixes a scheme onto bare-domain records instead of making them relative', () => {
+    expect(safeUrl('example.com')).toBe('https://example.com')
+    expect(safeUrl('  example.com/contact  ')).toBe('https://example.com/contact')
+  })
+
+  it.each(['javascript:alert(1)', 'data:text/html,x', 'mailto:a@b.com', 'n/a', '', undefined])(
+    'refuses %j -- these fields are data, not code',
+    (value) => {
+      expect(safeUrl(value)).toBeUndefined()
+    }
+  )
+})
+
+describe('presentValue', () => {
+  it('passes a real value through, trimmed', () => {
+    expect(presentValue('  (920) 555-1234  ')).toBe('(920) 555-1234')
+  })
+
+  it.each([undefined, '', '   '])(
+    'returns undefined for %j so the line is omitted entirely',
+    (value) => {
+      expect(presentValue(value)).toBeUndefined()
+    }
+  )
+
+  it.each(['n/a', 'N/A', 'na', 'NA', ' n/a '])(
+    'filters the literal placeholder %j out of records',
+    (value) => {
+      expect(presentValue(value)).toBeUndefined()
+    }
+  )
+
+  it('does not swallow values that merely start with "na"', () => {
+    expect(presentValue('nashville-pt.com')).toBe('nashville-pt.com')
+    expect(presentValue('n/a ext. 2')).toBe('n/a ext. 2')
+  })
+})
+
+describe('bareDomain / displayDomain', () => {
+  it('strips a query string and fragment -- nobody reads a UTM tag aloud', () => {
+    expect(bareDomain('https://example.com/pelvic?utm_source=x&y=1')).toBe(
+      'example.com/pelvic'
+    )
+    expect(bareDomain('https://example.com/pelvic#hours')).toBe('example.com/pelvic')
+  })
+
+  it('displayDomain keeps only the hostname for the one-line row', () => {
+    expect(displayDomain('https://example.com/clinics/green-bay?ref=pt')).toBe(
+      'example.com'
+    )
+    expect(displayDomain('example.com')).toBe('example.com')
+  })
+})
+
+describe('buildEntries', () => {
+  it('drops literal "n/a" phone, fax and website instead of printing them', () => {
+    const [entry] = buildEntries([
+      therapist({ phone: 'n/a', fax: 'N/A', website: 'n/a' }),
+    ])
+
+    expect(entry.phone).toBeUndefined()
+    expect(entry.fax).toBeUndefined()
+    expect(entry.website).toBeUndefined()
   })
 })
 

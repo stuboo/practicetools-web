@@ -5,6 +5,10 @@ import { buildAvsText } from './referralFormat'
 interface CopyForAvsButtonProps {
   therapists: TherapistType[]
   zip: string
+  /** Forced off while a new search settles: the list still holds the previous
+      patient's results, and pasting those into the wrong chart is worse than
+      waiting a second. */
+  disabled?: boolean
 }
 
 /**
@@ -18,7 +22,7 @@ interface CopyForAvsButtonProps {
  * so a failure falls back to a selectable textarea rather than leaving the
  * clinician with a button that did nothing.
  */
-export default function CopyForAvsButton({ therapists, zip }: CopyForAvsButtonProps) {
+export default function CopyForAvsButton({ therapists, zip, disabled }: CopyForAvsButtonProps) {
   const [copied, setCopied] = useState(false)
   const [fallbackText, setFallbackText] = useState<string | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -50,8 +54,8 @@ export default function CopyForAvsButton({ therapists, zip }: CopyForAvsButtonPr
       <button
         type="button"
         onClick={handleCopy}
-        disabled={therapists.length === 0}
-        className="px-4 py-2 rounded-md border-2 border-gray-800 font-semibold text-gray-900 hover:bg-gray-800 hover:text-white transition-colors disabled:opacity-40 disabled:pointer-events-none"
+        disabled={disabled || therapists.length === 0}
+        className="px-4 py-2 rounded-lg border border-[#2d5479] text-[13px] font-semibold text-[#cfe0ef] hover:bg-[#1b3d5e] transition-colors disabled:opacity-40 disabled:pointer-events-none"
       >
         {copied ? 'Copied ✓' : 'Copy for AVS'}
       </button>
@@ -76,7 +80,7 @@ export default function CopyForAvsButton({ therapists, zip }: CopyForAvsButtonPr
               readOnly
               value={fallbackText}
               rows={16}
-              className="w-full border border-gray-400 rounded p-2 font-mono text-sm"
+              className="w-full border border-gray-400 rounded p-2 font-mono text-base"
             />
             <div className="flex justify-end mt-3">
               <button
