@@ -11,17 +11,19 @@ When working on features that require both frontend and backend changes, coordin
 
 ## Issue Tracking
 
-This project uses **bd** (beads) for issue tracking. Run `bd onboard` to get started.
+This project uses **GitHub Issues** (`stuboo/practicetools-web`) via the `gh` CLI.
 
 ## Quick Reference
 
 ```bash
-bd ready              # Find available work
-bd show <id>          # View issue details
-bd update <id> --status in_progress  # Claim work
-bd close <id>         # Complete work
-bd sync               # Sync with git
+gh issue list                                  # Open issues
+gh issue view <number>                         # Issue details
+gh issue create --title "..." --body "..."     # File work
+gh issue close <number>                        # Complete work
 ```
+
+The `.beads/` directory holds the retired bd (beads) tracker's history. It is
+kept for reference only; do not file new work there.
 
 ## Landing the Plane (Session Completion)
 
@@ -35,7 +37,6 @@ bd sync               # Sync with git
 4. **PUSH TO REMOTE** - This is MANDATORY:
    ```bash
    git pull --rebase
-   bd sync
    git push
    git status  # MUST show "up to date with origin"
    ```
