@@ -1,0 +1,13 @@
+# SPA fallback for Cloudflare Pages.
+#
+# Routing is client-side (react-router), so a request for /combine-pdfs or
+# /scheduling/audit has no matching file on disk. Without this, Pages returns
+# its own 404 for every deep link, hard refresh and shared URL, while the
+# homepage appears to work fine.
+#
+# DigitalOcean App Platform did this implicitly via catchall_document:
+# index.html. Pages needs it stated.
+#
+# The 200 (rather than a redirect) means the URL stays as the user typed it and
+# react-router picks it up from there.
+/*  /index.html  200

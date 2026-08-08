@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes, Outlet } from 'react-router-dom'
+import { BrowserRouter, Route, Routes, Outlet, Navigate } from 'react-router-dom'
 import Layout from './layout'
 import Home from './pages/home'
 import NotFound from './pages/not-found'
@@ -49,10 +49,14 @@ function App() {
               <Route path="scheduling/audit" element={<AuditLookup />} />
             </Route>
 
-            {/* Administration/Backend Routes */}
-            <Route path="/physical-therapists" element={<AdminShell />}>
-              <Route index element={<PhysicalTherapistLists />} />
-            </Route>
+            {/* Physical therapist management used to live at /physical-therapists,
+                outside the /admin tree and therefore outside AdminRoute. It now
+                sits under /admin with the rest of the back office; this redirect
+                keeps existing bookmarks working. */}
+            <Route
+              path="/physical-therapists"
+              element={<Navigate to="/admin/physical-therapists" replace />}
+            />
 
             {/* Coverage Routes */}
             <Route path="/login" element={<CoveragePublicLayout />}>
@@ -67,6 +71,9 @@ function App() {
             {/* Admin Routes */}
             <Route path="/admin" element={<AuthProvider><AdminRoute><Outlet /></AdminRoute></AuthProvider>}>
               <Route path="users" element={<UserManagement />} />
+              <Route path="physical-therapists" element={<AdminShell />}>
+                <Route index element={<PhysicalTherapistLists />} />
+              </Route>
             </Route>
 
             {/* User Routes */}
