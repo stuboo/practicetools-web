@@ -1,4 +1,3 @@
-import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import { PDF } from "../pages/combine-pdf/types";
 
@@ -14,6 +13,11 @@ function extractFileName(pdfFiles: PDF[]): string {
 
 export default async function mergePDF(pdfFiles: PDF[]) {
     const fileName = extractFileName(pdfFiles);
+
+    // pdf-lib is only needed once someone actually combines documents, but this
+    // module is pulled in eagerly by the Redux store. Importing it here keeps it
+    // out of the entry chunk so it is fetched on first use instead of on load.
+    const { PDFDocument } = await import("pdf-lib");
 
     // eslint-disable-next-line no-useless-catch
     try {

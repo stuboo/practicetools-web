@@ -16,7 +16,6 @@ const PDFSelections = () => {
   const [showSelectedPDFs, setShowSelectedPDFs] = useState<boolean>(false)
   const pdfFiles = useAppSelector((state) => state.pdfs.selectedPdfs)
   const status = useAppSelector((state) => state.pdfs.combinePDFStatus)
-  // const readyToDownloadFile = useAppSelector((state) => state.pdfs.combinedPDF);
   const dispatch = useAppDispatch()
 
   const [_, copyTextToClipboard] = useCopyToClipboard()

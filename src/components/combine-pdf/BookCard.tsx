@@ -31,6 +31,7 @@ const BookCard = ({
         <img
           src={pdf.thumbnail}
           alt={pdf.title}
+          loading="lazy"
           className="inset-0 object-cover object-top w-full rounded-lg opacity-50 hover:opacity-100"
         />
       </a>
