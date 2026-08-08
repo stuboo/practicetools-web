@@ -64,3 +64,35 @@
     @apply bg-background text-foreground;
   }
 }
+/*
+ * Patient handout printing.
+ *
+ * The handout is rendered inline and hidden on screen rather than opened in a
+ * popup window: popup blockers are common and a print button that silently
+ * does nothing is worse than none at all in an exam room. So printing means
+ * hiding the app and unhiding the one element that is the handout.
+ */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  #pt-print-handout,
+  #pt-print-handout * {
+    visibility: visible;
+  }
+
+  #pt-print-handout {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+    color: #000;
+  }
+
+  @page {
+    margin: 0.5in;
+  }
+}
