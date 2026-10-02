@@ -34,6 +34,10 @@ const PDFSelections = () => {
           toast.success('Combined file names copied to clipboard!')
         })
       })
+      .catch((error) => {
+        console.error(error)
+        toast.error('Could not combine the PDFs. Please try again.')
+      })
   }
 
   const clearSelectionList = () => {

@@ -3,6 +3,16 @@
 All notable changes to this project are documented in this file.
 Versions follow the 4-part MAJOR.MINOR.PATCH.MICRO format.
 
+## [0.1.0.1] - 2026-10-02
+
+### Fixed
+- Combining patient education PDFs downloads the merged file again. The
+  PDF host was missing a cross-origin rule after the August storage move,
+  so Chrome blocked the files and nothing downloaded.
+- A failed combine now shows an error message instead of silently doing
+  nothing behind a "copied to clipboard" success toast.
+- The combined file is saved with a `.pdf` extension.
+
 ## [0.1.0.0] - 2026-08-08
 
 ### Added
