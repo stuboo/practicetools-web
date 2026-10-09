@@ -4,7 +4,7 @@ import { Alternative, CreateProcedureAliasType, ProcedureAlias, Risk } from "../
 
 async function getAll(): Promise<ProcedureAlias[]> {
     try {
-        const response: AxiosResponse<ProcedureAlias[]> = await apiClient.get(`/procedure-alias`);
+        const response: AxiosResponse<ProcedureAlias[]> = await apiClient.get(`/procedure-alias/`);
         return response.data;
     } catch (error) {
         throw new Error('Failed to fetch procedure alias.');
@@ -31,7 +31,7 @@ async function alternatives(alias_ids: number[]): Promise<Alternative[]> {
 
 async function create(data: CreateProcedureAliasType): Promise<ProcedureAlias> {
     // try {
-    const response: AxiosResponse<{ data: ProcedureAlias }> = await apiClient.post(`/procedure-alias`, data);
+    const response: AxiosResponse<{ data: ProcedureAlias }> = await apiClient.post(`/procedure-alias/`, data);
     return response.data.data;
     // } catch (error) {
     // const e = error as AxiosError

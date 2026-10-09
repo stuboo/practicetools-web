@@ -11,7 +11,7 @@ import {
 
 async function getAll(): Promise<TherapistType[]> {
     try {
-        const response: AxiosResponse<{ data: TherapistType[] }> = await apiClient.get(`/physicaltherapist`);
+        const response: AxiosResponse<{ data: TherapistType[] }> = await apiClient.get(`/physicaltherapist/`);
         return response.data.data;
     } catch (error) {
         throw new Error('Failed to fetch therapists.');
@@ -93,7 +93,7 @@ async function create(data: CreateTherapistType): Promise<TherapistType> {
             formData.append('expectations_letter', data.expectations_letter);
         }
 
-        const response: AxiosResponse<{ data: TherapistType }> = await apiClient.post(`/physicaltherapist`, formData);
+        const response: AxiosResponse<{ data: TherapistType }> = await apiClient.post(`/physicaltherapist/`, formData);
         return response.data.data;
     } catch (error) {
         throw new Error('Failed to create therapist.');
