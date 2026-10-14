@@ -46,7 +46,7 @@ export default function IUHealthForm({ procedures }: IUHealthFormProps) {
     },
   })
 
-  const { isLoading: generatingForm, mutate: generateForm } = useMutation((data: any) => ProcedureAliasAPI.generateConsentForm(data), {
+  const { isLoading: generatingForm, mutate: generateForm } = useMutation((data: unknown) => ProcedureAliasAPI.generateConsentForm(data), {
     onSuccess(data) {
       toast.success('Consent form generated successfully!')
       setCreatedFormUrl(data)
@@ -115,6 +115,7 @@ export default function IUHealthForm({ procedures }: IUHealthFormProps) {
         )
         .join(',')
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentionally re-run only when procedures change
   }, [procedures])
 
   useEffect(() => {

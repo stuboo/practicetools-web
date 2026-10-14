@@ -48,6 +48,7 @@ export function useCoverageSearch(
 
   const { data, isLoading, isError, error, isFetching } = useQuery({
     queryKey: ['coverage-search', searchQuery],
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- query is only enabled when searchQuery is truthy
     queryFn: () => search(searchQuery!),
     enabled: enabled && !!searchQuery,
     staleTime: 30_000, // Cache results for 30 seconds

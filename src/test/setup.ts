@@ -5,8 +5,8 @@ import '@testing-library/jest-dom/vitest'
 // test that renders the radius filter.
 if (!('ResizeObserver' in globalThis)) {
   globalThis.ResizeObserver = class {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
+    observe() { /* noop */ }
+    unobserve() { /* noop */ }
+    disconnect() { /* noop */ }
   } as unknown as typeof ResizeObserver
 }

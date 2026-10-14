@@ -39,6 +39,7 @@ export function DocumentsPage() {
     insurance_plan_id?: string;
   }>(() => ({
     status: (searchParams.get('status') as DocumentStatus) || undefined,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion -- guarded by the truthy check on the same call
     year: searchParams.get('year') ? parseInt(searchParams.get('year')!) : undefined,
     insurance_plan_id: searchParams.get('plan') || undefined,
   }));

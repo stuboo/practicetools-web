@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Container from '../../components/container';
 import {
   WorkflowNode,
@@ -20,7 +20,6 @@ const Scheduling: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [quid6Result, setQuid6Result] = useState<Quid6Result | null>(null);
   const [auditKey, setAuditKey] = useState<string | null>(null);
-  const navigate = useNavigate();
   const { createAuditRecord } = useAuditStorage();
 
   // Generate audit key when reaching a result node
@@ -63,9 +62,8 @@ const Scheduling: React.FC = () => {
     setQuid6Result(result);
     
     // Determine the next node based on QUID-6 results
-    let nextNodeId: string;
     // All QUID-6 outcomes route to surgeon
-    nextNodeId = 'scheduleWithSurgeon';
+    const nextNodeId = 'scheduleWithSurgeon';
     
     // Add QUID-6 result information to the path
     const updatedPath = [...path];

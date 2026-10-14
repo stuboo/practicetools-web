@@ -4,7 +4,6 @@ import Container from '../../components/container';
 import Button from '../../components/button';
 import { useAuditStorage } from '../../hooks/useAuditStorage';
 import { AuditRecord } from './types/audit';
-import { workflowNodes } from './util/workflow';
 
 const AuditLookup: React.FC = () => {
   const [searchKey, setSearchKey] = useState('');

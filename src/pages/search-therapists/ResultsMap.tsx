@@ -61,6 +61,7 @@ function FitBounds({ points }: { points: L.LatLngExpression[] }) {
       return
     }
     map.fitBounds(L.latLngBounds(points), { padding: [40, 40], maxZoom: 13 })
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- signature is the stable serialization of points; avoid re-running on new array identity
   }, [signature, map])
 
   return null
@@ -96,6 +97,7 @@ export default function ResultsMap({
     ])
     if (origin) list.push(origin)
     return list
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- origin is derived from meta, which is already a dependency
   }, [located, meta])
 
   // Selecting a card should open the matching pin's popup, not just recolour it.
