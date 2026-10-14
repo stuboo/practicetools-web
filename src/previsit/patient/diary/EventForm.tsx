@@ -103,7 +103,11 @@ export function EventForm({
   const [pickMl, setPickMl] = useState<number | null>(null)
   const [customText, setCustomText] = useState(ik ? shownVolume(ik.volumeMl, unit) : '')
 
-  const drinkMl = customText.trim() ? volumeToMl(customText, unit) : pickMl
+  // Editing must not silently change a stored volume: the box shows a rounded
+  // value, so an untouched box keeps the original mL.
+  const keepIfUntouched = (text: string, original: number | undefined) =>
+    original !== undefined && text === shownVolume(original, unit) ? original : volumeToMl(text, unit)
+  const drinkMl = customText.trim() ? keepIfUntouched(customText, ik?.volumeMl) : pickMl
 
   const canSave =
     time !== '' &&
@@ -120,7 +124,7 @@ export function EventForm({
     if (!t || !canSave) return
     const id = initial?.id ?? newId()
     if (kind === 'void') {
-      onSave({ id, t, kind: 'void', volumeMl: unmeasured ? null : volumeToMl(voidText, unit), urgency })
+      onSave({ id, t, kind: 'void', volumeMl: unmeasured ? null : keepIfUntouched(voidText, iv?.volumeMl ?? undefined), urgency })
     } else if (kind === 'leak' && amount && trigger) {
       onSave({ id, t, kind: 'leak', amount, trigger, padChanged })
     } else if (kind === 'intake' && beverage && drinkMl !== null) {

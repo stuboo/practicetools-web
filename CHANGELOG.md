@@ -3,6 +3,31 @@
 All notable changes to this project are documented in this file.
 Versions follow the 4-part MAJOR.MINOR.PATCH.MICRO format.
 
+## [0.2.0.0] - 2026-10-14
+
+### Added
+- Pre-visit packets (behind `VITE_PREVISIT_ENABLED`). A patient opens a
+  packet link such as `/p/new-incontinence#d=2026-11-03` and gets a timeline
+  of teaching, the QUID questionnaire, a 3-day bladder diary, and a share
+  step. Nothing asks for her name or any identifier, and her entries stay on
+  her phone until she shares them.
+- Bladder diary: log a void in three taps, plus leaks, drinks, and bed and
+  wake times, in mL or oz. Entries survive refresh and can be edited,
+  deleted, or erased.
+- Share codes: the patient's results are encrypted on her phone and uploaded
+  as ciphertext. She gets a code like `ABCDE-FGHJJ` to bring to her visit,
+  and an "Add to calendar" file.
+- Clinic viewer at `/clinic/previsit` (login required): enter the code to
+  decrypt the results on this computer, see the diary summary (frequency,
+  nocturia, voided volumes, NPI, leaks, intake) and QUID scores, copy a
+  plain-text summary for the note, and delete the upload from the server.
+  One-time key import at `/clinic/previsit/setup`.
+- `scripts/previsit-keygen.mjs` creates the practice key pair.
+
+### Changed
+- The QUID questions and scoring moved to a shared module. The `/quid6` page
+  works exactly as before.
+
 ## [0.1.0.1] - 2026-10-02
 
 ### Fixed

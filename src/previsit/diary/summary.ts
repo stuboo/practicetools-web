@@ -373,7 +373,7 @@ function buildWarnings(
   )
   const missing = new Set<string>()
   for (const d of days) {
-    if (d.bed === null && d.nextWake !== null) missing.add(d.date)
+    if (d.bed === null) missing.add(d.date)
   }
   for (const e of sorted) {
     const d = localDate(e.t)

@@ -171,4 +171,16 @@ describe('DiaryModule', () => {
     expect(await getItem(PID, KEYS.diaryFinished)).toBe(true)
     within(document.body)
   })
+  it('editing an entry (time only) does not change its stored volume', async () => {
+    await setItem(PID, KEYS.teachingSeen, true)
+    await setItem(PID, KEYS.diary, {
+      unit: 'oz',
+      events: [{ id: 'v1', t: toLocalIso(new Date()), kind: 'void', volumeMl: 253, urgency: null }],
+    })
+    const user = userEvent.setup()
+    render(<DiaryModule packetId={PID} />)
+    await user.click(await screen.findByRole('button', { name: /^Edit Peed/ }))
+    await user.click(screen.getByRole('button', { name: 'Save' }))
+    await waitFor(async () => expect((await stored())?.events[0]).toMatchObject({ id: 'v1', volumeMl: 253 }))
+  })
 })

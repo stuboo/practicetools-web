@@ -385,48 +385,48 @@ Create → redeem → delete happy path; a redeem with no auth → 401; an expir
 Work through these in order. Check each box when it's verified (tests pass, not just code written).
 
 ### M1: Diary core (web, no UI)
-- [ ] `types.ts` defines `DiaryEvent`, `SubmissionPayload`, `Packet`, `Module`, `Block`
-- [ ] `diary/summary.ts` implements §6.3; the §6.4 worked example test passes with every listed value
-- [ ] The extra summary cases (unmeasured void, missing FMV, 3-day average) pass
-- [ ] The `noteText()` exact-output test passes
+- [x] `types.ts` defines `DiaryEvent`, `SubmissionPayload`, `Packet`, `Module`, `Block`
+- [x] `diary/summary.ts` implements §6.3; the §6.4 worked example test passes with every listed value
+- [x] The extra summary cases (unmeasured void, missing FMV, 3-day average) pass
+- [x] The `noteText()` exact-output test passes
 
 ### M2: Share code and encryption (web, no UI)
-- [ ] `crypto/code.ts`: generate, normalize, checksum (§5.3)
-- [ ] `crypto/envelope.ts`: seal/open (§5.4–5.5)
-- [ ] `scripts/previsit-keygen.mjs` works under `node`; `.gitignore` excludes private JWKs
-- [ ] All §5.6 tests pass, including the 4 negative cases
+- [x] `crypto/code.ts`: generate, normalize, checksum (§5.3)
+- [x] `crypto/envelope.ts`: seal/open (§5.4–5.5)
+- [x] `scripts/previsit-keygen.mjs` works under `node`; `.gitignore` excludes private JWKs
+- [x] All §5.6 tests pass, including the 4 negative cases
 
 ### M3: API storage
-- [ ] Models, migration, repository, service, controller, routes per §8
-- [ ] Routes registered in `app/main.py` with tag "Pre-Visit"
-- [ ] All §8.3 tests pass; no previously passing api test fails
+- [x] Models, migration, repository, service, controller, routes per §8
+- [x] Routes registered in `app/main.py` with tag "Pre-Visit"
+- [x] All §8.3 tests pass; no previously passing api test fails
 
 ### M4: Patient app
-- [ ] `PatientLayout` (minimal, no site nav, mobile-first, 16px gutters, ≥44px tap targets)
-- [ ] Route `/p/:packetId` (public); unknown packet → friendly not-found
-- [ ] Visit date from `#d=YYYY-MM-DD` or user entry, stored on the device; countdown and module timeline with recommended start dates
-- [ ] Info module renders all block types; questionnaire module runs QUID from the registry
-- [ ] Diary capture per §6.2, persisted in IndexedDB, edit/delete, unit toggle, teaching card
-- [ ] Share module: review → seal → upload → display code; 409 retry; offline → "Try again when connected" with data kept
-- [ ] "Erase my data" clears all on-device data for the packet
-- [ ] `.ics` download (§7.4)
-- [ ] Anonymous events fire (§8.2); event-call failures never surface to the user
-- [ ] Component tests: logging a void in ≤3 taps with a quick pick; the share flow with a mocked API shows a valid code
+- [x] `PatientLayout` (minimal, no site nav, mobile-first, 16px gutters, ≥44px tap targets)
+- [x] Route `/p/:packetId` (public); unknown packet → friendly not-found
+- [x] Visit date from `#d=YYYY-MM-DD` or user entry, stored on the device; countdown and module timeline with recommended start dates
+- [x] Info module renders all block types; questionnaire module runs QUID from the registry
+- [x] Diary capture per §6.2, persisted in IndexedDB, edit/delete, unit toggle, teaching card
+- [x] Share module: review → seal → upload → display code; 409 retry; offline → "Try again when connected" with data kept
+- [x] "Erase my data" clears all on-device data for the packet
+- [x] `.ics` download (§7.4)
+- [x] Anonymous events fire (§8.2); event-call failures never surface to the user
+- [x] Component tests: logging a void in ≤3 taps with a quick pick; the share flow with a mocked API shows a valid code
 
 ### M5: Clinic viewer
-- [ ] `/clinic/previsit/setup` and `/clinic/previsit` behind `ProtectedRoute`
-- [ ] Private-key import stored non-extractable in IndexedDB; status shown; "Remove key from this computer" button
-- [ ] Code entry with live normalization and checksum validation
-- [ ] Redeem → decrypt → render §6.5; **Copy for note** uses `useCopyToClipboard`; **Delete from server** works
-- [ ] Component test: with a fixture envelope plus the test key, the page renders the §6.4 summary values
+- [x] `/clinic/previsit/setup` and `/clinic/previsit` behind `ProtectedRoute`
+- [x] Private-key import stored non-extractable in IndexedDB; status shown; "Remove key from this computer" button
+- [x] Code entry with live normalization and checksum validation
+- [x] Redeem → decrypt → render §6.5; **Copy for note** uses `useCopyToClipboard`; **Delete from server** works
+- [x] Component test: with a fixture envelope plus the test key, the page renders the §6.4 summary values
 
 ### M6: Packet content and gating
-- [ ] `packets/new-incontinence.json` per §7.2 and §7.3, listed in `DRAFT_PACKETS`
-- [ ] QUID extracted to the registry; the existing `/quid6` page passes its locking test unchanged
-- [ ] `packets.test.ts` (§4.3) passes
-- [ ] `VITE_PREVISIT_ENABLED` flag: when not `"true"`, `/p/*` and `/clinic/previsit*` routes render NotFound; no link from Home in this goal
-- [ ] `CHANGELOG.md`, `VERSION`, and `package.json` version bumped per `web/CLAUDE.md`; the api follows its own conventions
-- [ ] §11 Decision Log updated; a GitHub issue is filed in `stuboo/practicetools-web` for each `TODO-REVIEW` item and each §10 item
+- [x] `packets/new-incontinence.json` per §7.2 and §7.3, listed in `DRAFT_PACKETS`
+- [x] QUID extracted to the registry; the existing `/quid6` page passes its locking test unchanged
+- [x] `packets.test.ts` (§4.3) passes
+- [x] `VITE_PREVISIT_ENABLED` flag: when not `"true"`, `/p/*` and `/clinic/previsit*` routes render NotFound; no link from Home in this goal
+- [x] `CHANGELOG.md`, `VERSION`, and `package.json` version bumped per `web/CLAUDE.md`; the api follows its own conventions
+- [x] §11 Decision Log updated; a GitHub issue is filed in `stuboo/practicetools-web` for each `TODO-REVIEW` item and each §10 item
 
 ---
 
@@ -451,3 +451,21 @@ Work through these in order. Check each box when it's verified (tests pass, not 
 | 2026-10-14 | Separate tables from the existing invitation/questionnaire flow | That flow stores server-readable responses, which violates §1.1 |
 | 2026-10-14 | The visit date lives in the URL fragment or on the device only | Keeps the date of service off the server |
 | 2026-10-14 | Write raw diary events to flowsheets later, not just summaries | ~60–80 values over 3 days is fine for flowsheets and keeps the raw log (Ryan) |
+| 2026-10-14 | The canonical code is the hyphenated display form `XXXXX-XXXXX`; HKDF info and lookup strings use it | One unambiguous string for both sides; seal, open and lookup normalize input first |
+| 2026-10-14 | §5.6's example `abcde fghjk` fails the §5.3 checksum; tests use `ABCDE-FGHJJ` and assert `ABCDE-FGHJK` is a checksum error | Followed the §5.3 formula as written |
+| 2026-10-14 | Known limit: the weighted mod-32 checksum misses some single-character errors (e.g. a value change of 4 at weight 8) | Acceptable: the code is never the only secret (§5.1); tests cover ±1 errors at every position |
+| 2026-10-14 | `openEnvelope` also rejects payloads whose `schema` or `packetId` don't match the envelope | Defense in depth beyond AAD |
+| 2026-10-14 | Diary days start at each wake event; bed_D is the last bed in [wake_D, wake_{D+1}); a duplicate wake on the same local date is ignored | Naps and repeat taps shouldn't split a day |
+| 2026-10-14 | An unmeasured FMV_{D+1} makes 24h volume and NUV null; diary NPI is the mean of daily ratios | Avoids understated volumes; matches "mean over complete days" |
+| 2026-10-14 | Note text always uses whole mL; nulls print `n/a`; the data-quality line reads "all voids measured" when nothing is flagged | Notes stay unit-stable and exact (§6.4: 281 mL, not 280) |
+| 2026-10-14 | QUID registry `interpretation` is the diagnosis only; the internal scheduling recommendation is not shown to patients or put in the note | Internal routing text isn't clinical content |
+| 2026-10-14 | Patient routes are `/p/:packetId` and `/p/:packetId/m/:moduleId`; the `#d=` fragment is saved on the device then dropped | Module views survive refresh; the date never leaves the device |
+| 2026-10-14 | Patient API calls use a separate axios instance with no auth header | A clinician token on a shared device must never ride along, and a 401 must not redirect a patient to login |
+| 2026-10-14 | The client sends `packet_opened`, `module_completed` and `diary_finished` once per device; the server records `submitted` and `redeemed` itself and rejects them from the public endpoint | No double counting, and the public endpoint can't inflate redeem stats |
+| 2026-10-14 | After sharing, the patient can make a new code; the old one stays valid until it expires (erase warns about this) | No identity means there's nothing to authorize deleting the old upload; it expires in 30 days |
+| 2026-10-14 | API returns 413 for envelopes over 64 KB and 422 for malformed shapes; envelope keys must be exactly `v, packetId, epk, salt, iv, ct` | Nothing extra (e.g. an identifier) can be smuggled in next to the ciphertext |
+| 2026-10-14 | Rollbar reports for `/previsit` drop the body, query, user IP, proxy IP headers, frame locals and exception text | §8.2 forbids body logging; SQLAlchemy errors embed bound parameters |
+| 2026-10-14 | Rate limiting reuses `RateLimitService` as §8.2 specifies, so the client IP sits in the existing `search_request_log` for ≤25 h and shares PT search's per-IP budget | Spec-mandated; tracked as a follow-up issue because it is in tension with §1 |
+| 2026-10-14 | `pytest` works without `python -m` via a `sys.path` insert at the top of `tests/conftest.py`; `pytest.ini` is unchanged | Fixing its `[tool:pytest]` header would change async settings for existing tests |
+| 2026-10-14 | Pre-existing `npm run lint` failures on `main` were fixed with behavior-preserving edits | Done criterion 2 requires lint to exit 0 |
+| 2026-10-14 | Previsit pages are lazy-loaded behind `PrevisitRoute`, which checks `VITE_PREVISIT_ENABLED` at render | Keeps crypto and patient code out of the main bundle; one gate for all four routes |

@@ -151,6 +151,14 @@ describe('summarizeDiary: edge cases', () => {
     expect(s.overall.completeDays).toBe(0)
   })
 
+  it('flags a final day that has a wake but no bed time', () => {
+    const events = workedExampleEvents.filter((e) => e.t.startsWith('2026-11-02'))
+    // Only Monday's wake remains, and Monday has a bed: no flag.
+    expect(summarizeDiary(events).warnings.map((w) => w.code)).not.toContain('missing_wake_or_bed')
+    const noBed = events.filter((e) => e.kind !== 'bed')
+    expect(summarizeDiary(noBed).warnings.map((w) => w.code)).toContain('missing_wake_or_bed')
+  })
+
   it('returns an empty summary for no events', () => {
     const s = summarizeDiary([])
     expect(s.days).toEqual([])
