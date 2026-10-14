@@ -426,7 +426,7 @@ Work through these in order. Check each box when it's verified (tests pass, not 
 - [x] `packets.test.ts` (§4.3) passes
 - [x] `VITE_PREVISIT_ENABLED` flag: when not `"true"`, `/p/*` and `/clinic/previsit*` routes render NotFound; no link from Home in this goal
 - [x] `CHANGELOG.md`, `VERSION`, and `package.json` version bumped per `web/CLAUDE.md`; the api follows its own conventions
-- [x] §11 Decision Log updated; a GitHub issue is filed in `stuboo/practicetools-web` for each `TODO-REVIEW` item and each §10 item
+- [ ] §11 Decision Log updated; a GitHub issue is filed in `stuboo/practicetools-web` for each `TODO-REVIEW` item and each §10 item
 
 ---
 
