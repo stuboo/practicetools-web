@@ -2,149 +2,9 @@ import React, { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
 
+import { questions, calculateResults, getScoreString } from '../../previsit/questionnaires/quid'
+
 type Step = 'consent' | 'questions' | 'results'
-type DiagnosisResult = {
-  diagnosis: string
-  recommendation: string
-}
-
-interface Question {
-  id: number
-  text: string
-  shortText: string
-  options: {
-    text: string
-    value: number
-  }[]
-  category: 'SUI' | 'UUI'
-}
-
-const questions: Question[] = [
-  {
-    id: 1,
-    text: "Do you leak urine (even small drops), wet yourself, or wet your pads or undergarments when you cough or sneeze?",
-    shortText: "Leakage with cough/sneeze?",
-    category: 'SUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  },
-  {
-    id: 2,
-    text: "Do you leak urine (even small drops), wet yourself, or wet your pads or undergarments when you bend down or lift something up?",
-    shortText: "Leakage with bending/lifting?",
-    category: 'SUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  },
-  {
-    id: 3,
-    text: "Do you leak urine (even small drops), wet yourself, or wet your pads or undergarments when you walk quickly, jog or exercise?",
-    shortText: "Leakage with activity?",
-    category: 'SUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  },
-  {
-    id: 4,
-    text: "Do you leak urine (even small drops), wet yourself, or wet your pads or undergarments when you are on your way to the bathroom?",
-    shortText: "Leakage on way to bathroom?",
-    category: 'UUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  },
-  {
-    id: 5,
-    text: "Do you leak urine (even small drops), wet yourself, or wet your pads or undergarments when you get such a strong and uncomfortable need to urinate that you leak urine (even small drops) or wet yourself before reaching the toilet?",
-    shortText: "Leakage with strong urge?",
-    category: 'UUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  },
-  {
-    id: 6,
-    text: "Do you have to rush to the bathroom because you get a sudden, strong need to urinate?",
-    shortText: "Rush to bathroom with urge?",
-    category: 'UUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  }
-]
-
-const calculateResults = (answers: Record<number, number>): DiagnosisResult => {
-  // Convert answers object to array of scores in order
-  const scores = Array.from({ length: 6 }, (_, i) => answers[i + 1] || 0)
-  
-  // Calculate SUI and UUI scores
-  const SUI_score = scores.slice(0, 3).reduce((sum, score) => sum + score, 0)
-  const UUI_score = scores.slice(3, 6).reduce((sum, score) => sum + score, 0)
-
-  // Apply diagnosis criteria
-  const has_SUI = SUI_score >= 4
-  const has_UUI = UUI_score >= 6
-
-  if (has_SUI && has_UUI) {
-    if (SUI_score > UUI_score) {
-      return {
-        diagnosis: "Stress-Predominant Mixed Urinary Incontinence",
-        recommendation: "Schedule with surgeon"
-      }
-    } else {
-      return {
-        diagnosis: "Urge-Predominant Mixed Urinary Incontinence",
-        recommendation: "Schedule with APP"
-      }
-    }
-  } else if (has_SUI) {
-    return {
-      diagnosis: "Stress Urinary Incontinence",
-      recommendation: "Schedule with surgeon"
-    }
-  } else if (has_UUI) {
-    return {
-      diagnosis: "Urge Urinary Incontinence",
-      recommendation: "Schedule with APP"
-    }
-  } else {
-    return {
-      diagnosis: "No clear predominance; further evaluation may be needed",
-      recommendation: "Schedule with APP"
-    }
-  }
-}
-
-const getScoreString = (answers: Record<number, number>): string => {
-  return Array.from({ length: 6 }, (_, i) => answers[i + 1] || 0).join('')
-}
 
 const generateDetailedReport = (scoreString: string): string => {
   const scores = scoreString.split('').map(Number)
@@ -172,6 +32,7 @@ const generateDetailedReport = (scoreString: string): string => {
 
   return report
 }
+
 
 export default function Quid6() {
   const [currentStep, setCurrentStep] = useState<Step>('consent')
@@ -322,12 +183,12 @@ export default function Quid6() {
                   <p>SUI Score: {
                     Object.entries(answers)
                       .filter(([id]) => parseInt(id) <= 3)
-                      .reduce((sum, [_, value]) => sum + value, 0)
+                      .reduce((sum, [, value]) => sum + value, 0)
                   }</p>
                   <p>UUI Score: {
                     Object.entries(answers)
                       .filter(([id]) => parseInt(id) > 3)
-                      .reduce((sum, [_, value]) => sum + value, 0)
+                      .reduce((sum, [, value]) => sum + value, 0)
                   }</p>
                 </div>
               </>

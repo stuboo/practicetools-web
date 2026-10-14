@@ -29,3 +29,7 @@ dist-ssr
 
 # wrangler build artefacts for the shortener worker
 shortener/.wrangler/
+
+# pre-visit practice keys (never commit)
+*private*.jwk.json
+previsit-practice-public.jwk.json

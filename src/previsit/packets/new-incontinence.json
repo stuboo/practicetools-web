@@ -1,0 +1,115 @@
+{
+  "id": "new-incontinence",
+  "version": 1,
+  "title": "Your bladder visit",
+  "visitLabel": "New patient visit, Urogynecology",
+  "modules": [
+    {
+      "id": "welcome",
+      "title": "Welcome, what this is",
+      "kind": "info",
+      "startOffsetDays": 14,
+      "estMinutes": 3,
+      "blocks": [
+        { "type": "heading", "text": "Welcome" },
+        { "type": "paragraph", "text": "You are coming to see us because of bladder leaks or other bladder problems. You are not alone. Many women have these problems, and there are many ways to treat them." },
+        { "type": "paragraph", "text": "This page helps you get ready. It has a few short steps to do before your visit. Each step has a day we suggest you start it. You can do the steps in any order." },
+        { "type": "heading", "text": "What you will do" },
+        {
+          "type": "list",
+          "items": [
+            "Read about what to expect at your first visit.",
+            "Answer a short questionnaire about your bladder.",
+            "Keep a bladder diary for 3 days.",
+            "Make a code to share your answers with your care team."
+          ]
+        },
+        { "type": "heading", "text": "Why this helps" },
+        { "type": "paragraph", "text": "Your answers help your care team understand your symptoms before you arrive. That leaves more time at your visit to talk about your treatment choices." },
+        { "type": "heading", "text": "Your privacy" },
+        { "type": "paragraph", "text": "This page does not ask for your name, birth date, or phone number. Your answers stay on your phone until you choose to share them. When you share, they are locked so that only your care team can open them with your code." },
+        { "type": "callout", "tone": "info", "text": "TODO-REVIEW: Ryan to confirm the privacy wording above matches what the clinic wants to tell patients, including how long shared data is kept." },
+        { "type": "paragraph", "text": "Questions before your visit? Call the clinic." },
+        { "type": "paragraph", "text": "TODO-REVIEW: Clinic phone number for patients to call with questions before the visit." }
+      ]
+    },
+    {
+      "id": "what-to-expect",
+      "title": "What to expect at your first visit",
+      "kind": "info",
+      "startOffsetDays": 14,
+      "estMinutes": 4,
+      "blocks": [
+        { "type": "heading", "text": "What to expect at your first visit" },
+        { "type": "paragraph", "text": "At your first visit, we want to learn about you and your bladder. We will take time to listen and to answer your questions." },
+        { "type": "heading", "text": "Your visit may include" },
+        {
+          "type": "list",
+          "items": [
+            "Questions about your symptoms, health, past surgeries, medicines, and any pregnancies or births.",
+            "A review of your bladder diary and questionnaire.",
+            "A pelvic exam. This is a check of the area where leaks come from. You can ask us to stop at any time.",
+            "A urine test, to look for infection or other causes of your symptoms.",
+            "A bladder scan, a painless ultrasound on your lower belly that shows how much urine is left in your bladder after you pee."
+          ]
+        },
+        { "type": "paragraph", "text": "Not everyone needs every test. Your care team will decide with you what makes sense." },
+        { "type": "heading", "text": "What to bring" },
+        {
+          "type": "list",
+          "items": [
+            "Your completed bladder diary code, or your diary on your phone.",
+            "A list of all your medicines, including vitamins and herbs.",
+            "A list of questions you want to ask us."
+          ]
+        },
+        { "type": "heading", "text": "After the exam" },
+        { "type": "paragraph", "text": "We will talk about what we found and go over your choices. Treatment for bladder problems often starts with simple steps, such as changes to habits, exercises for the pelvic floor, or medicine. Surgery is not always needed. You decide what is right for you." },
+        { "type": "callout", "tone": "info", "text": "TODO-REVIEW: Ryan to confirm which of the above (pelvic exam, urine test, bladder scan) the clinic usually does at a first visit, and whether to arrive with a full or empty bladder." },
+        { "type": "callout", "tone": "warning", "text": "If you have a fever, burning when you pee, or blood in your urine, or you cannot pee at all, call the clinic or your doctor right away. If you feel very sick, get emergency care." },
+        { "type": "paragraph", "text": "Questions before your visit? Call the clinic." },
+        { "type": "paragraph", "text": "TODO-REVIEW: Clinic phone number for patients to call with questions before the visit." }
+      ]
+    },
+    {
+      "id": "quid-questionnaire",
+      "title": "Quick bladder questionnaire (QUID)",
+      "kind": "questionnaire",
+      "startOffsetDays": 10,
+      "estMinutes": 2,
+      "questionnaireId": "quid"
+    },
+    {
+      "id": "bladder-diary",
+      "title": "3-day bladder diary",
+      "kind": "diary",
+      "startOffsetDays": 5,
+      "estMinutes": 5,
+      "days": 3
+    },
+    {
+      "id": "getting-here",
+      "title": "Getting here: parking and check-in",
+      "kind": "info",
+      "startOffsetDays": 1,
+      "estMinutes": 2,
+      "blocks": [
+        { "type": "heading", "text": "Getting here" },
+        { "type": "paragraph", "text": "TODO-REVIEW: Clinic name and street address, including building and suite or floor." },
+        { "type": "paragraph", "text": "TODO-REVIEW: Parking instructions (where to park, cost, validation)." },
+        { "type": "paragraph", "text": "TODO-REVIEW: Which entrance to use and how to check in." },
+        { "type": "paragraph", "text": "TODO-REVIEW: How early to arrive and what to bring for check-in (for example photo ID and insurance card)." },
+        { "type": "paragraph", "text": "TODO-REVIEW: Whether to arrive with a full bladder, or to avoid peeing right before the visit." },
+        { "type": "paragraph", "text": "Questions before your visit? Call the clinic." },
+        { "type": "paragraph", "text": "TODO-REVIEW: Clinic phone number for patients to call with questions before the visit." }
+      ]
+    },
+    {
+      "id": "share",
+      "title": "Share with your care team",
+      "kind": "share",
+      "startOffsetDays": 0,
+      "estMinutes": 2
+    }
+  ]
+}

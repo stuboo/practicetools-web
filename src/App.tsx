@@ -27,6 +27,7 @@ import { AdminRoute } from './components/common/AdminRoute'
 import { ProtectedRoute } from './components/common/ProtectedRoute'
 import UserManagement from './pages/admin/UserManagement'
 import ChangePassword from './pages/ChangePassword'
+import { PrevisitRoute } from './previsit/PrevisitRoute'
 
 const queryClient = new QueryClient()
 
@@ -78,6 +79,12 @@ function App() {
 
             {/* User Routes */}
             <Route path="/change-password" element={<AuthProvider><ProtectedRoute><ChangePassword /></ProtectedRoute></AuthProvider>} />
+
+            {/* Pre-visit packets: NotFound unless VITE_PREVISIT_ENABLED is "true" */}
+            <Route path="/p/:packetId" element={<PrevisitRoute page="packet" />} />
+            <Route path="/p/:packetId/m/:moduleId" element={<PrevisitRoute page="packet" />} />
+            <Route path="/clinic/previsit" element={<PrevisitRoute page="clinic" />} />
+            <Route path="/clinic/previsit/setup" element={<PrevisitRoute page="clinic-setup" />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
