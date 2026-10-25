@@ -35,6 +35,11 @@ Add a public **Med Coverage** card. An MA picks a payer and sees which OAB drug 
 
 Run and record the API test suite (`source venv/bin/activate && python -m pytest tests/ -v`) and the web suite (`npm run lint && npm test && npm run build`) on fresh branches before writing code. Some coverage and docling tests may already fail. Record them and don't fix them.
 
+### Baseline recorded (2026-10-25)
+
+- API (`origin/master` 03b2574): 22 failed, 148 passed, 20 skipped, 3 errors. All failures are in `test_coverage_search_smoke.py`, `test_docling_extraction.py`, `test_document_deletion.py`, `test_document_pipeline_integration.py`, and `test_document_processing_rollback.py`. Not fixed.
+- Web (`main` 3f1f997): lint clean, 80 tests passed, build OK.
+
 ### If blocked
 
 If something can't be done as written, make the smallest reasonable choice, add a row to the §11 decision log, and keep going. Stop only for anything that would need a secret Ryan has not provided (the Telegram bot token, the agent auth token). Leave a clear TODO, and stub the dependency behind a config flag so tests still pass.
@@ -298,3 +303,10 @@ Responses never include `pending` or `rejected` rows outside `/review/{token}`.
 | 10 | 2026-10-25 | Prefix `medcov_` and route `/med-coverage` | Avoid collision with the deprecated coverage feature's tables and `/coverage` routes |
 | 11 | 2026-10-25 | Caps: research 1 concurrent, 5/day, 40/month; extraction 60/month | Ryan: "be reasonable". Max limits are rarely hit. |
 | 12 | 2026-10-25 | This spec follows practicetools rules: GitHub issues, push branches, PRs not merged by the agent | Ryan |
+| 13 | 2026-10-25 | Seed all 12 payers in `commercial_beta3.csv` (spec said 11) | The CSV has 12 distinct payers, including the Advocate-affiliated plan |
+| 14 | 2026-10-25 | `medcov_drug` is product-level, and strength-level for mirabegron/Myrbetriq (27 drugs) | CMS keys tablets by RxCUI per strength; one coverage row per Part D CSV row |
+| 15 | 2026-10-25 | Seed CSV rows naming several drugs ("all", "A / B / C") expand to one row per drug, sharing a `seed_ref` | Rows are per drug in the schema. Commercial 38 CSV rows become 83 coverage rows |
+| 16 | 2026-10-25 | Ambiguous PA/ST/QL text maps to `GAP`, original text kept in `detail` | Never guess |
+| 17 | 2026-10-25 | `on_formulary` is nullable; null shows as "Coverage not published" | CMS-suppressed plans and unclear payer text are unknown, not "not covered" |
+| 18 | 2026-10-25 | Deploy script runs the idempotent seed after `alembic upgrade head` | Otherwise prod never gets seed data without a manual step |
+| 19 | 2026-10-25 | Web version 0.2.0.0 for the card | New feature is a minor bump |
