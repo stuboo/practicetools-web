@@ -244,22 +244,22 @@ Responses never include `pending` or `rejected` rows outside `/review/{token}`.
 ## 9. Milestones and acceptance criteria
 
 ### M1: Data model, seed, read API (api)
-- [ ] `app/models/medcov.py` with every §6 table. Imported in `app/models/__init__.py`. Migration on the current head.
-- [ ] Idempotent seed loads the three CSVs. Test: row counts 1,379 / 24 / 38, and every live row has `source_url`, `doc_date`, `retrieved`.
-- [ ] Every public `GET` route in §7. Tests prove pending and rejected rows never appear.
-- [ ] `.env.example` documents every new `medcov_*` setting.
+- [x] `app/models/medcov.py` with every §6 table. Imported in `app/models/__init__.py`. Migration on the current head.
+- [x] Idempotent seed loads the three CSVs. Test: row counts 1,379 / 24 / 38, and every live row has `source_url`, `doc_date`, `retrieved`.
+- [x] Every public `GET` route in §7. Tests prove pending and rejected rows never appear.
+- [x] `.env.example` documents every new `medcov_*` setting.
 
 ### M2: Card (web)
-- [ ] Flow, result view, changes panel, and request box (the request box can be wired in M2 because the endpoint lands in M4). Vitest coverage for the flow graph and the "prescribe this" logic.
-- [ ] Home card added. Works at 375 px width.
-- [ ] The footer disclaimer and the source/date line appear on every result (test).
+- [x] Flow, result view, changes panel, and request box (the request box can be wired in M2 because the endpoint lands in M4). Vitest coverage for the flow graph and the "prescribe this" logic.
+- [x] Home card added. Works at 375 px width.
+- [x] The footer disclaimer and the source/date line appear on every result (test).
 
 ### M3: Scheduled CMS refresh (api)
-- [ ] Part D pipeline ported to `app/services/medcov/partd/`, extended to antimuscarinic RxCUIs.
-- [ ] `medcov-cms` service and timer in `deploy/`, installed by the deploy script. It detects new releases from the CMS catalog and applies them.
-- [ ] Diff engine writes `medcov_change`, with pertinent changes published. Replay test: apply the CY2026 Q3 fixture, then the CY2027 Oct fixture. Expected changes include Aetna MA moving from Myrbetriq to generic, and Security Health H5211 losing Brown County.
-- [ ] `medcov-sources` weekly hash watcher: dead sources counted, stale changelog entry after 2 failures.
-- [ ] Failure alerts are sent through a `TelegramNotifier`. It is a no-op that logs when no token is configured, so tests pass without secrets.
+- [x] Part D pipeline ported to `app/services/medcov/partd/`, extended to antimuscarinic RxCUIs.
+- [x] `medcov-cms` service and timer in `deploy/`, installed by the deploy script. It detects new releases from the CMS catalog and applies them.
+- [x] Diff engine writes `medcov_change`, with pertinent changes published. Replay test: apply the CY2026 Q3 fixture, then the CY2027 Oct fixture. Expected changes include Aetna MA moving from Myrbetriq to generic, and Security Health H5211 losing Brown County.
+- [x] `medcov-sources` weekly hash watcher: dead sources counted, stale changelog entry after 2 failures.
+- [x] Failure alerts are sent through a `TelegramNotifier`. It is a no-op that logs when no token is configured, so tests pass without secrets.
 
 ### M4: Telegram approvals and research requests (api, web)
 - [ ] `POST /v1/requests` with PHI screen, merge, limits, and expiry. Tests cover each rejection pattern.
@@ -310,3 +310,9 @@ Responses never include `pending` or `rejected` rows outside `/review/{token}`.
 | 17 | 2026-10-25 | `on_formulary` is nullable; null shows as "Coverage not published" | CMS-suppressed plans and unclear payer text are unknown, not "not covered" |
 | 18 | 2026-10-25 | Deploy script runs the idempotent seed after `alembic upgrade head` | Otherwise prod never gets seed data without a manual step |
 | 19 | 2026-10-25 | Web version 0.2.0.0 for the card | New feature is a minor bump |
+| 20 | 2026-10-25 | Replay result: all 7 Aetna MA plans move from Myrbetriq to generic (tablet and granules); Security Health H5211-004 and H5211-012 lose Brown County | Verified against the real CMS files; matches `oab-pa-kit` summary.md |
+| 21 | 2026-10-25 | Two extra pertinent kinds: `plan_removed` (gone from a later release of the same year) and `plan_ending` (no next-year successor) | MAs need to know a plan disappears |
+| 22 | 2026-10-25 | CMS job refuses a release whose WI plan count is under 50% of that year's live plans, and alerts | Guards against a truncated or malformed release wiping data |
+| 23 | 2026-10-25 | Stale-source and source-changed entries use a new change origin, `system` (shown as "Automated check") | Neither CMS nor reviewed |
+| 24 | 2026-10-25 | Timers are installed only after the deploy health check passes; install failure logs but does not roll back | Rollback never touches timers |
+| 25 | 2026-10-25 | Sources watcher sends `practicetools-medcov <MEDCOV_HTTP_CONTACT>` as User-Agent to sec.gov | sec.gov returns 403 without a contact email |
