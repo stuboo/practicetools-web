@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom'
 import {
   AiOutlineFilePdf,
-  AiOutlineForm,
   AiOutlineSearch,
-  AiOutlineFileText,
   AiOutlineSchedule,
 } from 'react-icons/ai'
 

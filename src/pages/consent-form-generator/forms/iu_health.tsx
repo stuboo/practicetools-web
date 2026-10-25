@@ -17,7 +17,6 @@ interface IUHealthFormProps {
 
 export default function IUHealthForm({ procedures }: IUHealthFormProps) {
   // const passedInProcedures = useDebounce(procedures, 1000)
-  const procedureKeys = Object.keys(procedures)
   const proceduresInputRef = useRef<HTMLTextAreaElement>(null)
   const riskInputRef = useRef<HTMLInputElement>(null)
   const alternativeInputRef = useRef<HTMLInputElement>(null)
@@ -46,7 +45,7 @@ export default function IUHealthForm({ procedures }: IUHealthFormProps) {
     },
   })
 
-  const { isLoading: generatingForm, mutate: generateForm } = useMutation((data: any) => ProcedureAliasAPI.generateConsentForm(data), {
+  const { isLoading: generatingForm, mutate: generateForm } = useMutation((data: unknown) => ProcedureAliasAPI.generateConsentForm(data), {
     onSuccess(data) {
       toast.success('Consent form generated successfully!')
       setCreatedFormUrl(data)
@@ -106,7 +105,7 @@ export default function IUHealthForm({ procedures }: IUHealthFormProps) {
 
   useEffect(() => {
     if (proceduresInputRef && proceduresInputRef.current) {
-      proceduresInputRef.current.value = procedureKeys
+      proceduresInputRef.current.value = Object.keys(procedures)
         .map(
           (pk, i) =>
             `${i === 0 ? '' : ' '}${

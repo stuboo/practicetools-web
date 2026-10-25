@@ -48,7 +48,8 @@ export function useCoverageSearch(
 
   const { data, isLoading, isError, error, isFetching } = useQuery({
     queryKey: ['coverage-search', searchQuery],
-    queryFn: () => search(searchQuery!),
+    // `enabled` keeps this from running without a query.
+    queryFn: () => (searchQuery ? search(searchQuery) : Promise.reject(new Error('No search query'))),
     enabled: enabled && !!searchQuery,
     staleTime: 30_000, // Cache results for 30 seconds
     cacheTime: 5 * 60_000, // Keep in cache for 5 minutes

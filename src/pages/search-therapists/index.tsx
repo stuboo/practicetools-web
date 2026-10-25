@@ -99,7 +99,6 @@ export default function SearchTherapists() {
     search()
     // Both dependencies are debounced values, so nothing here can fire on a
     // keystroke or a stepper click.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedValue, debouncedRadius])
 
   const handleSelect = useCallback((id: number) => {

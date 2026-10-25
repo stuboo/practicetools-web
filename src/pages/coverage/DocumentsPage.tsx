@@ -37,11 +37,14 @@ export function DocumentsPage() {
     status?: DocumentStatus;
     year?: number;
     insurance_plan_id?: string;
-  }>(() => ({
+  }>(() => {
+    const year = searchParams.get('year');
+    return {
     status: (searchParams.get('status') as DocumentStatus) || undefined,
-    year: searchParams.get('year') ? parseInt(searchParams.get('year')!) : undefined,
+    year: year ? parseInt(year) : undefined,
     insurance_plan_id: searchParams.get('plan') || undefined,
-  }));
+    };
+  });
 
   const [page, setPage] = useState(() => {
     const p = searchParams.get('page');
