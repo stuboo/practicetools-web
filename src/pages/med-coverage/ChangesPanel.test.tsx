@@ -44,4 +44,18 @@ describe('ChangesPanel', () => {
     expect(screen.getByText('Automated check')).toBeInTheDocument()
     expect(screen.getByRole('option', { name: 'Security Health Plan' })).toBeInTheDocument()
   })
+
+  it('shows the newest 10 and offers the rest', async () => {
+    api.getChanges.mockResolvedValue(
+      Array.from({ length: 12 }, (_, i) => ({
+        id: i + 1, date: '2026-10-25', payer_id: 1, payer_name: 'Quartz', plan_id: null,
+        kind: 'tier_change', summary: `Change ${i + 1}.`, source_url: null, origin: 'cms' as const,
+      }))
+    )
+    renderPanel()
+    expect(await screen.findByText('Change 10.')).toBeInTheDocument()
+    expect(screen.queryByText('Change 11.')).not.toBeInTheDocument()
+    screen.getByRole('button', { name: 'Show all 12 changes' }).click()
+    expect(await screen.findByText('Change 12.')).toBeInTheDocument()
+  })
 })

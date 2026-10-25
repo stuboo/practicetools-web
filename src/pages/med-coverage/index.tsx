@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ChevronLeft, Search } from 'lucide-react'
 import MedCoverageAPI from '../../api/medCoverage'
 import { useDebounce } from '../../hooks/useDebounce'
-import { MedCovClass, MedCovPayer, PayerKind } from '../../types/medCoverage'
+import { MedCovPayer, PayerKind } from '../../types/medCoverage'
 import { FlowNode, flowReducer, getNode, initialFlowState } from './util/flow'
 import ChangesPanel from './ChangesPanel'
 import RequestBox from './RequestBox'
@@ -15,7 +15,8 @@ export default function MedCoverage() {
   const [state, dispatch] = useReducer(flowReducer, initialFlowState)
   const node = getNode(state.nodeId)
   const classes = useQuery(['medcov', 'classes'], MedCoverageAPI.getClasses, { staleTime: STALE })
-  const chosenClass = classes.data?.find((c) => c.code === state.classCode)
+  // Results show every class; /v1/classes only sets their order.
+  const classOrder = classes.data?.map((c) => c.code)
   const payerTypeText = getNode('payerType').options?.find((o) => o.value === state.payerType)?.text
 
   return (
@@ -39,22 +40,13 @@ export default function MedCoverage() {
               Start over
             </button>
             <span className="min-w-0 break-words text-gray-500">
-              {[chosenClass?.label, payerTypeText].filter(Boolean).join(' · ')}
+              {payerTypeText}
             </span>
           </div>
         )}
 
         <main className="flex flex-col gap-4">
           {node.type !== 'result' && <h2 className="text-lg font-semibold">{node.text}</h2>}
-
-          {node.type === 'class' && (
-            <ClassStep
-              classes={classes.data}
-              isLoading={classes.isLoading}
-              isError={classes.isError}
-              onPick={(code) => dispatch({ type: 'chooseClass', code })}
-            />
-          )}
 
           {node.type === 'question' && (
             <div className="flex flex-col gap-2">
@@ -81,7 +73,7 @@ export default function MedCoverage() {
           )}
 
           {node.type === 'result' && state.payerId != null && (
-            <ResultStep payerId={state.payerId} classCode={state.classCode} />
+            <ResultStep payerId={state.payerId} classOrder={classOrder} />
           )}
         </main>
 
@@ -101,33 +93,6 @@ function ChoiceButton({ children, onClick }: { children: ReactNode; onClick: () 
     >
       {children}
     </button>
-  )
-}
-
-function ClassStep({
-  classes,
-  isLoading,
-  isError,
-  onPick,
-}: {
-  classes: MedCovClass[] | undefined
-  isLoading: boolean
-  isError: boolean
-  onPick: (code: string) => void
-}) {
-  if (isLoading) return <p className="text-sm text-gray-600">Loading…</p>
-  if (isError || !classes) return <p className="text-sm text-red-700">Medication classes could not be loaded.</p>
-  return (
-    <div className="flex flex-col gap-2">
-      {classes.map((c) => (
-        <ChoiceButton key={c.code} onClick={() => onPick(c.code)}>
-          <span className="block">{c.label}</span>
-          <span className="block text-xs font-normal text-gray-500">
-            {Array.from(new Set(c.drugs.map((d) => d.name))).join(', ')}
-          </span>
-        </ChoiceButton>
-      ))}
-    </div>
   )
 }
 
@@ -215,7 +180,7 @@ function PayerPick({ node, onPick }: { node: FlowNode; onPick: (id: number) => v
   )
 }
 
-function ResultStep({ payerId, classCode }: { payerId: number; classCode: string | null }) {
+function ResultStep({ payerId, classOrder }: { payerId: number; classOrder?: string[] }) {
   const detail = useQuery(['medcov', 'payer', payerId], () => MedCoverageAPI.getPayer(payerId), {
     staleTime: STALE,
   })
@@ -223,5 +188,5 @@ function ResultStep({ payerId, classCode }: { payerId: number; classCode: string
   if (detail.isError || !detail.data) {
     return <p className="text-sm text-red-700">Coverage for this payer could not be loaded.</p>
   }
-  return <ResultView detail={detail.data} classCode={classCode} />
+  return <ResultView detail={detail.data} classOrder={classOrder} />
 }

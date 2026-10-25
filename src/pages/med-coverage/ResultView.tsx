@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import { ExternalLink } from 'lucide-react'
-import { ClassCode, MedCovChange, MedCovPayer, MedCovPayerDetail, MedCovRow } from '../../types/medCoverage'
-import { formKey, ingredientsOf, prescribeByForm } from './util/prescribe'
-import { ALL_LINES, ProductGroup, groupByProduct, productLines, rowsForLine } from './util/group'
+import { ChevronRight, ExternalLink } from 'lucide-react'
+import { Flag, MedCovChange, MedCovPayer, MedCovPayerDetail, MedCovRow } from '../../types/medCoverage'
+import { productLines, rowsForLine } from './util/group'
+import { DEFAULT_CLASS_ORDER, SummaryItem, beta3Highlights, summarize } from './util/summary'
 import {
   PORTAL_DISCLAIMER,
   criteriaChecklist,
@@ -18,85 +18,105 @@ import {
 
 interface ResultViewProps {
   detail: MedCovPayerDetail
-  classCode: ClassCode | null
+  /** Class codes in display order (from /v1/classes); beta-3s first by default. */
+  classOrder?: string[]
 }
 
-export default function ResultView({ detail, classCode }: ResultViewProps) {
-  const classRows = useMemo(
-    () => (classCode ? detail.rows.filter((r) => r.drug.class_code === classCode) : detail.rows),
-    [detail.rows, classCode]
-  )
-  const years = useMemo(() => planYears(classRows), [classRows])
+const BUCKET_TONE: Record<string, string> = {
+  open: 'border-green-300 bg-green-50 text-green-900',
+  restricted: 'border-amber-300 bg-amber-50 text-amber-900',
+  not_covered: 'border-red-300 bg-red-50 text-red-900',
+  unknown: 'border-gray-300 bg-gray-100 text-gray-800',
+}
+
+export default function ResultView({ detail, classOrder = DEFAULT_CLASS_ORDER }: ResultViewProps) {
+  const years = useMemo(() => planYears(detail.rows), [detail.rows])
   const [chosenYear, setChosenYear] = useState<number | null>(null)
   const year = chosenYear != null && years.includes(chosenYear) ? chosenYear : years[0] ?? null
-  const rows = rowsForYear(classRows, year)
-  const lines = productLines(rows)
-  const [chosenLine, setChosenLine] = useState<string>(ALL_LINES)
-  const line = chosenLine === ALL_LINES || lines.includes(chosenLine) ? chosenLine : ALL_LINES
-  const shownLines = lines.length > 1 ? (line === ALL_LINES ? lines : [line]) : [ALL_LINES]
+  const yearRows = rowsForYear(detail.rows, year)
+  const lines = productLines(yearRows)
+  const [chosenLine, setChosenLine] = useState<string | null>(null)
+  const line = chosenLine != null && lines.includes(chosenLine) ? chosenLine : lines[0] ?? ''
+  const rows = lines.length > 1 ? rowsForLine(yearRows, line) : yearRows
+  const buckets = summarize(rows, classOrder)
+  const highlights = beta3Highlights(rows)
 
   return (
-    <section aria-label="Coverage result" className="flex flex-col gap-4">
+    <section aria-label="Coverage result" className="flex flex-col gap-3">
       <PayerHeader payer={detail.payer} />
 
-      {years.length > 1 && (
-        <div role="group" aria-label="Plan year" className="flex flex-wrap items-center gap-2">
-          <span className="text-sm text-gray-600">Plan year</span>
-          {years.map((y) => (
-            <button
-              key={y}
-              type="button"
-              aria-pressed={y === year}
-              onClick={() => setChosenYear(y)}
-              className={`rounded-full border px-3 py-1 text-sm ${
-                y === year ? 'border-blue-700 bg-blue-700 text-white' : 'border-gray-300 bg-white text-gray-800'
-              }`}
-            >
-              {y}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {lines.length > 1 && (
-        <div role="group" aria-label="Product line" className="flex flex-wrap items-center gap-2">
-          <span className="text-sm text-gray-600">Product line</span>
-          {[ALL_LINES, ...lines].map((l) => (
-            <button
-              key={l}
-              type="button"
-              aria-pressed={l === line}
-              onClick={() => setChosenLine(l)}
-              className={`rounded-full border px-3 py-1 text-sm ${
-                l === line ? 'border-blue-700 bg-blue-700 text-white' : 'border-gray-300 bg-white text-gray-800'
-              }`}
-            >
-              {l === ALL_LINES ? 'All' : l || 'Unspecified'}
-            </button>
-          ))}
+      {(years.length > 1 || lines.length > 1) && (
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+          {years.length > 1 && (
+            <div role="group" aria-label="Plan year" className="flex items-center gap-1">
+              <span className="text-gray-600">Year</span>
+              {years.map((y) => (
+                <button
+                  key={y}
+                  type="button"
+                  aria-pressed={y === year}
+                  onClick={() => setChosenYear(y)}
+                  className={`rounded-full border px-2.5 py-0.5 ${
+                    y === year ? 'border-blue-700 bg-blue-700 text-white' : 'border-gray-300 bg-white text-gray-800'
+                  }`}
+                >
+                  {y}
+                </button>
+              ))}
+            </div>
+          )}
+          {lines.length > 1 && (
+            <label className="flex min-w-0 max-w-full items-center gap-1">
+              <span className="shrink-0 text-gray-600">Product line</span>
+              <select
+                aria-label="Product line"
+                value={line}
+                onChange={(e) => setChosenLine(e.target.value)}
+                className="min-w-0 max-w-full rounded border border-gray-300 bg-white px-1 py-0.5"
+              >
+                {lines.map((l) => (
+                  <option key={l} value={l}>
+                    {l || 'Unspecified'}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
         </div>
       )}
 
       {rows.length === 0 ? (
-        <p className="rounded-lg border border-dashed border-gray-300 bg-white p-4 text-sm text-gray-700">
-          No coverage rows are published for this payer and medication class yet.
+        <p className="rounded-lg border border-dashed border-gray-300 bg-white p-3 text-sm text-gray-700">
+          No coverage rows are published for this payer yet.
         </p>
       ) : (
-        shownLines.map((l) => {
-          const lineRows = rowsForLine(rows, l)
-          return (
-            <div key={l} className="flex flex-col gap-4" data-testid="product-line">
-              {l !== ALL_LINES && (
-                <h3 className="break-words border-b border-gray-300 pb-1 text-base font-bold">
-                  {l || 'Unspecified product line'}
-                </h3>
-              )}
-              {ingredientsOf(lineRows).map((ingredient) => (
-                <IngredientBlock key={ingredient} ingredient={ingredient} rows={lineRows} />
-              ))}
+        <>
+          {highlights.length > 0 && (
+            <div className="rounded-lg border border-blue-300 bg-blue-50 px-3 py-2 text-sm" data-testid="prescribe-highlight">
+              <p className="font-semibold">Prescribe this</p>
+              <ul className="mt-0.5 flex flex-col gap-0.5">
+                {highlights.map((h) => (
+                  <li key={h.ingredient} data-testid="prescribe-this" className="break-words">
+                    {h.text}
+                  </li>
+                ))}
+              </ul>
             </div>
-          )
-        })
+          )}
+
+          {buckets.map((bucket) => (
+            <div key={bucket.availability} data-testid={`bucket-${bucket.availability}`} className="flex flex-col gap-1">
+              <h3 className={`rounded-md border px-2 py-1 text-sm font-semibold ${BUCKET_TONE[bucket.availability]}`}>
+                {bucket.label} <span className="font-normal">({bucket.items.length})</span>
+              </h3>
+              <ul className="flex flex-col divide-y divide-gray-200 rounded-md border border-gray-200 bg-white">
+                {bucket.items.map((item) => (
+                  <ProductLine key={item.key} item={item} />
+                ))}
+              </ul>
+            </div>
+          ))}
+        </>
       )}
 
       <RecentChanges changes={detail.changes.slice(0, 3)} />
@@ -110,108 +130,81 @@ export default function ResultView({ detail, classCode }: ResultViewProps) {
 
 function PayerHeader({ payer }: { payer: MedCovPayer }) {
   const plan = payer.plan
+  const meta = plan
+    ? [plan.contract_plan, plan.contract_name || plan.org_name, plan.plan_type].filter(Boolean).join(' · ')
+    : payer.pbm_name
+    ? `Pharmacy benefit: ${payer.pbm_name}`
+    : ''
   return (
-    <header className="flex flex-col gap-1">
-      <h2 className="break-words text-xl font-bold">{plan ? plan.plan_name : payer.name}</h2>
-      <p className="break-words text-sm text-gray-600">
-        {plan
-          ? [plan.contract_plan, plan.contract_name || plan.org_name, plan.plan_type, `Plan year ${plan.plan_year}`]
-              .filter(Boolean)
-              .join(' · ')
-          : payer.pbm_name
-          ? `Pharmacy benefit: ${payer.pbm_name}`
-          : null}
-      </p>
-      {plan?.brown_county && <p className="text-xs text-gray-500">Serves Brown County</p>}
+    <header className="min-w-0">
+      <h2 className="break-words text-lg font-bold leading-tight">{plan ? plan.plan_name : payer.name}</h2>
+      {meta && <p className="break-words text-xs text-gray-600">{meta}</p>}
     </header>
   )
 }
 
-function IngredientBlock({ ingredient, rows }: { ingredient: string; rows: MedCovRow[] }) {
-  const mine = rows.filter((r) => r.drug.name === ingredient)
-  const perForm = prescribeByForm(ingredient, mine)
-  const showForm = perForm.length > 1
-  return (
-    <div className="flex flex-col gap-3">
-      <h3 className="text-base font-semibold capitalize">{ingredient}</h3>
-      {perForm.map((advice) => {
-        const key = advice.form?.toLowerCase() ?? ''
-        const formRows = mine.filter((r) => formKey(r.drug) === key)
-        return (
-          <div key={key || 'any'} className="flex flex-col gap-3">
-            <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
-              {showForm && <p className="text-xs font-semibold uppercase text-blue-900">{advice.form ?? 'Other forms'}</p>}
-              <p className="text-sm">
-                <span className="font-semibold">Prescribe this: </span>
-                <span data-testid="prescribe-this">{advice.text}</span>
-              </p>
-            </div>
-            {groupByProduct(formRows).map((group) => (
-              <ProductBlock key={group.key} group={group} />
-            ))}
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-function ProductBlock({ group }: { group: ProductGroup }) {
-  if (group.uniform) {
-    return <DrugCard row={group.rows[0]} title={group.label} strengths={group.strengths} />
+function EditBadge({ label, flag }: { label: string; flag: Flag | null }) {
+  if (flag === 'N') return null
+  if (flag === 'Y') {
+    return <span className="rounded bg-amber-200 px-1 text-[11px] font-semibold text-amber-950">{label}</span>
   }
-  // Strengths differ in coverage: say so and show each one.
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-sm font-semibold">{group.label}: coverage differs by strength</p>
-      {group.rows.map((row) => (
-        <DrugCard key={row.id} row={row} title={row.drug.label} strengths={[]} />
-      ))}
-    </div>
+    <span title={`${label} not published`} className="rounded border border-gray-300 px-1 text-[11px] text-gray-500">
+      {label}?
+    </span>
   )
 }
 
-function StatusBadge({ row }: { row: MedCovRow }) {
-  const [text, tone] =
-    row.on_formulary === true
-      ? [isGap(row.status_or_tier) ? 'Covered' : row.status_or_tier, 'bg-green-100 text-green-900']
-      : row.on_formulary === false
-      ? [isGap(row.status_or_tier) ? 'Not on formulary' : row.status_or_tier, 'bg-red-100 text-red-900']
-      : ['Coverage not published', 'bg-gray-200 text-gray-800']
-  return <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${tone}`}>{text}</span>
+function ProductLine({ item }: { item: SummaryItem }) {
+  const showEdits = item.availability !== 'not_covered'
+  return (
+    <li data-testid="product-line-item">
+      <details className="group">
+        <summary className="flex cursor-pointer list-none items-start gap-2 px-2 py-2 [&::-webkit-details-marker]:hidden">
+          <ChevronRight
+            className="mt-0.5 h-4 w-4 shrink-0 text-gray-400 transition-transform group-open:rotate-90"
+            aria-hidden="true"
+          />
+          <span className="min-w-0 flex-1">
+            <span className="block break-words text-sm font-medium">
+              {item.name}
+              {item.strengths.length > 0 && (
+                <span className="font-normal text-gray-500"> {item.strengths.join(', ')}</span>
+              )}
+            </span>
+            {item.tier && <span className="block break-words text-xs text-gray-600">{item.tier}</span>}
+          </span>
+          {showEdits && (
+            <span className="flex shrink-0 items-center gap-1 pt-0.5">
+              <EditBadge label="PA" flag={item.pa} />
+              <EditBadge label="ST" flag={item.st} />
+              <EditBadge label="QL" flag={item.ql} />
+            </span>
+          )}
+        </summary>
+        <ProductDetail row={item.row} />
+      </details>
+    </li>
+  )
 }
 
-function DrugCard({ row, title, strengths }: { row: MedCovRow; title: string; strengths: string[] }) {
+function ProductDetail({ row }: { row: MedCovRow }) {
   const phrases = nextSmartPhrases(row)
-  const unknownDetail = row.on_formulary == null && !isGap(row.status_or_tier) ? row.status_or_tier : null
   return (
-    <article
-      aria-label={title}
-      data-testid="drug-result"
-      className="flex min-w-0 flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
-    >
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <div className="min-w-0">
-          <h4 className="break-words font-semibold">{title}</h4>
-          {strengths.length > 0 && (
-            <p className="text-xs text-gray-600">
-              {strengths.length > 1 ? 'Strengths' : 'Strength'}: {strengths.join(', ')}
-            </p>
-          )}
-        </div>
-        <StatusBadge row={row} />
-      </div>
-      {unknownDetail && <p className="text-xs text-gray-600">Payer listing: {unknownDetail}</p>}
-
-      <dl className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-3">
+    <div data-testid="drug-result" className="flex min-w-0 flex-col gap-3 border-t border-gray-100 bg-gray-50 px-3 py-3 text-sm">
+      <p className="text-xs text-gray-600">
+        {row.drug.label}
+        {!isGap(row.status_or_tier) && <> · Payer listing: {row.status_or_tier}</>}
+      </p>
+      <dl className="grid grid-cols-1 gap-1 sm:grid-cols-3">
         <Edit label="Prior auth (PA)" value={flagText(row.pa)} gap={isGap(row.pa)} />
         <Edit label="Step therapy (ST)" value={flagText(row.st)} gap={isGap(row.st)} />
         <Edit label="Quantity limit (QL)" value={quantityLimitText(row)} gap={isGap(row.ql)} />
       </dl>
 
       <div>
-        <h5 className="text-sm font-semibold">PA criteria</h5>
-        <ul className="mt-1 grid grid-cols-1 gap-1 text-sm sm:grid-cols-2">
+        <h5 className="font-semibold">PA criteria</h5>
+        <ul className="mt-1 grid grid-cols-1 gap-1 sm:grid-cols-2">
           {criteriaChecklist(row).map((c) => (
             <li key={c.label} className="flex flex-wrap gap-x-1">
               <span className="text-gray-600">{c.label}:</span>
@@ -219,18 +212,16 @@ function DrugCard({ row, title, strengths }: { row: MedCovRow; title: string; st
             </li>
           ))}
         </ul>
-        {!isGap(row.criteria_summary) && (
-          <p className="mt-2 break-words text-sm text-gray-700">{row.criteria_summary}</p>
-        )}
-        {!isGap(row.notes) && <p className="mt-2 break-words text-sm text-gray-700">Note: {row.notes}</p>}
+        {!isGap(row.criteria_summary) && <p className="mt-2 break-words text-gray-700">{row.criteria_summary}</p>}
+        {!isGap(row.notes) && <p className="mt-2 break-words text-gray-700">Note: {row.notes}</p>}
       </div>
 
-      <div className="text-sm">
+      <div>
         <h5 className="font-semibold">Next step</h5>
         {phrases.length ? (
           <p className="mt-1 flex flex-wrap gap-2">
             {phrases.map((p) => (
-              <code key={p} className="rounded bg-gray-100 px-1.5 py-0.5 font-plexmono text-xs">
+              <code key={p} className="rounded bg-white px-1.5 py-0.5 font-plexmono text-xs">
                 {p}
               </code>
             ))}
@@ -241,13 +232,13 @@ function DrugCard({ row, title, strengths }: { row: MedCovRow; title: string; st
       </div>
 
       <SourceLine row={row} />
-    </article>
+    </div>
   )
 }
 
 function Edit({ label, value, gap }: { label: string; value: string; gap: boolean }) {
   return (
-    <div className="flex justify-between gap-2 rounded bg-gray-50 px-2 py-1 sm:flex-col sm:justify-start">
+    <div className="flex justify-between gap-2 rounded bg-white px-2 py-1 sm:flex-col sm:justify-start">
       <dt className="text-gray-600">{label}</dt>
       <dd className={gap ? 'italic text-gray-500' : 'font-medium'}>{value}</dd>
     </div>
@@ -297,20 +288,19 @@ function SourceLine({ row }: { row: MedCovRow }) {
 }
 
 function RecentChanges({ changes }: { changes: MedCovChange[] }) {
+  if (changes.length === 0) {
+    return <p className="text-sm text-gray-600">Recent changes: no changes recorded yet.</p>
+  }
   return (
-    <div>
-      <h3 className="text-base font-semibold">Recent changes for this payer</h3>
-      {changes.length === 0 ? (
-        <p className="text-sm text-gray-600">No changes recorded yet.</p>
-      ) : (
-        <ul className="mt-1 flex flex-col gap-2">
-          {changes.map((c) => (
-            <li key={c.id} className="break-words rounded border border-gray-200 bg-white p-2 text-sm">
-              <span className="font-plexmono text-xs text-gray-500">{c.date}</span> {c.summary}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <details className="rounded-md border border-gray-200 bg-white text-sm">
+      <summary className="cursor-pointer px-2 py-2 font-semibold">Recent changes ({changes.length})</summary>
+      <ul className="flex flex-col gap-1 border-t border-gray-100 px-2 py-2">
+        {changes.map((c) => (
+          <li key={c.id} className="break-words">
+            <span className="font-plexmono text-xs text-gray-500">{c.date}</span> {c.summary}
+          </li>
+        ))}
+      </ul>
+    </details>
   )
 }

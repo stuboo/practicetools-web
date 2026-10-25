@@ -4,6 +4,8 @@ import MedCoverageAPI from '../../api/medCoverage'
 import { MedCovChange } from '../../types/medCoverage'
 import { hostOf } from './util/format'
 
+const PAGE = 10
+
 const ORIGIN_LABEL: Record<string, string> = {
   cms: 'CMS',
   reviewed: 'Reviewed',
@@ -13,6 +15,7 @@ const ORIGIN_LABEL: Record<string, string> = {
 
 export default function ChangesPanel() {
   const [payerId, setPayerId] = useState<number | null>(null)
+  const [showAll, setShowAll] = useState(false)
 
   const meta = useQuery(['medcov', 'meta'], MedCoverageAPI.getMeta, { staleTime: 5 * 60_000 })
   const all = useQuery(['medcov', 'changes', 'all'], () => MedCoverageAPI.getChanges(), {
@@ -35,6 +38,7 @@ export default function ChangesPanel() {
 
   const active = payerId == null ? all : filtered
   const changes: MedCovChange[] = active.data ?? []
+  const shown = showAll ? changes : changes.slice(0, PAGE)
 
   return (
     <section aria-labelledby="medcov-changes-heading" className="flex flex-col gap-3">
@@ -73,7 +77,7 @@ export default function ChangesPanel() {
         <p className="text-sm text-gray-600">No changes recorded yet.</p>
       ) : (
         <ul className="flex flex-col gap-2">
-          {changes.map((c) => (
+          {shown.map((c) => (
             <li key={c.id} className="flex flex-col gap-1 rounded-lg border border-gray-200 bg-white p-3 text-sm">
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500">
                 <span className="font-plexmono">{c.date}</span>
@@ -94,6 +98,11 @@ export default function ChangesPanel() {
             </li>
           ))}
         </ul>
+      )}
+      {!showAll && changes.length > PAGE && (
+        <button type="button" onClick={() => setShowAll(true)} className="self-start text-sm font-medium text-blue-700 underline">
+          Show all {changes.length} changes
+        </button>
       )}
     </section>
   )

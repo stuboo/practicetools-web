@@ -44,7 +44,7 @@ describe('MedCoverage page', () => {
     ])
   })
 
-  it('walks class -> commercial -> payer -> result', async () => {
+  it('asks coverage first: commercial -> payer -> result', async () => {
     api.searchPayers.mockImplementation(async ({ kind } = {}) =>
       kind === 'commercial' ? [commercialDetail().payer] : []
     )
@@ -54,7 +54,8 @@ describe('MedCoverage page', () => {
     expect(await screen.findByText('Data checked 2026-10-25')).toBeInTheDocument()
     expect(screen.getByText('Gemtesa removed.')).toBeInTheDocument()
 
-    await userEvent.click(await screen.findByRole('button', { name: /Beta-3 agonists/ }))
+    expect(screen.getByText("What is the patient's prescription coverage?")).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /Beta-3 agonists/ })).not.toBeInTheDocument()
     await userEvent.click(screen.getByRole('button', { name: /Commercial plan or PBM/ }))
     expect(api.searchPayers).toHaveBeenCalledWith({ kind: 'commercial', limit: 200 })
     expect(api.searchPayers).toHaveBeenCalledWith({ kind: 'pbm', limit: 200 })
@@ -63,7 +64,10 @@ describe('MedCoverage page', () => {
     await userEvent.click(await screen.findByRole('button', { name: /Security Health Plan/ }))
     expect(api.getPayer).toHaveBeenCalledWith(12)
     expect(await screen.findByText('Payer criteria change. Confirm in the payer portal before submitting.')).toBeInTheDocument()
-    expect(screen.getAllByTestId('prescribe-this')[0]).toHaveTextContent('Generic mirabegron')
+    expect(screen.getAllByTestId('prescribe-this').map((li) => li.textContent)).toEqual([
+      'Mirabegron: Generic mirabegron is covered (PA required).',
+      'Vibegron: Gemtesa is not covered.',
+    ])
 
     await userEvent.click(screen.getByRole('button', { name: /Back/ }))
     expect(await screen.findByRole('button', { name: /Security Health Plan/ })).toBeInTheDocument()
@@ -74,8 +78,7 @@ describe('MedCoverage page', () => {
     api.getPayer.mockResolvedValue(medicareDetail())
     renderPage()
 
-    await userEvent.click(await screen.findByRole('button', { name: /Beta-3 agonists/ }))
-    await userEvent.click(screen.getByRole('button', { name: /Medicare/ }))
+    await userEvent.click(await screen.findByRole('button', { name: /Medicare/ }))
     await userEvent.type(screen.getByLabelText('Search Medicare plans'), 'H5216-001')
 
     await waitFor(() =>
@@ -86,6 +89,6 @@ describe('MedCoverage page', () => {
 
     await userEvent.click(await screen.findByRole('button', { name: /HumanaChoice H5216-001 \(PPO\)/ }))
     expect(await screen.findByRole('button', { name: '2027' })).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getAllByTestId('prescribe-this')[0]).toHaveTextContent('Myrbetriq, not generic mirabegron')
+    expect(screen.getAllByTestId('prescribe-this')[0]).toHaveTextContent(/^Mirabegron: send Myrbetriq/)
   })
 })

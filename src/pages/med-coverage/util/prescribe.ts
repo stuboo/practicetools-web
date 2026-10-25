@@ -51,7 +51,7 @@ function editCount(row: MedCovRow): number {
 }
 
 /** The easiest-to-fill covered row: lowest tier, then fewest PA/ST edits. */
-function best(rows: MedCovRow[]): MedCovRow {
+export function best(rows: MedCovRow[]): MedCovRow {
   return [...rows].sort((a, b) => tierNumber(a) - tierNumber(b) || editCount(a) - editCount(b))[0]
 }
 

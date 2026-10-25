@@ -3,17 +3,19 @@
 // at, and every transition goes through flowReducer so it can be tested
 // without rendering anything.
 
-import { ClassCode, PayerKind } from '../../../types/medCoverage'
+import { PayerKind } from '../../../types/medCoverage'
+
+// The card asks for coverage first and always shows every OAB medication
+// (both classes); there is no drug-class step (decision log row 26).
 
 export type FlowNodeId =
-  | 'drugClass'
   | 'payerType'
   | 'medicarePlan'
   | 'medicaidPayer'
   | 'commercialPayer'
   | 'result'
 
-export type FlowNodeType = 'class' | 'question' | 'search' | 'pick' | 'result'
+export type FlowNodeType = 'question' | 'search' | 'pick' | 'result'
 
 export type PayerType = 'medicare' | 'medicaid' | 'commercial'
 
@@ -31,17 +33,11 @@ export interface FlowNode {
   options?: FlowOption[]
   /** Payer kinds a search or pick node lists. */
   payerKinds?: PayerKind[]
-  /** Where a class, search or pick node goes once answered. */
+  /** Where a search or pick node goes once answered. */
   next?: FlowNodeId
 }
 
 export const flowNodes: Record<FlowNodeId, FlowNode> = {
-  drugClass: {
-    id: 'drugClass',
-    type: 'class',
-    text: 'Which kind of medication?',
-    next: 'payerType',
-  },
   payerType: {
     id: 'payerType',
     type: 'question',
@@ -82,7 +78,6 @@ export const flowNodes: Record<FlowNodeId, FlowNode> = {
 
 export interface FlowState {
   nodeId: FlowNodeId
-  classCode: ClassCode | null
   payerType: PayerType | null
   payerId: number | null
   /** Nodes already answered, oldest first, for Back. */
@@ -90,15 +85,13 @@ export interface FlowState {
 }
 
 export type FlowAction =
-  | { type: 'chooseClass'; code: ClassCode }
   | { type: 'chooseOption'; index: number }
   | { type: 'choosePayer'; payerId: number }
   | { type: 'back' }
   | { type: 'reset' }
 
 export const initialFlowState: FlowState = {
-  nodeId: 'drugClass',
-  classCode: null,
+  nodeId: 'payerType',
   payerType: null,
   payerId: null,
   history: [],
@@ -115,8 +108,6 @@ function advance(state: FlowState, to: FlowNodeId, patch: Partial<FlowState>): F
 /** Clear every answer given at or after `nodeId`, so Back never leaves stale picks behind. */
 function clearFrom(state: FlowState, nodeId: FlowNodeId): FlowState {
   switch (flowNodes[nodeId].type) {
-    case 'class':
-      return { ...state, classCode: null, payerType: null, payerId: null }
     case 'question':
       return { ...state, payerType: null, payerId: null }
     case 'search':
@@ -129,15 +120,12 @@ function clearFrom(state: FlowState, nodeId: FlowNodeId): FlowState {
 
 /**
  * Apply one user action. An action that does not fit the current node (say,
- * picking a payer while the class question is showing) returns the state
+ * picking a payer while the coverage question is showing) returns the state
  * unchanged rather than jumping somewhere unexpected.
  */
 export function flowReducer(state: FlowState, action: FlowAction): FlowState {
   const node = flowNodes[state.nodeId]
   switch (action.type) {
-    case 'chooseClass':
-      if (node.type !== 'class' || !node.next || !action.code) return state
-      return advance(state, node.next, { classCode: action.code })
     case 'chooseOption': {
       const option = node.type === 'question' ? node.options?.[action.index] : undefined
       if (!option) return state
