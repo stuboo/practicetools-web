@@ -41,14 +41,14 @@ describe('ResultView', () => {
 
   it('leads with every OAB med, both classes, bucketed at a glance', () => {
     render(<ResultView detail={medicareDetail()} />)
-    expect(within(bucket('open')).getByText('Generic oxybutynin ER tablet')).toBeInTheDocument()
+    expect(within(bucket('open')).getByText('oxybutynin ER tablet')).toBeInTheDocument()
     const restricted = within(bucket('restricted')).getAllByTestId('product-line-item').map((li) => li.querySelector('summary')?.textContent)
-    expect(restricted[0]).toMatch(/^Myrbetriq ER tablet 25 mg, 50 mgTier 3ST/)
+    expect(restricted[0]).toMatch(/^Myrbetriq \(mirabegron\) ER tablet 25 mg, 50 mgTier 3ST/)
     expect(restricted[1]).toMatch(/^Gemtesa \(vibegron\) tablet 75 mgTier 4PASTQL/)
-    expect(within(bucket('not_covered')).getByText('Generic mirabegron ER tablet')).toBeInTheDocument()
+    expect(within(bucket('not_covered')).getByText('mirabegron ER tablet')).toBeInTheDocument()
     // One labelled line per ingredient; never two answers joined on one line.
     expect(screen.getAllByTestId('prescribe-this').map((li) => li.textContent)).toEqual([
-      'Mirabegron: send Myrbetriq (step therapy required; quantity limit). Generic mirabegron is not covered.',
+      'Mirabegron: send Myrbetriq (step therapy required; quantity limit). mirabegron is not covered.',
       'Vibegron: Gemtesa is covered (PA and step therapy required; quantity limit).',
     ])
     expect(screen.getByTestId('prescribe-highlight')).not.toHaveTextContent('·')
@@ -59,7 +59,7 @@ describe('ResultView', () => {
     const item = within(bucket('open')).getByTestId('product-line-item')
     const details = item.querySelector('details') as HTMLDetailsElement
     expect(details.open).toBe(false)
-    await userEvent.click(within(item).getByText('Generic oxybutynin ER tablet'))
+    await userEvent.click(within(item).getByText('oxybutynin ER tablet'))
     expect(details.open).toBe(true)
     expect(within(item).getByText('PA criteria')).toBeVisible()
   })
@@ -89,7 +89,7 @@ describe('ResultView', () => {
     await userEvent.click(screen.getByRole('button', { name: '2026' }))
     expect(screen.getByRole('button', { name: '2026' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getAllByTestId('prescribe-this')[0]).toHaveTextContent(
-      'Mirabegron: send generic (step therapy required; quantity limit). Myrbetriq is also covered.'
+      'Mirabegron: send mirabegron (step therapy required; quantity limit). Myrbetriq needs step therapy.'
     )
     expect(screen.getByText(FOOTER)).toBeInTheDocument()
     expectEveryProductSourced()
@@ -115,8 +115,8 @@ describe('ResultView', () => {
     const detail = commercialDetail()
     detail.rows = [row({ drug: brandMyrbetriq, plan_year: null }), row({ drug: brandMyrbetriq50, plan_year: null, on_formulary: false })]
     render(<ResultView detail={detail} />)
-    expect(within(bucket('restricted')).getByText('Myrbetriq ER 25 mg tablet')).toBeInTheDocument()
-    expect(within(bucket('not_covered')).getByText('Myrbetriq ER 50 mg tablet')).toBeInTheDocument()
+    expect(within(bucket('restricted')).getByText('Myrbetriq (mirabegron) ER 25 mg tablet')).toBeInTheDocument()
+    expect(within(bucket('not_covered')).getByText('Myrbetriq (mirabegron) ER 50 mg tablet')).toBeInTheDocument()
   })
 
   it('filters a payer with several product lines to one line at a time', async () => {

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { ChevronRight, ExternalLink } from 'lucide-react'
 import { Flag, MedCovChange, MedCovPayer, MedCovPayerDetail, MedCovRow } from '../../types/medCoverage'
 import { productLines, rowsForLine } from './util/group'
-import { DEFAULT_CLASS_ORDER, SummaryItem, beta3Highlights, summarize } from './util/summary'
+import { DEFAULT_CLASS_ORDER, SummaryItem, beta3Highlights, displayName, summarize } from './util/summary'
 import {
   PORTAL_DISCLAIMER,
   criteriaChecklist,
@@ -193,7 +193,7 @@ function ProductDetail({ row }: { row: MedCovRow }) {
   return (
     <div data-testid="drug-result" className="flex min-w-0 flex-col gap-3 border-t border-gray-100 bg-gray-50 px-3 py-3 text-sm">
       <p className="text-xs text-gray-600">
-        {row.drug.label}
+        {displayName(row.drug.label, row.drug.product, row.drug.name)}
         {!isGap(row.status_or_tier) && <> · Payer listing: {row.status_or_tier}</>}
       </p>
       <dl className="grid grid-cols-1 gap-1 sm:grid-cols-3">

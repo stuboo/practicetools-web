@@ -13,11 +13,13 @@ Versions follow the 4-part MAJOR.MINOR.PATCH.MICRO format.
   antimuscarinics together. Medicare plans can be found by plan name or
   contract-plan ID (for example H5216-001).
 - The result leads with one "Prescribe this" line per beta-3 agonist
-  ("Mirabegron: send generic. Myrbetriq is not covered.") and then every
+  that names what to send and what the other product needs ("Mirabegron:
+  send Myrbetriq (preferred, no PA). mirabegron needs PA."), then every
   product in four groups: covered with no PA or step, covered with PA or
   step therapy, not covered, and coverage not published. Each product is
   one line with its tier and PA / ST / QL badges; strengths with the same
-  coverage share a line.
+  coverage share a line. A bare lowercase ingredient name ("oxybutynin ER
+  tablet") is the generic; brands read "Detrol LA (tolterodine) capsule".
 - Tapping a product opens its detail: the PA criteria checklist (prior
   trials, trial duration, contraindication pathway, approval length),
   notes, the SmartPhrases to run next, and the source link, document

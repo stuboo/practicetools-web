@@ -65,7 +65,7 @@ describe('MedCoverage page', () => {
     expect(api.getPayer).toHaveBeenCalledWith(12)
     expect(await screen.findByText('Payer criteria change. Confirm in the payer portal before submitting.')).toBeInTheDocument()
     expect(screen.getAllByTestId('prescribe-this').map((li) => li.textContent)).toEqual([
-      'Mirabegron: Generic mirabegron is covered (PA required).',
+      'Mirabegron: mirabegron is covered (PA required).',
       'Vibegron: Gemtesa is not covered.',
     ])
 

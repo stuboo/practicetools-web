@@ -5,7 +5,7 @@
 
 import { Flag, MedCovRow } from '../../../types/medCoverage'
 import { groupByProduct } from './group'
-import { best, brandName, formKey, ingredientsOf, prescribeThis } from './prescribe'
+import { best, brandName, formKey, ingredientsOf, isNonPreferred, isPreferred, prescribeThis } from './prescribe'
 import { isGap } from './format'
 
 export type Availability = 'open' | 'restricted' | 'not_covered' | 'unknown'
@@ -35,11 +35,24 @@ export function availabilityOf(row: Pick<MedCovRow, 'on_formulary' | 'pa' | 'st'
   return row.pa === 'Y' || row.st === 'Y' ? 'restricted' : 'open'
 }
 
-/** "mirabegron ER tablet (generic)" -> "Generic mirabegron ER tablet"; brands as labelled. */
-export function displayName(label: string, product: string): string {
-  if (product !== 'generic') return label
-  const bare = label.replace(/\s*\(generic\)\s*/i, ' ').replace(/\s{2,}/g, ' ').trim()
-  return `Generic ${bare}`
+/**
+ * Card naming: a bare lowercase ingredient means generic, and a brand reads
+ * "Brand (ingredient)" with the form after it.
+ * "mirabegron ER tablet (generic)" -> "mirabegron ER tablet";
+ * "Myrbetriq ER tablet" -> "Myrbetriq (mirabegron) ER tablet";
+ * "Detrol LA capsule" -> "Detrol LA (tolterodine) capsule".
+ */
+export function displayName(label: string, product: string, ingredient: string): string {
+  if (product === 'generic') return label.replace(/\s*\(generic\)\s*/i, ' ').replace(/\s{2,}/g, ' ').trim()
+  const brand = brandName({ label, name: ingredient })
+  const escaped = ingredient.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const rest = label
+    .trim()
+    .slice(brand.length)
+    .replace(new RegExp(`\\(\\s*${escaped}\\s*\\)`, 'i'), ' ')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+  return `${brand} (${ingredient})${rest ? ` ${rest}` : ''}`
 }
 
 export interface SummaryItem {
@@ -86,10 +99,10 @@ export function summaryItems(rows: MedCovRow[]): SummaryItem[] {
   const items: SummaryItem[] = []
   for (const group of groupByProduct(rows)) {
     if (group.uniform) {
-      items.push(itemFor(group.rows[0], displayName(group.label, group.rows[0].drug.product), group.strengths, group.key))
+      items.push(itemFor(group.rows[0], displayName(group.label, group.rows[0].drug.product, group.rows[0].drug.name), group.strengths, group.key))
     } else {
       for (const row of group.rows) {
-        items.push(itemFor(row, displayName(row.drug.label, row.drug.product), [], `${group.key}|${row.id}`))
+        items.push(itemFor(row, displayName(row.drug.label, row.drug.product, row.drug.name), [], `${group.key}|${row.id}`))
       }
     }
   }
@@ -117,12 +130,43 @@ function capitalize(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
-/** " (PA and step therapy required; quantity limit)" for the row sent, or "". */
-export function restrictionNote(row: Pick<MedCovRow, 'pa' | 'st' | 'ql'>): string {
-  const required = [row.pa === 'Y' ? 'PA' : '', row.st === 'Y' ? 'step therapy' : ''].filter(Boolean)
-  const parts = [required.length ? `${required.join(' and ')} required` : '', row.ql === 'Y' ? 'quantity limit' : '']
-    .filter(Boolean)
-  return parts.length ? ` (${parts.join('; ')})` : ''
+const unknownFlag = (flag: Flag | null | undefined) => flag !== 'Y' && flag !== 'N'
+
+function required(row: Pick<MedCovRow, 'pa' | 'st'>): string[] {
+  return [row.pa === 'Y' ? 'PA' : '', row.st === 'Y' ? 'step therapy' : ''].filter(Boolean)
+}
+
+/**
+ * Parenthetical for the product to send: its preferred status and its edits,
+ * " (preferred, no PA)", " (non-preferred, PA required; quantity limit)".
+ * An unpublished PA is said out loud; an unpublished ST next to a published
+ * PA=N is left unsaid ("no PA"), since some payers (WI Medicaid) publish no
+ * ST at all.
+ */
+export function restrictionNote(row: Pick<MedCovRow, 'pa' | 'st' | 'ql' | 'status_or_tier'>): string {
+  const req = required(row)
+  const edits = req.length
+    ? `${req.join(' and ')} required`
+    : row.pa === 'N' && row.st === 'N'
+    ? 'no PA or step'
+    : row.pa === 'N'
+    ? 'no PA'
+    : 'PA not published'
+  const status = isPreferred(row.status_or_tier) ? 'preferred' : isNonPreferred(row.status_or_tier) ? 'non-preferred' : ''
+  const head = [status, edits].filter(Boolean).join(', ')
+  return ` (${[head, row.ql === 'Y' ? 'quantity limit' : ''].filter(Boolean).join('; ')})`
+}
+
+/**
+ * What the other, also-covered product needs. Never a bare "also covered":
+ * "mirabegron needs PA." / "Myrbetriq is also covered, no PA or step."
+ */
+export function alternativeSentence(label: string, row: Pick<MedCovRow, 'pa' | 'st'>): string {
+  const req = required(row)
+  if (req.length) return `${label} needs ${req.join(' and ')}.`
+  if (row.pa === 'N' && row.st === 'N') return `${label} is also covered, no PA or step.`
+  if (row.pa === 'N' && unknownFlag(row.st)) return `${label} is also covered, no PA.`
+  return `${label} is also covered (PA not published).`
 }
 
 /** "is not covered" when every row says so, else "coverage not published". */
@@ -132,8 +176,8 @@ function statusPhrase(rows: MedCovRow[]): string {
 
 /**
  * One plain sentence for one ingredient, labelled with the ingredient so two
- * drugs never share a line: "Mirabegron: send generic. Myrbetriq is not
- * covered." / "Vibegron: Gemtesa is covered (PA required)."
+ * drugs never share a line: "Mirabegron: send Myrbetriq (preferred, no PA).
+ * mirabegron needs PA." / "Vibegron: Gemtesa is covered (PA required)."
  */
 export function highlightLine(ingredient: string, rows: MedCovRow[]): string {
   const mine = rows.filter((r) => r.drug.name === ingredient)
@@ -143,11 +187,12 @@ export function highlightLine(ingredient: string, rows: MedCovRow[]): string {
   const coveredB = brands.filter((r) => r.on_formulary === true)
   const name = capitalize(ingredient)
   const brand = Array.from(new Set(brands.map((r) => brandName(r.drug)))).join(' / ')
-  const genericLabel = `generic ${ingredient}`
+  // A bare lowercase ingredient name means the generic.
+  const genericLabel = ingredient
 
   if (!generics.length || !brands.length) {
     const only = generics.length ? generics : brands
-    const label = generics.length ? capitalize(genericLabel) : brand
+    const label = generics.length ? genericLabel : brand
     const covered = only.filter((r) => r.on_formulary === true)
     if (covered.length) return `${name}: ${label} is covered${restrictionNote(best(covered))}.`
     return `${name}: ${label} ${statusPhrase(only)}.`
@@ -155,16 +200,17 @@ export function highlightLine(ingredient: string, rows: MedCovRow[]): string {
 
   if (coveredG.length && coveredB.length) {
     const sendBrand = prescribeThis(ingredient, mine).kind === 'brand'
-    const sent = best(sendBrand ? coveredB : coveredG)
+    const g = best(coveredG)
+    const b = best(coveredB)
     return sendBrand
-      ? `${name}: send ${brand}${restrictionNote(sent)}. ${capitalize(genericLabel)} is also covered.`
-      : `${name}: send generic${restrictionNote(sent)}. ${brand} is also covered.`
+      ? `${name}: send ${brand}${restrictionNote(b)}. ${alternativeSentence(genericLabel, g)}`
+      : `${name}: send ${genericLabel}${restrictionNote(g)}. ${alternativeSentence(brand, b)}`
   }
   if (coveredG.length) {
-    return `${name}: send generic${restrictionNote(best(coveredG))}. ${brand} ${statusPhrase(brands)}.`
+    return `${name}: send ${genericLabel}${restrictionNote(best(coveredG))}. ${brand} ${statusPhrase(brands)}.`
   }
   if (coveredB.length) {
-    return `${name}: send ${brand}${restrictionNote(best(coveredB))}. ${capitalize(genericLabel)} ${statusPhrase(generics)}.`
+    return `${name}: send ${brand}${restrictionNote(best(coveredB))}. ${genericLabel} ${statusPhrase(generics)}.`
   }
   if (mine.every((r) => r.on_formulary === false)) {
     return `${name}: neither ${genericLabel} nor ${brand} is covered.`

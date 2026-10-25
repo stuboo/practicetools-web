@@ -41,9 +41,39 @@ export function formKey(drug: Pick<MedCovRowDrug, 'form'>): string {
   return drug.form?.trim().toLowerCase() ?? ''
 }
 
+/**
+ * Rank a payer's status text; lower is easier to fill. Numbered tiers and
+ * step levels ("Tier 2", "T1", "Step 1 (both)") rank by number; text-only
+ * statuses (e.g. WI Medicaid's PDL) rank "Preferred" ahead of
+ * "Non-preferred"; a brand penalty adds half a tier. Unrankable text
+ * ranks last.
+ */
+export function statusRank(status: string | null | undefined): number {
+  const text = status ?? ''
+  const numbered = /\b(?:tier|t)\s*(\d+)\b/i.exec(text) ?? /\bstep\s*(\d+)\b/i.exec(text)
+  let rank = numbered
+    ? Number(numbered[1])
+    : /\bnon-?\s*preferred\b/i.test(text)
+    ? 2
+    : /\bpreferred\b/i.test(text)
+    ? 1
+    : Number.POSITIVE_INFINITY
+  if (/brand penalty|\bBP\b/.test(text)) rank += 0.5
+  return rank
+}
+
+/** True when the status says "Preferred" (and not "Non-preferred"). */
+export function isPreferred(status: string | null | undefined): boolean {
+  const text = status ?? ''
+  return /\bpreferred\b/i.test(text) && !/\bnon-?\s*preferred\b/i.test(text)
+}
+
+export function isNonPreferred(status: string | null | undefined): boolean {
+  return /\bnon-?\s*preferred\b/i.test(status ?? '')
+}
+
 function tierNumber(row: MedCovRow): number {
-  const match = /tier\s*(\d+)/i.exec(row.status_or_tier ?? '')
-  return match ? Number(match[1]) : Number.POSITIVE_INFINITY
+  return statusRank(row.status_or_tier)
 }
 
 function editCount(row: MedCovRow): number {
