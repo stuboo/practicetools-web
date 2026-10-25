@@ -91,7 +91,8 @@ describe('prescribeThis', () => {
 
 describe('helpers', () => {
   it('takes the brand name from the label', () => {
-    expect(brandName({ label: 'Myrbetriq ER 25 mg', name: 'mirabegron' })).toBe('Myrbetriq')
+    expect(brandName({ label: 'Myrbetriq ER 25 mg tablet', name: 'mirabegron' })).toBe('Myrbetriq')
+    expect(brandName({ label: 'Gemtesa (vibegron) 75 mg tablet', name: 'vibegron' })).toBe('Gemtesa')
     expect(brandName({ label: '', name: 'vibegron' })).toBe('vibegron')
   })
 
@@ -100,5 +101,32 @@ describe('helpers', () => {
       'vibegron',
       'mirabegron',
     ])
+  })
+})
+
+describe('prescribeThis with unpublished coverage (on_formulary null)', () => {
+  it('does not claim the other product is excluded when its coverage is unknown', () => {
+    const advice = prescribeThis('mirabegron', [
+      row({ drug: brandMyrbetriq }),
+      row({ drug: genericMirabegron, on_formulary: null, status_or_tier: 'GAP' }),
+    ])
+    expect(advice).toEqual({
+      ingredient: 'mirabegron',
+      kind: 'brand',
+      text: 'Myrbetriq. Coverage of generic mirabegron is not published.',
+    })
+  })
+
+  it('reports unknown, not "not covered", when nothing is known to be covered', () => {
+    const allUnknown = prescribeThis('vibegron', [row({ drug: brandGemtesa, on_formulary: null })])
+    expect(allUnknown.kind).toBe('unknown')
+    expect(allUnknown.text).toBe("Coverage not published for Gemtesa. Check the payer's formulary.")
+
+    const mixed = prescribeThis('mirabegron', [
+      row({ drug: brandMyrbetriq, on_formulary: false }),
+      row({ drug: genericMirabegron, on_formulary: null }),
+    ])
+    expect(mixed.kind).toBe('unknown')
+    expect(mixed.text).not.toMatch(/Not on this formulary/)
   })
 })

@@ -40,6 +40,8 @@ export interface MedCovPlan {
   formulary_id: string
   plan_year: number
   brown_county: boolean
+  /** CMS legal contract name, e.g. "SECURITY HEALTH PLAN OF WISCONSIN, INC.". */
+  contract_name?: string | null
 }
 
 export interface MedCovPayer {
@@ -56,14 +58,18 @@ export interface MedCovSource {
   doc_date: string | null
   retrieved: string | null
   last_checked: string | null
+  /** Every URL the row cites; `url` is the first. */
+  urls?: string[]
 }
 
 export interface MedCovRow {
   id: number
   drug: MedCovRowDrug
+  /** Null for non-Medicare rows. */
   plan_year: number | null
   status_or_tier: string | null
-  on_formulary: boolean
+  /** True covered, false not covered, null unknown (not published / suppressed). */
+  on_formulary: boolean | null
   pa: Flag | null
   st: Flag | null
   ql: Flag | null
@@ -77,6 +83,11 @@ export interface MedCovRow {
   criteria_summary: string | null
   origin: string
   source: MedCovSource | null
+  /** Commercial payers can list one drug per product line (e.g. Cigna's four Gemtesa rows). */
+  product_line?: string | null
+  formulary_name?: string | null
+  notes?: string | null
+  detail?: unknown
 }
 
 export type ChangeOrigin = 'cms' | 'reviewed' | 'seed'
@@ -84,8 +95,8 @@ export type ChangeOrigin = 'cms' | 'reviewed' | 'seed'
 export interface MedCovChange {
   id: number
   date: string
-  payer_id: number
-  payer_name: string
+  payer_id: number | null
+  payer_name: string | null
   plan_id: number | null
   kind: string
   summary: string

@@ -138,7 +138,7 @@ function PayerButton({ payer, onPick }: { payer: MedCovPayer; onPick: (id: numbe
       <span className="block break-words">{plan ? plan.plan_name : payer.name}</span>
       <span className="block break-words text-xs font-normal text-gray-500">
         {plan
-          ? [plan.contract_plan, plan.org_name, plan.plan_type].join(' · ')
+          ? [plan.contract_plan, plan.contract_name || plan.org_name, plan.plan_type].filter(Boolean).join(' · ')
           : payer.pbm_name
           ? `Pharmacy benefit: ${payer.pbm_name}`
           : payer.kind === 'pbm'

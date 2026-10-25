@@ -76,15 +76,15 @@ describe('MedCoverage page', () => {
 
     await userEvent.click(await screen.findByRole('button', { name: /Beta-3 agonists/ }))
     await userEvent.click(screen.getByRole('button', { name: /Medicare/ }))
-    await userEvent.type(screen.getByLabelText('Search Medicare plans'), 'H5211-001')
+    await userEvent.type(screen.getByLabelText('Search Medicare plans'), 'H5216-001')
 
     await waitFor(() =>
-      expect(api.searchPayers).toHaveBeenCalledWith({ kind: 'medicare_plan', q: 'H5211-001' })
+      expect(api.searchPayers).toHaveBeenCalledWith({ kind: 'medicare_plan', q: 'H5216-001' })
     )
     // Debounced: one search for the settled text, not one per keystroke.
     expect(api.searchPayers).toHaveBeenCalledTimes(1)
 
-    await userEvent.click(await screen.findByRole('button', { name: /Security Advantage Plus/ }))
+    await userEvent.click(await screen.findByRole('button', { name: /HumanaChoice H5216-001 \(PPO\)/ }))
     expect(await screen.findByRole('button', { name: '2027' })).toHaveAttribute('aria-pressed', 'true')
     expect(screen.getAllByTestId('prescribe-this')[0]).toHaveTextContent('Myrbetriq, not generic mirabegron')
   })

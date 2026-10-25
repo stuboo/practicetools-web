@@ -5,7 +5,7 @@
 
 import { MedCovRow, MedCovRowDrug } from '../../../types/medCoverage'
 
-export type PrescribeKind = 'generic' | 'brand' | 'none'
+export type PrescribeKind = 'generic' | 'brand' | 'none' | 'unknown'
 
 export interface PrescribeAdvice {
   ingredient: string
@@ -46,8 +46,8 @@ export function prescribeThis(ingredient: string, rows: MedCovRow[]): PrescribeA
   const mine = rows.filter((r) => r.drug.name === ingredient)
   const generics = mine.filter((r) => r.drug.product === 'generic')
   const brands = mine.filter((r) => r.drug.product === 'brand')
-  const coveredGeneric = generics.filter((r) => r.on_formulary)
-  const coveredBrand = brands.filter((r) => r.on_formulary)
+  const coveredGeneric = generics.filter((r) => r.on_formulary === true)
+  const coveredBrand = brands.filter((r) => r.on_formulary === true)
 
   const genericText = `generic ${ingredient}`
   const brandText = (list: MedCovRow[]) => unique(list.map((r) => brandName(r.drug))).join(' / ')
@@ -71,27 +71,34 @@ export function prescribeThis(ingredient: string, rows: MedCovRow[]): PrescribeA
     }
   }
 
+  // on_formulary null means the payer has not published coverage. It is
+  // never read as "not covered": the MA is told it is unknown instead.
+  const otherProduct = (others: MedCovRow[], othersText: string, chosen: string) => {
+    if (!others.length) return chosen
+    if (others.every((r) => r.on_formulary === false)) return `${chosen}, not ${othersText}`
+    return `${chosen}. Coverage of ${othersText} is not published.`
+  }
+
   if (coveredBrand.length) {
-    return {
-      ingredient,
-      kind: 'brand',
-      text: generics.length
-        ? `${brandText(coveredBrand)}, not ${genericText}`
-        : brandText(coveredBrand),
-    }
+    return { ingredient, kind: 'brand', text: otherProduct(generics, genericText, brandText(coveredBrand)) }
   }
 
   if (coveredGeneric.length) {
     return {
       ingredient,
       kind: 'generic',
-      text: brands.length
-        ? `${capitalize(genericText)}, not ${brandText(brands)}`
-        : capitalize(genericText),
+      text: otherProduct(brands, brands.length ? brandText(brands) : '', capitalize(genericText)),
     }
   }
 
   const products = [generics.length ? genericText : '', brands.length ? brandText(brands) : ''].filter(Boolean)
+  if (mine.some((r) => r.on_formulary == null)) {
+    return {
+      ingredient,
+      kind: 'unknown',
+      text: `Coverage not published for ${products.join(' or ') || ingredient}. Check the payer's formulary.`,
+    }
+  }
   const what = products.length === 2
     ? `neither ${products[0]} nor ${products[1]} is covered`
     : `${products[0] ?? genericText} is not covered`

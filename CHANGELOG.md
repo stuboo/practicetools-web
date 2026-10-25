@@ -22,6 +22,11 @@ Versions follow the 4-part MAJOR.MINOR.PATCH.MICRO format.
   and a reminder to confirm in the payer portal before submitting.
   Medicare plans open on the newest plan year, with a toggle when two
   years are published.
+- Strengths with the same coverage share one card ("Strengths: 25 mg,
+  50 mg") and are split out only when their coverage differs. Payers that
+  list a drug per product line get a product-line filter. Coverage the
+  payer has not published reads "Coverage not published", never "Not
+  covered".
 - A "What changed" panel lists published coverage changes, newest first,
   filterable by payer, with the date the data was last checked.
 - "Payer not listed?" lets anyone ask for a payer to be added (plan or

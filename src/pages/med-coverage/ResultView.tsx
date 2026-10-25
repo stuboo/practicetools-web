@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { ExternalLink } from 'lucide-react'
 import { ClassCode, MedCovChange, MedCovPayer, MedCovPayerDetail, MedCovRow } from '../../types/medCoverage'
 import { ingredientsOf, prescribeThis } from './util/prescribe'
+import { ALL_LINES, ProductGroup, groupByProduct, productLines, rowsForLine } from './util/group'
 import {
   PORTAL_DISCLAIMER,
   criteriaChecklist,
@@ -29,6 +30,10 @@ export default function ResultView({ detail, classCode }: ResultViewProps) {
   const [chosenYear, setChosenYear] = useState<number | null>(null)
   const year = chosenYear != null && years.includes(chosenYear) ? chosenYear : years[0] ?? null
   const rows = rowsForYear(classRows, year)
+  const lines = productLines(rows)
+  const [chosenLine, setChosenLine] = useState<string>(ALL_LINES)
+  const line = chosenLine === ALL_LINES || lines.includes(chosenLine) ? chosenLine : ALL_LINES
+  const shownLines = lines.length > 1 ? (line === ALL_LINES ? lines : [line]) : [ALL_LINES]
 
   return (
     <section aria-label="Coverage result" className="flex flex-col gap-4">
@@ -53,14 +58,45 @@ export default function ResultView({ detail, classCode }: ResultViewProps) {
         </div>
       )}
 
+      {lines.length > 1 && (
+        <div role="group" aria-label="Product line" className="flex flex-wrap items-center gap-2">
+          <span className="text-sm text-gray-600">Product line</span>
+          {[ALL_LINES, ...lines].map((l) => (
+            <button
+              key={l}
+              type="button"
+              aria-pressed={l === line}
+              onClick={() => setChosenLine(l)}
+              className={`rounded-full border px-3 py-1 text-sm ${
+                l === line ? 'border-blue-700 bg-blue-700 text-white' : 'border-gray-300 bg-white text-gray-800'
+              }`}
+            >
+              {l === ALL_LINES ? 'All' : l || 'Unspecified'}
+            </button>
+          ))}
+        </div>
+      )}
+
       {rows.length === 0 ? (
         <p className="rounded-lg border border-dashed border-gray-300 bg-white p-4 text-sm text-gray-700">
           No coverage rows are published for this payer and medication class yet.
         </p>
       ) : (
-        ingredientsOf(rows).map((ingredient) => (
-          <IngredientBlock key={ingredient} ingredient={ingredient} rows={rows} />
-        ))
+        shownLines.map((l) => {
+          const lineRows = rowsForLine(rows, l)
+          return (
+            <div key={l} className="flex flex-col gap-4" data-testid="product-line">
+              {l !== ALL_LINES && (
+                <h3 className="break-words border-b border-gray-300 pb-1 text-base font-bold">
+                  {l || 'Unspecified product line'}
+                </h3>
+              )}
+              {ingredientsOf(lineRows).map((ingredient) => (
+                <IngredientBlock key={ingredient} ingredient={ingredient} rows={lineRows} />
+              ))}
+            </div>
+          )
+        })
       )}
 
       <RecentChanges changes={detail.changes.slice(0, 3)} />
@@ -79,7 +115,9 @@ function PayerHeader({ payer }: { payer: MedCovPayer }) {
       <h2 className="break-words text-xl font-bold">{plan ? plan.plan_name : payer.name}</h2>
       <p className="break-words text-sm text-gray-600">
         {plan
-          ? [plan.contract_plan, plan.org_name, plan.plan_type, `Plan year ${plan.plan_year}`].join(' · ')
+          ? [plan.contract_plan, plan.contract_name || plan.org_name, plan.plan_type, `Plan year ${plan.plan_year}`]
+              .filter(Boolean)
+              .join(' · ')
           : payer.pbm_name
           ? `Pharmacy benefit: ${payer.pbm_name}`
           : null}
@@ -101,31 +139,59 @@ function IngredientBlock({ ingredient, rows }: { ingredient: string; rows: MedCo
           <span data-testid="prescribe-this">{advice.text}</span>
         </p>
       </div>
-      {mine.map((row) => (
-        <DrugCard key={row.id} row={row} />
+      {groupByProduct(mine).map((group) => (
+        <ProductBlock key={group.key} group={group} />
       ))}
     </div>
   )
 }
 
-function DrugCard({ row }: { row: MedCovRow }) {
+function ProductBlock({ group }: { group: ProductGroup }) {
+  if (group.uniform) {
+    return <DrugCard row={group.rows[0]} title={group.label} strengths={group.strengths} />
+  }
+  // Strengths differ in coverage: say so and show each one.
+  return (
+    <div className="flex flex-col gap-2">
+      <p className="text-sm font-semibold">{group.label}: coverage differs by strength</p>
+      {group.rows.map((row) => (
+        <DrugCard key={row.id} row={row} title={row.drug.label} strengths={[]} />
+      ))}
+    </div>
+  )
+}
+
+function StatusBadge({ row }: { row: MedCovRow }) {
+  const [text, tone] =
+    row.on_formulary === true
+      ? [isGap(row.status_or_tier) ? 'Covered' : row.status_or_tier, 'bg-green-100 text-green-900']
+      : row.on_formulary === false
+      ? [isGap(row.status_or_tier) ? 'Not on formulary' : row.status_or_tier, 'bg-red-100 text-red-900']
+      : ['Coverage not published', 'bg-gray-200 text-gray-800']
+  return <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${tone}`}>{text}</span>
+}
+
+function DrugCard({ row, title, strengths }: { row: MedCovRow; title: string; strengths: string[] }) {
   const phrases = nextSmartPhrases(row)
+  const unknownDetail = row.on_formulary == null && !isGap(row.status_or_tier) ? row.status_or_tier : null
   return (
     <article
-      aria-label={row.drug.label}
+      aria-label={title}
       data-testid="drug-result"
       className="flex min-w-0 flex-col gap-3 rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
     >
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h4 className="break-words font-semibold">{row.drug.label}</h4>
-        <span
-          className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-            row.on_formulary ? 'bg-green-100 text-green-900' : 'bg-red-100 text-red-900'
-          }`}
-        >
-          {row.on_formulary ? row.status_or_tier || 'Covered' : row.status_or_tier || 'Not on formulary'}
-        </span>
+        <div className="min-w-0">
+          <h4 className="break-words font-semibold">{title}</h4>
+          {strengths.length > 0 && (
+            <p className="text-xs text-gray-600">
+              {strengths.length > 1 ? 'Strengths' : 'Strength'}: {strengths.join(', ')}
+            </p>
+          )}
+        </div>
+        <StatusBadge row={row} />
       </div>
+      {unknownDetail && <p className="text-xs text-gray-600">Payer listing: {unknownDetail}</p>}
 
       <dl className="grid grid-cols-1 gap-2 text-sm sm:grid-cols-3">
         <Edit label="Prior auth (PA)" value={flagText(row.pa)} gap={isGap(row.pa)} />
@@ -146,6 +212,7 @@ function DrugCard({ row }: { row: MedCovRow }) {
         {!isGap(row.criteria_summary) && (
           <p className="mt-2 break-words text-sm text-gray-700">{row.criteria_summary}</p>
         )}
+        {!isGap(row.notes) && <p className="mt-2 break-words text-sm text-gray-700">Note: {row.notes}</p>}
       </div>
 
       <div className="text-sm">
@@ -179,6 +246,7 @@ function Edit({ label, value, gap }: { label: string; value: string; gap: boolea
 
 function SourceLine({ row }: { row: MedCovRow }) {
   const source = row.source
+  const extra = Array.from(new Set(source?.urls ?? [])).filter((u) => u && u !== source?.url)
   if (!source) {
     return (
       <p data-testid="source-line" className="text-xs text-gray-500">
@@ -199,6 +267,21 @@ function SourceLine({ row }: { row: MedCovRow }) {
         <ExternalLink className="h-3 w-3" aria-hidden="true" />
       </a>{' '}
       · Document date: {dateText(source.doc_date)} · Last checked: {dateText(source.last_checked)}
+      {!isGap(row.formulary_name) && <> · Formulary: {row.formulary_name}</>}
+      {extra.length > 0 && (
+        <>
+          {' '}
+          · Also:{' '}
+          {extra.map((url, i) => (
+            <span key={url}>
+              {i > 0 && ', '}
+              <a href={url} target="_blank" rel="noreferrer" className="text-blue-700 underline">
+                {hostOf(url)}
+              </a>
+            </span>
+          ))}
+        </>
+      )}
     </p>
   )
 }
@@ -208,7 +291,7 @@ function RecentChanges({ changes }: { changes: MedCovChange[] }) {
     <div>
       <h3 className="text-base font-semibold">Recent changes for this payer</h3>
       {changes.length === 0 ? (
-        <p className="text-sm text-gray-600">No changes recorded.</p>
+        <p className="text-sm text-gray-600">No changes recorded yet.</p>
       ) : (
         <ul className="mt-1 flex flex-col gap-2">
           {changes.map((c) => (

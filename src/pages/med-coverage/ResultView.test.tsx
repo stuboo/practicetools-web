@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import ResultView from './ResultView'
-import { commercialDetail, medicareDetail } from './util/fixtures'
+import { brandGemtesa, brandMyrbetriq, brandMyrbetriq50, commercialDetail, medicareDetail, row } from './util/fixtures'
 import { MedCovPayerDetail } from '../../types/medCoverage'
 
 const FOOTER = 'Payer criteria change. Confirm in the payer portal before submitting.'
@@ -90,5 +90,86 @@ describe('ResultView', () => {
     expect(screen.getByText('Myrbetriq moved to tier 3.')).toBeInTheDocument()
     expect(screen.getByText('Plan now serves Brown County.')).toBeInTheDocument()
     expect(screen.queryByText('An older change.')).not.toBeInTheDocument()
+  })
+
+  it('shows strengths with identical coverage as one card', () => {
+    render(<ResultView detail={medicareDetail()} classCode="oab_beta3" />)
+    const card = screen.getByRole('article', { name: 'Myrbetriq ER tablet' })
+    expect(card).toHaveTextContent('Strengths: 25 mg, 50 mg')
+    expect(screen.getByRole('article', { name: 'mirabegron ER tablet (generic)' })).toHaveTextContent('Not on formulary')
+    // Myrbetriq, generic mirabegron, Gemtesa
+    expect(screen.getAllByTestId('drug-result')).toHaveLength(3)
+  })
+
+  it('splits strengths apart when their coverage differs', () => {
+    const detail = commercialDetail()
+    detail.rows = [row({ drug: brandMyrbetriq, plan_year: null, status_or_tier: 'Tier 3' }), row({ drug: brandMyrbetriq50, plan_year: null, status_or_tier: 'Tier 4' })]
+    render(<ResultView detail={detail} classCode="oab_beta3" />)
+    expect(screen.getByText('Myrbetriq ER tablet: coverage differs by strength')).toBeInTheDocument()
+    expect(screen.getByRole('article', { name: 'Myrbetriq ER 25 mg tablet' })).toHaveTextContent('Tier 3')
+    expect(screen.getByRole('article', { name: 'Myrbetriq ER 50 mg tablet' })).toHaveTextContent('Tier 4')
+    expectEveryResultSourced()
+  })
+
+  it('shows unknown coverage as "Coverage not published", never "Not covered"', () => {
+    const detail = commercialDetail()
+    detail.rows = [row({ drug: brandGemtesa, plan_year: null, on_formulary: null, status_or_tier: 'Suppressed by CMS (no formulary data)', pa: 'GAP', st: 'GAP', ql: 'GAP' })]
+    render(<ResultView detail={detail} classCode="oab_beta3" />)
+    const card = screen.getByTestId('drug-result')
+    expect(card).toHaveTextContent('Coverage not published')
+    expect(card).toHaveTextContent('Payer listing: Suppressed by CMS (no formulary data)')
+    expect(card).not.toHaveTextContent(/Not on formulary|Not covered/)
+    expect(screen.getByTestId('prescribe-this')).toHaveTextContent('Coverage not published for Gemtesa')
+  })
+
+  it('splits a payer with several product lines and filters by line', async () => {
+    const detail = commercialDetail()
+    detail.payer = { id: 30, name: 'Cigna', kind: 'commercial', pbm_name: 'Express Scripts', plan: null }
+    detail.rows = ['Standard', 'Performance', 'Advantage', 'Value'].map((line, i) =>
+      row({ drug: brandGemtesa, plan_year: null, product_line: line, status_or_tier: `Tier ${i + 2}`, formulary_name: `${line} Drug List` })
+    )
+    render(<ResultView detail={detail} classCode="oab_beta3" />)
+    expect(screen.getAllByTestId('product-line')).toHaveLength(4)
+    expect(screen.getByRole('heading', { name: 'Performance' })).toBeInTheDocument()
+    expect(screen.getAllByTestId('source-line')[0]).toHaveTextContent('Formulary: Standard Drug List')
+
+    await userEvent.click(within(screen.getByRole('group', { name: 'Product line' })).getByRole('button', { name: 'Value' }))
+    expect(screen.getAllByTestId('product-line')).toHaveLength(1)
+    expect(screen.getByTestId('drug-result')).toHaveTextContent('Tier 5')
+    expect(screen.getByText(FOOTER)).toBeInTheDocument()
+  })
+
+  it('has no product line filter when the payer has one line', () => {
+    render(<ResultView detail={commercialDetail()} classCode="oab_beta3" />)
+    expect(screen.queryByRole('group', { name: 'Product line' })).not.toBeInTheDocument()
+  })
+
+  it('links every additional source and shows the CMS contract name', () => {
+    const detail = medicareDetail()
+    detail.rows = [
+      row({
+        drug: brandGemtesa,
+        source: {
+          id: 9,
+          url: 'https://www.cms.gov/a.zip',
+          doc_date: '2026-10-08',
+          retrieved: '2026-10-25',
+          last_checked: '2026-10-25',
+          urls: ['https://www.cms.gov/a.zip', 'https://docushare-web.apps.external.pioneer.humana.com/criteria.pdf'],
+        },
+      }),
+    ]
+    render(<ResultView detail={detail} classCode="oab_beta3" />)
+    const links = within(screen.getByTestId('source-line')).getAllByRole('link')
+    expect(links.map((a) => a.getAttribute('href'))).toEqual([
+      'https://www.cms.gov/a.zip',
+      'https://docushare-web.apps.external.pioneer.humana.com/criteria.pdf',
+    ])
+    expect(screen.getByText(/HUMANA INSURANCE COMPANY/)).toBeInTheDocument()
+  })
+
+  it('reads well when the payer has no changes yet', () => {
+    render(<ResultView detail={{ ...commercialDetail(), changes: [] }} classCode="oab_beta3" />)
+    expect(screen.getByText('No changes recorded yet.')).toBeInTheDocument()
   })
 })

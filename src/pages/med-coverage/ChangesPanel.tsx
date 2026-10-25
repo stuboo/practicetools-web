@@ -26,7 +26,9 @@ export default function ChangesPanel() {
   // Filter choices come from the payers that actually have changes.
   const payers = useMemo(() => {
     const seen = new Map<number, string>()
-    for (const c of all.data ?? []) if (!seen.has(c.payer_id)) seen.set(c.payer_id, c.payer_name)
+    for (const c of all.data ?? []) {
+      if (c.payer_id != null && !seen.has(c.payer_id)) seen.set(c.payer_id, c.payer_name ?? `Payer ${c.payer_id}`)
+    }
     return Array.from(seen, ([id, name]) => ({ id, name })).sort((a, b) => a.name.localeCompare(b.name))
   }, [all.data])
 
@@ -67,14 +69,14 @@ export default function ChangesPanel() {
       ) : active.isError ? (
         <p className="text-sm text-red-700">Changes could not be loaded.</p>
       ) : changes.length === 0 ? (
-        <p className="text-sm text-gray-600">No changes published yet.</p>
+        <p className="text-sm text-gray-600">No changes recorded yet.</p>
       ) : (
         <ul className="flex flex-col gap-2">
           {changes.map((c) => (
             <li key={c.id} className="flex flex-col gap-1 rounded-lg border border-gray-200 bg-white p-3 text-sm">
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-gray-500">
                 <span className="font-plexmono">{c.date}</span>
-                <span className="font-semibold text-gray-800">{c.payer_name}</span>
+                {c.payer_name && <span className="font-semibold text-gray-800">{c.payer_name}</span>}
                 <span className="rounded bg-gray-100 px-1.5">{ORIGIN_LABEL[c.origin] ?? c.origin}</span>
               </div>
               <p className="break-words">{c.summary}</p>
