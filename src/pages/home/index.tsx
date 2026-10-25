@@ -4,6 +4,7 @@ import {
   AiOutlineSearch,
   AiOutlineSchedule,
 } from 'react-icons/ai'
+import { Pill } from 'lucide-react'
 
 interface Tools {
   title: string
@@ -33,6 +34,13 @@ const toolsList: Tools[] = [
     description: 'Guide for scheduling patients with appropriate providers',
     icon: <AiOutlineSchedule className="w-8 h-8 lg:w-16 lg:h-16" />,
     href: '/scheduling',
+  },
+
+  {
+    title: 'Med Coverage',
+    description: 'Which OAB med each plan covers, and what its PA needs',
+    icon: <Pill className="w-8 h-8 lg:w-16 lg:h-16" />,
+    href: '/med-coverage',
   },
 ]
 

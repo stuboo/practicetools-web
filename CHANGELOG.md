@@ -3,6 +3,39 @@
 All notable changes to this project are documented in this file.
 Versions follow the 4-part MAJOR.MINOR.PATCH.MICRO format.
 
+## [0.2.0.0] - 2026-10-25
+
+### Added
+- A new Med Coverage card on Home (`/med-coverage`) answers "what OAB
+  meds are available to this patient?". It asks for the prescription
+  coverage first (Medicare, WI Medicaid, or a commercial plan or PBM),
+  then the plan, and shows every OAB medication, beta-3 agonists and
+  antimuscarinics together. Medicare plans can be found by plan name or
+  contract-plan ID (for example H5216-001).
+- The result leads with one "Prescribe this" line per beta-3 agonist
+  that names what to send and what the other product needs ("Mirabegron:
+  send Myrbetriq (preferred, no PA). mirabegron needs PA."), then every
+  product in four groups: covered with no PA or step, covered with PA or
+  step therapy, not covered, and coverage not published. Each product is
+  one line with its tier and PA / ST / QL badges; strengths with the same
+  coverage share a line. A bare lowercase ingredient name ("oxybutynin ER
+  tablet") is the generic; brands read "Detrol LA (tolterodine) capsule".
+- Tapping a product opens its detail: the PA criteria checklist (prior
+  trials, trial duration, contraindication pathway, approval length),
+  notes, the SmartPhrases to run next, and the source link, document
+  date, and last-checked date. Anything the payer has not published
+  reads "Not published" rather than a guess.
+- Medicare plans open on the newest plan year, with a toggle when two
+  years are published; payers with several product lines get a picker.
+  Recent changes for the payer sit behind one "Recent changes (n)" line,
+  and every result ends with a reminder to confirm in the payer portal.
+- A "What changed" panel lists published coverage changes, newest first,
+  filterable by payer, with the date the data was last checked. It shows
+  the newest 10 with a button for the rest.
+- "Payer not listed?" lets anyone ask for a payer to be added (plan or
+  PBM name only, 60 characters, with numbers that look like patient data
+  refused). Until requests open, it says so and shows the general steps.
+
 ## [0.1.0.1] - 2026-10-02
 
 ### Fixed

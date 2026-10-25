@@ -14,6 +14,7 @@ import ConsentFormGenerator from './pages/consent-form-generator'
 import Quid6 from './pages/quid6'
 import Scheduling from './pages/scheduling'
 import AuditLookup from './pages/scheduling/audit'
+import MedCoverage from './pages/med-coverage'
 import {
   CoverageLayout,
   CoveragePublicLayout,
@@ -47,6 +48,7 @@ function App() {
               <Route path="quid6" element={<Quid6 />} />
               <Route path="scheduling" element={<Scheduling />} />
               <Route path="scheduling/audit" element={<AuditLookup />} />
+              <Route path="med-coverage" element={<MedCoverage />} />
             </Route>
 
             {/* Physical therapist management used to live at /physical-therapists,
