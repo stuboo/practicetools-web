@@ -36,11 +36,12 @@ describe('ChangesPanel', () => {
   it('lists changes with a payer filter', async () => {
     api.getChanges.mockResolvedValue([
       { id: 1, date: '2026-10-25', payer_id: 12, payer_name: 'Security Health Plan', plan_id: null, kind: 'tier_change', summary: 'Gemtesa removed.', source_url: null, origin: 'reviewed' },
-      { id: 2, date: '2026-10-24', payer_id: null, payer_name: null, plan_id: null, kind: 'source_stale', summary: 'A source may be stale.', source_url: null, origin: 'cms' },
+      { id: 2, date: '2026-10-24', payer_id: null, payer_name: null, plan_id: null, kind: 'source_stale', summary: 'A source may be stale.', source_url: null, origin: 'system' },
     ])
     renderPanel()
     expect(await screen.findByText('Gemtesa removed.')).toBeInTheDocument()
     expect(screen.getByText('A source may be stale.')).toBeInTheDocument()
+    expect(screen.getByText('Automated check')).toBeInTheDocument()
     expect(screen.getByRole('option', { name: 'Security Health Plan' })).toBeInTheDocument()
   })
 })

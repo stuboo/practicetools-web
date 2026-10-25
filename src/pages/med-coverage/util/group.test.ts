@@ -63,3 +63,14 @@ describe('product lines', () => {
     expect(rowsForLine(rows, ALL_LINES)).toHaveLength(4)
   })
 })
+
+describe('strengths from the API', () => {
+  it('prefers drug.strength over parsing the label', () => {
+    const groups = groupByProduct([
+      row({ drug: { ...brandMyrbetriq, form: 'ER tablet', strength: '25 mg' } }),
+      row({ drug: { ...brandMyrbetriq50, form: 'ER tablet', strength: '50 mg' } }),
+      row({ drug: { id: 40, name: 'oxybutynin', product: 'generic', label: 'oxybutynin oral solution/syrup (generic)', form: 'oral solution', strength: null } }),
+    ])
+    expect(groups.map((g) => g.strengths)).toEqual([['25 mg', '50 mg'], []])
+  })
+})

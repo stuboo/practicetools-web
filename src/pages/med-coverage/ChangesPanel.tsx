@@ -8,6 +8,7 @@ const ORIGIN_LABEL: Record<string, string> = {
   cms: 'CMS',
   reviewed: 'Reviewed',
   seed: 'Initial data',
+  system: 'Automated check',
 }
 
 export default function ChangesPanel() {

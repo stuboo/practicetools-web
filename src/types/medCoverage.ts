@@ -19,6 +19,10 @@ export interface MedCovDrug {
 
 export interface MedCovRowDrug extends MedCovDrug {
   class_code: ClassCode
+  /** e.g. "ER tablet", "ER granules for oral suspension"; null when unknown. */
+  form?: string | null
+  /** e.g. "25 mg", "8 mg/mL"; null when the product has no single strength. */
+  strength?: string | null
 }
 
 export interface MedCovClass {
@@ -90,7 +94,8 @@ export interface MedCovRow {
   detail?: unknown
 }
 
-export type ChangeOrigin = 'cms' | 'reviewed' | 'seed'
+/** "system" is an automated check (e.g. a source that went stale). */
+export type ChangeOrigin = 'cms' | 'reviewed' | 'seed' | 'system'
 
 export interface MedCovChange {
   id: number

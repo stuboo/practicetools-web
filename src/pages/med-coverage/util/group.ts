@@ -49,7 +49,7 @@ export function groupByProduct(rows: MedCovRow[]): ProductGroup[] {
       groups.set(key, group)
     }
     group.rows.push(row)
-    const strength = strengthOf(row.drug.label)
+    const strength = row.drug.strength?.trim() || strengthOf(row.drug.label)
     if (strength && !group.strengths.includes(strength)) group.strengths.push(strength)
   }
   for (const group of groups.values()) {

@@ -2,7 +2,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
 import ResultView from './ResultView'
-import { brandGemtesa, brandMyrbetriq, brandMyrbetriq50, commercialDetail, medicareDetail, row } from './util/fixtures'
+import { brandGemtesa, brandMyrbetriq, brandMyrbetriq50, commercialDetail, genericMirabegron, medicareDetail, row } from './util/fixtures'
 import { MedCovPayerDetail } from '../../types/medCoverage'
 
 const FOOTER = 'Payer criteria change. Confirm in the payer portal before submitting.'
@@ -171,5 +171,22 @@ describe('ResultView', () => {
   it('reads well when the payer has no changes yet', () => {
     render(<ResultView detail={{ ...commercialDetail(), changes: [] }} classCode="oab_beta3" />)
     expect(screen.getByText('No changes recorded yet.')).toBeInTheDocument()
+  })
+
+  it('gives a separate "Prescribe this" per form when an ingredient has several', () => {
+    const detail = commercialDetail()
+    detail.rows = [
+      row({ drug: { ...brandMyrbetriq, form: 'ER tablet', strength: '25 mg' }, plan_year: null }),
+      row({ drug: { ...genericMirabegron, form: 'ER tablet', strength: '25 mg' }, plan_year: null, on_formulary: false }),
+      row({ drug: { id: 23, name: 'mirabegron', product: 'brand', label: 'Myrbetriq ER granules for suspension 8 mg/mL', form: 'ER granules for oral suspension', strength: '8 mg/mL' }, plan_year: null }),
+    ]
+    render(<ResultView detail={detail} classCode="oab_beta3" />)
+    expect(screen.getByText('ER tablet')).toBeInTheDocument()
+    expect(screen.getByText('ER granules for oral suspension')).toBeInTheDocument()
+    expect(screen.getAllByTestId('prescribe-this').map((e) => e.textContent)).toEqual([
+      'Myrbetriq, not generic mirabegron',
+      'Myrbetriq',
+    ])
+    expectEveryResultSourced()
   })
 })

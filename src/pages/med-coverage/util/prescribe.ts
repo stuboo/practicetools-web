@@ -9,15 +9,36 @@ export type PrescribeKind = 'generic' | 'brand' | 'none' | 'unknown'
 
 export interface PrescribeAdvice {
   ingredient: string
+  /** Display form ("ER tablet") when advice is per form; null when the form is unknown. */
+  form: string | null
   kind: PrescribeKind
   /** One line for the MA, e.g. "Myrbetriq, not generic mirabegron". */
   text: string
 }
 
-/** Brand name from the drug label: "Myrbetriq ER 25 mg" -> "Myrbetriq". */
+/**
+ * Brand name from the drug label: the leading capitalised words, stopping at
+ * a release designator (ER/IR), a number, a parenthesis or a lowercase word.
+ * "Myrbetriq ER 25 mg tablet" -> "Myrbetriq", "Detrol LA capsule" -> "Detrol LA",
+ * "Vesicare LS oral suspension" -> "Vesicare LS", "Gemtesa (vibegron) ..." -> "Gemtesa".
+ */
 export function brandName(drug: Pick<MedCovRowDrug, 'label' | 'name'>): string {
-  const first = drug.label.trim().split(/\s+/)[0]
-  return first || drug.name
+  const words: string[] = []
+  for (const word of drug.label.trim().split(/\s+/)) {
+    if (!word) break
+    if (words.length > 0 && (/^(ER|IR)$/.test(word) || /^[\d(]/.test(word) || /^[a-z]/.test(word))) break
+    words.push(word)
+  }
+  return words.join(' ') || drug.name
+}
+
+/**
+ * Form key used to compare brand with generic: brand Myrbetriq tablets are
+ * weighed against generic mirabegron tablets, never against granules. When
+ * the API gives no form, every such row of the ingredient shares one key.
+ */
+export function formKey(drug: Pick<MedCovRowDrug, 'form'>): string {
+  return drug.form?.trim().toLowerCase() ?? ''
 }
 
 function tierNumber(row: MedCovRow): number {
@@ -42,8 +63,15 @@ function unique(values: string[]): string[] {
  * Decide what to prescribe for one ingredient, given that ingredient's rows
  * for a single payer and plan year.
  */
-export function prescribeThis(ingredient: string, rows: MedCovRow[]): PrescribeAdvice {
-  const mine = rows.filter((r) => r.drug.name === ingredient)
+export function prescribeThis(ingredient: string, rows: MedCovRow[], form?: string): PrescribeAdvice {
+  const mine = rows.filter(
+    (r) => r.drug.name === ingredient && (form === undefined || formKey(r.drug) === form.trim().toLowerCase())
+  )
+  const shownForm = form === undefined ? null : mine.find((r) => r.drug.form?.trim())?.drug.form?.trim() ?? null
+  return { ingredient, form: shownForm, ...decide(ingredient, mine) }
+}
+
+function decide(ingredient: string, mine: MedCovRow[]): Pick<PrescribeAdvice, 'kind' | 'text'> {
   const generics = mine.filter((r) => r.drug.product === 'generic')
   const brands = mine.filter((r) => r.drug.product === 'brand')
   const coveredGeneric = generics.filter((r) => r.on_formulary === true)
@@ -59,13 +87,11 @@ export function prescribeThis(ingredient: string, rows: MedCovRow[]): PrescribeA
       (tierNumber(b) === tierNumber(g) && editCount(b) < editCount(g))
     if (brandWins) {
       return {
-        ingredient,
         kind: 'brand',
         text: `${brandText(coveredBrand)}. ${capitalize(genericText)} is also covered, with more restrictions.`,
       }
     }
     return {
-      ingredient,
       kind: 'generic',
       text: `${capitalize(genericText)}. ${brandText(coveredBrand)} is also covered.`,
     }
@@ -80,12 +106,11 @@ export function prescribeThis(ingredient: string, rows: MedCovRow[]): PrescribeA
   }
 
   if (coveredBrand.length) {
-    return { ingredient, kind: 'brand', text: otherProduct(generics, genericText, brandText(coveredBrand)) }
+    return { kind: 'brand', text: otherProduct(generics, genericText, brandText(coveredBrand)) }
   }
 
   if (coveredGeneric.length) {
     return {
-      ingredient,
       kind: 'generic',
       text: otherProduct(brands, brands.length ? brandText(brands) : '', capitalize(genericText)),
     }
@@ -94,7 +119,6 @@ export function prescribeThis(ingredient: string, rows: MedCovRow[]): PrescribeA
   const products = [generics.length ? genericText : '', brands.length ? brandText(brands) : ''].filter(Boolean)
   if (mine.some((r) => r.on_formulary == null)) {
     return {
-      ingredient,
       kind: 'unknown',
       text: `Coverage not published for ${products.join(' or ') || ingredient}. Check the payer's formulary.`,
     }
@@ -102,11 +126,17 @@ export function prescribeThis(ingredient: string, rows: MedCovRow[]): PrescribeA
   const what = products.length === 2
     ? `neither ${products[0]} nor ${products[1]} is covered`
     : `${products[0] ?? genericText} is not covered`
-  return { ingredient, kind: 'none', text: `Not on this formulary: ${what}.` }
+  return { kind: 'none', text: `Not on this formulary: ${what}.` }
 }
 
 function capitalize(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+/** Advice for each form of an ingredient, forms in first-seen order. */
+export function prescribeByForm(ingredient: string, rows: MedCovRow[]): PrescribeAdvice[] {
+  const forms = unique(rows.filter((r) => r.drug.name === ingredient).map((r) => formKey(r.drug)))
+  return forms.map((form) => prescribeThis(ingredient, rows, form))
 }
 
 /** Ingredients in the order their rows first appear. */

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { ExternalLink } from 'lucide-react'
 import { ClassCode, MedCovChange, MedCovPayer, MedCovPayerDetail, MedCovRow } from '../../types/medCoverage'
-import { ingredientsOf, prescribeThis } from './util/prescribe'
+import { formKey, ingredientsOf, prescribeByForm } from './util/prescribe'
 import { ALL_LINES, ProductGroup, groupByProduct, productLines, rowsForLine } from './util/group'
 import {
   PORTAL_DISCLAIMER,
@@ -128,20 +128,30 @@ function PayerHeader({ payer }: { payer: MedCovPayer }) {
 }
 
 function IngredientBlock({ ingredient, rows }: { ingredient: string; rows: MedCovRow[] }) {
-  const advice = prescribeThis(ingredient, rows)
   const mine = rows.filter((r) => r.drug.name === ingredient)
+  const perForm = prescribeByForm(ingredient, mine)
+  const showForm = perForm.length > 1
   return (
     <div className="flex flex-col gap-3">
-      <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
-        <h3 className="text-base font-semibold capitalize">{ingredient}</h3>
-        <p className="text-sm">
-          <span className="font-semibold">Prescribe this: </span>
-          <span data-testid="prescribe-this">{advice.text}</span>
-        </p>
-      </div>
-      {groupByProduct(mine).map((group) => (
-        <ProductBlock key={group.key} group={group} />
-      ))}
+      <h3 className="text-base font-semibold capitalize">{ingredient}</h3>
+      {perForm.map((advice) => {
+        const key = advice.form?.toLowerCase() ?? ''
+        const formRows = mine.filter((r) => formKey(r.drug) === key)
+        return (
+          <div key={key || 'any'} className="flex flex-col gap-3">
+            <div className="rounded-lg border border-blue-200 bg-blue-50 p-3">
+              {showForm && <p className="text-xs font-semibold uppercase text-blue-900">{advice.form ?? 'Other forms'}</p>}
+              <p className="text-sm">
+                <span className="font-semibold">Prescribe this: </span>
+                <span data-testid="prescribe-this">{advice.text}</span>
+              </p>
+            </div>
+            {groupByProduct(formRows).map((group) => (
+              <ProductBlock key={group.key} group={group} />
+            ))}
+          </div>
+        )
+      })}
     </div>
   )
 }
