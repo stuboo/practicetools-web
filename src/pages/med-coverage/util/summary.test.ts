@@ -100,7 +100,7 @@ describe('highlightLine', () => {
       row({ drug: genericMirabegron, status_or_tier: 'Non-preferred (Brand Before Generic)', pa: 'Y', st: 'GAP', ql: 'GAP' }),
     ]
     expect(highlightLine('mirabegron', rows)).toBe(
-      'Mirabegron: send Myrbetriq (preferred, no PA). mirabegron needs PA.'
+      'Mirabegron: send Myrbetriq (preferred, no PA; step therapy not published). mirabegron needs PA (step therapy not published).'
     )
   })
 
@@ -119,7 +119,7 @@ describe('highlightLine', () => {
         row({ drug: genericMirabegron, ...open, status_or_tier: 'Tier 1' }),
         row({ drug: brandMyrbetriq, status_or_tier: 'Tier 3', pa: 'GAP', st: 'GAP', ql: 'N' }),
       ])
-    ).toBe('Mirabegron: send mirabegron (no PA or step). Myrbetriq is also covered (PA not published).')
+    ).toBe('Mirabegron: send mirabegron (no PA or step). Myrbetriq is also covered (PA and step therapy not published).')
   })
 
   it('alternative that needs step therapy, or PA and step therapy', () => {
@@ -139,11 +139,11 @@ describe('highlightLine', () => {
 
   it('single product (no generic): covered, with status and restriction', () => {
     expect(highlightLine('vibegron', [row({ drug: brandGemtesa, status_or_tier: 'Non-preferred', pa: 'Y', st: 'GAP', ql: 'GAP' })])).toBe(
-      'Vibegron: Gemtesa is covered (non-preferred, PA required).'
+      'Vibegron: Gemtesa is covered (non-preferred, PA required; step therapy not published).'
     )
     expect(highlightLine('vibegron', [row({ drug: brandGemtesa, ...open })])).toBe('Vibegron: Gemtesa is covered (no PA or step).')
     expect(highlightLine('vibegron', [row({ drug: brandGemtesa, status_or_tier: 'Covered', pa: 'GAP', st: 'GAP', ql: 'N' })])).toBe(
-      'Vibegron: Gemtesa is covered (PA not published).'
+      'Vibegron: Gemtesa is covered (PA and step therapy not published).'
     )
   })
 
@@ -183,8 +183,21 @@ describe('highlightLine', () => {
 
   it('names restrictions plainly and never invents one from GAP', () => {
     expect(restrictionNote({ pa: 'Y', st: 'Y', ql: 'Y', status_or_tier: 'Tier 3' })).toBe(' (PA and step therapy required; quantity limit)')
-    expect(restrictionNote({ pa: 'GAP', st: 'GAP', ql: 'GAP', status_or_tier: 'GAP' })).toBe(' (PA not published)')
-    expect(restrictionNote({ pa: 'N', st: 'GAP', ql: 'GAP', status_or_tier: 'Preferred brand (urinary antispasmodics)' })).toBe(' (preferred, no PA)')
+    expect(restrictionNote({ pa: 'GAP', st: 'GAP', ql: 'GAP', status_or_tier: 'GAP' })).toBe(' (PA and step therapy not published)')
+    expect(restrictionNote({ pa: 'N', st: 'GAP', ql: 'GAP', status_or_tier: 'Preferred brand (urinary antispasmodics)' })).toBe(' (preferred, no PA; step therapy not published)')
+  })
+
+  it('says an unpublished step therapy or PA out loud for the alternative', () => {
+    expect(alternativeSentence('Myrbetriq', { pa: 'N', st: 'GAP' })).toBe('Myrbetriq is also covered, no PA (step therapy not published).')
+    expect(alternativeSentence('Myrbetriq', { pa: 'N', st: null })).toBe('Myrbetriq is also covered, no PA (step therapy not published).')
+    expect(alternativeSentence('Myrbetriq', { pa: 'GAP', st: 'N' })).toBe('Myrbetriq is also covered, no step therapy (PA not published).')
+    expect(alternativeSentence('mirabegron', { pa: 'Y', st: 'GAP' })).toBe('mirabegron needs PA (step therapy not published).')
+    expect(alternativeSentence('Myrbetriq', { pa: 'N', st: 'N' })).toBe('Myrbetriq is also covered, no PA or step.')
+  })
+
+  it('says an unpublished step therapy out loud for the product to send', () => {
+    expect(restrictionNote({ pa: 'N', st: 'GAP', ql: 'N', status_or_tier: 'Preferred' })).toBe(' (preferred, no PA; step therapy not published)')
+    expect(restrictionNote({ pa: 'N', st: 'N', ql: 'N', status_or_tier: 'Tier 2' })).toBe(' (no PA or step)')
   })
 
   it('never says "also covered" without the restrictions', () => {

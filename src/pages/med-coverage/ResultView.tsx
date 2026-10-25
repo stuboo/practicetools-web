@@ -20,6 +20,8 @@ interface ResultViewProps {
   detail: MedCovPayerDetail
   /** Class codes in display order (from /v1/classes); beta-3s first by default. */
   classOrder?: string[]
+  /** Newest CMS release plan year (/v1/meta cms_release.plan_year). */
+  currentPlanYear?: number | null
 }
 
 const BUCKET_TONE: Record<string, string> = {
@@ -29,7 +31,7 @@ const BUCKET_TONE: Record<string, string> = {
   unknown: 'border-gray-300 bg-gray-100 text-gray-800',
 }
 
-export default function ResultView({ detail, classOrder = DEFAULT_CLASS_ORDER }: ResultViewProps) {
+export default function ResultView({ detail, classOrder = DEFAULT_CLASS_ORDER, currentPlanYear = null }: ResultViewProps) {
   const years = useMemo(() => planYears(detail.rows), [detail.rows])
   const [chosenYear, setChosenYear] = useState<number | null>(null)
   const year = chosenYear != null && years.includes(chosenYear) ? chosenYear : years[0] ?? null
@@ -44,6 +46,11 @@ export default function ResultView({ detail, classOrder = DEFAULT_CLASS_ORDER }:
   return (
     <section aria-label="Coverage result" className="flex flex-col gap-3">
       <PayerHeader payer={detail.payer} />
+      {detail.payer.plan && currentPlanYear != null && years.length > 0 && years[0] < currentPlanYear && (
+        <p role="status" data-testid="stale-plan-year" className="rounded-md border border-amber-300 bg-amber-50 px-2 py-1 text-sm text-amber-900">
+          This plan has no {currentPlanYear} version in CMS data. Showing {year ?? years[0]}.
+        </p>
+      )}
 
       {(years.length > 1 || lines.length > 1) && (
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">

@@ -170,4 +170,26 @@ describe('ResultView', () => {
     render(<ResultView detail={{ ...commercialDetail(), changes: [] }} />)
     expect(screen.getByText('Recent changes: no changes recorded yet.')).toBeInTheDocument()
   })
+
+  it('notes when a Medicare plan has no version for the newest CMS year', () => {
+    const detail = medicareDetail()
+    detail.rows = detail.rows.filter((r) => r.plan_year === 2026)
+    render(<ResultView detail={detail} currentPlanYear={2027} />)
+    expect(screen.getByTestId('stale-plan-year')).toHaveTextContent('This plan has no 2027 version in CMS data. Showing 2026.')
+  })
+
+  it('shows no plan-year notice when the plan has the current year', () => {
+    render(<ResultView detail={medicareDetail()} currentPlanYear={2027} />)
+    expect(screen.queryByTestId('stale-plan-year')).not.toBeInTheDocument()
+  })
+
+  it('shows no plan-year notice for non-Medicare payers or without a CMS release', () => {
+    const { unmount } = render(<ResultView detail={commercialDetail()} currentPlanYear={2027} />)
+    expect(screen.queryByTestId('stale-plan-year')).not.toBeInTheDocument()
+    unmount()
+    const detail = medicareDetail()
+    detail.rows = detail.rows.filter((r) => r.plan_year === 2026)
+    render(<ResultView detail={detail} currentPlanYear={null} />)
+    expect(screen.queryByTestId('stale-plan-year')).not.toBeInTheDocument()
+  })
 })

@@ -184,9 +184,16 @@ function ResultStep({ payerId, classOrder }: { payerId: number; classOrder?: str
   const detail = useQuery(['medcov', 'payer', payerId], () => MedCoverageAPI.getPayer(payerId), {
     staleTime: STALE,
   })
+  const meta = useQuery(['medcov', 'meta'], MedCoverageAPI.getMeta, { staleTime: STALE })
   if (detail.isLoading) return <p className="text-sm text-gray-600">Loading coverage…</p>
   if (detail.isError || !detail.data) {
     return <p className="text-sm text-red-700">Coverage for this payer could not be loaded.</p>
   }
-  return <ResultView detail={detail.data} classOrder={classOrder} />
+  return (
+    <ResultView
+      detail={detail.data}
+      classOrder={classOrder}
+      currentPlanYear={meta.data?.cms_release?.plan_year ?? null}
+    />
+  )
 }

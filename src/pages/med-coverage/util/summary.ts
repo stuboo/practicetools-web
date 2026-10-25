@@ -136,37 +136,47 @@ function required(row: Pick<MedCovRow, 'pa' | 'st'>): string[] {
   return [row.pa === 'Y' ? 'PA' : '', row.st === 'Y' ? 'step therapy' : ''].filter(Boolean)
 }
 
+/** What is known not to apply: "no PA or step", "no PA", "no step therapy", or "". */
+function knownAbsent(row: Pick<MedCovRow, 'pa' | 'st'>): string {
+  if (row.pa === 'N' && row.st === 'N') return 'no PA or step'
+  if (row.pa === 'N') return 'no PA'
+  if (row.st === 'N') return 'no step therapy'
+  return ''
+}
+
+/** "step therapy not published", "PA and step therapy not published", or "". */
+function unpublished(row: Pick<MedCovRow, 'pa' | 'st'>): string {
+  const unknown = [unknownFlag(row.pa) ? 'PA' : '', unknownFlag(row.st) ? 'step therapy' : ''].filter(Boolean)
+  return unknown.length ? `${unknown.join(' and ')} not published` : ''
+}
+
 /**
- * Parenthetical for the product to send: its preferred status and its edits,
- * " (preferred, no PA)", " (non-preferred, PA required; quantity limit)".
- * An unpublished PA is said out loud; an unpublished ST next to a published
- * PA=N is left unsaid ("no PA"), since some payers (WI Medicaid) publish no
- * ST at all.
+ * Parenthetical for the product to send: its preferred status, its edits,
+ * and anything unpublished, said out loud:
+ * " (preferred, no PA; step therapy not published)",
+ * " (non-preferred, PA required; step therapy not published; quantity limit)".
  */
 export function restrictionNote(row: Pick<MedCovRow, 'pa' | 'st' | 'ql' | 'status_or_tier'>): string {
   const req = required(row)
-  const edits = req.length
-    ? `${req.join(' and ')} required`
-    : row.pa === 'N' && row.st === 'N'
-    ? 'no PA or step'
-    : row.pa === 'N'
-    ? 'no PA'
-    : 'PA not published'
+  const edits = req.length ? `${req.join(' and ')} required` : knownAbsent(row)
   const status = isPreferred(row.status_or_tier) ? 'preferred' : isNonPreferred(row.status_or_tier) ? 'non-preferred' : ''
   const head = [status, edits].filter(Boolean).join(', ')
-  return ` (${[head, row.ql === 'Y' ? 'quantity limit' : ''].filter(Boolean).join('; ')})`
+  const parts = [head, unpublished(row), row.ql === 'Y' ? 'quantity limit' : ''].filter(Boolean)
+  return parts.length ? ` (${parts.join('; ')})` : ''
 }
 
 /**
  * What the other, also-covered product needs. Never a bare "also covered":
- * "mirabegron needs PA." / "Myrbetriq is also covered, no PA or step."
+ * "mirabegron needs PA (step therapy not published)." /
+ * "Myrbetriq is also covered, no PA (step therapy not published)."
  */
 export function alternativeSentence(label: string, row: Pick<MedCovRow, 'pa' | 'st'>): string {
   const req = required(row)
-  if (req.length) return `${label} needs ${req.join(' and ')}.`
-  if (row.pa === 'N' && row.st === 'N') return `${label} is also covered, no PA or step.`
-  if (row.pa === 'N' && unknownFlag(row.st)) return `${label} is also covered, no PA.`
-  return `${label} is also covered (PA not published).`
+  const unknown = unpublished(row)
+  const note = unknown ? ` (${unknown})` : ''
+  if (req.length) return `${label} needs ${req.join(' and ')}${note}.`
+  const absent = knownAbsent(row)
+  return `${label} is also covered${absent ? `, ${absent}` : ''}${note}.`
 }
 
 /** "is not covered" when every row says so, else "coverage not published". */
