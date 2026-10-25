@@ -4,7 +4,6 @@ import Container from '../../components/container';
 import Button from '../../components/button';
 import { useAuditStorage } from '../../hooks/useAuditStorage';
 import { AuditRecord } from './types/audit';
-import { workflowNodes } from './util/workflow';
 import { QUID6_INSTRUMENT_VERSION } from '../../lib/quid6';
 
 const AuditLookup: React.FC = () => {

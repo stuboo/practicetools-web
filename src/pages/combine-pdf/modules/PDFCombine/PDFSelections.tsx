@@ -18,7 +18,7 @@ const PDFSelections = () => {
   const status = useAppSelector((state) => state.pdfs.combinePDFStatus)
   const dispatch = useAppDispatch()
 
-  const [_, copyTextToClipboard] = useCopyToClipboard()
+  const [, copyTextToClipboard] = useCopyToClipboard()
 
   const combineFiles = () => {
     dispatch(combinePDFs(pdfFiles))
@@ -46,7 +46,7 @@ const PDFSelections = () => {
 
   const movePDF = useCallback((sourcePDF: PDF, targetPDF: PDF) => {
     dispatch(reorderSelection({ sourcePDF, targetPDF }))
-  }, [])
+  }, [dispatch])
 
   return (
     <div className="fixed  flex flex-col items-end bottom-4 right-4">

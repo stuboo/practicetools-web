@@ -41,7 +41,7 @@ async function create(data: CreateProcedureAliasType): Promise<ProcedureAlias> {
     // }
 }
 
-async function generateConsentForm(data: any): Promise<string> {
+async function generateConsentForm(data: unknown): Promise<string> {
     // try {
     const response: AxiosResponse<string> = await apiClient.post(`/consent/generate-consent-form`, data);
     return response.data

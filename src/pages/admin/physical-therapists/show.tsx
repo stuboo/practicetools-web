@@ -8,7 +8,7 @@ interface ShowTherapistProps {
 }
 
 export default function Show({ therapist }: ShowTherapistProps) {
-  const [_, copy] = useCopyToClipboard()
+  const [, copy] = useCopyToClipboard()
   const handleCopy = async (text: string) => {
     await copy(text)
     toast('Text Copied')

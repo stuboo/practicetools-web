@@ -55,12 +55,13 @@ function FitBounds({ points }: { points: L.LatLngExpression[] }) {
   const signature = JSON.stringify(points)
 
   useEffect(() => {
-    if (!points.length) return
-    if (points.length === 1) {
-      map.setView(points[0], 12)
+    const pins = JSON.parse(signature) as L.LatLngExpression[]
+    if (!pins.length) return
+    if (pins.length === 1) {
+      map.setView(pins[0], 12)
       return
     }
-    map.fitBounds(L.latLngBounds(points), { padding: [40, 40], maxZoom: 13 })
+    map.fitBounds(L.latLngBounds(pins), { padding: [40, 40], maxZoom: 13 })
   }, [signature, map])
 
   return null
@@ -85,9 +86,10 @@ export default function ResultsMap({
     [therapists]
   )
 
-  const origin: L.LatLngExpression | null = meta
-    ? [meta.origin.latitude, meta.origin.longitude]
-    : null
+  const origin = useMemo<L.LatLngExpression | null>(
+    () => (meta ? [meta.origin.latitude, meta.origin.longitude] : null),
+    [meta]
+  )
 
   const points: L.LatLngExpression[] = useMemo(() => {
     const list: L.LatLngExpression[] = located.map(({ therapist }) => [
@@ -96,7 +98,7 @@ export default function ResultsMap({
     ])
     if (origin) list.push(origin)
     return list
-  }, [located, meta])
+  }, [located, origin])
 
   // Selecting a card should open the matching pin's popup, not just recolour it.
   useEffect(() => {
