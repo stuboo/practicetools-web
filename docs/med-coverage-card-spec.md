@@ -294,7 +294,7 @@ Responses never include `pending` or `rejected` rows outside `/review/{token}`.
 | 6 | 2026-10-25 | Outcome form uses a clinic key in the URL | Ryan agreed. Blocks spam without a login. |
 | 7 | 2026-10-25 | Pending agent rows are hidden, not shown as unreviewed | Ryan |
 | 8 | 2026-10-25 | Drug-generic schema. Launch with beta-3 agonists and antimuscarinics. | Ryan |
-| 9 | 2026-10-25 | Agents run through Claude Code headless on Ryan's Max plan (`claude setup-token`), switchable to an API key by setting | Ryan has Max. Anthropic's Help Center (2026) says subscriptions include Agent SDK and `claude -p` use for your own projects, but asks developers of products serving other users to use API keys. Every run here is approved by Ryan and its output reviewed by him; whether that counts as "own project" is Ryan's call, so the switch is one setting. |
+| 9 | 2026-10-25 | Agents run through Claude Code headless (`claude -p`) on Ryan's Max plan (`claude setup-token`). An API key remains available by setting. | Ryan confirmed `claude -p` on Max is fine for this (2026-10-25). Every run is approved by Ryan and its output reviewed by him. |
 | 10 | 2026-10-25 | Prefix `medcov_` and route `/med-coverage` | Avoid collision with the deprecated coverage feature's tables and `/coverage` routes |
 | 11 | 2026-10-25 | Caps: research 1 concurrent, 5/day, 40/month; extraction 60/month | Ryan: "be reasonable". Max limits are rarely hit. |
 | 12 | 2026-10-25 | This spec follows practicetools rules: GitHub issues, push branches, PRs not merged by the agent | Ryan |
