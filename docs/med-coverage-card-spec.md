@@ -91,16 +91,15 @@ Build in two goals. Goal A covers data, the card, and the scheduled refresh. Goa
 
 ### 3.1 MA (public)
 
-1. Home, then **Med Coverage**, then a drug class (OAB: beta-3 agonists / antimuscarinics), then the payer type (Medicare / WI Medicaid / commercial).
-2. Medicare: type to search by plan name or contract-plan ID (`H5216-001`). Commercial: pick the plan or PBM.
-3. The result page shows, per drug:
-   - status, tier, PA/ST/QL;
-   - **"Prescribe this"**, the product the plan actually lists (for example "Myrbetriq, not generic mirabegron");
-   - the criteria checklist (trial count, trial duration, contraindication pathway, approval length);
-   - source link, document date, and "last checked";
-   - the next step (`.OABPAEVIDENCE`, then `.OABLMNMIRABEGRON` or `.OABLMNVIBEGRON`);
-   - the last 3 changelog entries for this payer.
-   - Footer: "Payer criteria change. Confirm in the payer portal before submitting."
+1. Home, then **Med Coverage**. The first question is "What is the patient's prescription coverage?" (Medicare / WI Medicaid / Commercial plan or PBM). There is no drug-class step: every result covers all OAB medications, both classes (decision log row 26).
+2. Medicare: type to search by plan name or contract-plan ID (`H5216-001`). WI Medicaid and commercial: pick the payer or PBM.
+3. The result page answers "what OAB meds are available to this patient?" at a glance, readable in a few seconds on a phone:
+   - A compact plan header, with a plan-year toggle (newest year by default) and a product-line picker when the payer has more than one.
+   - **"Prescribe this"**: one labelled line per beta-3 ingredient saying plainly what to send and its key restriction, for example "Mirabegron: send generic. Myrbetriq is not covered." and "Vibegron: Gemtesa is covered (PA required)." Two ingredients never share a line.
+   - Products (ingredient and form, strengths collapsed) in four groups: "Covered, no PA or step", "Covered with PA or step therapy", "Not covered", "Coverage not published". Beta-3 agonists come first within each group, then antimuscarinics. Each product is one line: name, tier, and small PA / ST / QL badges ("PA?" when unpublished).
+   - Tapping a product expands its detail: PA/ST/QL in words, the criteria checklist (trial count, trial duration, contraindication pathway, approval length), notes, the next step (`.OABPAEVIDENCE`, then `.OABLMNMIRABEGRON` or `.OABLMNVIBEGRON`), and the source link, document date, "last checked", and any other sources.
+   - "Recent changes (n)": the last 3 changelog entries for this payer, collapsed.
+   - Footer, always visible: "Payer criteria change. Confirm in the payer portal before submitting."
 4. **Payer not listed?** A 60-character text box with the placeholder "Plan or PBM name only. No patient information." On submit it shows "Requested. Dr. Stewart reviews requests; results usually appear within a day," then the general default steps.
 5. **What changed** panel: the public changelog, newest first, filterable by payer, with "Data checked [date]" in the header.
 
@@ -235,7 +234,8 @@ Responses never include `pending` or `rejected` rows outside `/review/{token}`.
 
 ## 8. Web (`src/pages/med-coverage/`)
 
-- `index.tsx` holds the flow (class, payer type, payer, result) using a `util/flow.ts` node graph like `scheduling/util/workflow.ts`.
+- `index.tsx` holds the flow (payer type, payer, result) using a `util/flow.ts` node graph like `scheduling/util/workflow.ts`. `/v1/classes` only sets the class order on the result.
+- `util/summary.ts` buckets products for the at-a-glance result and writes the per-ingredient "Prescribe this" lines; `util/prescribe.ts` picks brand vs generic within one form; `util/group.ts` collapses strengths.
 - Other files: `ResultView.tsx`, `ChangesPanel.tsx`, `RequestBox.tsx`, `OutcomePage.tsx` (route `/med-coverage/outcome`), and `ReviewPage.tsx` (route `/med-coverage/review/:token`).
 - API module: `src/api/medCoverage.ts`. Types: `src/types/medCoverage.ts`.
 - Home card: title "Med Coverage", description "Which OAB med each plan covers, and what its PA needs", lucide `Pill` icon.
@@ -316,3 +316,4 @@ Responses never include `pending` or `rejected` rows outside `/review/{token}`.
 | 23 | 2026-10-25 | Stale-source and source-changed entries use a new change origin, `system` (shown as "Automated check") | Neither CMS nor reviewed |
 | 24 | 2026-10-25 | Timers are installed only after the deploy health check passes; install failure logs but does not roll back | Rollback never touches timers |
 | 25 | 2026-10-25 | Sources watcher sends `practicetools-medcov <MEDCOV_HTTP_CONTACT>` as User-Agent to sec.gov | sec.gov returns 403 without a contact email |
+| 26 | 2026-10-25 | Card asks coverage first and shows all OAB meds at a glance; detail on tap | Ryan: "what I really need to know is what OAB meds are available to this patient" |
