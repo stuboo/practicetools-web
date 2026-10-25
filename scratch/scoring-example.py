@@ -2,6 +2,10 @@ def interpret_quid6_scores(scores):
     # Ensure there are exactly 6 scores
     if len(scores) != 6:
         raise ValueError("There must be exactly 6 scores")
+    # QUID-6 items are scored 0-5 (None of the time .. All of the time).
+    # The cutoffs below are only valid on that six-point scale.
+    if any(s not in range(6) for s in scores):
+        raise ValueError("Each score must be an integer from 0 to 5")
 
     # Calculate SUI and UUI scores
     SUI_score = sum(scores[:3])
