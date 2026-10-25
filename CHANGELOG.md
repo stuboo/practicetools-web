@@ -3,6 +3,31 @@
 All notable changes to this project are documented in this file.
 Versions follow the 4-part MAJOR.MINOR.PATCH.MICRO format.
 
+## [0.2.0.0] - 2026-10-25
+
+### Added
+- A new Med Coverage card on Home (`/med-coverage`) shows which OAB
+  medication a plan covers and what its prior authorization needs. Pick
+  beta-3 agonists or antimuscarinics, then Medicare, WI Medicaid, or a
+  commercial plan or PBM. Medicare plans can be found by plan name or
+  contract-plan ID (for example H5216-001).
+- Each result lists, per drug, the tier or status, PA, step therapy and
+  quantity limit, and a "Prescribe this" line naming the product the plan
+  actually lists (for example "Myrbetriq, not generic mirabegron").
+- The PA criteria checklist covers prior trials, trial duration,
+  contraindication pathway, and approval length. Anything the payer has
+  not published reads "Not published" rather than a guess.
+- Every result shows its source link, document date, and last-checked
+  date, the SmartPhrases to run next, the payer's last three changes,
+  and a reminder to confirm in the payer portal before submitting.
+  Medicare plans open on the newest plan year, with a toggle when two
+  years are published.
+- A "What changed" panel lists published coverage changes, newest first,
+  filterable by payer, with the date the data was last checked.
+- "Payer not listed?" lets anyone ask for a payer to be added (plan or
+  PBM name only, 60 characters, with numbers that look like patient data
+  refused). Until requests open, it says so and shows the general steps.
+
 ## [0.1.0.1] - 2026-10-02
 
 ### Fixed
