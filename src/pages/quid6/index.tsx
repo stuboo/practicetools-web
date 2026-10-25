@@ -1,177 +1,20 @@
 import React, { useState } from 'react'
 import * as Dialog from '@radix-ui/react-dialog'
 import { X } from 'lucide-react'
+import {
+  answersToScores,
+  DIAGNOSIS_DETAILS,
+  formatScoreString,
+  generateDetailedReport,
+  parseScoreString,
+  QUID6_OPTIONS,
+  QUID6_QUESTIONS,
+  scoreQuid6
+} from '../../lib/quid6'
 
 type Step = 'consent' | 'questions' | 'results'
-type DiagnosisResult = {
-  diagnosis: string
-  recommendation: string
-}
 
-interface Question {
-  id: number
-  text: string
-  shortText: string
-  options: {
-    text: string
-    value: number
-  }[]
-  category: 'SUI' | 'UUI'
-}
-
-const questions: Question[] = [
-  {
-    id: 1,
-    text: "Do you leak urine (even small drops), wet yourself, or wet your pads or undergarments when you cough or sneeze?",
-    shortText: "Leakage with cough/sneeze?",
-    category: 'SUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  },
-  {
-    id: 2,
-    text: "Do you leak urine (even small drops), wet yourself, or wet your pads or undergarments when you bend down or lift something up?",
-    shortText: "Leakage with bending/lifting?",
-    category: 'SUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  },
-  {
-    id: 3,
-    text: "Do you leak urine (even small drops), wet yourself, or wet your pads or undergarments when you walk quickly, jog or exercise?",
-    shortText: "Leakage with activity?",
-    category: 'SUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  },
-  {
-    id: 4,
-    text: "Do you leak urine (even small drops), wet yourself, or wet your pads or undergarments when you are on your way to the bathroom?",
-    shortText: "Leakage on way to bathroom?",
-    category: 'UUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  },
-  {
-    id: 5,
-    text: "Do you leak urine (even small drops), wet yourself, or wet your pads or undergarments when you get such a strong and uncomfortable need to urinate that you leak urine (even small drops) or wet yourself before reaching the toilet?",
-    shortText: "Leakage with strong urge?",
-    category: 'UUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  },
-  {
-    id: 6,
-    text: "Do you have to rush to the bathroom because you get a sudden, strong need to urinate?",
-    shortText: "Rush to bathroom with urge?",
-    category: 'UUI',
-    options: [
-      { text: "None of the time", value: 0 },
-      { text: "Rarely", value: 1 },
-      { text: "Sometimes", value: 2 },
-      { text: "Most of the time", value: 3 },
-      { text: "All of the time", value: 4 }
-    ]
-  }
-]
-
-const calculateResults = (answers: Record<number, number>): DiagnosisResult => {
-  // Convert answers object to array of scores in order
-  const scores = Array.from({ length: 6 }, (_, i) => answers[i + 1] || 0)
-  
-  // Calculate SUI and UUI scores
-  const SUI_score = scores.slice(0, 3).reduce((sum, score) => sum + score, 0)
-  const UUI_score = scores.slice(3, 6).reduce((sum, score) => sum + score, 0)
-
-  // Apply diagnosis criteria
-  const has_SUI = SUI_score >= 4
-  const has_UUI = UUI_score >= 6
-
-  if (has_SUI && has_UUI) {
-    if (SUI_score > UUI_score) {
-      return {
-        diagnosis: "Stress-Predominant Mixed Urinary Incontinence",
-        recommendation: "Schedule with surgeon"
-      }
-    } else {
-      return {
-        diagnosis: "Urge-Predominant Mixed Urinary Incontinence",
-        recommendation: "Schedule with APP"
-      }
-    }
-  } else if (has_SUI) {
-    return {
-      diagnosis: "Stress Urinary Incontinence",
-      recommendation: "Schedule with surgeon"
-    }
-  } else if (has_UUI) {
-    return {
-      diagnosis: "Urge Urinary Incontinence",
-      recommendation: "Schedule with APP"
-    }
-  } else {
-    return {
-      diagnosis: "No clear predominance; further evaluation may be needed",
-      recommendation: "Schedule with APP"
-    }
-  }
-}
-
-const getScoreString = (answers: Record<number, number>): string => {
-  return Array.from({ length: 6 }, (_, i) => answers[i + 1] || 0).join('')
-}
-
-const generateDetailedReport = (scoreString: string): string => {
-  const scores = scoreString.split('').map(Number)
-  if (scores.length !== 6) return 'Invalid QUID-6 score format'
-
-  const SUI_score = scores.slice(0, 3).reduce((a, b) => a + b, 0)
-  const UUI_score = scores.slice(3, 6).reduce((a, b) => a + b, 0)
-
-  const getAnswerText = (value: number) => {
-    const answers = ["None of the time", "Rarely", "Sometimes", "Most of the time", "All of the time"]
-    return answers[value]
-  }
-
-  let report = 'QUID-6 Questionnaire\n'
-  report += '==================\n'
-  
-  // Add questions and answers with short text
-  questions.forEach((q, index) => {
-    report += `${q.shortText} -> ${getAnswerText(scores[index])}\n`
-  })
-
-  report += '==================\n'
-  report += `SUI Score: ${SUI_score}\n`
-  report += `UUI Score: ${UUI_score}`
-
-  return report
-}
+const questions = QUID6_QUESTIONS
 
 export default function Quid6() {
   const [currentStep, setCurrentStep] = useState<Step>('consent')
@@ -213,7 +56,7 @@ export default function Quid6() {
 
   const handleCopyScore = async () => {
     try {
-      await navigator.clipboard.writeText(`QUID-6: ${getScoreString(answers)}`)
+      await navigator.clipboard.writeText(formatScoreString(answersToScores(answers)))
       setCopySuccess(true)
       setTimeout(() => setCopySuccess(false), 2000)
     } catch (err) {
@@ -222,10 +65,16 @@ export default function Quid6() {
   }
 
   const handleScoreParse = () => {
-    // Find any sequence of 6 digits (0-4) within the input string
-    const match = scoreInput.match(/[0-4]{6}/)
-    if (match) {
-      setDetailedReport(generateDetailedReport(match[0]))
+    const parsed = parseScoreString(scoreInput)
+    if (parsed.ok) {
+      setDetailedReport(generateDetailedReport(parsed.scores))
+    } else if (parsed.reason === 'legacy') {
+      setDetailedReport(
+        'This score uses the old 0-4 QUID-6 scale and cannot be converted. ' +
+        'Re-administer the QUID-6 to get a valid score.'
+      )
+    } else {
+      setDetailedReport('Invalid QUID-6 score format. Expected e.g. QUID-6v2: 013450')
     }
   }
 
@@ -267,7 +116,7 @@ export default function Quid6() {
       <div className="space-y-6">
         <p className="text-lg text-gray-700">{question.text}</p>
         <div className="space-y-3">
-          {question.options.map((option) => (
+          {QUID6_OPTIONS.map((option) => (
             <button
               key={option.value}
               onClick={() => handleAnswer(question.id, option.value)}
@@ -289,6 +138,10 @@ export default function Quid6() {
     )
   }
 
+  const quid6Score = Object.keys(answers).length === questions.length
+    ? scoreQuid6(answersToScores(answers))
+    : null
+
   const renderResults = () => (
     <div className="space-y-6">
       {consentGiven === false ? (
@@ -308,37 +161,29 @@ export default function Quid6() {
         <div className="space-y-4">
           <div className="bg-gray-50 p-6 rounded-lg">
             <h2 className="text-xl font-semibold mb-2">Assessment Results</h2>
-            {Object.keys(answers).length === 6 && (
+            {quid6Score && (
               <>
                 <div className="mb-4">
                   <p className="text-lg font-medium text-gray-900">
-                    {calculateResults(answers).diagnosis}
+                    {DIAGNOSIS_DETAILS[quid6Score.diagnosis].label}
                   </p>
                   <p className="text-md text-gray-600 mt-2">
-                    Recommendation: {calculateResults(answers).recommendation}
+                    Recommendation: {DIAGNOSIS_DETAILS[quid6Score.diagnosis].recommendation}
                   </p>
                 </div>
                 <div className="text-sm text-gray-500">
-                  <p>SUI Score: {
-                    Object.entries(answers)
-                      .filter(([id]) => parseInt(id) <= 3)
-                      .reduce((sum, [_, value]) => sum + value, 0)
-                  }</p>
-                  <p>UUI Score: {
-                    Object.entries(answers)
-                      .filter(([id]) => parseInt(id) > 3)
-                      .reduce((sum, [_, value]) => sum + value, 0)
-                  }</p>
+                  <p>SUI Score: {quid6Score.stressScore}</p>
+                  <p>UUI Score: {quid6Score.urgeScore}</p>
                 </div>
               </>
             )}
           </div>
           
-          {Object.keys(answers).length === 6 && (
+          {quid6Score && (
             <div className="bg-white border border-gray-200 rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div className="font-mono text-lg">
-                  QUID-6: {getScoreString(answers)}
+                  {formatScoreString(answersToScores(answers))}
                 </div>
                 <button
                   onClick={handleCopyScore}
@@ -400,7 +245,7 @@ export default function Quid6() {
                   type="text"
                   value={scoreInput}
                   onChange={(e) => setScoreInput(e.target.value)}
-                  placeholder="e.g., QUID-6: 012340"
+                  placeholder="e.g., QUID-6v2: 013450"
                   className="flex-1 p-2 border rounded-lg"
                 />
                 <button

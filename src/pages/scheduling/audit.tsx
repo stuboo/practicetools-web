@@ -5,6 +5,7 @@ import Button from '../../components/button';
 import { useAuditStorage } from '../../hooks/useAuditStorage';
 import { AuditRecord } from './types/audit';
 import { workflowNodes } from './util/workflow';
+import { QUID6_INSTRUMENT_VERSION } from '../../lib/quid6';
 
 const AuditLookup: React.FC = () => {
   const [searchKey, setSearchKey] = useState('');
@@ -98,6 +99,11 @@ const AuditLookup: React.FC = () => {
     return (
       <div className="bg-blue-50 p-4 rounded-lg">
         <h4 className="font-semibold text-blue-900 mb-3">QUID-6 Assessment Results:</h4>
+        {record.quid6Result.instrumentVersion !== QUID6_INSTRUMENT_VERSION && (
+          <p className="mb-3 p-2 text-sm bg-yellow-50 border border-yellow-200 rounded text-yellow-900">
+            Legacy record: scored on the old 0-4 scale. Scores and interpretation are not valid QUID-6 results.
+          </p>
+        )}
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="font-medium text-blue-800">Stress Score:</span>

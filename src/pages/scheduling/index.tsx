@@ -13,6 +13,7 @@ import Button from '../../components/button';
 import Quid6Questionnaire, { Quid6Result } from './components/Quid6Questionnaire';
 import { AuditKeyDisplay } from './components/AuditKeyDisplay';
 import { useAuditStorage } from '../../hooks/useAuditStorage';
+import { DIAGNOSIS_DETAILS, QUID6_INSTRUMENT_VERSION } from '../../lib/quid6';
 
 const Scheduling: React.FC = () => {
   const [currentNode, setCurrentNode] = useState<WorkflowNode>(getInitialNode());
@@ -34,7 +35,8 @@ const Scheduling: React.FC = () => {
             stressScore: quid6Result.SUI_score,
             urgeScore: quid6Result.UUI_score,
             overallIncontinenceImpact: quid6Result.SUI_score + quid6Result.UUI_score,
-            interpretation: quid6Result.diagnosis
+            interpretation: quid6Result.diagnosis,
+            instrumentVersion: QUID6_INSTRUMENT_VERSION
           } : undefined;
 
           const key = await createAuditRecord(
@@ -242,13 +244,7 @@ const Scheduling: React.FC = () => {
                     <div className="mt-4 p-3 bg-gray-100 rounded-md text-center">
                       <span className="text-sm text-gray-600">Diagnosis: </span>
                       <span className="text-lg font-bold font-mono">
-                        {({
-                          'Stress Incontinence': 'SUI',
-                          'Urge Incontinence': 'UUI',
-                          'Stress-Predominant Mixed': 'SPMUI',
-                          'Urge-Predominant Mixed': 'UPMUI',
-                          'Inconclusive': 'INCON',
-                        } as Record<string, string>)[quid6Result.diagnosis]}
+                        {DIAGNOSIS_DETAILS[quid6Result.diagnosis].abbreviation}
                       </span>
                     </div>
                   )}
