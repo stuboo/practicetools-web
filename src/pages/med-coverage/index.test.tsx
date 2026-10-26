@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MemoryRouter } from 'react-router-dom'
@@ -64,9 +64,10 @@ describe('MedCoverage page', () => {
     await userEvent.click(await screen.findByRole('button', { name: /Security Health Plan/ }))
     expect(api.getPayer).toHaveBeenCalledWith(12)
     expect(await screen.findByText('Payer criteria change. Confirm in the payer portal before submitting.')).toBeInTheDocument()
-    expect(screen.getAllByTestId('prescribe-this').map((li) => li.textContent)).toEqual([
-      'Mirabegron: mirabegron is covered (PA required).',
-      'Vibegron: Gemtesa is not covered.',
+    const heatRows = within(screen.getByTestId('heatmap')).getAllByTestId('heat-row')
+    expect(heatRows.map((r) => r.textContent)).toEqual([
+      'mirabegron ERCNS LowmirabegronPA—',
+      'vibegronCNS Low—GemtesaNot covered',
     ])
 
     await userEvent.click(screen.getByRole('button', { name: /Back/ }))
@@ -89,6 +90,8 @@ describe('MedCoverage page', () => {
 
     await userEvent.click(await screen.findByRole('button', { name: /HumanaChoice H5216-001 \(PPO\)/ }))
     expect(await screen.findByRole('button', { name: '2027' })).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getAllByTestId('prescribe-this')[0]).toHaveTextContent(/^Mirabegron: send Myrbetriq/)
+    expect(within(screen.getByTestId('heatmap')).getAllByTestId('heat-row')[0]).toHaveTextContent(
+      /^mirabegron ERCNS LowmirabegronNot coveredMyrbetriqST/
+    )
   })
 })

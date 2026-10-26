@@ -3,9 +3,8 @@
 // availability buckets, beta-3 agonists before antimuscarinics. Pure so the
 // bucketing can be tested without rendering.
 
-import { Flag, MedCovRow } from '../../../types/medCoverage'
+import { Flag, MedCovRow, MedCovRowDrug } from '../../../types/medCoverage'
 import { groupByProduct } from './group'
-import { best, brandName, formKey, ingredientsOf, isNonPreferred, isPreferred, prescribeThis } from './prescribe'
 import { isGap } from './format'
 
 export type Availability = 'open' | 'restricted' | 'not_covered' | 'unknown'
@@ -17,6 +16,22 @@ export const AVAILABILITY_LABEL: Record<Availability, string> = {
   restricted: 'Covered with PA or step therapy',
   not_covered: 'Not covered',
   unknown: 'Coverage not published',
+}
+
+/**
+ * Brand name from the drug label: the leading capitalised words, stopping at
+ * a release designator (ER/IR), a number, a parenthesis or a lowercase word.
+ * "Myrbetriq ER 25 mg tablet" -> "Myrbetriq", "Detrol LA capsule" -> "Detrol LA",
+ * "Vesicare LS oral suspension" -> "Vesicare LS", "Gemtesa (vibegron) ..." -> "Gemtesa".
+ */
+export function brandName(drug: Pick<MedCovRowDrug, 'label' | 'name'>): string {
+  const words: string[] = []
+  for (const word of drug.label.trim().split(/\s+/)) {
+    if (!word) break
+    if (words.length > 0 && (/^(ER|IR)$/.test(word) || /^[\d(]/.test(word) || /^[a-z]/.test(word))) break
+    words.push(word)
+  }
+  return words.join(' ') || drug.name
 }
 
 export const DEFAULT_CLASS_ORDER = ['oab_beta3', 'oab_antimuscarinic']
@@ -124,127 +139,4 @@ export function summarize(rows: MedCovRow[], classOrder: string[] = DEFAULT_CLAS
     label: AVAILABILITY_LABEL[availability],
     items: items.filter((i) => i.availability === availability),
   })).filter((b) => b.items.length > 0)
-}
-
-function capitalize(text: string): string {
-  return text.charAt(0).toUpperCase() + text.slice(1)
-}
-
-const unknownFlag = (flag: Flag | null | undefined) => flag !== 'Y' && flag !== 'N'
-
-function required(row: Pick<MedCovRow, 'pa' | 'st'>): string[] {
-  return [row.pa === 'Y' ? 'PA' : '', row.st === 'Y' ? 'step therapy' : ''].filter(Boolean)
-}
-
-/** What is known not to apply: "no PA or step", "no PA", "no step therapy", or "". */
-function knownAbsent(row: Pick<MedCovRow, 'pa' | 'st'>): string {
-  if (row.pa === 'N' && row.st === 'N') return 'no PA or step'
-  if (row.pa === 'N') return 'no PA'
-  if (row.st === 'N') return 'no step therapy'
-  return ''
-}
-
-/** "step therapy not published", "PA and step therapy not published", or "". */
-function unpublished(row: Pick<MedCovRow, 'pa' | 'st'>): string {
-  const unknown = [unknownFlag(row.pa) ? 'PA' : '', unknownFlag(row.st) ? 'step therapy' : ''].filter(Boolean)
-  return unknown.length ? `${unknown.join(' and ')} not published` : ''
-}
-
-/**
- * Parenthetical for the product to send: its preferred status, its edits,
- * and anything unpublished, said out loud:
- * " (preferred, no PA; step therapy not published)",
- * " (non-preferred, PA required; step therapy not published; quantity limit)".
- */
-export function restrictionNote(row: Pick<MedCovRow, 'pa' | 'st' | 'ql' | 'status_or_tier'>): string {
-  const req = required(row)
-  const edits = req.length ? `${req.join(' and ')} required` : knownAbsent(row)
-  const status = isPreferred(row.status_or_tier) ? 'preferred' : isNonPreferred(row.status_or_tier) ? 'non-preferred' : ''
-  const head = [status, edits].filter(Boolean).join(', ')
-  const parts = [head, unpublished(row), row.ql === 'Y' ? 'quantity limit' : ''].filter(Boolean)
-  return parts.length ? ` (${parts.join('; ')})` : ''
-}
-
-/**
- * What the other, also-covered product needs. Never a bare "also covered":
- * "mirabegron needs PA (step therapy not published)." /
- * "Myrbetriq is also covered, no PA (step therapy not published)."
- */
-export function alternativeSentence(label: string, row: Pick<MedCovRow, 'pa' | 'st'>): string {
-  const req = required(row)
-  const unknown = unpublished(row)
-  const note = unknown ? ` (${unknown})` : ''
-  if (req.length) return `${label} needs ${req.join(' and ')}${note}.`
-  const absent = knownAbsent(row)
-  return `${label} is also covered${absent ? `, ${absent}` : ''}${note}.`
-}
-
-/** "is not covered" when every row says so, else "coverage not published". */
-function statusPhrase(rows: MedCovRow[]): string {
-  return rows.every((r) => r.on_formulary === false) ? 'is not covered' : 'coverage not published'
-}
-
-/**
- * One plain sentence for one ingredient, labelled with the ingredient so two
- * drugs never share a line: "Mirabegron: send Myrbetriq (preferred, no PA).
- * mirabegron needs PA." / "Vibegron: Gemtesa is covered (PA required)."
- */
-export function highlightLine(ingredient: string, rows: MedCovRow[]): string {
-  const mine = rows.filter((r) => r.drug.name === ingredient)
-  const generics = mine.filter((r) => r.drug.product === 'generic')
-  const brands = mine.filter((r) => r.drug.product === 'brand')
-  const coveredG = generics.filter((r) => r.on_formulary === true)
-  const coveredB = brands.filter((r) => r.on_formulary === true)
-  const name = capitalize(ingredient)
-  const brand = Array.from(new Set(brands.map((r) => brandName(r.drug)))).join(' / ')
-  // A bare lowercase ingredient name means the generic.
-  const genericLabel = ingredient
-
-  if (!generics.length || !brands.length) {
-    const only = generics.length ? generics : brands
-    const label = generics.length ? genericLabel : brand
-    const covered = only.filter((r) => r.on_formulary === true)
-    if (covered.length) return `${name}: ${label} is covered${restrictionNote(best(covered))}.`
-    return `${name}: ${label} ${statusPhrase(only)}.`
-  }
-
-  if (coveredG.length && coveredB.length) {
-    const sendBrand = prescribeThis(ingredient, mine).kind === 'brand'
-    const g = best(coveredG)
-    const b = best(coveredB)
-    return sendBrand
-      ? `${name}: send ${brand}${restrictionNote(b)}. ${alternativeSentence(genericLabel, g)}`
-      : `${name}: send ${genericLabel}${restrictionNote(g)}. ${alternativeSentence(brand, b)}`
-  }
-  if (coveredG.length) {
-    return `${name}: send ${genericLabel}${restrictionNote(best(coveredG))}. ${brand} ${statusPhrase(brands)}.`
-  }
-  if (coveredB.length) {
-    return `${name}: send ${brand}${restrictionNote(best(coveredB))}. ${genericLabel} ${statusPhrase(generics)}.`
-  }
-  if (mine.every((r) => r.on_formulary === false)) {
-    return `${name}: neither ${genericLabel} nor ${brand} is covered.`
-  }
-  if (mine.every((r) => r.on_formulary == null)) return `${name}: coverage not published.`
-  return `${name}: ${genericLabel} ${statusPhrase(generics)}, and ${brand} ${statusPhrase(brands)}.`
-}
-
-export interface HighlightLine {
-  ingredient: string
-  text: string
-}
-
-/**
- * One "Prescribe this" line per beta-3 ingredient, for the product an MA
- * sends for an adult: the tablet form when there is one (granules for
- * suspension still show in the list below), otherwise the first form.
- */
-export function beta3Highlights(rows: MedCovRow[]): HighlightLine[] {
-  const beta3 = rows.filter((r) => r.drug.class_code === 'oab_beta3')
-  return ingredientsOf(beta3).map((ingredient) => {
-    const mine = beta3.filter((r) => r.drug.name === ingredient)
-    const forms = Array.from(new Set(mine.map((r) => formKey(r.drug))))
-    const form = forms.find((f) => /tablet/.test(f)) ?? forms[0]
-    return { ingredient, text: highlightLine(ingredient, mine.filter((r) => formKey(r.drug) === form)) }
-  })
 }

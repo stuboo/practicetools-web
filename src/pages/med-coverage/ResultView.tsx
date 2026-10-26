@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { ChevronRight, ExternalLink } from 'lucide-react'
 import { Flag, MedCovChange, MedCovPayer, MedCovPayerDetail, MedCovRow } from '../../types/medCoverage'
 import { productLines, rowsForLine } from './util/group'
-import { DEFAULT_CLASS_ORDER, SummaryItem, beta3Highlights, displayName, summarize, summaryItems } from './util/summary'
+import { DEFAULT_CLASS_ORDER, SummaryItem, displayName, summarize, summaryItems } from './util/summary'
 import { CatalogueDrug, buildHeatmap } from './util/heatmap'
 import Heatmap from './Heatmap'
 import {
@@ -32,13 +32,34 @@ function itemDomId(key: string): string {
   return `medcov-item-${key}`
 }
 
-/** Open a product's detail in the list and bring it into view. */
+const HIGHLIGHT_CLASS = 'medcov-yft'
+const HIGHLIGHT_MS = 2000
+const highlightTimers = new WeakMap<Element, number>()
+
+/**
+ * Yellow fade on a detail pane. Removing the class and forcing a reflow
+ * before re-adding it restarts the animation, so a second tap on the same
+ * product fades again. The class is dropped after the fade, which also ends
+ * the static outline used under prefers-reduced-motion.
+ */
+function flash(el: HTMLElement) {
+  el.classList.remove(HIGHLIGHT_CLASS)
+  void el.offsetWidth
+  el.classList.add(HIGHLIGHT_CLASS)
+  const previous = highlightTimers.get(el)
+  if (previous) window.clearTimeout(previous)
+  highlightTimers.set(el, window.setTimeout(() => el.classList.remove(HIGHLIGHT_CLASS), HIGHLIGHT_MS))
+}
+
+/** Open a product's detail in the list, bring it into view, and flash it. */
 function openItem(key: string) {
   const el = document.getElementById(itemDomId(key))
   if (!el) return
   const details = el.querySelector('details')
   if (details) details.open = true
   el.scrollIntoView?.({ behavior: 'smooth', block: 'center' })
+  const pane = el.querySelector<HTMLElement>('[data-testid="drug-result"]')
+  if (pane) flash(pane)
 }
 
 const BUCKET_TONE: Record<string, string> = {
@@ -63,7 +84,6 @@ export default function ResultView({
   const line = chosenLine != null && lines.includes(chosenLine) ? chosenLine : lines[0] ?? ''
   const rows = lines.length > 1 ? rowsForLine(yearRows, line) : yearRows
   const buckets = summarize(rows, classOrder)
-  const highlights = beta3Highlights(rows)
   const heatRows = rows.length ? buildHeatmap(summaryItems(rows), catalogue) : []
 
   return (
@@ -122,19 +142,6 @@ export default function ResultView({
       ) : (
         <>
           <Heatmap rows={heatRows} onOpen={openItem} />
-
-          {highlights.length > 0 && (
-            <div className="rounded-lg border border-blue-300 bg-blue-50 px-3 py-2 text-sm" data-testid="prescribe-highlight">
-              <p className="font-semibold">Prescribe this</p>
-              <ul className="mt-0.5 flex flex-col gap-0.5">
-                {highlights.map((h) => (
-                  <li key={h.ingredient} data-testid="prescribe-this" className="break-words">
-                    {h.text}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
 
           {buckets.map((bucket) => (
             <div key={bucket.availability} data-testid={`bucket-${bucket.availability}`} className="flex flex-col gap-1">

@@ -2,8 +2,7 @@
 // cell, each holding one chip per product (strengths collapsed, as in the
 // grouped list). Colours follow the list's buckets exactly.
 
-import { Availability, SummaryItem } from './summary'
-import { brandName } from './prescribe'
+import { Availability, SummaryItem, brandName } from './summary'
 import { strengthOf } from './group'
 import { CNS_ORDER, CnsLevel, cnsIndex, cnsKey, formFromLabel } from './cns'
 

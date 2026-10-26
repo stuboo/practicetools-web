@@ -1,6 +1,6 @@
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import ResultView from './ResultView'
 import { brandGemtesa, brandMyrbetriq, brandMyrbetriq50, commercialDetail, medicareDetail, row } from './util/fixtures'
 import { MedCovPayerDetail } from '../../types/medCoverage'
@@ -53,12 +53,8 @@ describe('ResultView', () => {
     expect(restricted[0]).toMatch(/^Myrbetriq \(mirabegron\) ER tablet 25 mg, 50 mgTier 3ST/)
     expect(restricted[1]).toMatch(/^Gemtesa \(vibegron\) tablet 75 mgTier 4PASTQL/)
     expect(within(bucket('not_covered')).getByText('mirabegron ER tablet')).toBeInTheDocument()
-    // One labelled line per ingredient; never two answers joined on one line.
-    expect(screen.getAllByTestId('prescribe-this').map((li) => li.textContent)).toEqual([
-      'Mirabegron: send Myrbetriq (step therapy required; quantity limit). mirabegron is not covered.',
-      'Vibegron: Gemtesa is covered (PA and step therapy required; quantity limit).',
-    ])
-    expect(screen.getByTestId('prescribe-highlight')).not.toHaveTextContent('·')
+    // The heatmap replaced the "Prescribe this" box.
+    expect(screen.queryByText(/Prescribe this/)).not.toBeInTheDocument()
   })
 
   it('keeps detail collapsed until the product is tapped', async () => {
@@ -95,9 +91,9 @@ describe('ResultView', () => {
     expect(screen.getByRole('button', { name: '2027' })).toHaveAttribute('aria-pressed', 'true')
     await userEvent.click(screen.getByRole('button', { name: '2026' }))
     expect(screen.getByRole('button', { name: '2026' })).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getAllByTestId('prescribe-this')[0]).toHaveTextContent(
-      'Mirabegron: send mirabegron (step therapy required; quantity limit). Myrbetriq needs step therapy.'
-    )
+    // 2026: generic mirabegron is covered (with step therapy), not "not covered".
+    expect(within(bucket('restricted')).getByText('mirabegron ER tablet')).toBeInTheDocument()
+    expect(screen.queryByTestId('bucket-not_covered')).not.toBeInTheDocument()
     expect(screen.getByText(FOOTER)).toBeInTheDocument()
     expectEveryProductSourced()
   })
@@ -115,7 +111,7 @@ describe('ResultView', () => {
     expect(bucket('unknown')).toHaveTextContent('Coverage not published')
     expect(screen.queryByTestId('bucket-not_covered')).not.toBeInTheDocument()
     expect(screen.getByTestId('drug-result')).toHaveTextContent('Payer listing: Suppressed by CMS (no formulary data)')
-    expect(screen.getByTestId('prescribe-this')).toHaveTextContent('Vibegron: Gemtesa coverage not published.')
+    expect(within(screen.getByTestId('heatmap')).getByTestId('heat-chip')).toHaveTextContent('GemtesaNot published')
   })
 
   it('collapses strengths with identical coverage and splits them when they differ', () => {
@@ -200,11 +196,11 @@ describe('ResultView', () => {
     expect(screen.queryByTestId('stale-plan-year')).not.toBeInTheDocument()
   })
 
-  it('puts the heatmap at the very top, above Prescribe this', () => {
+  it('puts the heatmap at the top, above the grouped list', () => {
     render(<ResultView detail={medicareDetail()} catalogue={LIVE_CATALOGUE} />)
     const heatmap = screen.getByTestId('heatmap')
-    const highlight = screen.getByTestId('prescribe-highlight')
-    expect(heatmap.compareDocumentPosition(highlight) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    const firstBucket = screen.getByTestId('bucket-open')
+    expect(heatmap.compareDocumentPosition(firstBucket) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
     // 16 ingredient + form rows from the catalogue, CNS order by default.
     const rows = within(heatmap).getAllByTestId('heat-row')
     expect(rows).toHaveLength(16)
@@ -233,5 +229,40 @@ describe('ResultView', () => {
     expect(item.querySelector('details')?.open).toBe(false)
     await userEvent.click(chip)
     expect(item.querySelector('details')?.open).toBe(true)
+  })
+
+  describe('yellow fade on the opened detail', () => {
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    it('applies the highlight on tap, restarts it on a repeat tap, and clears it after the fade', () => {
+      vi.useFakeTimers()
+      render(<ResultView detail={medicareDetail()} catalogue={LIVE_CATALOGUE} />)
+      const chip = must(within(screen.getByTestId('heatmap')).getAllByTestId('heat-chip').find((c) => c.textContent?.startsWith('Gemtesa')))
+      const pane = within(within(bucket('restricted')).getAllByTestId('product-line-item')[1]).getByTestId('drug-result')
+      expect(pane).not.toHaveClass('medcov-yft')
+
+      fireEvent.click(chip)
+      expect(pane).toHaveClass('medcov-yft')
+
+      vi.advanceTimersByTime(1500)
+      const remove = vi.spyOn(pane.classList, 'remove')
+      fireEvent.click(chip)
+      // Restarted: the class was taken off and put back, and the timer reset.
+      expect(remove).toHaveBeenCalledWith('medcov-yft')
+      expect(pane).toHaveClass('medcov-yft')
+      vi.advanceTimersByTime(1500)
+      expect(pane).toHaveClass('medcov-yft')
+      vi.advanceTimersByTime(600)
+      expect(pane).not.toHaveClass('medcov-yft')
+    })
+
+    it('highlights only the tapped product', () => {
+      render(<ResultView detail={medicareDetail()} catalogue={LIVE_CATALOGUE} />)
+      const chip = must(within(screen.getByTestId('heatmap')).getAllByTestId('heat-chip').find((c) => c.textContent?.startsWith('Gemtesa')))
+      fireEvent.click(chip)
+      expect(document.querySelectorAll('.medcov-yft')).toHaveLength(1)
+    })
   })
 })

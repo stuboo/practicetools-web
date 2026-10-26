@@ -3,6 +3,23 @@
 All notable changes to this project are documented in this file.
 Versions follow the 4-part MAJOR.MINOR.PATCH.MICRO format.
 
+## [0.3.0.0] - 2026-10-26
+
+### Added
+- Med Coverage results open with a coverage heatmap: one row per
+  medication and form, with a Generic and a Brand cell coloured green
+  (covered, no PA or step), amber (PA or step therapy), red (not covered)
+  or grey (not published). Every cell also says it in words.
+- The heatmap sorts by CNS activity, low to high, by default (beta-3
+  agonists and trospium first, oral oxybutynin last), or by best coverage.
+  Each row shows its CNS level.
+- Tapping a medication in the heatmap opens its detail in the list below
+  and briefly highlights it in yellow.
+
+### Removed
+- The "Prescribe this" box. The heatmap answers the same question at a
+  glance.
+
 ## [0.2.0.0] - 2026-10-25
 
 ### Added
