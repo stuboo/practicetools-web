@@ -96,3 +96,27 @@
     margin: 0.5in;
   }
 }
+
+/* Med Coverage: 37signals-style yellow fade on the product detail a heatmap
+   tap opens. Only a `from` keyframe, so it fades back to the pane's own
+   background. Re-triggered from JS by removing and re-adding the class. */
+@keyframes medcov-yellow-fade {
+  from { background-color: rgb(254 240 138); }
+}
+@keyframes medcov-yellow-fade-dark {
+  from { background-color: rgb(146 64 14 / 0.75); }
+}
+.medcov-yft {
+  animation: medcov-yellow-fade 2s ease-out;
+}
+.dark .medcov-yft {
+  animation-name: medcov-yellow-fade-dark;
+}
+@media (prefers-reduced-motion: reduce) {
+  .medcov-yft,
+  .dark .medcov-yft {
+    animation: none;
+    outline: 2px solid rgb(202 138 4);
+    outline-offset: -2px;
+  }
+}
