@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest'
 import ResultView from './ResultView'
 import { brandGemtesa, brandMyrbetriq, brandMyrbetriq50, commercialDetail, medicareDetail, row } from './util/fixtures'
 import { MedCovPayerDetail } from '../../types/medCoverage'
+import { LIVE_CATALOGUE } from './util/catalogue.fixture'
 
 const FOOTER = 'Payer criteria change. Confirm in the payer portal before submitting.'
 
@@ -21,6 +22,12 @@ function expectEveryProductSourced() {
 
 function bucket(availability: string) {
   return screen.getByTestId(`bucket-${availability}`)
+}
+
+
+function must<T>(value: T | undefined): T {
+  if (value === undefined) throw new Error('expected a value')
+  return value
 }
 
 describe('ResultView', () => {
@@ -191,5 +198,40 @@ describe('ResultView', () => {
     detail.rows = detail.rows.filter((r) => r.plan_year === 2026)
     render(<ResultView detail={detail} currentPlanYear={null} />)
     expect(screen.queryByTestId('stale-plan-year')).not.toBeInTheDocument()
+  })
+
+  it('puts the heatmap at the very top, above Prescribe this', () => {
+    render(<ResultView detail={medicareDetail()} catalogue={LIVE_CATALOGUE} />)
+    const heatmap = screen.getByTestId('heatmap')
+    const highlight = screen.getByTestId('prescribe-highlight')
+    expect(heatmap.compareDocumentPosition(highlight) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
+    // 16 ingredient + form rows from the catalogue, CNS order by default.
+    const rows = within(heatmap).getAllByTestId('heat-row')
+    expect(rows).toHaveLength(16)
+    expect(rows[0]).toHaveTextContent(/^mirabegron ERCNS Low/)
+    expect(rows[rows.length - 1]).toHaveTextContent(/^oxybutynin oral solutionCNS High/)
+    expect(within(heatmap).getByRole('button', { name: 'CNS activity (low → high)' })).toHaveAttribute('aria-pressed', 'true')
+    // Every cell has words, not just colour.
+    for (const chip of within(heatmap).getAllByTestId('heat-chip')) {
+      expect(chip).toHaveTextContent(/Covered|PA|ST|Not covered|Not published|No data/)
+    }
+    expect(within(rows[0]).getAllByTestId('heat-chip').map((c) => c.getAttribute('data-tone'))).toEqual(['red', 'amber'])
+  })
+
+  it('re-sorts the heatmap by coverage', async () => {
+    render(<ResultView detail={medicareDetail()} catalogue={LIVE_CATALOGUE} />)
+    await userEvent.click(screen.getByRole('button', { name: 'Coverage (best first)' }))
+    const rows = within(screen.getByTestId('heatmap')).getAllByTestId('heat-row')
+    // oxybutynin ER is the only all-green row in the fixture.
+    expect(rows[0]).toHaveTextContent(/^oxybutynin ER/)
+  })
+
+  it('tapping a heatmap cell opens that product in the list', async () => {
+    render(<ResultView detail={medicareDetail()} catalogue={LIVE_CATALOGUE} />)
+    const chip = must(within(screen.getByTestId('heatmap')).getAllByTestId('heat-chip').find((c) => c.textContent?.startsWith('Gemtesa')))
+    const item = within(bucket('restricted')).getAllByTestId('product-line-item')[1]
+    expect(item.querySelector('details')?.open).toBe(false)
+    await userEvent.click(chip)
+    expect(item.querySelector('details')?.open).toBe(true)
   })
 })

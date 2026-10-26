@@ -2,7 +2,9 @@ import { useMemo, useState } from 'react'
 import { ChevronRight, ExternalLink } from 'lucide-react'
 import { Flag, MedCovChange, MedCovPayer, MedCovPayerDetail, MedCovRow } from '../../types/medCoverage'
 import { productLines, rowsForLine } from './util/group'
-import { DEFAULT_CLASS_ORDER, SummaryItem, beta3Highlights, displayName, summarize } from './util/summary'
+import { DEFAULT_CLASS_ORDER, SummaryItem, beta3Highlights, displayName, summarize, summaryItems } from './util/summary'
+import { CatalogueDrug, buildHeatmap } from './util/heatmap'
+import Heatmap from './Heatmap'
 import {
   PORTAL_DISCLAIMER,
   criteriaChecklist,
@@ -22,6 +24,21 @@ interface ResultViewProps {
   classOrder?: string[]
   /** Newest CMS release plan year (/v1/meta cms_release.plan_year). */
   currentPlanYear?: number | null
+  /** Every drug in /v1/classes, so the heatmap can tell "no data" from "no such product". */
+  catalogue?: CatalogueDrug[]
+}
+
+function itemDomId(key: string): string {
+  return `medcov-item-${key}`
+}
+
+/** Open a product's detail in the list and bring it into view. */
+function openItem(key: string) {
+  const el = document.getElementById(itemDomId(key))
+  if (!el) return
+  const details = el.querySelector('details')
+  if (details) details.open = true
+  el.scrollIntoView?.({ behavior: 'smooth', block: 'center' })
 }
 
 const BUCKET_TONE: Record<string, string> = {
@@ -31,7 +48,12 @@ const BUCKET_TONE: Record<string, string> = {
   unknown: 'border-gray-300 bg-gray-100 text-gray-800',
 }
 
-export default function ResultView({ detail, classOrder = DEFAULT_CLASS_ORDER, currentPlanYear = null }: ResultViewProps) {
+export default function ResultView({
+  detail,
+  classOrder = DEFAULT_CLASS_ORDER,
+  currentPlanYear = null,
+  catalogue = [],
+}: ResultViewProps) {
   const years = useMemo(() => planYears(detail.rows), [detail.rows])
   const [chosenYear, setChosenYear] = useState<number | null>(null)
   const year = chosenYear != null && years.includes(chosenYear) ? chosenYear : years[0] ?? null
@@ -42,6 +64,7 @@ export default function ResultView({ detail, classOrder = DEFAULT_CLASS_ORDER, c
   const rows = lines.length > 1 ? rowsForLine(yearRows, line) : yearRows
   const buckets = summarize(rows, classOrder)
   const highlights = beta3Highlights(rows)
+  const heatRows = rows.length ? buildHeatmap(summaryItems(rows), catalogue) : []
 
   return (
     <section aria-label="Coverage result" className="flex flex-col gap-3">
@@ -98,6 +121,8 @@ export default function ResultView({ detail, classOrder = DEFAULT_CLASS_ORDER, c
         </p>
       ) : (
         <>
+          <Heatmap rows={heatRows} onOpen={openItem} />
+
           {highlights.length > 0 && (
             <div className="rounded-lg border border-blue-300 bg-blue-50 px-3 py-2 text-sm" data-testid="prescribe-highlight">
               <p className="font-semibold">Prescribe this</p>
@@ -165,7 +190,7 @@ function EditBadge({ label, flag }: { label: string; flag: Flag | null }) {
 function ProductLine({ item }: { item: SummaryItem }) {
   const showEdits = item.availability !== 'not_covered'
   return (
-    <li data-testid="product-line-item">
+    <li data-testid="product-line-item" id={itemDomId(item.key)}>
       <details className="group">
         <summary className="flex cursor-pointer list-none items-start gap-2 px-2 py-2 [&::-webkit-details-marker]:hidden">
           <ChevronRight

@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { ChevronLeft, Search } from 'lucide-react'
 import MedCoverageAPI from '../../api/medCoverage'
 import { useDebounce } from '../../hooks/useDebounce'
-import { MedCovPayer, PayerKind } from '../../types/medCoverage'
+import { MedCovDrug, MedCovPayer, PayerKind } from '../../types/medCoverage'
 import { FlowNode, flowReducer, getNode, initialFlowState } from './util/flow'
 import ChangesPanel from './ChangesPanel'
 import RequestBox from './RequestBox'
@@ -17,6 +17,7 @@ export default function MedCoverage() {
   const classes = useQuery(['medcov', 'classes'], MedCoverageAPI.getClasses, { staleTime: STALE })
   // Results show every class; /v1/classes only sets their order.
   const classOrder = classes.data?.map((c) => c.code)
+  const catalogue = classes.data?.flatMap((c) => c.drugs)
   const payerTypeText = getNode('payerType').options?.find((o) => o.value === state.payerType)?.text
 
   return (
@@ -73,7 +74,7 @@ export default function MedCoverage() {
           )}
 
           {node.type === 'result' && state.payerId != null && (
-            <ResultStep payerId={state.payerId} classOrder={classOrder} />
+            <ResultStep payerId={state.payerId} classOrder={classOrder} catalogue={catalogue} />
           )}
         </main>
 
@@ -180,7 +181,15 @@ function PayerPick({ node, onPick }: { node: FlowNode; onPick: (id: number) => v
   )
 }
 
-function ResultStep({ payerId, classOrder }: { payerId: number; classOrder?: string[] }) {
+function ResultStep({
+  payerId,
+  classOrder,
+  catalogue,
+}: {
+  payerId: number
+  classOrder?: string[]
+  catalogue?: MedCovDrug[]
+}) {
   const detail = useQuery(['medcov', 'payer', payerId], () => MedCoverageAPI.getPayer(payerId), {
     staleTime: STALE,
   })
@@ -194,6 +203,7 @@ function ResultStep({ payerId, classOrder }: { payerId: number; classOrder?: str
       detail={detail.data}
       classOrder={classOrder}
       currentPlanYear={meta.data?.cms_release?.plan_year ?? null}
+      catalogue={catalogue}
     />
   )
 }

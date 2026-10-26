@@ -1,0 +1,66 @@
+// Snapshot of GET /med-coverage/v1/classes from the local API on 2026-10-26
+// (27 drugs). Used to prove every live drug has a CNS entry; refresh it when
+// the API adds drugs.
+
+import { CatalogueDrug } from './heatmap'
+
+export const LIVE_CATALOGUE: (CatalogueDrug & { class_code: string })[] = [
+  ['oab_beta3', 'mirabegron', 'generic', 'mirabegron ER 25 mg tablet (generic)'],
+  ['oab_beta3', 'mirabegron', 'generic', 'mirabegron ER 50 mg tablet (generic)'],
+  ['oab_beta3', 'mirabegron', 'brand', 'Myrbetriq ER 25 mg tablet'],
+  ['oab_beta3', 'mirabegron', 'brand', 'Myrbetriq ER 50 mg tablet'],
+  ['oab_beta3', 'mirabegron', 'generic', 'mirabegron ER granules for suspension 8 mg/mL (generic)'],
+  ['oab_beta3', 'mirabegron', 'brand', 'Myrbetriq ER granules for suspension 8 mg/mL'],
+  ['oab_beta3', 'vibegron', 'brand', 'Gemtesa (vibegron) 75 mg tablet'],
+  ['oab_antimuscarinic', 'oxybutynin', 'generic', 'oxybutynin IR 5 mg tablet (generic)'],
+  ['oab_antimuscarinic', 'oxybutynin', 'generic', 'oxybutynin IR 2.5 mg tablet (generic)'],
+  ['oab_antimuscarinic', 'oxybutynin', 'generic', 'oxybutynin oral solution/syrup (generic)'],
+  ['oab_antimuscarinic', 'oxybutynin', 'generic', 'oxybutynin ER tablet (generic)'],
+  ['oab_antimuscarinic', 'oxybutynin', 'brand', 'Oxytrol for Women patch (OTC)'],
+  ['oab_antimuscarinic', 'oxybutynin', 'brand', 'Oxytrol patch (Rx)'],
+  ['oab_antimuscarinic', 'oxybutynin', 'brand', 'Gelnique (oxybutynin) gel'],
+  ['oab_antimuscarinic', 'tolterodine', 'generic', 'tolterodine IR tablet (generic)'],
+  ['oab_antimuscarinic', 'tolterodine', 'generic', 'tolterodine ER capsule (generic)'],
+  ['oab_antimuscarinic', 'tolterodine', 'brand', 'Detrol tablet'],
+  ['oab_antimuscarinic', 'tolterodine', 'brand', 'Detrol LA capsule'],
+  ['oab_antimuscarinic', 'trospium', 'generic', 'trospium IR tablet (generic)'],
+  ['oab_antimuscarinic', 'trospium', 'generic', 'trospium ER capsule (generic)'],
+  ['oab_antimuscarinic', 'solifenacin', 'generic', 'solifenacin tablet (generic)'],
+  ['oab_antimuscarinic', 'solifenacin', 'brand', 'Vesicare tablet'],
+  ['oab_antimuscarinic', 'solifenacin', 'brand', 'Vesicare LS oral suspension'],
+  ['oab_antimuscarinic', 'darifenacin', 'generic', 'darifenacin ER tablet (generic)'],
+  ['oab_antimuscarinic', 'darifenacin', 'brand', 'Enablex ER tablet'],
+  ['oab_antimuscarinic', 'fesoterodine', 'generic', 'fesoterodine ER tablet (generic)'],
+  ['oab_antimuscarinic', 'fesoterodine', 'brand', 'Toviaz ER tablet'],
+].map(([class_code, name, product, label]) => ({ class_code, name, product, label }))
+
+/** drug.form for each live label, as GET /v1/payers/{id} returns it. */
+export const LIVE_FORMS: Record<string, string> = {
+  'mirabegron ER 25 mg tablet (generic)': 'ER tablet',
+  'mirabegron ER 50 mg tablet (generic)': 'ER tablet',
+  'Myrbetriq ER 25 mg tablet': 'ER tablet',
+  'Myrbetriq ER 50 mg tablet': 'ER tablet',
+  'mirabegron ER granules for suspension 8 mg/mL (generic)': 'ER granules for oral suspension',
+  'Myrbetriq ER granules for suspension 8 mg/mL': 'ER granules for oral suspension',
+  'Gemtesa (vibegron) 75 mg tablet': 'tablet',
+  'oxybutynin IR 5 mg tablet (generic)': 'IR tablet',
+  'oxybutynin IR 2.5 mg tablet (generic)': 'IR tablet',
+  'oxybutynin oral solution/syrup (generic)': 'oral solution',
+  'oxybutynin ER tablet (generic)': 'ER tablet',
+  'Oxytrol for Women patch (OTC)': 'transdermal patch',
+  'Oxytrol patch (Rx)': 'transdermal patch',
+  'Gelnique (oxybutynin) gel': 'topical gel',
+  'tolterodine IR tablet (generic)': 'IR tablet',
+  'tolterodine ER capsule (generic)': 'ER capsule',
+  'Detrol tablet': 'IR tablet',
+  'Detrol LA capsule': 'ER capsule',
+  'trospium IR tablet (generic)': 'IR tablet',
+  'trospium ER capsule (generic)': 'ER capsule',
+  'solifenacin tablet (generic)': 'tablet',
+  'Vesicare tablet': 'tablet',
+  'Vesicare LS oral suspension': 'oral suspension',
+  'darifenacin ER tablet (generic)': 'ER tablet',
+  'Enablex ER tablet': 'ER tablet',
+  'fesoterodine ER tablet (generic)': 'ER tablet',
+  'Toviaz ER tablet': 'ER tablet',
+}
