@@ -62,7 +62,9 @@ async function update(id: string, data: UpdateTherapistType): Promise<TherapistT
             formData.append('expectations_letter', data.expectations_letter);
         }
 
-        const response: AxiosResponse<{ data: TherapistType }> = await apiClient.put(`/physicaltherapist/${id}`, formData);
+        const response: AxiosResponse<{ data: TherapistType }> = await apiClient.put(`/physicaltherapist/${id}`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
         return response.data.data;
     } catch (error) {
         throw new Error('Failed to update therapist.');
@@ -93,7 +95,9 @@ async function create(data: CreateTherapistType): Promise<TherapistType> {
             formData.append('expectations_letter', data.expectations_letter);
         }
 
-        const response: AxiosResponse<{ data: TherapistType }> = await apiClient.post(`/physicaltherapist/`, formData);
+        const response: AxiosResponse<{ data: TherapistType }> = await apiClient.post(`/physicaltherapist/`, formData, {
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
         return response.data.data;
     } catch (error) {
         throw new Error('Failed to create therapist.');

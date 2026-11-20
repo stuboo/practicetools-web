@@ -47,6 +47,9 @@ export default function Create({ onCancel }: CreateTherapistProps) {
       onCancel && onCancel()
       toast.success('Data added successfully!')
     },
+    onError() {
+      toast.error("Couldn't save. Check the fields and try again.")
+    },
   })
 
   return (
@@ -89,11 +92,16 @@ export default function Create({ onCancel }: CreateTherapistProps) {
 
           <div className="space-y-12 px-6 h-full overflow-y-auto">
             <div className="border-b border-gray-900/10 pb-12">
-              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <p className="mt-10 text-sm text-gray-600">
+                Fields marked <span className="text-red-500">*</span> are
+                required.
+              </p>
+              <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-full">
                   <Input
                     label="Name"
                     name="name"
+                    required
                     value={values.name}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -116,6 +124,7 @@ export default function Create({ onCancel }: CreateTherapistProps) {
                   <Input
                     label="Phone"
                     name="phone"
+                    required
                     value={values.phone}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -127,6 +136,7 @@ export default function Create({ onCancel }: CreateTherapistProps) {
                   <Input
                     label="Address"
                     name="address"
+                    required
                     value={values.address}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -149,6 +159,7 @@ export default function Create({ onCancel }: CreateTherapistProps) {
                   <Input
                     label="City"
                     name="city"
+                    required
                     value={values.city}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -160,6 +171,7 @@ export default function Create({ onCancel }: CreateTherapistProps) {
                   <Input
                     label="State"
                     name="state"
+                    required
                     value={values.state}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -171,6 +183,7 @@ export default function Create({ onCancel }: CreateTherapistProps) {
                   <Input
                     label="Zip Code"
                     name="zip"
+                    required
                     value={values.zip}
                     onChange={handleChange}
                     onBlur={handleBlur}

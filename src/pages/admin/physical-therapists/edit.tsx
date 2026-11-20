@@ -41,6 +41,9 @@ export default function Edit({
       onSave(data)
       toast.success('Physical Therapy Data updated successfully!')
     },
+    onError() {
+      toast.error("Couldn't save changes. Check the fields and try again.")
+    },
   })
 
   return (
@@ -86,7 +89,11 @@ export default function Edit({
 
           <div className="space-y-12 px-6 h-full overflow-y-auto">
             <div className="border-b border-gray-900/10 pb-12">
-              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <p className="mt-10 text-sm text-gray-600">
+                Fields marked <span className="text-red-500">*</span> are
+                required.
+              </p>
+              <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 <div className="sm:col-span-full">
                   <Input
                     label="Name"

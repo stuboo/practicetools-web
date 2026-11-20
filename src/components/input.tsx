@@ -71,6 +71,7 @@ const Input = forwardRef<HTMLInputElement, CustomInputProps>(
           <input
             name={name}
             id={name}
+            aria-required={required}
             {...props}
             ref={ref}
             className={classNames(inputClass)}
